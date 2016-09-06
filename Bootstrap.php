@@ -6,15 +6,21 @@
  */
 namespace yuncms\user;
 
+use Yii;
 use yii\web\GroupUrlRule;
 use yii\i18n\PhpMessageSource;
+use yii\base\BootstrapInterface;
 
 /**
  * Class Bootstrap
  * @package yuncms/user
  */
-class Bootstrap extends BootstrapInterface
+class Bootstrap implements BootstrapInterface
 {
+    /**
+     * @param $app
+     * @throws \yii\base\InvalidConfigException
+     */
     public function bootstrap($app)
     {
         /** @var Module $module */
