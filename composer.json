@@ -1,0 +1,34 @@
+{
+  "name": "yuncms/yii2-user",
+  "description": "Flexible user registration and authentication module for Yii",
+  "keywords": [
+    "yii2",
+    "yii2-user",
+    "user management"
+  ],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "support": {
+    "issues": "https://github.com/yuncms/yii2-user/issues?state=open",
+    "source": "https://github.com/yuncms/yii2-user"
+  },
+  "authors": [
+    {
+      "name": "YUNCMS",
+      "email": "yuncms@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": ">=2.0.9",
+    "yiisoft/yii2-swiftmailer": "*",
+    "xutl/yii2-authclient": "~1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "yuncms\\user\\": ""
+    }
+  },
+  "extra": {
+    "bootstrap": "yuncms\\user\\Bootstrap"
+  }
+}
