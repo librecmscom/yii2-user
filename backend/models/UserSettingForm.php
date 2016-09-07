@@ -11,6 +11,9 @@ use yii\base\Model;
 
 class UserSettingForm extends Model
 {
+    public $mailSender;
+
+    public $mailViewPath;
     /**
      * @var bool 是否允许用户注册
      */
@@ -41,6 +44,25 @@ class UserSettingForm extends Model
      */
     public $enablePasswordRecovery;
 
+    public $enableAccountDelete;
+
+    public $emailChangeStrategy;
+
+    /**
+     * @var int Cost parameter used by the Blowfish hash algorithm.
+     */
+    public $cost;
+
+    /**
+     * @var int 记住我时长
+     */
+    public $rememberFor;
+
+    /** @var int The time before a confirmation token becomes invalid. */
+    public $confirmWithin;
+
+    /** @var int The time before a recovery token becomes invalid. */
+    public $recoverWithin;
 
     /**
      * @return array
@@ -48,7 +70,20 @@ class UserSettingForm extends Model
     public function rules()
     {
         return [
-            [['enableRegistration', 'enableRegistrationCaptcha', 'enableGeneratingPassword', 'enableConfirmation', 'enableUnconfirmedLogin', 'enablePasswordRecovery'], 'boolean'],
+            ['mailSender','email'],
+            ['mailViewPath','string'],
+            [[
+                'enableRegistration',
+                'enableRegistrationCaptcha',
+                'enableGeneratingPassword',
+                'enableConfirmation',
+                'enableUnconfirmedLogin',
+                'enablePasswordRecovery',
+                'enableAccountDelete'
+            ], 'boolean'],
+            ['emailChangeStrategy', 'integer', 'max' => 2, 'min' => 0],
+            ['cost', 'integer', 'max' => 10, 'min' => 6],
+            [['rememberFor', 'confirmWithin', 'recoverWithin'], 'integer'],
         ];
     }
 
@@ -63,6 +98,10 @@ class UserSettingForm extends Model
             'enableGeneratingPassword' => Yii::t('user', 'Enable Generating Password'),
             'enableConfirmation' => Yii::t('user', 'Enable Confirmation'),
             'enableUnconfirmedLogin' => Yii::t('user', 'Enable Unconfirmed Login'),
+            'enablePasswordRecovery' => Yii::t('user', 'Enable Password Recovery'),
+            'cost' => Yii::t('user', 'Enable Password Recovery'),
+            'enablePasswordRecovery' => Yii::t('user', 'Enable Password Recovery'),
+            'enablePasswordRecovery' => Yii::t('user', 'Enable Password Recovery'),
             'enablePasswordRecovery' => Yii::t('user', 'Enable Password Recovery'),
         ];
     }

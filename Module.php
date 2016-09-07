@@ -14,6 +14,15 @@ use Yii;
  */
 class Module extends \yii\base\Module
 {
+    /** Email is changed right after user enter's new email address. */
+    const STRATEGY_INSECURE = 0;
+
+    /** Email is changed after user clicks confirmation link sent to his new email address. */
+    const STRATEGY_DEFAULT = 1;
+
+    /** Email is changed after user clicks both confirmation links sent to his old and new email addresses. */
+    const STRATEGY_SECURE = 2;
+    
     /**
      * @var string|array Default: `Leaps::$app->params['adminEmail']` OR `no-reply@example.com`
      */
