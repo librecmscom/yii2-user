@@ -6,6 +6,7 @@
  */
 namespace yuncms\user\backend\controllers;
 
+use yii\web\Controller;
 
 class GroupController extends Controller
 {
