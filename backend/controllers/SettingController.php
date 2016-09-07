@@ -17,10 +17,15 @@ class SettingController extends Controller
 {
 
     /**
-     * 设置
+     * @inheritdoc
      */
-    public function actionSetting()
+    public function actions()
     {
-
+        return [
+            'setting' => [
+                'class' => 'backend\actions\SettingAction',
+                'modelClass' => 'yuncms\user\backend\models\UserSettingForm'
+            ],
+        ];
     }
 }
