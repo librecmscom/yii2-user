@@ -4,7 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
-namespace backend\models;
+namespace yuncms\user\backend\models;
 
 use yii\base\Model;
 
