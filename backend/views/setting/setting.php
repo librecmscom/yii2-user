@@ -9,7 +9,7 @@ use backend\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use backend\widgets\Jarvis;
 
-$this->title = Yii::t('backend', 'User Setting');
+$this->title = Yii::t('user', 'User Setting');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <section id="widget-grid">
@@ -20,19 +20,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'deletebutton' => false,
                 'header' => Html::encode($this->title),
             ]); ?>
-            <?php $form = ActiveForm::begin(['layout'=>'horizontal', ]); ?>
+            <?php $form = ActiveForm::begin(['layout' => 'horizontal',]); ?>
             <fieldset>
-                <?= $form->field($model, 'enableRegistration')->inline(true)->radioList(['1'=>'yes','0'=>'no']) ?>
-                <?= $form->field($model, 'enableRegistrationCaptcha')->inline(true)->radioList(['1'=>'yes','0'=>'no']) ?>
-                <?= $form->field($model, 'enableGeneratingPassword')->inline(true)->radioList(['1'=>'yes','0'=>'no']) ?>
-                <?= $form->field($model, 'enableConfirmation')->inline(true)->radioList(['1'=>'yes','0'=>'no']) ?>
-                <?= $form->field($model, 'enableUnconfirmedLogin')->inline(true)->radioList(['1'=>'yes','0'=>'no']); ?>
-                <?= $form->field($model, 'enablePasswordRecovery')->inline(true)->radioList(['1'=>'yes','0'=>'no']) ?>
+                <?= $form->field($model, 'enableRegistration')->inline(true)->radioList(['1' => Yii::t('app', 'Yes'), '0' => Yii::t('app', 'No')]) ?>
+                <?= $form->field($model, 'enableRegistrationCaptcha')->inline(true)->radioList(['1' => Yii::t('app', 'Yes'), '0' => Yii::t('app', 'No')]) ?>
+                <?= $form->field($model, 'enableGeneratingPassword')->inline(true)->radioList(['1' => Yii::t('app', 'Yes'), '0' => Yii::t('app', 'No')]) ?>
+                <?= $form->field($model, 'enableConfirmation')->inline(true)->radioList(['1' => Yii::t('app', 'Yes'), '0' => Yii::t('app', 'No')]) ?>
+                <?= $form->field($model, 'enableUnconfirmedLogin')->inline(true)->radioList(['1' => Yii::t('app', 'Yes'), '0' => Yii::t('app', 'No')]); ?>
+                <?= $form->field($model, 'enablePasswordRecovery')->inline(true)->radioList(['1' => Yii::t('app', 'Yes'), '0' => Yii::t('app', 'No')]) ?>
             </fieldset>
             <div class="form-actions">
                 <div class="row">
                     <div class="col-md-12">
-                        <?= Html::submitButton(Yii::t('backend', 'Save'), ['class' => 'btn btn-primary']) ?>
+                        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary']) ?>
                     </div>
                 </div>
             </div>

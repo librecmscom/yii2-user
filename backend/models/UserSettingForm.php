@@ -6,6 +6,7 @@
  */
 namespace yuncms\user\backend\models;
 
+use Yii;
 use yii\base\Model;
 
 class UserSettingForm extends Model
@@ -48,6 +49,21 @@ class UserSettingForm extends Model
     {
         return [
             [['enableRegistration', 'enableRegistrationCaptcha', 'enableGeneratingPassword', 'enableConfirmation', 'enableUnconfirmedLogin', 'enablePasswordRecovery'], 'boolean'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'enableRegistration' => Yii::t('user', 'Enable Registration'),
+            'enableRegistrationCaptcha' => Yii::t('user', 'Enable Registration Captcha'),
+            'enableGeneratingPassword' => Yii::t('user', 'Enable Generating Password'),
+            'enableConfirmation' => Yii::t('user', 'Enable Confirmation'),
+            'enableUnconfirmedLogin' => Yii::t('user', 'Enable Unconfirmed Login'),
+            'enablePasswordRecovery' => Yii::t('user', 'Enable Password Recovery'),
         ];
     }
 }
