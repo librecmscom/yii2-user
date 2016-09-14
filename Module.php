@@ -7,6 +7,7 @@
 namespace yuncms\user;
 
 use Yii;
+use common\helpers\Setting;
 
 /**
  * Class Module
@@ -22,7 +23,7 @@ class Module extends \yii\base\Module
 
     /** Email is changed after user clicks both confirmation links sent to his old and new email addresses. */
     const STRATEGY_SECURE = 2;
-    
+
     /**
      * @var string|array Default: `Leaps::$app->params['adminEmail']` OR `no-reply@example.com`
      */
@@ -67,6 +68,11 @@ class Module extends \yii\base\Module
             return true;
         }
         return false;
+    }
+
+    public function setting($key, $default)
+    {
+        return Setting::get($key, 'user', $default);
     }
 
     /**
