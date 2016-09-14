@@ -107,7 +107,7 @@ class RegistrationController extends Controller
 
         /** @var User $user */
         $user = Yii::createObject([
-            'className' => User::className(),
+            'class' => User::className(),
             'scenario' => 'connect',
             'username' => $account->username,
             'email' => $account->email,

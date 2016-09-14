@@ -32,8 +32,6 @@ class Bootstrap implements BootstrapInterface
                 ];
             } else if ($module instanceof \yuncms\user\backend\Module) {
 
-            } else if ($module instanceof \yuncms\user\api\Module) {
-
             } elseif ($module instanceof Module) {//前台判断放最后
                 $configUrlRule = [
                     'prefix' => $module->urlPrefix,
