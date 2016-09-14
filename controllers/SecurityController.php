@@ -60,7 +60,7 @@ class SecurityController extends Controller
     {
         return [
             'auth' => [
-                'className' => AuthAction::className(),
+                'class' => AuthAction::className(),
                 // 如果用户未登录，将尝试登录，否则将尝试连接到用户的社交账户。
                 'successCallback' => Yii::$app->user->getIsGuest() ? [$this, 'authenticate'] : [$this, 'connect']
             ]
