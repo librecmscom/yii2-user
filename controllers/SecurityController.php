@@ -36,7 +36,7 @@ class SecurityController extends Controller
     {
         return [
             'access' => [
-                'className' => AccessControl::className(),
+                'class' => AccessControl::className(),
                 'rules' => [
                     [
                         'allow' => true,
