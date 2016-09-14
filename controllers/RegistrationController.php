@@ -115,7 +115,7 @@ class RegistrationController extends Controller
 
         if ($user->load(Yii::$app->request->post()) && $user->create()) {
             $account->connect($user);
-            Yii::$app->user->login($user, $this->module->rememberFor);
+            Yii::$app->user->login($user, Setting::get('user.rememberFor'));
             return $this->goBack();
         }
 
@@ -138,7 +138,7 @@ class RegistrationController extends Controller
     public function actionConfirm($id, $code)
     {
         $user = User::findOne($id);
-        if ($user === null || $this->module->enableConfirmation == false) {
+        if ($user === null || Setting::get('user.enableConfirmation') == false) {
             throw new NotFoundHttpException();
         }
         $user->attemptConfirmation($code);
@@ -153,7 +153,7 @@ class RegistrationController extends Controller
      */
     public function actionResend()
     {
-        if ($this->module->enableConfirmation == false) {
+        if (Setting::get('user.enableConfirmation') == false) {
             throw new NotFoundHttpException();
         }
         /** @var ResendForm $model */
