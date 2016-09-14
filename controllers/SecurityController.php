@@ -12,6 +12,7 @@ use yii\web\Response;
 use yii\web\Controller;
 use yii\authclient\AuthAction;
 use yii\filters\AccessControl;
+use yii\widgets\ActiveForm;
 use yii\authclient\ClientInterface;
 use yuncms\user\Module;
 use yuncms\user\models\User;
@@ -80,7 +81,10 @@ class SecurityController extends Controller
          * @var LoginForm $model
          */
         $model = new LoginForm();
-        $this->performAjaxValidation($model);
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
         if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
             return $this->goBack();
         }
