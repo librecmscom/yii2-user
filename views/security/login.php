@@ -1,8 +1,9 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yuncms\user\widgets\Connect;
-use common\helpers\Setting;
+
 
 /**
  * @var yii\web\View $this
@@ -13,6 +14,8 @@ use common\helpers\Setting;
 $this->title = Yii::t('user', 'Sign in');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<?= $this->render('/_alert', ['module' => Yii::$app->getModule('user')]) ?>
 
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
@@ -32,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'login', ['inputOptions' => ['autofocus' => 'autofocus', 'class' => 'form-control', 'tabindex' => '1']]) ?>
 
-                <?= $form->field($model, 'password', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->passwordInput()->label(Yii::t('user', 'Password') . (Setting::get('user.enablePasswordRecovery') ? ' (' . Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request'], ['tabindex' => '5']) . ')' : '')) ?>
+                <?= $form->field($model, 'password', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->passwordInput()->label(Yii::t('user', 'Password') . ($module->enablePasswordRecovery ? ' (' . Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request'], ['tabindex' => '5']) . ')' : '')) ?>
 
                 <?= $form->field($model, 'rememberMe')->checkbox(['tabindex' => '4']) ?>
 
@@ -41,12 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
-        <?php if (Setting::get('user.enableConfirmation')): ?>
+        <?php if ($module->enableConfirmation): ?>
             <p class="text-center">
                 <?= Html::a(Yii::t('user', 'Didn\'t receive confirmation message?'), ['/user/registration/resend']) ?>
             </p>
         <?php endif ?>
-        <?php if (Setting::get('user.enableRegistration')): ?>
+        <?php if ($module->enableRegistration): ?>
             <p class="text-center">
                 <?= Html::a(Yii::t('user', 'Don\'t have an account? Sign up!'), ['/user/registration/register']) ?>
             </p>
