@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user;
 
 use Yii;
@@ -17,10 +18,6 @@ use yii\base\BootstrapInterface;
  */
 class Bootstrap implements BootstrapInterface
 {
-    /**
-     * @param $app
-     * @throws \yii\base\InvalidConfigException
-     */
     public function bootstrap($app)
     {
         /** @var Module $module */
@@ -49,6 +46,7 @@ class Bootstrap implements BootstrapInterface
         if (!isset($app->get('i18n')->translations['user*'])) {
             $app->get('i18n')->translations['user*'] = [
                 'class' => PhpMessageSource::className(),
+                'sourceLanguage' => 'en-US',
                 'basePath' => __DIR__ . '/messages',
             ];
         }
