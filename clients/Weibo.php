@@ -7,7 +7,7 @@
 
 namespace yuncms\user\clients;
 
-use xutl\authClient\Weibo as BaseWeiBo;
+use xutl\authclient\Weibo as BaseWeiBo;
 
 
 class Weibo extends BaseWeiBo implements ClientInterface

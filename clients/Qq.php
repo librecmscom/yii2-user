@@ -7,7 +7,7 @@
 
 namespace yuncms\user\clients;
 
-use xutl\authclient\clients\Qq as BaseQq;
+use xutl\authclient\Qq as BaseQq;
 
 class Qq extends BaseQq implements ClientInterface
 {
