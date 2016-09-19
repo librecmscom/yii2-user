@@ -5,6 +5,7 @@ namespace yuncms\user\widgets;
 use yii\base\Widget;
 use yuncms\user\models\User;
 
+
 class Popular extends Widget
 {
     public $limit = 10;
