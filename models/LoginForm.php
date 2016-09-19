@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\models;
 
 use Yii;
@@ -14,8 +15,6 @@ use yuncms\user\ModuleTrait;
 /**
  * LoginForm get user's login and password, validates them and logs the user in. If user has been blocked, it adds
  * an error to login form.
- *
- * @author Xu Tongle <xutongle@gmail.com>
  */
 class LoginForm extends Model
 {
@@ -96,7 +95,7 @@ class LoginForm extends Model
         if ($this->validate()) {
             $loginHistory = new LoginHistory(['ip' => Yii::$app->request->getUserIP()]);
             $loginHistory->link('user', $this->user);
-            $this->user->resetLastLoginAt();
+            $this->user->lastLoginAt();
             return Yii::$app->getUser()->login($this->user, $this->rememberMe ? $this->module->rememberFor : 0);
         } else {
             return false;

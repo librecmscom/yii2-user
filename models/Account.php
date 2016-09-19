@@ -4,35 +4,36 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\models;
 
 use Yii;
-use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\helpers\Json;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\authclient\ClientInterface as BaseClientInterface;
-use yuncms\user\ClientInterface;
+use yuncms\user\ModuleTrait;
+use yuncms\user\clients\ClientInterface;
 
 /**
- * @property integer $id          Id
- * @property integer $user_id     User id, null if account is not bind to user
- * @property string  $email
- * @property string  $username
- * @property string  $provider    Name of service
- * @property string  $client_id   Account id
- * @property string  $data        Account properties returned by social network (json encoded)
- * @property string  $decodedData Json-decoded properties
- * @property string  $code
+ * @property integer $id Id
+ * @property integer $user_id User id, null if account is not bind to user
+ * @property string $provider Name of service
+ * @property string $client_id Account id
+ * @property string $data Account properties returned by social network (json encoded)
+ * @property string $decodedData Json-decoded properties
+ * @property string $code
  * @property integer $created_at
-
+ * @property string $email
+ * @property string $username
  *
- * @property User    $user        User that this account is connected for.
- *
- * @author Dmitry Erofeev <dmeroff@gmail.com>
+ * @property User $user User that this account is connected for.
  */
 class Account extends ActiveRecord
 {
+    use ModuleTrait;
+
     /**
      * @var
      */
@@ -54,7 +55,7 @@ class Account extends ActiveRecord
     {
         return [
             'timestamp' => [
-                'className' => TimestampBehavior::className(),
+                'class' => TimestampBehavior::className(),
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
                 ],
@@ -103,12 +104,7 @@ class Account extends ActiveRecord
 
     public function connect(User $user)
     {
-        return $this->updateAttributes([
-            'username' => null,
-            'email' => null,
-            'code' => null,
-            'user_id' => $user->id
-        ]);
+        return $this->updateAttributes(['username' => null, 'email' => null, 'code' => null, 'user_id' => $user->id]);
     }
 
     /**
@@ -122,12 +118,7 @@ class Account extends ActiveRecord
     public static function create(BaseClientInterface $client)
     {
         /** @var Account $account */
-        $account = Yii::createObject([
-            'class' => static::className(),
-            'provider' => $client->getId(),
-            'client_id' => $client->getUserAttributes()['id'],
-            'data' => json_encode($client->getUserAttributes())
-        ]);
+        $account = Yii::createObject(['class' => static::className(), 'provider' => $client->getId(), 'client_id' => $client->getUserAttributes()['id'], 'data' => json_encode($client->getUserAttributes())]);
 
         if ($client instanceof ClientInterface) {
             $account->setAttributes(['username' => $client->getUsername(), 'email' => $client->getEmail()], false);
@@ -151,13 +142,14 @@ class Account extends ActiveRecord
     {
         if (Yii::$app->user->isGuest) {
             Yii::$app->session->setFlash('danger', Yii::t('user', 'Something went wrong'));
+
             return;
         }
 
         $account = static::fetchAccount($client);
 
         if ($account->user === null) {
-            $account->link('user', Yii::$app->user->identity);
+            $account->link('user', Yii::$app->user->getIdentity());
             Yii::$app->session->setFlash('success', Yii::t('user', 'Your account has been connected'));
         } else {
             Yii::$app->session->setFlash('danger', Yii::t('user', 'This account has already been connected to another user'));
@@ -176,12 +168,7 @@ class Account extends ActiveRecord
     {
         $account = Account::find()->byClient($client)->one();
         if (null === $account) {
-            $account = Yii::createObject([
-                'class' => static::className(),
-                'provider' => $client->getId(),
-                'client_id' => $client->getUserAttributes()['id'],
-                'data' => json_encode($client->getUserAttributes())
-            ]);
+            $account = Yii::createObject(['class' => static::className(), 'provider' => $client->getId(), 'client_id' => $client->getUserAttributes()['id'], 'data' => json_encode($client->getUserAttributes())]);
             $account->save(false);
         }
 
@@ -203,12 +190,7 @@ class Account extends ActiveRecord
             return $user;
         }
 
-        $user = Yii::createObject([
-            'class' => User::className(),
-            'scenario' => 'connect',
-            'username' => $account->username,
-            'email' => $account->email
-        ]);
+        $user = Yii::createObject(['class' => User::className(), 'scenario' => 'connect', 'username' => $account->username, 'email' => $account->email]);
 
         if (!$user->validate(['email'])) {
             $account->email = null;
