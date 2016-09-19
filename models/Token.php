@@ -4,12 +4,13 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\models;
 
 use Yii;
 use yii\helpers\Url;
 use yii\db\ActiveRecord;
-use yii\user\traits\ModuleTrait;
+use yuncms\user\ModuleTrait;
 
 /**
  * Token Active Record model.
@@ -21,8 +22,6 @@ use yii\user\traits\ModuleTrait;
  * @property string $url
  * @property bool $isExpired
  * @property User $user
- *
- * @author Xu Tongle <xutongle@gmail.com>
  */
 class Token extends ActiveRecord
 {

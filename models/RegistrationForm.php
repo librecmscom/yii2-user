@@ -4,16 +4,15 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\models;
 
 use Yii;
-use Yii\base\Model;
+use yii\base\Model;
 use yuncms\user\ModuleTrait;
 
 /**
  * Registration form collects user input on registration process, validates it and creates new User model.
- *
- * @author Xu Tongle <xutongle@gmail.com>
  */
 class RegistrationForm extends Model
 {

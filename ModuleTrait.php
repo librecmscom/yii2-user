@@ -8,7 +8,6 @@
 namespace yuncms\user;
 
 use Yii;
-use yuncms\user\Module;
 
 /**
  * Trait ModuleTrait
