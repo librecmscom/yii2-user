@@ -6,9 +6,10 @@
  */
 namespace yuncms\user\backend;
 
+use Yii;
+
 /**
- * Class Module
- * @package yuncms\user
+ * 后台入口
  */
 class Module extends \yuncms\user\Module
 {

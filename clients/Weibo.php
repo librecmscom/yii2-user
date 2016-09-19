@@ -17,7 +17,7 @@ class Weibo extends BaseWeiBo implements ClientInterface
      */
     public function getEmail()
     {
-        return ;
+        return null;
     }
 
     /**
