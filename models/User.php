@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\models;
 
 use Yii;
@@ -11,13 +12,13 @@ use yii\db\Query;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
-use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\base\NotSupportedException;
 use yii\web\Application as WebApplication;
 use yuncms\user\Module;
 use yuncms\user\ModuleTrait;
 use yuncms\user\helpers\Password;
-use common\helpers\Setting;
+
 
 /**
  * User ActiveRecord model.
@@ -45,8 +46,6 @@ use common\helpers\Setting;
  *
  * Dependencies:
  * @property-read Module $module
- *
- * @author Xu Tongle <xutongle@gmail.com>
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -64,11 +63,11 @@ class User extends ActiveRecord implements IdentityInterface
      * @var string Plain password. Used for model validation.
      */
     public $password;
-
     /**
      * @var Profile|null
      */
     private $_profile;
+
 
     /**
      * @var string Default username regexp
@@ -227,6 +226,68 @@ class User extends ActiveRecord implements IdentityInterface
         return $connected;
     }
 
+    /**
+     * @return \yii\db\ActiveQuery 返回所有已添加的教育经历
+     */
+    public function getEducations()
+    {
+        return $this->hasMany(Education::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * 返回所有已添加的工作经历
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCareers()
+    {
+        return $this->hasMany(Career::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * 获取登陆历史
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLoginHistorys()
+    {
+        return $this->hasMany(LoginHistory::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * 获取最后一次登陆
+     * @return array|ActiveRecord|null
+     */
+    public function getLoginHistory()
+    {
+        return $this->getLoginHistorys()->orderBy(['id' => SORT_DESC])->one();
+    }
+
+    /**
+     * 获取我关注的所有用户
+     * 一对多关系
+     */
+    public function getFollows()
+    {
+        return $this->hasMany(Follow::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * 获取我的粉丝
+     * 一对多关系
+     */
+    public function getFans()
+    {
+        return $this->hasMany(Follow::className(), ['follow_id' => 'id']);
+    }
+
+    /**
+     * 获取我的访客
+     * 一对多关系
+     */
+    public function getVisits()
+    {
+        return $this->hasMany(Visit::className(), ['user_id' => 'id']);
+    }
+
     /** @inheritdoc */
     public function validateAuthKey($authKey)
     {
@@ -265,8 +326,8 @@ class User extends ActiveRecord implements IdentityInterface
         if ($this->getIsNewRecord() == false) {
             throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
         }
-        $this->confirmed_at = Setting::get('user.enableConfirmation') ? null : time();
-        $this->password = Setting::get('user.enableGeneratingPassword') ? Password::generate(8) : $this->password;
+        $this->confirmed_at = $this->module->enableConfirmation ? null : time();
+        $this->password = $this->module->enableGeneratingPassword ? Password::generate(8) : $this->password;
         $this->trigger(self::BEFORE_REGISTER);
         if (!$this->save()) {
             return false;
@@ -276,7 +337,7 @@ class User extends ActiveRecord implements IdentityInterface
             $token = new Token(['type' => Token::TYPE_CONFIRMATION]);
             $token->link('user', $this);
         } else {
-            Yii::$app->user->login($this, Setting::get('user.rememberFor'));
+            Yii::$app->user->login($this, $this->module->rememberFor);
         }
         $this->module->sendMessage($this->email, Yii::t('user', 'Welcome to {0}', Yii::$app->name), 'welcome', ['user' => $this, 'token' => isset($token) ? $token : null, 'module' => $this->module, 'showPassword' => false]);
         $this->trigger(self::AFTER_REGISTER);
@@ -292,15 +353,11 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function attemptConfirmation($code)
     {
-        $token = Token::findOne([
-            'user_id' => $this->id,
-            'code' => $code,
-            'type' => Token::TYPE_CONFIRMATION
-        ]);
+        $token = Token::findOne(['user_id' => $this->id, 'code' => $code, 'type' => Token::TYPE_CONFIRMATION]);
         if ($token instanceof Token && !$token->isExpired) {
             $token->delete();
             if (($success = $this->confirm())) {
-                Yii::$app->user->login($this, Setting::get('user.rememberFor'));
+                Yii::$app->user->login($this, $this->module->rememberFor);
                 $message = Yii::t('user', 'Thank you, registration is now complete.');
             } else {
                 $message = Yii::t('user', 'Something went wrong and your account has not been confirmed.');
@@ -364,9 +421,9 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * 重置最后登录时间
+     * 设置最后登录时间
      */
-    public function resetLastLoginAt()
+    public function lastLoginAt()
     {
         return (bool)$this->updateAttributes(['last_login_at' => time()]);
     }
@@ -413,7 +470,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         // generate username like "user1", "user2", etc...
         while (!$this->validate(['username'])) {
-            $row = (new Query())->from(self::tableName())->select('MAX(id) as id')->one();
+            $row = (new Query())->from('{{%user}}')->select('MAX(id) as id')->one();
             $this->username = 'user' . ++$row['id'];
         }
 
@@ -499,15 +556,5 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findByUsername($username)
     {
         return static::findOne(['username' => $username]);
-    }
-
-    /**
-     * 通过手机号获取用户
-     * @param string $mobile 手机号
-     * @return null|static
-     */
-    public static function findByUMobile($mobile)
-    {
-        return static::findOne(['mobile' => $mobile]);
     }
 }
