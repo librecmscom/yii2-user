@@ -4,11 +4,13 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\models;
 
 use Yii;
 use yii\db\ActiveRecord;
 use yuncms\user\ModuleTrait;
+//use Identicon\Identicon;
 
 /**
  * This is the model class for table "profile".
@@ -19,9 +21,8 @@ use yuncms\user\ModuleTrait;
  * @property string $location
  * @property string $website
  * @property string $bio
+ * @property string $avatar 头像Url
  * @property User $user
- *
- * @author Xu Tongle <xutongle@gmail.com>
  */
 class Profile extends ActiveRecord
 {
@@ -107,5 +108,21 @@ class Profile extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * 获取用户头像
+     * @param int $size 头像大小
+     * @return string
+     * @throws \yii\base\Exception
+     */
+    public function getAvatar($size = 45)
+    {
+        if ($this->avatar) {
+            /** @var \yuncms\system\Module $module */
+            $module = Yii::$app->getModule('system');
+            return $module->getAvatar($this->user_id, $size);
+        }
+        return (new Identicon())->getImageDataUri($this->user->email, $size);
     }
 }
