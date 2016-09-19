@@ -4,16 +4,17 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\models;
 
 use Yii;
 use yii\base\Model;
+//use yuncms\system\models\File;
+//use yuncms\system\services\FileObject;
 
 /**
  * Class PortraitForm
- * @package Leaps\User\Model
- * @author Xu Tongle <xutongle@gmail.com>
- * @since 3.0
+ * @package yuncms\user
  */
 class PortraitForm extends Model
 {
@@ -64,7 +65,8 @@ class PortraitForm extends Model
     {
         if ($this->validate()) {
             $profile = $this->getProfile();
-            /** @var \Yii\System\Module $module */
+
+            /** @var \yii\system\Module $module */
             $module = Yii::$app->getModule('system');
             if ($module->saveAvatar($profile->user_id, $this->portrait->tempName)) {
                 $profile->avatar = true;

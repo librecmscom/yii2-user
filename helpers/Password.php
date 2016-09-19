@@ -5,7 +5,7 @@
  * @license http://www.tintsoft.com/license/
  */
 
-namespace yuncms\user\Helper;
+namespace yuncms\user\helpers;
 
 use Yii;
 
@@ -15,7 +15,7 @@ use Yii;
 class Password
 {
     /**
-     * Wrapper for leaps security helper method.
+     * Wrapper for yii security helper method.
      *
      * @param $password
      *
@@ -27,7 +27,7 @@ class Password
     }
 
     /**
-     * Wrapper for leaps security helper method.
+     * Wrapper for yii security helper method.
      *
      * @param $password
      * @param $hash

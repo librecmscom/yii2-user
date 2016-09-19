@@ -9,7 +9,7 @@ namespace yuncms\user\clients;
 use yii\authclient\ClientInterface as BaseInterface;
 
 /**
- * Enhances default leaps client interface by adding methods that can be used to
+ * Enhances default yii client interface by adding methods that can be used to
  * get user's email and username.
  *
  */

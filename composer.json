@@ -4,7 +4,6 @@
     "keywords": ["yii2", "yii2-user", "user management"],
     "type": "yii2-extension",
     "license": "MIT",
-    "minimum-stability": "dev",
     "require": {
         "yiisoft/yii2": "^2.0.0",
         "yiisoft/yii2-swiftmailer": "^2.0.0",
