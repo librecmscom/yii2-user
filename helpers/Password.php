@@ -4,7 +4,8 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
-namespace yuncms\user\helpers;
+
+namespace yuncms\user\Helper;
 
 use Yii;
 

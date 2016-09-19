@@ -1,22 +1,24 @@
 <?php
 /**
+ * Leaps Framework [ WE CAN DO IT JUST THINK IT ]
+ *
  * @link http://www.tintsoft.com/
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\web\Response;
-use yii\widgets\ActiveForm;
-use yii\filters\AccessControl;
-use yii\web\NotFoundHttpException;
 use yuncms\user\models\User;
 use yuncms\user\models\Account;
+use yii\filters\AccessControl;
 use yuncms\user\models\ResendForm;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
+use yii\web\NotFoundHttpException;
 use yuncms\user\models\RegistrationForm;
-use common\helpers\Setting;
 
 /**
  * RegistrationController is responsible for all registration process, which includes registration of a new account,
@@ -69,11 +71,11 @@ class RegistrationController extends Controller
      * After successful registration if enableConfirmation is enabled shows info message otherwise redirects to home page.
      *
      * @return string
-     * @throws \yii\web\HttpException
+     * @throws \yii\web\NotFoundHttpException
      */
     public function actionRegister()
     {
-        if (!Setting::get('user.enableRegistration')) {
+        if (!$this->module->enableRegistration) {
             throw new NotFoundHttpException();
         }
         /** @var RegistrationForm $model */
@@ -115,7 +117,7 @@ class RegistrationController extends Controller
 
         if ($user->load(Yii::$app->request->post()) && $user->create()) {
             $account->connect($user);
-            Yii::$app->user->login($user, Setting::get('user.rememberFor'));
+            Yii::$app->user->login($user, $this->module->rememberFor);
             return $this->goBack();
         }
 
@@ -138,7 +140,7 @@ class RegistrationController extends Controller
     public function actionConfirm($id, $code)
     {
         $user = User::findOne($id);
-        if ($user === null || Setting::get('user.enableConfirmation') == false) {
+        if ($user === null || $this->module->enableConfirmation == false) {
             throw new NotFoundHttpException();
         }
         $user->attemptConfirmation($code);
@@ -153,7 +155,7 @@ class RegistrationController extends Controller
      */
     public function actionResend()
     {
-        if (Setting::get('user.enableConfirmation') == false) {
+        if ($this->module->enableConfirmation == false) {
             throw new NotFoundHttpException();
         }
         /** @var ResendForm $model */

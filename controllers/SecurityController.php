@@ -4,31 +4,30 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\controllers;
 
 use Yii;
 use yii\helpers\Url;
 use yii\web\Response;
 use yii\web\Controller;
-use yii\authclient\AuthAction;
-use yii\filters\AccessControl;
 use yii\widgets\ActiveForm;
+use yii\filters\AccessControl;
+use yii\authclient\AuthAction;
 use yii\authclient\ClientInterface;
 use yuncms\user\Module;
 use yuncms\user\models\User;
 use yuncms\user\models\Account;
 use yuncms\user\models\LoginForm;
 
+
 /**
  * Controller that manages user authentication process.
  *
  * @property Module $module
- *
- * @author Xu Tongle <xutongle@gmail.com>
  */
 class SecurityController extends Controller
 {
-
     /**
      * @inheritdoc
      */
