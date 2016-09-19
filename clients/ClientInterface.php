@@ -4,16 +4,18 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
-namespace yuncms\user;
+namespace yuncms\user\clients;
 
 use yii\authclient\ClientInterface as BaseInterface;
 
 /**
  * Enhances default leaps client interface by adding methods that can be used to
  * get user's email and username.
+ *
  */
 interface ClientInterface extends BaseInterface
 {
+
     /**
      * @return string|null User's email
      */
