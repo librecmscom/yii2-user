@@ -18,7 +18,7 @@ use yii\helpers\Html;
                                 alt="<?= Html::encode($model->username); ?>"></a></li>
                 <?php endforeach; ?>
             <?php else: ?>
-                <?= Yii::t('question', 'No popular users') ?>
+                <?= Yii::t('user', 'No popular users') ?>
             <?php endif; ?>
         </ul>
     </div>
