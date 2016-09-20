@@ -7,8 +7,12 @@
 
 namespace yuncms\user\clients;
 
-use yii\authclient\clients\GoogleOAuth as BaseGoogle;
+use yii\authclient\clients\Google as BaseGoogle;
 
+/**
+ * Class Google
+ * @package yuncms\user
+ */
 class Google extends BaseGoogle implements ClientInterface
 {
     /**
@@ -24,6 +28,6 @@ class Google extends BaseGoogle implements ClientInterface
      */
     public function getUsername()
     {
-        return;
+        return null;
     }
 }

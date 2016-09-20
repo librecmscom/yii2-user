@@ -8,9 +8,12 @@
 namespace yuncms\user\clients;
 
 use Yii;
-use yii\authclient\clients\YandexOAuth as BaseYandex;
+use yii\authclient\clients\Yandex as BaseYandex;
 
-
+/**
+ * Class Yandex
+ * @package yuncms\user
+ */
 class Yandex extends BaseYandex implements ClientInterface
 {
     /**

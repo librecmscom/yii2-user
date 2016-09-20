@@ -10,7 +10,7 @@ namespace yuncms\user\clients;
 use xutl\authclient\Wechat as BaseWeChat;
 
 
-class Weibo extends BaseWeChat implements ClientInterface
+class Wechat extends BaseWeChat implements ClientInterface
 {
     /**
      * @inheritdoc
