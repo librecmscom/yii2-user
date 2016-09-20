@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-use yuncms\user\Widget\Connect;
+use yuncms\user\widgets\Connect;
 
 /*
  * @var yii\web\View $this
