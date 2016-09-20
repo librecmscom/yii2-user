@@ -13,6 +13,7 @@ use yii\web\Controller;
 use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\widgets\ActiveForm;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 use yuncms\user\Module;
@@ -64,7 +65,10 @@ class SettingsController extends Controller
     public function actionProfile()
     {
         $model = Profile::findOne(['user_id' => Yii::$app->user->identity->getId()]);
-        $this->performAjaxValidation($model);
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->getSession()->setFlash('success', Yii::t('user', 'Your profile has been updated'));
             return $this->refresh();
@@ -105,7 +109,10 @@ class SettingsController extends Controller
     {
         /** @var SettingsForm $model */
         $model = new SettingsForm();
-        $this->performAjaxValidation($model);
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('user', 'Your account details have been updated'));
             return $this->refresh();
