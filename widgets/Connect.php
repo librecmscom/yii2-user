@@ -6,8 +6,8 @@ use Yii;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\authclient\ClientInterface;
-use yii\authclient\widgets\AuthChoice;
-use yii\authclient\widgets\AuthChoiceAsset;
+use xutl\authclient\widgets\AuthChoice;
+use xutl\authclient\widgets\AuthChoiceAsset;
 
 class Connect extends AuthChoice
 {
@@ -15,11 +15,11 @@ class Connect extends AuthChoice
      * @var array|null An array of user's accounts
      */
     public $accounts;
+    
     /**
      * @inheritdoc
      */
     public $options = [];
-
 
     /**
      * @inheritdoc
