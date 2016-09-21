@@ -8,6 +8,8 @@
 namespace yuncms\user;
 
 use Yii;
+use yuncms\user\models\Doing;
+use yuncms\user\models\Notification;
 
 /**
  * This is the main module class for the yii2-user.
@@ -169,6 +171,71 @@ class Module extends \yii\base\Module
     }
 
     /**
+     * 发送用户通知
+     * @param int $fromUserId
+     * @param int $toUserId
+     * @param string $type
+     * @param string $subject
+     * @param int $sourceId
+     * @param string $referContent
+     * @return static
+     */
+    public function notify($fromUserId, $toUserId, $type, $subject = '', $sourceId = 0, $referContent = '')
+    {
+        /*不能自己给自己发通知*/
+        if ($fromUserId == $toUserId) {
+            return false;
+        }
+        try {
+            $notify = new Notification([
+                'user_id' => $fromUserId,
+                'to_user_id' => $toUserId,
+                'type' => $type,
+                'subject' => $subject,
+                'source_id' => $sourceId,
+                'refer_content' => strip_tags($referContent),
+                'is_read' => 0
+            ]);
+            return $notify->save();
+        } catch (\Exception $e) {
+            exit($e->getMessage());
+        }
+    }
+
+    /**
+     * 记录用户动态
+     * @param int $userId 动态发起人
+     * @param string $action 动作 ['ask','answer',...]
+     * @param string $sourceType 被引用的内容类型
+     * @param int $sourceId 问题或文章ID
+     * @param string $subject 问题或文章标题
+     * @param string $content 回答或评论内容
+     * @param int $referId 问题或者文章ID
+     * @param int $referUserId 引用内容作者ID
+     * @param null $referContent 引用内容
+     * @return bool
+     */
+    public function doing($userId, $action, $sourceType, $sourceId, $subject, $content = '', $referId = 0, $referUserId = 0, $referContent = null)
+    {
+        try {
+            $doing = new Doing([
+                'user_id' => $userId,
+                'action' => $action,
+                'source_id' => $sourceId,
+                'source_type' => $sourceType,
+                'subject' => $subject,
+                'content' => strip_tags($content),
+                'refer_id' => $referId,
+                'refer_user_id' => $referUserId,
+                'refer_content' => strip_tags($referContent),
+            ]);
+            return $doing->save();
+        } catch (\Exception $e) {
+            exit($e->getMessage());
+        }
+    }
+
+    /**
      * @param $category
      * @param $message
      * @param array $params
@@ -179,4 +246,6 @@ class Module extends \yii\base\Module
     {
         return Yii::t('user/' . $category, $message, $params, $language);
     }
+
+
 }
