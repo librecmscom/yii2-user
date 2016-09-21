@@ -41,6 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'id',
                     'username',
                     'email:email',
+                    'amount',
+                    'point',
                     [
                         'attribute' => 'registration_ip',
                         'value' => function ($model) {
