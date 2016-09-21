@@ -13,7 +13,7 @@ use backend\widgets\Jarvis;
  * @var UserSearch $searchModel
  */
 
-$this->title = Yii::t('user', 'Manage users');
+$this->title = Yii::t('user', 'Manage Users');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <section id="widget-grid">
@@ -45,29 +45,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'registration_ip',
                         'value' => function ($model) {
                             return $model->registration_ip == null
-                                ? '<span class="not-set">' . Yii::t('user', '(not set)') . '</span>'
+                                ? '<span class="not-set">' . Yii::t('app', '(not set)') . '</span>'
                                 : $model->registration_ip;
                         },
                         'format' => 'html',
                     ],
-                    [
-                        'attribute' => 'created_at',
-                        'value' => function ($model) {
-                            if (extension_loaded('intl')) {
-                                return Yii::t('user', '{0, date, MMMM dd, YYYY HH:mm}', [$model->created_at]);
-                            } else {
-                                return date('Y-m-d H:i:s', $model->created_at);
-                            }
-                        },
-                        'filter' => DatePicker::widget([
-                            'model' => $searchModel,
-                            'attribute' => 'created_at',
-                            'dateFormat' => 'php:Y-m-d',
-                            'options' => [
-                                'class' => 'form-control',
-                            ],
-                        ]),
-                    ],
+                    'created_at:datetime',
                     [
                         'header' => Yii::t('user', 'Confirmation'),
                         'value' => function ($model) {
