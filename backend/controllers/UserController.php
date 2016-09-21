@@ -58,21 +58,21 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        /** @var User $user */
-        $user = Yii::createObject([
+        /** @var User $model */
+        $model = Yii::createObject([
             'class' => User::className(),
             'scenario' => 'create',
         ]);
-        if (Yii::$app->request->isAjax && $user->load(Yii::$app->request->post())) {
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($user);
+            return ActiveForm::validate($model);
         }
-        if ($user->load(Yii::$app->request->post()) && $user->create()) {
+        if ($model->load(Yii::$app->request->post()) && $model->create()) {
             Yii::$app->getSession()->setFlash('success', Yii::t('user', 'User has been created'));
-            return $this->redirect(['update', 'id' => $user->id]);
+            return $this->redirect(['update', 'id' => $model->id]);
         }
         return $this->render('create', [
-            'user' => $user,
+            'model' => $model,
         ]);
     }
 
@@ -86,18 +86,18 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         Url::remember('', 'actions-redirect');
-        $user = $this->findModel($id);
-        $user->scenario = 'update';
-        if (Yii::$app->request->isAjax && $user->load(Yii::$app->request->post())) {
+        $model = $this->findModel($id);
+        $model->scenario = 'update';
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($user);
+            return ActiveForm::validate($model);
         }
-        if ($user->load(Yii::$app->request->post()) && $user->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->getSession()->setFlash('success', Yii::t('user', 'Account details have been updated'));
             return $this->refresh();
         }
         return $this->render('_account', [
-            'user' => $user,
+            'model' => $model,
         ]);
     }
 
