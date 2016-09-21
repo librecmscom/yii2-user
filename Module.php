@@ -194,7 +194,7 @@ class Module extends \yii\base\Module
                 'subject' => $subject,
                 'source_id' => $sourceId,
                 'refer_content' => strip_tags($referContent),
-                'is_read' => 0
+                'status' => Notification::STATUS_UNREAD
             ]);
             return $notify->save();
         } catch (\Exception $e) {
