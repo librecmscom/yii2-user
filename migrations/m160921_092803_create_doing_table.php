@@ -31,7 +31,7 @@ class m160921_092803_create_doing_table extends Migration
             'created_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
 
-        $this->addForeignKey('{{%user_doing_history_ibfk_1}}', '{{%user_doing_history}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
+        $this->addForeignKey('{{%user_doing_ibfk_1}}', '{{%user_doing}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
     /**

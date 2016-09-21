@@ -29,6 +29,9 @@ class m160921_093501_create_notifcation_table extends Migration
             'status' => $this->integer(2),
             'created_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
+
+		$this->addForeignKey('{{%user_notifcation_ibfk_1}}', '{{%user_notifcation}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
+		$this->addForeignKey('{{%user_notifcation_ibfk_2}}', '{{%user_notifcation}}', 'to_user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
     /**
