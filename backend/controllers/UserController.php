@@ -63,7 +63,10 @@ class UserController extends Controller
             'class' => User::className(),
             'scenario' => 'create',
         ]);
-        $this->performAjaxValidation($user);
+        if (Yii::$app->request->isAjax && $user->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($user);
+        }
         if ($user->load(Yii::$app->request->post()) && $user->create()) {
             Yii::$app->getSession()->setFlash('success', Yii::t('user', 'User has been created'));
             return $this->redirect(['update', 'id' => $user->id]);
@@ -85,7 +88,10 @@ class UserController extends Controller
         Url::remember('', 'actions-redirect');
         $user = $this->findModel($id);
         $user->scenario = 'update';
-        $this->performAjaxValidation($user);
+        if (Yii::$app->request->isAjax && $user->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($user);
+        }
         if ($user->load(Yii::$app->request->post()) && $user->save()) {
             Yii::$app->getSession()->setFlash('success', Yii::t('user', 'Account details have been updated'));
             return $this->refresh();
@@ -111,7 +117,10 @@ class UserController extends Controller
             $profile = Yii::createObject(Profile::className());
             $profile->link('user', $user);
         }
-        $this->performAjaxValidation($profile);
+        if (Yii::$app->request->isAjax && $profile->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($profile);
+        }
         if ($profile->load(Yii::$app->request->post()) && $profile->save()) {
             Yii::$app->getSession()->setFlash('success', Yii::t('user', 'Profile details have been updated'));
             return $this->refresh();
@@ -248,23 +257,5 @@ class UserController extends Controller
             throw new NotFoundHttpException('The requested page does not exist');
         }
         return $user;
-    }
-
-    /**
-     * Performs AJAX validation.
-     *
-     * @param array|\yii\base\Model $model
-     *
-     * @throws \yii\base\ExitException
-     */
-    protected function performAjaxValidation($model)
-    {
-        if (Yii::$app->request->isAjax && !Yii::$app->request->isPjax) {
-            if ($model->load(Yii::$app->request->post())) {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                echo json_encode(ActiveForm::validate($model));
-                Yii::$app->end();
-            }
-        }
     }
 }
