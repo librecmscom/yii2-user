@@ -87,7 +87,7 @@ class Notification extends ActiveRecord
      * @param int $toUserId
      * @return int
      */
-    public static function setRead($toUserId)
+    public static function setReadAll($toUserId)
     {
         return self::updateAll(['status' => self::STATUS_READ], ['to_user_id' => $toUserId]);
     }
