@@ -29,6 +29,7 @@ class m160918_100920_create_user_table extends Migration
             'confirmed_at' => $this->integer(),
             'unconfirmed_email' => $this->string(255),
             'blocked_at' => $this->integer()->unsigned(),
+            'login_num' => $this->integer()->unsigned()->defaultValue(0),
             'registration_ip' => $this->string(),
             'flags' => $this->integer()->notNull()->defaultValue(0),
             'last_login_at' => $this->integer()->unsigned(),

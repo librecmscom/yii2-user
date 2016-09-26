@@ -73,9 +73,15 @@ class SecurityController extends Controller
      */
     public function actionLogin()
     {
+        $returnUrl = Url::previous('actions-redirect');
         if (!Yii::$app->user->isGuest) {
-            $this->goHome();
+            if ($returnUrl) {
+                return $this->redirect($returnUrl);
+            } else {
+                return $this->goHome();
+            }
         }
+
         /**
          * @var LoginForm $model
          */
@@ -85,7 +91,12 @@ class SecurityController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
-            return $this->goBack();
+            Yii::$app->user->identity->updateCounters(['login_num' => 1]);
+            if ($returnUrl) {
+                return $this->redirect($returnUrl);
+            } else {
+                return $this->goBack();
+            }
         }
         return $this->render('login', ['model' => $model, 'module' => $this->module]);
     }
