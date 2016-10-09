@@ -32,6 +32,7 @@ class m160918_100920_create_user_table extends Migration
             'login_num' => $this->integer()->unsigned()->defaultValue(0),
             'registration_ip' => $this->string(),
             'flags' => $this->integer()->notNull()->defaultValue(0),
+            'weights' => $this->integer()->defaultValue(0),
             'last_login_at' => $this->integer()->unsigned(),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->notNull(),
