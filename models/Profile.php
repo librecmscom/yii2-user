@@ -10,13 +10,13 @@ namespace yuncms\user\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yuncms\user\ModuleTrait;
-//use Identicon\Identicon;
 
 /**
  * This is the model class for table "profile".
  *
  * @property integer $user_id 用户ID
  * @property string $name
+ * @property int $gender 性别
  * @property string $public_email
  * @property string $location
  * @property string $website
@@ -34,7 +34,6 @@ class Profile extends ActiveRecord
     const GENDER_MALE = 1;
     // 女
     const GENDER_FEMALE = 2;
-
 
     /**
      * @inheritdoc
