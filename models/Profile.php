@@ -87,7 +87,7 @@ class Profile extends ActiveRecord
     {
         switch ($this->gender) {
             case self::SEX_UNCONFIRMED:
-                $genderName = Yii::t('user', 'Unconfirmed');
+                $genderName = Yii::t('user', 'Secrecy');
                 break;
             case self::SEX_MALE:
                 $genderName = Yii::t('user', 'Male');
