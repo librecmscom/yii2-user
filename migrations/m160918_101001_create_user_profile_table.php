@@ -22,8 +22,8 @@ class m160918_101001_create_user_profile_table extends Migration
          */
         $this->createTable('{{%user_profile}}', [
             'user_id' => $this->integer()->notNull() . ' PRIMARY KEY',
-            'name' => $this->string(),
-            'gender' => $this->smallInteger(1)->notNull()->defaultValue(0),
+            'nickname' => $this->string(),
+            'sex' => $this->smallInteger(1)->notNull()->defaultValue(0),
             'mobile' => $this->string(),
             'public_email' => $this->string(),
             'location' => $this->string(),

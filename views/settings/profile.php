@@ -34,11 +34,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'validateOnBlur' => false,
         ]); ?>
 
-        <?= $form->field($model, 'name') ?>
+        <?= $form->field($model, 'nickname') ?>
 
         <?= $form->field($model, 'public_email') ?>
 
-        <?= $form->field($model, 'gender')->inline(true)->radioList(['1' => Yii::t('user', 'Male'), '2' => Yii::t('user', 'Female')], [
+        <?= $form->field($model, 'sex')->inline(true)->radioList(['0' => Yii::t('user', 'Unconfirmed'),'1' => Yii::t('user', 'Male'), '2' => Yii::t('user', 'Female')], [
             'template' => "{label}\n<div class=\"col-lg-6\">{input}</div>\n<div class=\"col-sm-offset-3 col-lg-6\">{error}\n{hint}</div>",
         ]); ?>
 
