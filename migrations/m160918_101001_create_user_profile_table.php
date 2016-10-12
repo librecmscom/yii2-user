@@ -27,7 +27,7 @@ class m160918_101001_create_user_profile_table extends Migration
             'mobile' => $this->string(),
             'public_email' => $this->string(),
             'location' => $this->string(),
-            'address' => $this->string(32),
+            'address' => $this->string(),
             'website' => $this->string(),
             'avatar' => $this->boolean()->defaultValue(false),
             'timezone' => $this->string(),
