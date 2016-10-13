@@ -87,8 +87,8 @@ class Rest extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        if (stristr($token, 'YUNCMS')) {
-            list($id, $token) = explode('YUNCMS', $token, 1);
+        if (stristr($token, '@')) {
+            list($id, $token) = explode('@', $token, 1);
             return static::findOne(['id' => $id, 'token' => $token]);
         } else {
             return null;
