@@ -52,7 +52,7 @@ class AccessKeyController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Yii::$app->getUser()->identity->getRests(),
+            'query' => Rest::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['created_at' => SORT_DESC]),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -87,16 +87,9 @@ class AccessKeyController extends Controller
     public function actionCreate()
     {
         $model = new Rest();
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
-        } else if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        $model->save();
+        Yii::$app->getSession()->setFlash('success', Yii::t('user', 'Successful operation'));
+        return $this->redirect(['index']);
     }
 
     /**
@@ -109,7 +102,7 @@ class AccessKeyController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        if($model->isAuthor()){
+        if ($model->isAuthor()) {
             $model->delete();
         }
         return $this->redirect(['index']);
