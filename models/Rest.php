@@ -62,6 +62,16 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('user', 'Access Key ID'),
+            'token' => Yii::t('user', 'Access Key Token'),
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -93,6 +103,16 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    /**
+     * 是否是作者
+     * @return bool
+     */
+    public function isAuthor()
+    {
+        return $this->user_id == Yii::$app->user->id;
+    }
+
 
     /**
      * @inheritdoc
@@ -158,7 +178,19 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
     {
         if ($insert) {
             $this->setAttribute('auth_key', Yii::$app->security->generateRandomString());
+            $this->setAttribute('token', Yii::$app->security->generateRandomString());
         }
         return parent::beforeSave($insert);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert) {
+            $this->link('user', Yii::$app->user->identity);
+        }
     }
 }

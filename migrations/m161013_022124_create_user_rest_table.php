@@ -15,12 +15,12 @@ class m161013_022124_create_user_rest_table extends Migration
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB AUTO_INCREMENT=10000';
         }
 
         $this->createTable('{{%user_rest}}', [
             'id' => $this->primaryKey(),
-            'user_id' => $this->integer()->notNull(),
+            'user_id' => $this->integer(),
             'type' => $this->string(50)->notNull(),
             'token' => $this->string()->notNull(),
             'auth_key' => $this->string()->notNull(),
