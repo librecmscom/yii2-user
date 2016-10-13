@@ -20,7 +20,7 @@ class m161013_022124_create_user_rest_table extends Migration
 
         $this->createTable('{{%user_rest}}', [
             'id' => $this->primaryKey(),
-            'user_id' => $this->integer(),
+            'user_id' => $this->integer()->notNull(),
             'type' => $this->string(50),
             'token' => $this->string()->notNull(),
             'auth_key' => $this->string()->notNull(),
@@ -30,6 +30,7 @@ class m161013_022124_create_user_rest_table extends Migration
             'updated_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
 
+        $this->createIndex('{{%user_rest_token_unique}}', '{{%user_rest}}', ['id', 'token'], true);
         $this->addForeignKey('{{%user_rest_ibfk_1}}', '{{%user_rest}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
     }
 
