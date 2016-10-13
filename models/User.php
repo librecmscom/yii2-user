@@ -288,6 +288,16 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Visit::className(), ['user_id' => 'id']);
     }
 
+    /**
+     * 获取我的APP列表
+     * 一对多关系
+     */
+    public function getRests()
+    {
+        return $this->hasMany(Rest::className(), ['user_id' => 'id']);
+    }
+
+
     /** @inheritdoc */
     public function validateAuthKey($authKey)
     {

@@ -132,4 +132,13 @@ class Rest extends ActiveRecord implements IdentityInterface
         Yii::$app->cache->set($this->getId() . '_allowance', $allowance);
         Yii::$app->cache->set($this->getId() . '_allowance_updated_at', $timestamp);
     }
+
+    /** @inheritdoc */
+    public function beforeSave($insert)
+    {
+        if ($insert) {
+            $this->setAttribute('auth_key', Yii::$app->security->generateRandomString());
+        }
+        return parent::beforeSave($insert);
+    }
 }
