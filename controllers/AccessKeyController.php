@@ -8,8 +8,8 @@ namespace yuncms\user\controllers;
 
 use Yii;
 use yii\web\Response;
+use yii\helpers\Url;
 use yii\web\Controller;
-use yii\widgets\ActiveForm;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
@@ -69,7 +69,7 @@ class AccessKeyController extends Controller
     public function actionBlock($id)
     {
         $user = $this->findModel($id);
-        if ($user->getIsBlocked()) {
+        if ($user->isBlocked()) {
             $user->unblock();
             Yii::$app->getSession()->setFlash('success', Yii::t('user', 'User has been unblocked'));
         } else {
