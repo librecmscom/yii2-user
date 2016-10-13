@@ -209,15 +209,15 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * 返回所有已经连接的社交媒体账户
-     * @return Account[] Connected accounts ($provider => $account)
+     * @return Social[] Connected accounts ($provider => $account)
      */
     public function getAccounts()
     {
         $connected = [];
-        $accounts = $this->hasMany(Account::className(), ['user_id' => 'id'])->all();
+        $accounts = $this->hasMany(Social::className(), ['user_id' => 'id'])->all();
 
         /**
-         * @var Account $account
+         * @var Social $account
          */
         foreach ($accounts as $account) {
             $connected[$account->provider] = $account;

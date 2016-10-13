@@ -17,7 +17,7 @@ use yii\authclient\AuthAction;
 use yii\authclient\ClientInterface;
 use yuncms\user\Module;
 use yuncms\user\models\User;
-use yuncms\user\models\Account;
+use yuncms\user\models\Social;
 use yuncms\user\models\LoginForm;
 
 
@@ -113,9 +113,9 @@ class SecurityController extends Controller
      */
     public function authenticate(ClientInterface $client)
     {
-        $account = Account::find()->byClient($client)->one();
+        $account = Social::find()->byClient($client)->one();
         if ($account === null) {
-            $account = Account::create($client);
+            $account = Social::create($client);
         }
         if ($account->user instanceof User) {
             if ($account->user->isBlocked) {
@@ -138,9 +138,9 @@ class SecurityController extends Controller
     public function connect(ClientInterface $client)
     {
         /**
-         * @var Account $account
+         * @var Social $account
          */
-        $account = new Account();
+        $account = new Social();
         $account->connectWithUser($client);
         $this->action->successUrl = Url::to(['/user/settings/networks']);
     }

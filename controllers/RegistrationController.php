@@ -10,7 +10,7 @@ namespace yuncms\user\controllers;
 use Yii;
 use yii\web\Controller;
 use yuncms\user\models\User;
-use yuncms\user\models\Account;
+use yuncms\user\models\Social;
 use yii\filters\AccessControl;
 use yuncms\user\models\ResendForm;
 use yii\web\Response;
@@ -99,7 +99,7 @@ class RegistrationController extends Controller
      */
     public function actionConnect($code)
     {
-        $account = Account::find()->byCode($code)->one();
+        $account = Social::find()->byCode($code)->one();
 
         if ($account === null || $account->getIsConnected()) {
             throw new NotFoundHttpException();

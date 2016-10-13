@@ -19,7 +19,7 @@ use yii\web\ForbiddenHttpException;
 use yuncms\user\Module;
 use yuncms\user\models\User;
 use yuncms\user\models\Profile;
-use yuncms\user\models\Account;
+use yuncms\user\models\Social;
 use yuncms\user\models\PortraitForm;
 use yuncms\user\models\SettingsForm;
 
@@ -164,7 +164,7 @@ class SettingsController extends Controller
      */
     public function actionDisconnect($id)
     {
-        $account = Account::find()->byId($id)->one();
+        $account = Social::find()->byId($id)->one();
         if ($account === null) {
             throw new NotFoundHttpException();
         }

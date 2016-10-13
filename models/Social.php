@@ -30,7 +30,7 @@ use yuncms\user\clients\ClientInterface;
  *
  * @property User $user User that this account is connected for.
  */
-class Account extends ActiveRecord
+class Social extends ActiveRecord
 {
     use ModuleTrait;
 
@@ -108,17 +108,22 @@ class Account extends ActiveRecord
     }
 
     /**
-     * @return AccountQuery
+     * @return SocialQuery
      */
     public static function find()
     {
-        return Yii::createObject(AccountQuery::className(), [get_called_class()]);
+        return Yii::createObject(SocialQuery::className(), [get_called_class()]);
     }
 
     public static function create(BaseClientInterface $client)
     {
-        /** @var Account $account */
-        $account = Yii::createObject(['class' => static::className(), 'provider' => $client->getId(), 'client_id' => $client->getUserAttributes()['id'], 'data' => json_encode($client->getUserAttributes())]);
+        /** @var Social $account */
+        $account = Yii::createObject([
+            'class' => static::className(),
+            'provider' => $client->getId(),
+            'client_id' => $client->getUserAttributes()['id'],
+            'data' => json_encode($client->getUserAttributes())
+        ]);
 
         if ($client instanceof ClientInterface) {
             $account->setAttributes(['username' => $client->getUsername(), 'email' => $client->getEmail()], false);
@@ -161,12 +166,12 @@ class Account extends ActiveRecord
      *
      * @param BaseClientInterface $client
      *
-     * @return Account
+     * @return Social
      * @throws \yii\base\InvalidConfigException
      */
     protected static function fetchAccount(BaseClientInterface $client)
     {
-        $account = Account::find()->byClient($client)->one();
+        $account = Social::find()->byClient($client)->one();
         if (null === $account) {
             $account = Yii::createObject(['class' => static::className(), 'provider' => $client->getId(), 'client_id' => $client->getUserAttributes()['id'], 'data' => json_encode($client->getUserAttributes())]);
             $account->save(false);
@@ -178,11 +183,11 @@ class Account extends ActiveRecord
     /**
      * Tries to find user or create a new one.
      *
-     * @param Account $account
+     * @param Social $account
      *
      * @return User|boolean False when can't create user.
      */
-    protected static function fetchUser(Account $account)
+    protected static function fetchUser(Social $account)
     {
         $user = User::findByEmail($account->email);
 

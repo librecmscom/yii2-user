@@ -11,15 +11,15 @@ use yii\db\ActiveQuery;
 use yii\authclient\ClientInterface;
 
 /**
- * @method Account|null one($db = null)
- * @method Account[] all($db = null)
+ * @method Social|null one($db = null)
+ * @method Social[] all($db = null)
  */
-class AccountQuery extends ActiveQuery
+class SocialQuery extends ActiveQuery
 {
     /**
      * Finds an account by code.
      * @param string $code
-     * @return AccountQuery
+     * @return SocialQuery
      */
     public function byCode($code)
     {
@@ -29,7 +29,7 @@ class AccountQuery extends ActiveQuery
     /**
      * Finds an account by id.
      * @param integer $id
-     * @return AccountQuery
+     * @return SocialQuery
      */
     public function byId($id)
     {
@@ -39,7 +39,7 @@ class AccountQuery extends ActiveQuery
     /**
      * Finds an account by user_id.
      * @param integer $userId
-     * @return AccountQuery
+     * @return SocialQuery
      */
     public function byUser($userId)
     {
@@ -49,7 +49,7 @@ class AccountQuery extends ActiveQuery
     /**
      * Finds an account by client.
      * @param ClientInterface $client
-     * @return AccountQuery
+     * @return SocialQuery
      */
     public function byClient(ClientInterface $client)
     {
