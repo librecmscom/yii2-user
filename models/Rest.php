@@ -88,7 +88,7 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        if (stripos($token, ',') != false) {
+        if (strpos($token, ',') != false) {
             list($id, $token) = explode(',', $token, 2);
             return static::findOne(['id' => $id, 'token' => $token]);
         } else {
