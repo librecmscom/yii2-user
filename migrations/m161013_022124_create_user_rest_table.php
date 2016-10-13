@@ -26,7 +26,7 @@ class m161013_022124_create_user_rest_table extends Migration
             'auth_key' => $this->string()->notNull(),
             'rate_limit' => $this->integer(8)->defaultValue(10),
             'rate_period' => $this->integer(8)->defaultValue(31536000),
-            'status' => $this->integer(1)->defaultValue(0),
+            'status' => $this->integer(1)->defaultValue(1),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
