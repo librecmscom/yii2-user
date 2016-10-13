@@ -522,9 +522,6 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        if (stristr($token, 'YUNCMS')) {
-            list($id, $token) = explode('YUNCMS', $token, 1);
-        }
         throw new NotSupportedException('Method "' . __CLASS__ . '::' . __METHOD__ . '" is not implemented.');
     }
 
