@@ -21,7 +21,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $token
  * @property int $rate_limit
  * @property int $rate_period
- * @property int $blocked_at
+ * @property int $status
  * @property int $created_at
  * @property int $updated_at
  *
@@ -29,9 +29,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
 {
-    const STATUS_DELETED = 0;
+    const STATUS_BLOCK = 0;
     const STATUS_ACTIVE = 1;
-
 
     const TYPE_DEFAULT = 'default';
     const TYPE_MOBILE = 'mobile';
@@ -65,7 +64,7 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
             ['type', 'default', 'value' => self::TYPE_DEFAULT],
             ['type', 'in', 'range' => [self::TYPE_DEFAULT, self::TYPE_MOBILE, self::TYPE_REST, self::TYPE_API]],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_BLOCK]],
         ];
     }
 
@@ -77,6 +76,7 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
         return [
             'id' => Yii::t('user', 'Access Key ID'),
             'token' => Yii::t('user', 'Access Key Token'),
+            'status' => Yii::t('user', 'Block'),
         ];
     }
 
@@ -124,9 +124,9 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
      * 返回用户是否已经锁定
      * @return boolean Whether the user is blocked or not.
      */
-    public function getIsBlocked()
+    public function isBlocked()
     {
-        return $this->blocked_at != null;
+        return $this->status != self::STATUS_ACTIVE;
     }
 
     /**
@@ -134,7 +134,7 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
      */
     public function block()
     {
-        return (bool)$this->updateAttributes(['blocked_at' => time(), 'auth_key' => Yii::$app->security->generateRandomString()]);
+        return (bool)$this->updateAttributes(['status' => self::STATUS_BLOCK, 'auth_key' => Yii::$app->security->generateRandomString()]);
     }
 
     /**
@@ -142,9 +142,8 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
      */
     public function unblock()
     {
-        return (bool)$this->updateAttributes(['blocked_at' => null]);
+        return (bool)$this->updateAttributes(['status' => self::STATUS_ACTIVE]);
     }
-
 
     /**
      * @inheritdoc

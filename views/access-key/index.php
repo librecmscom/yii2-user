@@ -27,7 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'token',
                 'rate_limit',
                 'rate_period',
-                'created_at',
+                'status:boolean',
+                'created_at:datetime',
                 ['class' => 'yii\grid\ActionColumn',],
             ],
         ]);

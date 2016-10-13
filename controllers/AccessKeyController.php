@@ -60,6 +60,26 @@ class AccessKeyController extends Controller
     }
 
     /**
+     * Blocks the user.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function actionBlock($id)
+    {
+        $user = $this->findModel($id);
+        if ($user->getIsBlocked()) {
+            $user->unblock();
+            Yii::$app->getSession()->setFlash('success', Yii::t('user', 'User has been unblocked'));
+        } else {
+            $user->block();
+            Yii::$app->getSession()->setFlash('success', Yii::t('user', 'User has been blocked'));
+        }
+        return $this->redirect(Url::previous('actions-redirect'));
+    }
+
+    /**
      * Creates a new Rest model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
