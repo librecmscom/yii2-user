@@ -75,7 +75,8 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
         return [
             'id' => Yii::t('user', 'Access Key ID'),
             'token' => Yii::t('user', 'Access Key Token'),
-            'status' => Yii::t('user', 'Block'),
+            'status' => Yii::t('app', 'Status'),
+            'created_at' => Yii::t('app', 'Created At'),
         ];
     }
 
