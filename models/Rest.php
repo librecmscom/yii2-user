@@ -109,9 +109,9 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
     {
         if (strpos($token, ',') != false) {
             list($id, $token) = explode(',', $token, 2);
-            return static::findOne(['id' => $id, 'token' => $token]);
+            return static::findOne(['id' => $id, 'token' => $token, 'type' => $type]);
         } else {
-            return static::findOne(['token' => $token]);
+            return static::findOne(['token' => $token, 'type' => $type]);
         }
     }
 
