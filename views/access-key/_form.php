@@ -10,9 +10,7 @@ use yii\jui\DatePicker;
 
 
 <?php $form = ActiveForm::begin([
-    'enableAjaxValidation' => true,
-    'enableClientValidation' => false,
-    'validateOnBlur' => false,
+    'enableClientValidation' => true,
 ]); ?>
 
 <?= $form->field($model, 'type') ?>

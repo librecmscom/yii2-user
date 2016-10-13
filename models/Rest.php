@@ -21,6 +21,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $token
  * @property int $rate_limit
  * @property int $rate_period
+ * @property int $blocked_at
  * @property int $created_at
  * @property int $updated_at
  *
@@ -117,6 +118,31 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
     public function isAuthor()
     {
         return $this->user_id == Yii::$app->user->id;
+    }
+
+    /**
+     * 返回用户是否已经锁定
+     * @return boolean Whether the user is blocked or not.
+     */
+    public function getIsBlocked()
+    {
+        return $this->blocked_at != null;
+    }
+
+    /**
+     * 锁定用户
+     */
+    public function block()
+    {
+        return (bool)$this->updateAttributes(['blocked_at' => time(), 'auth_key' => Yii::$app->security->generateRandomString()]);
+    }
+
+    /**
+     * 解除用户锁定
+     */
+    public function unblock()
+    {
+        return (bool)$this->updateAttributes(['blocked_at' => null]);
     }
 
 
