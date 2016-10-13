@@ -25,7 +25,7 @@ use yii\filters\auth\AuthMethod;
  * }
  * ```
  */
-class ApiHeaderAuth extends AuthMethod
+class MobileHeaderAuth extends AuthMethod
 {
     /**
      * @var string the parameter name for passing the access id
@@ -46,7 +46,7 @@ class ApiHeaderAuth extends AuthMethod
         $accessToken = $request->getHeaders()->get($this->tokenParam);
         $token = $accessId . ',' . $accessToken;
         if (is_string($token)) {
-            $identity = $user->loginByAccessToken($token, Rest::TYPE_API);
+            $identity = $user->loginByAccessToken($token, Rest::TYPE_MOBILE);
             if ($identity !== null) {
                 return $identity;
             }
