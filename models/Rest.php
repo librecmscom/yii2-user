@@ -9,6 +9,7 @@ namespace yuncms\user\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\filters\RateLimitInterface;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -25,7 +26,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @package yuncms\user
  */
-class Rest extends ActiveRecord implements IdentityInterface
+class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
 {
     /**
      * @inheritdoc
