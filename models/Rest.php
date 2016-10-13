@@ -28,6 +28,12 @@ use yii\behaviors\TimestampBehavior;
  */
 class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
 {
+    const TYPE_DEFAULT = 'default';
+    const TYPE_MOBILE = 'mobile';
+    const TYPE_API = 'api';
+    const TYPE_REST = 'rest';
+
+
     /**
      * @inheritdoc
      */
@@ -43,6 +49,19 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
     {
         return [TimestampBehavior::className()];
     }
+
+    /**
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            [['rate_limit', 'rate_period'], 'integer', 'min' => 1, 'max' => 31536000],
+            ['type', 'default', 'value' => self::TYPE_DEFAULT],
+            ['type', 'in', 'range' => [self::TYPE_DEFAULT, self::TYPE_MOBILE, self::TYPE_REST, self::TYPE_API]],
+        ];
+    }
+
 
     /**
      * @inheritdoc
