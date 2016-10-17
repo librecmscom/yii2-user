@@ -1,0 +1,11 @@
+/* 头像编辑器开始 */
+.img-container,.img-preview { background-color: #f7f7f7; width: 100%; text-align: center; }
+.img-container { min-height: 200px; max-height: 419px; }
+@media (min-width: 768px) { .img-container { min-height: 419px; } }
+.img-container > img { max-width: 100%; }
+.img-preview { float: left; margin-right: 20px; overflow: hidden; border: #ddd solid 1px; padding: 1px; }
+.img-preview > img { max-width: 100%; }
+.preview-lg { width: 200px; height: 200px; }
+.preview-md { width: 120px; height: 120px; }
+.preview-sm { width: 48px; height: 48px; }
+/* 头像编辑器结束 */

@@ -17,6 +17,10 @@ class CropperAsset extends AssetBundle
 {
     public $sourcePath = '@vendor/yuncms/yii2-user/assets';
 
+    public $css = [
+        'css/cropper.css',
+    ];
+
     public $js = [
         'js/cropper.js',
     ];
