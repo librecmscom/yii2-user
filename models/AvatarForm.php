@@ -19,7 +19,7 @@ use yii\imagine\Image;
  * Class PortraitForm
  * @package yuncms\user
  */
-class PortraitForm extends Model
+class AvatarForm extends Model
 {
     /**
      * @var \yii\web\UploadedFile 头像上传字段
@@ -40,8 +40,8 @@ class PortraitForm extends Model
      */
     public $height;
 
-    /** @var Profile */
-    private $_profile;
+    /** @var User */
+    private $_user;
 
 
     /**
@@ -72,16 +72,16 @@ class PortraitForm extends Model
      *
      * @return boolean
      */
-    public function upload()
+    public function save()
     {
         if ($this->validate()) {
-            $profile = $this->getProfile();
+            $user = $this->getUser();
 
             /** @var \yii\system\Module $module */
             $module = Yii::$app->getModule('system');
-            if ($module->saveAvatar($profile->user_id, $this->portrait->tempName)) {
-                $profile->avatar = true;
-                $profile->save();
+            if ($module->saveAvatar($user->id, $this->portrait->tempName)) {
+                $user->avatar = true;
+                $user->save();
                 return true;
             }
         }
@@ -89,12 +89,12 @@ class PortraitForm extends Model
     }
 
     /** @return User */
-    public function getProfile()
+    public function getUser()
     {
-        if ($this->_profile == null) {
-            $this->_profile = Yii::$app->user->identity->profile;
+        if ($this->_user == null) {
+            $this->_user = Yii::$app->user->identity;
         }
-        return $this->_profile;
+        return $this->_user;
     }
 
     public function beforeValidate()

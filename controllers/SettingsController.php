@@ -20,7 +20,7 @@ use yuncms\user\Module;
 use yuncms\user\models\User;
 use yuncms\user\models\Profile;
 use yuncms\user\models\Social;
-use yuncms\user\models\PortraitForm;
+use yuncms\user\models\AvatarForm;
 use yuncms\user\models\SettingsForm;
 
 /**
@@ -49,7 +49,7 @@ class SettingsController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['profile', 'account','portrait', 'confirm', 'networks', 'disconnect'],
+                        'actions' => ['profile', 'account','avatar', 'confirm', 'networks', 'disconnect'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -82,20 +82,13 @@ class SettingsController extends Controller
      * Show portrait setting form
      * @return \yii\web\Response|string
      */
-    public function actionPortrait()
+    public function actionAvatar()
     {
-        $model = new PortraitForm();
-        if ($model->load(Yii::$app->request->post())) {
-            $model->portrait = UploadedFile::getInstanceByName (  'portrait' );
-            Yii::$app->response->format = Response::FORMAT_RAW;
-            if ($model->upload ()) {
-                echo 200;
-            } else {
-                print_r($model->getErrors());
-            }
-            Yii::$app->end();
+        $model = new AvatarForm();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', Yii::t('user', 'Your profile has been updated'));
         }
-        return $this->render('portrait', [
+        return $this->render('avatar', [
             'model' => $model,
         ]);
     }
