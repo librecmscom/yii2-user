@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = Yii::t('user', 'Update');
         <?= $this->render('/settings/_menu') ?>
     </div>
     <div class="col-md-9">
-        <?= $this->render('/settings/_header') ?>
         <?= $this->render('_form', ['model' => $model]) ?>
     </div>
 </div>

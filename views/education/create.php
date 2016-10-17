@@ -2,9 +2,9 @@
 /*
  * @var yii\web\View $this
  */
-$this->title = Yii::t('user', 'Create Education');
+$this->title = Yii::t('user', 'Create Educational experience');
 $this->params['breadcrumbs'][] = [
-    'label' => Yii::t('user', 'Educations'),
+    'label' => Yii::t('user', 'Educational experience'),
     'url' => ['index']
 ];
 $this->params['breadcrumbs'][] = $this->title;
@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $this->render('/settings/_menu') ?>
     </div>
     <div class="col-md-9">
-        <?= $this->render('/settings/_header') ?>
         <?= $this->render('_form', ['model' => $model]) ?>
 
     </div>

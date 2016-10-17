@@ -114,7 +114,7 @@ class SettingsController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('user', 'Your account details have been updated'));
+            Yii::$app->session->setFlash('success', Yii::t('user', 'Your account details have been updated.'));
             return $this->refresh();
         }
         return $this->render('account', [

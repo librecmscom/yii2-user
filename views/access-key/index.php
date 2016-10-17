@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $this->render('/settings/_menu') ?>
     </div>
     <div class="col-md-9">
-        <?= $this->render('/settings/_header') ?>
         <?php
         echo GridView::widget([
             'dataProvider' => $dataProvider,

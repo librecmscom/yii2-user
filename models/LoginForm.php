@@ -73,10 +73,10 @@ class LoginForm extends Model
                     if ($this->user !== null) {
                         $confirmationRequired = $this->module->enableConfirmation && !$this->module->enableUnconfirmedLogin;
                         if ($confirmationRequired && !$this->user->getIsConfirmed()) {
-                            $this->addError($attribute, Yii::t('user', 'You need to confirm your email address'));
+                            $this->addError($attribute, Yii::t('user', 'You need to confirm your email address.'));
                         }
                         if ($this->user->getIsBlocked()) {
-                            $this->addError($attribute, Yii::t('user', 'Your account has been blocked'));
+                            $this->addError($attribute, Yii::t('user', 'Your account has been blocked.'));
                         }
                     }
                 }

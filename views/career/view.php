@@ -22,7 +22,6 @@ $this->params['breadcrumbs'][] = Yii::t('user', 'Show');
         <?= $this->render('/settings/_menu') ?>
     </div>
     <div class="col-md-9">
-        <?= $this->render('/settings/_header') ?>
         <p>
             <?= Html::a(Yii::t('user', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
             <?= Html::a(Yii::t('user', 'Delete'), ['delete', 'id' => $model->id], [

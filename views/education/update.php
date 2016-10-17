@@ -3,9 +3,9 @@
 /*
  * @var yii\web\View $this
  */
-$this->title = Yii::t('user', 'Update Education: ') . ' ' . $model->school;
+$this->title = Yii::t('user', 'Update Educational experience');
 $this->params['breadcrumbs'][] = [
-    'label' => Yii::t('user', 'Educations'),
+    'label' => Yii::t('user', 'Educational experience'),
     'url' => ['index']
 ];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = Yii::t('user', 'Update');
         <?= $this->render('/settings/_menu') ?>
     </div>
     <div class="col-md-9">
-        <?= $this->render('/settings/_header') ?>
         <?= $this->render('_form', ['model' => $model]) ?>
     </div>
 </div>

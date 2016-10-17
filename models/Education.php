@@ -63,9 +63,9 @@ class Education extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'school' => Yii::t('user', 'Education School'),
+            'school' => Yii::t('user', 'School'),
             'department' => Yii::t('user', 'Education Department'),
-            'degree' => Yii::t('user', 'Education Degree'),
+            'degree' => Yii::t('user', 'Degree'),
             'date' => Yii::t('user', 'Enrollment Year'),
         ];
     }

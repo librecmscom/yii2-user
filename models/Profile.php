@@ -59,6 +59,7 @@ class Profile extends ActiveRecord
             ['website', 'url'],
             ['address', 'string'],
             ['introduction', 'string'],
+            ['bio', 'string'],
             [['public_email', 'nickname', 'timezone', 'location', 'website'], 'string', 'max' => 255],
 
         ];
@@ -78,8 +79,8 @@ class Profile extends ActiveRecord
             'address' => Yii::t('user', 'Address'),
             'website' => Yii::t('user', 'Website'),
             'timezone' => Yii::t('user', 'Time zone'),
-            'bio' => Yii::t('user', 'Bio'),
             'introduction' => Yii::t('user', 'Introduction'),
+            'bio' => Yii::t('user', 'Bio'),
         ];
     }
 
