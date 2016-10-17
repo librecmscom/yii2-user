@@ -9,6 +9,7 @@ namespace yuncms\user\models;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
 use yuncms\user\ModuleTrait;
@@ -76,13 +77,18 @@ class AvatarForm extends Model
             $user = $this->getUser();
             $avatarPath = $this->getModule()->getAvatarPath($user->id);
 
-            //按提交剪切
-            if(!empty($this->x) && !empty($this->y)){
-                Image::crop($this->file->tempName, 200, 200, [$this->x, $this->y])->save($avatarPath . '/avatar_big.jpg');
-            } else {
-                Image::crop($this->file->tempName, 200, 200)->save($avatarPath . '/avatar_big.jpg', ['quality' => 100]);
-            }
+            list($width, $height, $type, $attr) = getimagesize($this->file->tempName);
 
+            if ($width < 200 && $height < 200) {
+                file_put_contents($avatarPath . '/avatar_big.jpg', file_get_contents($this->file->tempName));
+            } else {
+                //按提交剪切
+                if (!empty($this->x) && !empty($this->y)) {
+                    Image::crop($this->file->tempName, 200, 200, [$this->x, $this->y])->save($avatarPath . '/avatar_big.jpg');
+                } else {
+                    Image::crop($this->file->tempName, 200, 200)->save($avatarPath . '/avatar_big.jpg', ['quality' => 100]);
+                }
+            }
             //缩放
             Image::thumbnail($avatarPath . '/avatar_big.jpg', 128, 128)->save($avatarPath . '/avatar_middle.jpg', ['quality' => 100]);
 

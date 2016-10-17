@@ -526,6 +526,11 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
 
+    /**
+     * 获取头像Url
+     * @param string $size
+     * @return string
+     */
     public function getAvatar($size = 'big')
     {
         $size = in_array($size, ['big', 'middle', 'small']) ? $size : 'big';

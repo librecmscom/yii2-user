@@ -26,6 +26,7 @@ class m160918_100920_create_user_table extends Migration
             'password_hash' => $this->string()->notNull(),
             'amount' => $this->decimal(10, 2)->defaultValue('0.00'),
             'point' => $this->integer()->defaultValue(0),
+            'avatar' => $this->boolean()->defaultValue(false),
             'confirmed_at' => $this->integer(),
             'unconfirmed_email' => $this->string(255),
             'blocked_at' => $this->integer()->unsigned(),
