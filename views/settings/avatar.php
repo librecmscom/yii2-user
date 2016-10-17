@@ -36,73 +36,33 @@ $this->title = Yii::t('user', 'My Portrait');
                 <?= $form->field($model, 'y')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'width')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'height')->hiddenInput()->label(false) ?>
+                <div class="docs-buttons">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" data-method="reset" title="重设">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="重设">
+                                <span class="fa fa-refresh"></span>
+                            </span>
+                        </button>
 
 
-                    <div class="docs-buttons">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1"
-                                    title="放大">
-                    <span class="docs-tooltip" data-toggle="tooltip" title="放大">
-                        <span class="fa fa-search-plus"></span>
-                    </span>
-                            </button>
-                            <button type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1"
-                                    title="缩小">
-                    <span class="docs-tooltip" data-toggle="tooltip" title="缩小">
-                        <span class="fa fa-search-minus"></span>
-                    </span>
-                            </button>
-                        </div>
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary" data-method="move" data-option="-10"
-                                    data-second-option="0" title="左移">
-                    <span class="docs-tooltip" data-toggle="tooltip" title="左移">
-                        <span class="fa fa-arrow-left"></span>
-                    </span>
-                            </button>
-                            <button type="button" class="btn btn-primary" data-method="move" data-option="10"
-                                    data-second-option="0" title="右移">
-                    <span class="docs-tooltip" data-toggle="tooltip" title="右移">
-                        <span class="fa fa-arrow-right"></span>
-                    </span>
-                            </button>
-                            <button type="button" class="btn btn-primary" data-method="move" data-option="0"
-                                    data-second-option="-10" title="上移">
-                    <span class="docs-tooltip" data-toggle="tooltip" title="上移">
-                        <span class="fa fa-arrow-up"></span>
-                    </span>
-                            </button>
-                            <button type="button" class="btn btn-primary" data-method="move" data-option="0"
-                                    data-second-option="10" title="下移">
-                    <span class="docs-tooltip" data-toggle="tooltip" title="下移">
-                        <span class="fa fa-arrow-down"></span>
-                    </span>
-                            </button>
-                        </div>
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary" data-method="reset" title="重设">
-                    <span class="docs-tooltip" data-toggle="tooltip" title="重设">
-                        <span class="fa fa-refresh"></span>
-                    </span>
-                            </button>
-
-                            <label class="btn btn-primary btn-upload" for="inputImage" title="上传头像">
-                                <input type="hidden" name="AvatarForm[file]" value="">
-                                <input type="file" id="inputImage"
-                                                                                             class="sr-only"
-                                                                                             name="AvatarForm[file]"
-                                                                                             accept="image/*">                    <span
-                                    class="docs-tooltip" data-toggle="tooltip" title="上传头像">
+                        <label class="btn btn-primary btn-upload" for="inputImage" title="上传头像">
+                            <input type="hidden" name="AvatarForm[file]" value="">
+                            <?= $form->field($model, 'file', [
+                                'template' => '{input}'
+                            ])->label(false)->fileInput()->hiddenInput() ?>
+                            <input type="file" id="inputImage"
+                                   class="sr-only"
+                                   name="AvatarForm[file]"
+                                   accept="image/*">                    <span
+                                class="docs-tooltip" data-toggle="tooltip" title="上传头像">
                         <span class="fa fa-upload"></span>
                     </span>
-                            </label>
-                            <?= Html::submitButton('<span class="fa fa-check"></span>', ['class' => 'btn btn-primary']) ?>
+                        </label>
+                        <?= Html::submitButton('<span class="fa fa-check"></span>', ['class' => 'btn btn-primary']) ?>
 
-                        </div>
                     </div>
-                    <?php ActiveForm::end(); ?>
+                </div>
+                <?php ActiveForm::end(); ?>
             </div>
             <div class="col-lg-6">
                 <div class="docs-preview clearfix">

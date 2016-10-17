@@ -3,8 +3,8 @@ $(function () {
     var $image = $('#image');
     var $dataX = $('#x');
     var $dataY = $('#y');
-    var $dataHeight = $('#h');
-    var $dataWidth = $('#w');
+    var $dataHeight = $('#height');
+    var $dataWidth = $('#width');
     var options = {
         viewMode: 1,
         dragMode: 'move',
