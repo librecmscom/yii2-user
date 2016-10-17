@@ -8,6 +8,7 @@
 namespace yuncms\user;
 
 use Yii;
+use yii\helpers\FileHelper;
 use yuncms\user\models\Doing;
 use yuncms\user\models\Notification;
 
@@ -129,6 +130,10 @@ class Module extends \yii\base\Module
         'settings/<action:\w+>' => 'settings/<action>'
     ];
 
+    public $avatarUrl = '@uploadUrl/avatar';
+
+    public $avatarPath = '@uploads/avatar';
+
     /**
      * @inheritdoc
      */
@@ -145,6 +150,44 @@ class Module extends \yii\base\Module
             return true;
         }
         return false;
+    }
+
+    /**
+     * 返回头像跟Url
+     * @return bool|string
+     */
+    public function getAvatarUrl()
+    {
+        return Yii::getAlias($this->avatarUrl);
+    }
+
+    /**
+     * 获取头像路径
+     * @param int $userId 用户ID
+     * @return string
+     */
+    public function getAvatarPath($userId)
+    {
+        $avatarPath = Yii::getAlias($this->avatarPath . DIRECTORY_SEPARATOR . $this->getAvatarHome($userId));
+        if (!is_dir($avatarPath)) {
+            FileHelper::createDirectory($avatarPath);
+        }
+        return $avatarPath;
+    }
+
+    /**
+     * 获取头像路径
+     *
+     * @param int $userId 用户ID
+     * @return string
+     */
+    public function getAvatarHome($userId)
+    {
+        $id = sprintf("%09d", $userId);
+        $dir1 = substr($id, 0, 3);
+        $dir2 = substr($id, 3, 2);
+        $dir3 = substr($id, 5, 2);
+        return $dir1 . '/' . $dir2 . '/' . $dir3;
     }
 
     /**

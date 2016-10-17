@@ -74,13 +74,21 @@ class AvatarForm extends Model
     {
         if ($this->validate()) {
             $user = $this->getUser();
+            $avatarPath = $this->getModule()->getAvatarPath($user->id);
 
-            $module = $this->getModule();
-            if ($module->saveAvatar($user->id, $this->portrait->tempName)) {
-                $user->avatar = true;
-                $user->save();
-                return true;
+            //按提交剪切
+            if(!empty($this->x) && !empty($this->y)){
+                Image::crop($this->file->tempName, 200, 200, [$this->x, $this->y])->save($avatarPath . '/avatar_big.jpg');
+            } else {
+                Image::crop($this->file->tempName, 200, 200)->save($avatarPath . '/avatar_big.jpg', ['quality' => 100]);
             }
+
+            //缩放
+            Image::thumbnail($avatarPath . '/avatar_big.jpg', 128, 128)->save($avatarPath . '/avatar_middle.jpg', ['quality' => 100]);
+
+            Image::thumbnail($avatarPath . '/avatar_big.jpg', 48, 48)->save($avatarPath . '/avatar_small.jpg', ['quality' => 100]);
+
+            return true;
         }
         return false;
     }
