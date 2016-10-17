@@ -12,6 +12,7 @@
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "^2.0.0",
+        "xutl/yii2-cropper-asset": "~1.0",
         "codeception/specify": "^0.4.3",
         "codeception/verify": "^0.3.1"
     },
