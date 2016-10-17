@@ -1,34 +1,14 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Json;
-use xutl\cropper\CropperAsset;
+use yuncms\user\CropperAsset;
 
 /*
  * @var yii\web\View $this
  * @var yuncms\user\models\PortraitForm $model
  */
-
+CropperAsset::register($this);
 $this->title = Yii::t('user', 'My Portrait');
-$this->registerJsFile('//open.web.meitu.com/sources/xiuxiu.js');
-$postArgs = [
-    Yii::$app->getRequest()->csrfParam => Yii::$app->getRequest()->getCsrfToken(),
-    'PortraitForm' => ['portrait' => ''],
-];
-$this->registerJs('
-        xiuxiu.embedSWF("altContent", 5, "100%", "420px");
-        xiuxiu.setUploadArgs(' . Json::encode($postArgs) . ');
-        xiuxiu.setUploadURL("' . Yii::$app->urlManager->createAbsoluteUrl('/user/settings/portrait') . '");
-        xiuxiu.setUploadType(2);
-        xiuxiu.setUploadDataFieldName("portrait");
-        xiuxiu.onInit = function (){
-            
-        }
-        xiuxiu.onUploadResponse = function (data) {
-            if(data == 200){
-                window.location.reload();
-            }
-        }
-');
 ?>
 
 <?= $this->render('/_alert', ['module' => Yii::$app->getModule('user')]) ?>
