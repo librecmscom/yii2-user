@@ -93,7 +93,8 @@ class AvatarForm extends Model
             Image::thumbnail($avatarPath . '/avatar_big.jpg', 128, 128)->save($avatarPath . '/avatar_middle.jpg', ['quality' => 100]);
 
             Image::thumbnail($avatarPath . '/avatar_big.jpg', 48, 48)->save($avatarPath . '/avatar_small.jpg', ['quality' => 100]);
-
+            $user->avatar = true;
+            $user->save();
             return true;
         }
         return false;

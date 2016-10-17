@@ -535,7 +535,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $size = in_array($size, ['big', 'middle', 'small']) ? $size : 'big';
         $avatarFileName = "_avatar_$size.jpg";
-        if (true) {
+        if ($this->avatar) {
             $id = sprintf("%09d", $this->id);
             return $this->getModule()->getAvatarUrl() . '/' . $this->getModule()->getAvatarHome($id) . substr($id, -2) . $avatarFileName;
         } else {
