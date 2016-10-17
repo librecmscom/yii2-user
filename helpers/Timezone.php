@@ -23,20 +23,22 @@ class Timezone
      */
     public static function getAll()
     {
-        $timezones = [];
-        $identifiers = DateTimeZone::listIdentifiers();
-        foreach ($identifiers as $identifier) {
-            $date = new DateTime("now", new DateTimeZone($identifier));
-            $offsetText = $date->format("P");
-            $offsetInHours = $date->getOffset() / 60 / 60;
-            $timezones[] = [
-                "identifier" => $identifier,
-                "name" => "(GMT{$offsetText}) $identifier",
-                "offset" => $offsetInHours
+        $timeZones = [];
+        $timeZoneIdentifiers = \DateTimeZone::listIdentifiers();
+
+        foreach ($timeZoneIdentifiers as $timeZone) {
+            $date = new \DateTime('now', new \DateTimeZone($timeZone));
+            $offset = $date->getOffset() / 60 / 60;
+            $timeZones[] = [
+                'timezone' => $timeZone,
+                'name' => "{$timeZone} (UTC " . ($offset > 0 ? '+' : '') . "{$offset})",
+                'offset' => $offset
             ];
         }
-        ArrayHelper::multisort($timezones, "offset", SORT_ASC, SORT_NUMERIC);
-        return $timezones;
+
+        ArrayHelper::multisort($timeZones, 'offset', SORT_DESC, SORT_NUMERIC);
+
+        return $timeZones;
     }
 
 }

@@ -41,7 +41,7 @@ use yuncms\user\helpers\Password;
  * @property integer $flags
  *
  * Defined relations:
- * @property Account[] $accounts
+ * @property Social[] $accounts
  * @property Profile $profile
  *
  * Dependencies:
@@ -355,7 +355,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * 尝试用户确认
+     * 电子邮件确认
      *
      * @param string $code Confirmation code.
      *
@@ -391,15 +391,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function attemptEmailChange($code)
     {
         /** @var Token $token */
-        $token = Token::find(['user_id' => $this->id, 'code' => $code])->andWhere(['in', 'type', [Token::TYPE_CONFIRM_NEW_EMAIL, Token::TYPE_CONFIRM_OLD_EMAIL]])->one();
+        $token = Token::find()->where(['user_id' => $this->id, 'code' => $code])->andWhere(['in', 'type', [Token::TYPE_CONFIRM_NEW_EMAIL, Token::TYPE_CONFIRM_OLD_EMAIL]])->one();
         if (empty($this->unconfirmed_email) || $token === null || $token->isExpired) {
             Yii::$app->session->setFlash('danger', Yii::t('user', 'Your confirmation token is invalid or expired'));
         } else {
             $token->delete();
-
             if (empty($this->unconfirmed_email)) {
                 Yii::$app->session->setFlash('danger', Yii::t('user', 'An error occurred processing your request'));
-            } elseif (User::find(['email' => $this->unconfirmed_email])->exists() == false) {
+            } elseif (static::find()->where(['email' => $this->unconfirmed_email])->exists() == false) {
                 if ($this->module->emailChangeStrategy == Module::STRATEGY_SECURE) {
                     switch ($token->type) {
                         case Token::TYPE_CONFIRM_NEW_EMAIL:
@@ -467,8 +466,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Generates new username based on email address, or creates new username
-     * like "user1".
+     * 使用email地址生成一个新的用户名
      */
     public function generateUsername()
     {
@@ -521,7 +519,6 @@ class User extends ActiveRecord implements IdentityInterface
         if ($insert) {
             if ($this->_profile == null) {
                 $this->_profile = new Profile();
-                $this->_profile->public_email = $this->email;
             }
             $this->_profile->link('user', $this);
         }

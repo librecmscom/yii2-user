@@ -35,6 +35,8 @@ class Profile extends ActiveRecord
     // 女
     const SEX_FEMALE = 2;
 
+    public $sexName;
+
     /**
      * @inheritdoc
      */
@@ -49,6 +51,7 @@ class Profile extends ActiveRecord
     public function rules()
     {
         return [
+            ['timezone', 'validateTimeZone'],
             ['mobile', 'string', 'min' => 11, 'max' => 11],
             ['sex', 'default', 'value' => self::SEX_UNCONFIRMED],
             ['sex', 'in', 'range' => [self::SEX_MALE, self::SEX_FEMALE, self::SEX_UNCONFIRMED]],
@@ -85,7 +88,7 @@ class Profile extends ActiveRecord
      */
     public function getSexName()
     {
-        switch ($this->gender) {
+        switch ($this->sex) {
             case self::SEX_UNCONFIRMED:
                 $genderName = Yii::t('user', 'Secrecy');
                 break;
@@ -102,10 +105,71 @@ class Profile extends ActiveRecord
     }
 
     /**
+     * Validates the timezone attribute.
+     * Adds an error when the specified time zone doesn't exist.
+     * @param string $attribute the attribute being validated
+     * @param array $params values for the placeholders in the error message
+     */
+    public function validateTimeZone($attribute, $params)
+    {
+        if (!in_array($this->$attribute, timezone_identifiers_list())) {
+            $this->addError($attribute, \Yii::t('user', 'Time zone is not valid'));
+        }
+    }
+
+    /**
+     * Get the user's time zone.
+     * Defaults to the application timezone if not specified by the user.
+     * @return \DateTimeZone
+     */
+    public function getTimeZone()
+    {
+        try {
+            return new \DateTimeZone($this->timezone);
+        } catch (\Exception $e) {
+            // Default to application time zone if the user hasn't set their time zone
+            return new \DateTimeZone(\Yii::$app->timeZone);
+        }
+    }
+
+    /**
+     * Set the user's time zone.
+     * @param \DateTimeZone $timezone the timezone to save to the user's profile
+     */
+    public function setTimeZone(\DateTimeZone $timeZone)
+    {
+        $this->setAttribute('timezone', $timeZone->getName());
+    }
+
+    /**
+     * Converts DateTime to user's local time
+     * @param \DateTime the datetime to convert
+     * @return \DateTime
+     */
+    public function toLocalTime(\DateTime $dateTime = null)
+    {
+        if ($dateTime === null) {
+            $dateTime = new \DateTime();
+        }
+
+        return $dateTime->setTimezone($this->getTimeZone());
+    }
+
+
+    /**
      * @return \yii\db\ActiveQueryInterface
      */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * This method is called when the AR object is created and populated with the query result.
+     */
+    public function afterFind()
+    {
+        parent::afterFind();
+        $this->sexName = $this->getSexName();
     }
 }

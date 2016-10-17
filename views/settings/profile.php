@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'website') ?>
 
-        <?= $form->field($model, 'timezone')->dropDownList(ArrayHelper::map(Timezone::getAll(), 'identifier', 'name')); ?>
+        <?= $form->field($model, 'timezone')->dropDownList(ArrayHelper::map(Timezone::getAll(), 'timezone', 'name')); ?>
 
         <?= $form->field($model, 'introduction')->textarea() ?>
 

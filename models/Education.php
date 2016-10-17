@@ -52,17 +52,8 @@ class Education extends ActiveRecord
     public function rules()
     {
         return [
-            ['school', 'filter', 'filter' => 'trim'],
-            ['school', 'required'],
-
-            ['department', 'filter', 'filter' => 'trim'],
-            ['department', 'required'],
-
-            ['degree', 'filter', 'filter' => 'trim'],
-            ['degree', 'required'],
-
-            ['date', 'filter', 'filter' => 'trim'],
-            ['date', 'required'],
+            [['school', 'department', 'degree', 'date'], 'required'],
+            [['school', 'department', 'degree', 'date'], 'filter', 'filter' => 'trim'],
         ];
     }
 

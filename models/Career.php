@@ -13,7 +13,7 @@ use yii\behaviors\TimestampBehavior;
 
 
 /**
- * This is the model class for table "education".
+ * This is the model class for table "career".
  *
  * @property integer $user_id
  * @property string $school
@@ -49,23 +49,8 @@ class Career extends ActiveRecord
     public function rules()
     {
         return [
-            ['name', 'filter', 'filter' => 'trim'],
-            ['name', 'required'],
-
-            ['position', 'filter', 'filter' => 'trim'],
-            ['position', 'required'],
-
-            ['city', 'filter', 'filter' => 'trim'],
-            ['city', 'required'],
-
-            ['description', 'filter', 'filter' => 'trim'],
-            ['description', 'required'],
-
-            ['start_at', 'filter', 'filter' => 'trim'],
-            ['start_at', 'required'],
-
-            ['end_at', 'filter', 'filter' => 'trim'],
-            ['end_at', 'required'],
+            [['name', 'position', 'city', 'description', 'start_at', 'end_at',], 'required'],
+            [['name', 'position', 'city', 'description', 'start_at', 'end_at'], 'filter', 'filter' => 'trim'],
         ];
     }
 
