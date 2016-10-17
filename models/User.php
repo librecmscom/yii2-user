@@ -18,6 +18,7 @@ use yii\web\Application as WebApplication;
 use yuncms\user\Module;
 use yuncms\user\ModuleTrait;
 use yuncms\user\helpers\Password;
+use yuncms\user\UserAsset;
 
 
 /**
@@ -524,9 +525,27 @@ class User extends ActiveRecord implements IdentityInterface
         }
     }
 
-    public function getAvatar()
+    public function getAvatar($size = 'big')
     {
-        return '';
+        if (false) {
+            return '';
+        } else {
+            switch ($size) {
+                case 'big':
+                    $avatarUrl = '/img/no_avatar_big.gif';
+                    break;
+                case 'middle':
+                    $avatarUrl = '/img/no_avatar_middle.gif';
+                    break;
+                case 'small':
+                    $avatarUrl = '/img/no_avatar_small.gif';
+                    break;
+                default:
+                    $avatarUrl = '/img/no_avatar_big.gif';
+            }
+            $avatarUrlRoot = UserAsset::register(Yii::$app->view);
+            return $avatarUrlRoot->baseUrl . $avatarUrl;
+        }
     }
 
     /**
