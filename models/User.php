@@ -537,7 +537,7 @@ class User extends ActiveRecord implements IdentityInterface
         $avatarFileName = "_avatar_$size.jpg";
         if ($this->avatar) {
             $id = sprintf("%09d", $this->id);
-            return $this->getModule()->getAvatarUrl() . '/' . $this->getModule()->getAvatarHome($id) . substr($id, -2) . $avatarFileName;
+            return Yii::getAlias('@uploadUrl/avatar/') . $this->getModule()->getAvatarHome($id) . substr($id, -2) . $avatarFileName;
         } else {
             switch ($size) {
                 case 'big':

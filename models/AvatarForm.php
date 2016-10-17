@@ -75,7 +75,11 @@ class AvatarForm extends Model
     {
         if ($this->validate()) {
             $user = $this->getUser();
-            $avatarPath = $this->getModule()->getAvatarPath($user->id);
+
+            $avatarPath = Yii::getAlias('@uploads/avatar/' . $this->getModule()->getAvatarHome($user->id));
+            if (!is_dir($avatarPath)) {
+                FileHelper::createDirectory($avatarPath);
+            }
 
             list($width, $height, $type, $attr) = getimagesize($this->file->tempName);
 

@@ -151,30 +151,7 @@ class Module extends \yii\base\Module
         }
         return false;
     }
-
-    /**
-     * 返回头像跟Url
-     * @return bool|string
-     */
-    public function getAvatarUrl()
-    {
-        return Yii::getAlias($this->avatarUrl);
-    }
-
-    /**
-     * 获取头像路径
-     * @param int $userId 用户ID
-     * @return string
-     */
-    public function getAvatarPath($userId)
-    {
-        $avatarPath = Yii::getAlias($this->avatarPath . DIRECTORY_SEPARATOR . $this->getAvatarHome($userId));
-        if (!is_dir($avatarPath)) {
-            FileHelper::createDirectory($avatarPath);
-        }
-        return $avatarPath;
-    }
-
+    
     /**
      * 获取头像路径
      *
