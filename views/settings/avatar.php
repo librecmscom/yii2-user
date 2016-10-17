@@ -25,7 +25,7 @@ $this->title = Yii::t('user', 'My Portrait');
         <div class="row">
             <div class="col-lg-6">
                 <div class="img-container">
-                    <?= Html::img(Yii::$app->user->identity->avatar, ['id' => 'image', 'alt' => Yii::$app->user->identity->username]); ?>
+                    <?= Html::img(Yii::$app->user->identity->getAvatar('big'), ['id' => 'image', 'alt' => Yii::$app->user->identity->username]); ?>
                 </div>
                 <?php $form = ActiveForm::begin([
                     'options' => [
