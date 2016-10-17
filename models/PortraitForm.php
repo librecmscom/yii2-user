@@ -9,6 +9,9 @@ namespace yuncms\user\models;
 
 use Yii;
 use yii\base\Model;
+use yii\web\UploadedFile;
+use yii\imagine\Image;
+
 //use yuncms\system\models\File;
 //use yuncms\system\services\FileObject;
 
@@ -21,19 +24,25 @@ class PortraitForm extends Model
     /**
      * @var \yii\web\UploadedFile 头像上传字段
      */
-    public $portrait;
+    public $file;
+
+    public $x;
+
+    public $y;
+
+    /**
+     * @var int 宽度
+     */
+    public $width;
+
+    /**
+     * @var int 高度
+     */
+    public $height;
 
     /** @var Profile */
     private $_profile;
 
-    /** @return User */
-    public function getProfile()
-    {
-        if ($this->_profile == null) {
-            $this->_profile = Yii::$app->user->identity->profile;
-        }
-        return $this->_profile;
-    }
 
     /**
      * @inheritdoc
@@ -41,8 +50,10 @@ class PortraitForm extends Model
     public function rules()
     {
         return [
-            [['portrait'], 'required'],
-            [['portrait'], 'file', 'extensions' => 'gif, jpg, png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('app', 'File has to be smaller than 2MB')],
+            [['x', 'y', 'width', 'height'], 'required'],
+            [['x', 'y', 'width', 'height'], 'integer'],
+            [['file'], 'required'],
+            [['file'], 'file', 'extensions' => 'gif, jpg, png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('app', 'File has to be smaller than 2MB')],
         ];
     }
 
@@ -75,5 +86,20 @@ class PortraitForm extends Model
             }
         }
         return false;
+    }
+
+    /** @return User */
+    public function getProfile()
+    {
+        if ($this->_profile == null) {
+            $this->_profile = Yii::$app->user->identity->profile;
+        }
+        return $this->_profile;
+    }
+
+    public function beforeValidate()
+    {
+        $this->file = UploadedFile::getInstance($this, 'file');
+        return parent::beforeValidate();
     }
 }
