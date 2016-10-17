@@ -18,8 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $this->render('_menu') ?>
     </div>
     <div class="col-md-9">
-        <?= $this->render('_header') ?>
-
         <div class="alert alert-info">
             <p><?= Yii::t('user', 'You can connect multiple accounts to be able to log in using them') ?>.</p>
         </div>

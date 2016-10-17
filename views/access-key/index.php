@@ -7,7 +7,7 @@ use yii\grid\GridView;
  * @var yii\web\View $this
  */
 
-$this->title = Yii::t('user', 'Careers');
+$this->title = Yii::t('user', 'Access Keys');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('/_alert', ['module' => Yii::$app->getModule('user')]) ?>
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
         echo GridView::widget([
             'dataProvider' => $dataProvider,
-            'layout'=>"{items}\n{pager}",
+            'layout' => "{items}\n{pager}",
             'columns' => [
                 'id',
                 'token',
@@ -28,13 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'rate_period',
                 'status:boolean',
                 'created_at:datetime',
-                ['class' => 'yii\grid\ActionColumn',],
+                ['class' => 'yii\grid\ActionColumn', 'template' => '{delete}'],
             ],
         ]);
         ?>
         <div class="form-group">
             <div class="edu-btn">
-                <?= Html::a(Yii::t('user', 'Create Career'), ['create'], ['class' => 'btn btn-primary btn-block']) ?>
+                <?= Html::a(Yii::t('user', 'Create'), ['create'], ['class' => 'btn btn-primary btn-block']) ?>
                 <br>
             </div>
         </div>

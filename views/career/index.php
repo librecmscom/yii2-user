@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
         <div class="form-group">
             <div class="edu-btn">
-                <?= Html::a(Yii::t('user', 'Create Career'), ['create'], ['class' => 'btn btn-primary btn-block']) ?>
+                <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-primary btn-block']) ?>
                 <br>
             </div>
         </div>
