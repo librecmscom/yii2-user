@@ -11,9 +11,7 @@ use Yii;
 use yii\base\Model;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
-
-//use yuncms\system\models\File;
-//use yuncms\system\services\FileObject;
+use yuncms\user\ModuleTrait;
 
 /**
  * Class PortraitForm
@@ -21,6 +19,8 @@ use yii\imagine\Image;
  */
 class AvatarForm extends Model
 {
+    use ModuleTrait;
+
     /**
      * @var \yii\web\UploadedFile 头像上传字段
      */
@@ -43,14 +43,12 @@ class AvatarForm extends Model
     /** @var User */
     private $_user;
 
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['x', 'y', 'width', 'height'], 'required'],
             [['x', 'y', 'width', 'height'], 'integer'],
             [['file'], 'required'],
             [['file'], 'file', 'extensions' => 'gif, jpg, png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('app', 'File has to be smaller than 2MB')],
@@ -77,8 +75,7 @@ class AvatarForm extends Model
         if ($this->validate()) {
             $user = $this->getUser();
 
-            /** @var \yii\system\Module $module */
-            $module = Yii::$app->getModule('system');
+            $module = $this->getModule();
             if ($module->saveAvatar($user->id, $this->portrait->tempName)) {
                 $user->avatar = true;
                 $user->save();

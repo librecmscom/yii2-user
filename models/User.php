@@ -524,6 +524,11 @@ class User extends ActiveRecord implements IdentityInterface
         }
     }
 
+    public function getAvatar()
+    {
+        return '';
+    }
+
     /**
      * @inheritdoc
      */

@@ -23,9 +23,9 @@ $this->title = Yii::t('user', 'My Portrait');
     <div class="col-md-9">
         <?= $this->render('_header') ?>
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-6">
                 <div class="img-container">
-                    <img id="image" src="/uploads/avatar/000/02/68/34_avatar_big.jpg?1856714839" alt="">
+                    <?= Html::img(Yii::$app->user->identity->avatar, ['id' => 'image', 'alt' => Yii::$app->user->identity->username]); ?>
                 </div>
                 <?php $form = ActiveForm::begin([
                     'options' => [
@@ -43,23 +43,14 @@ $this->title = Yii::t('user', 'My Portrait');
                                 <span class="fa fa-refresh"></span>
                             </span>
                         </button>
-
-
                         <label class="btn btn-primary btn-upload" for="inputImage" title="上传头像">
                             <input type="hidden" name="AvatarForm[file]" value="">
-                            <?= $form->field($model, 'file', [
-                                'template' => '{input}'
-                            ])->label(false)->fileInput()->hiddenInput() ?>
-                            <input type="file" id="inputImage"
-                                   class="sr-only"
-                                   name="AvatarForm[file]"
-                                   accept="image/*">                    <span
-                                class="docs-tooltip" data-toggle="tooltip" title="上传头像">
-                        <span class="fa fa-upload"></span>
-                    </span>
+                            <input type="file" id="inputImage" class="sr-only" name="AvatarForm[file]" accept="image/*">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="上传头像">
+                                <span class="fa fa-upload"></span>
+                            </span>
                         </label>
                         <?= Html::submitButton('<span class="fa fa-check"></span>', ['class' => 'btn btn-primary']) ?>
-
                     </div>
                 </div>
                 <?php ActiveForm::end(); ?>

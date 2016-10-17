@@ -86,7 +86,7 @@ class SettingsController extends Controller
     {
         $model = new AvatarForm();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', Yii::t('user', 'Your profile has been updated'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('user', 'Your avatar has been updated'));
         }
         return $this->render('avatar', [
             'model' => $model,
