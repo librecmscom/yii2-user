@@ -558,15 +558,6 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * This method is called when the AR object is created and populated with the query result.
-     */
-    public function afterFind()
-    {
-        parent::afterFind();
-        $this->avatar = $this->getAvatar();
-    }
-
-    /**
      * @inheritdoc
      */
     public static function findIdentityByAccessToken($token, $type = null)
