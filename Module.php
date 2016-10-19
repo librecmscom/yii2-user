@@ -126,6 +126,7 @@ class Module extends \yii\base\Module
         '<action:(register|resend)>' => 'registration/<action>',
         'confirm/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'registration/confirm',
         'forgot' => 'recovery/request',
+        'notice' => 'notification/index',
         'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
         'settings/<action:\w+>' => 'settings/<action>'
     ];
@@ -151,7 +152,7 @@ class Module extends \yii\base\Module
         }
         return false;
     }
-    
+
     /**
      * 获取头像路径
      *
