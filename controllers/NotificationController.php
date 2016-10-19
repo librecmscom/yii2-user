@@ -49,7 +49,7 @@ class NotificationController extends Controller
      */
     public function actionIndex()
     {
-        $query = Notification::find()->where(['to_user_id' => Yii::$app->user->getId()]);
+        $query = Notification::find()->where(['to_user_id' => Yii::$app->user->id]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -62,7 +62,7 @@ class NotificationController extends Controller
      */
     public function actionReadAll()
     {
-        Notification::setReadAll(Yii::$app->user->getId());
+        Notification::setReadAll(Yii::$app->user->id);
         Yii::$app->session->setFlash('Successful operation.');
         return $this->redirect(['index']);
     }
@@ -75,7 +75,7 @@ class NotificationController extends Controller
     public function actionUnreadNotifications()
     {
         $response = Notification::getDb()->cache(function ($db) {
-            return Notification::find()->where(['to_user_id' => Yii::$app->user->getId(), 'status' => 10])->count();
+            return Notification::find()->where(['to_user_id' => Yii::$app->user->id, 'status' => 10])->count();
         }, 60);
         return $response;
     }
