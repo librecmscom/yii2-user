@@ -26,7 +26,6 @@ class m160919_095812_create_user_visit_table extends Migration
             'user_id' => $this->integer()->notNull(),
             'visit_id' => $this->integer()->notNull(),
             'created_at' => $this->integer()->unsigned()->notNull(),
-            'updated_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
         $this->addForeignKey('{{%user_visit_ibfk_1}}', '{{%user_visit}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
         $this->addForeignKey('{{%user_visit_ibfk_2}}', '{{%user_visit}}', 'visit_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');

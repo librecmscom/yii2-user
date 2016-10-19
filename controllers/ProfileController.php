@@ -63,7 +63,12 @@ class ProfileController extends Controller
     public function actionShow($id)
     {
         if (!Yii::$app->user->getIsGuest() && Yii::$app->user->getId() != $id) {
-            Visit::Add($id, Yii::$app->user->getId());
+            if ($id != Yii::$app->user->id) {
+                if (!Visit::find()->where(['user_id' => $id, 'visit_id' => Yii::$app->user->id])->exists()) {
+                    $visit = new Visit(['user_id' => $id, 'visit_id' => Yii::$app->user->id]);
+                    $visit->save();
+                }
+            }
         }
         return $this->render('show', ['model' => $this->findModel($id)]);
     }

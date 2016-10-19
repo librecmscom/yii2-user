@@ -37,7 +37,12 @@ class Visit extends ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className()
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                ],
+            ],
         ];
     }
 
@@ -47,8 +52,8 @@ class Visit extends ActiveRecord
     public function rules()
     {
         return [
-            ['visit_id', 'filter', 'filter' => 'trim'],
             ['visit_id', 'required'],
+            ['visit_id', 'filter', 'filter' => 'trim'],
         ];
     }
 
@@ -66,23 +71,5 @@ class Visit extends ActiveRecord
     public function getVisit()
     {
         return $this->hasOne(User::className(), ['id' => 'visit_id']);
-    }
-
-    /**
-     * 记录我的访客
-     *
-     * @param integer $user_id 我的ID
-     * @param integer $visit_id 访客ID
-     */
-    public static function Add($user_id, $visit_id)
-    {
-        if ($user_id != $visit_id) {
-            $visit = static::findOne(['user_id' => $user_id, 'visit_id' => $visit_id]);
-            if ($visit == null) {
-                $visit = new static(['user_id' => $user_id, 'visit_id' => $visit_id]);
-            }
-            $visit->save();
-        }
-
     }
 }
