@@ -26,7 +26,6 @@ class m160918_101419_create_user_login_history_table extends Migration
             'user_id' => $this->integer()->notNull(),
             'ip' => $this->string()->notNull(),
             'created_at' => $this->integer()->unsigned()->notNull(),
-            'updated_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
         $this->addForeignKey('{{%user_login_history_ibfk_1}}', '{{%user_login_history}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }

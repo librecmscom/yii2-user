@@ -30,7 +30,14 @@ class LoginHistory extends ActiveRecord
      */
     public function behaviors()
     {
-        return [TimestampBehavior::className()];
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                ],
+            ]
+        ];
     }
 
     /**

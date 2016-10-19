@@ -166,6 +166,15 @@ class Profile extends ActiveRecord
     }
 
     /**
+     * 是否是自己
+     * @return bool
+     */
+    public function isMe()
+    {
+        return $this->user_id == Yii::$app->user->id;
+    }
+
+    /**
      * This method is called when the AR object is created and populated with the query result.
      */
     public function afterFind()
