@@ -7,6 +7,7 @@
 namespace yuncms\user\controllers;
 
 use Yii;
+use yii\web\Response;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -74,9 +75,10 @@ class NotificationController extends Controller
      */
     public function actionUnreadNotifications()
     {
-        $response = Notification::getDb()->cache(function ($db) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $total = Notification::getDb()->cache(function ($db) {
             return Notification::find()->where(['to_user_id' => Yii::$app->user->id, 'status' => Notification::STATUS_UNREAD])->count();
         }, 60);
-        return $response;
+        return ['total'=>$total];
     }
 }

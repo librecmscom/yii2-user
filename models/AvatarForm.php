@@ -76,27 +76,25 @@ class AvatarForm extends Model
         if ($this->validate()) {
             $user = $this->getUser();
 
-            $avatarPath = Yii::getAlias('@uploads/avatar/' . $this->getModule()->getAvatarHome($user->id));
-            if (!is_dir($avatarPath)) {
-                FileHelper::createDirectory($avatarPath);
-            }
-
+            $avatarPath = $this->getModule()->getAvatarPath($user->id);
             list($width, $height, $type, $attr) = getimagesize($this->file->tempName);
 
+            $bigAvatarName = substr($user->id, -2) . '_avatar_big.jpg';
             if ($width < 200 && $height < 200) {
-                file_put_contents($avatarPath . '/avatar_big.jpg', file_get_contents($this->file->tempName));
+                file_put_contents($avatarPath . $bigAvatarName, file_get_contents($this->file->tempName));
             } else {
                 //按提交剪切
                 if (!empty($this->x) && !empty($this->y)) {
-                    Image::crop($this->file->tempName, 200, 200, [$this->x, $this->y])->save($avatarPath . '/avatar_big.jpg');
+                    Image::crop($this->file->tempName, 200, 200, [$this->x, $this->y])->save($avatarPath . '_avatar_big.jpg', ['quality' => 100]);
                 } else {
-                    Image::crop($this->file->tempName, 200, 200)->save($avatarPath . '/avatar_big.jpg', ['quality' => 100]);
+                    Image::crop($this->file->tempName, 200, 200)->save($avatarPath . '_avatar_big.jpg', ['quality' => 100]);
                 }
             }
+            unlink($this->file->tempName);
             //缩放
-            Image::thumbnail($avatarPath . '/avatar_big.jpg', 128, 128)->save($avatarPath . '/avatar_middle.jpg', ['quality' => 100]);
+            Image::thumbnail($avatarPath . '_avatar_big.jpg', 128, 128)->save($avatarPath . '_avatar_middle.jpg', ['quality' => 100]);
 
-            Image::thumbnail($avatarPath . '/avatar_big.jpg', 48, 48)->save($avatarPath . '/avatar_small.jpg', ['quality' => 100]);
+            Image::thumbnail($avatarPath . '_avatar_big.jpg', 48, 48)->save($avatarPath . '_avatar_small.jpg', ['quality' => 100]);
             $user->avatar = true;
             $user->save();
             return true;

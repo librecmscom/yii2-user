@@ -34,6 +34,7 @@ use yuncms\user\UserAsset;
  * @property string $unconfirmed_email
  * @property string $password_hash
  * @property string $auth_key
+ * @property bool $avatar
  * @property integer $registration_ip
  * @property integer $confirmed_at
  * @property integer $blocked_at
@@ -180,6 +181,15 @@ class User extends ActiveRecord implements IdentityInterface
     public function getIsBlocked()
     {
         return $this->blocked_at != null;
+    }
+
+    /**
+     * 返回用户是否有头像
+     * @return boolean Whether the user is blocked or not.
+     */
+    public function getIsAvatar()
+    {
+        return $this->avatar != 0;
     }
 
     /**
@@ -534,10 +544,9 @@ class User extends ActiveRecord implements IdentityInterface
     public function getAvatar($size = 'big')
     {
         $size = in_array($size, ['big', 'middle', 'small']) ? $size : 'big';
-        $avatarFileName = "_avatar_$size.jpg";
-        if ($this->avatar) {
-            $id = sprintf("%09d", $this->id);
-            return Yii::getAlias('@uploadUrl/avatar/') . $this->getModule()->getAvatarHome($id) . substr($id, -2) . $avatarFileName;
+        if ($this->getIsAvatar()) {
+            $avatarFileName = "_avatar_$size.jpg";
+            return $this->getModule()->getAvatarUrl($this->id) . $avatarFileName;
         } else {
             switch ($size) {
                 case 'big':

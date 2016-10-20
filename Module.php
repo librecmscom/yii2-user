@@ -154,6 +154,30 @@ class Module extends \yii\base\Module
     }
 
     /**
+     * 获取头像的存储路径
+     * @param int $userId
+     * @return string
+     */
+    public function getAvatarPath($userId)
+    {
+        $avatarPath = Yii::getAlias($this->avatarPath) . '/' . $this->getAvatarHome($userId);
+        if (!is_dir($avatarPath)) {
+            FileHelper::createDirectory($avatarPath);
+        }
+        return $avatarPath . substr($userId, -2);
+    }
+
+    /**
+     * 获取头像访问Url
+     * @param int $userId 用户ID
+     * @return string
+     */
+    public function getAvatarUrl($userId)
+    {
+        return Yii::getAlias($this->avatarUrl) . '/' . $this->getAvatarHome($userId) . substr($userId, -2);
+    }
+
+    /**
      * 获取头像路径
      *
      * @param int $userId 用户ID
@@ -165,7 +189,7 @@ class Module extends \yii\base\Module
         $dir1 = substr($id, 0, 3);
         $dir2 = substr($id, 3, 2);
         $dir3 = substr($id, 5, 2);
-        return $dir1 . '/' . $dir2 . '/' . $dir3;
+        return $dir1 . '/' . $dir2 . '/' . $dir3 . '/';
     }
 
     /**
