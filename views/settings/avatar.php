@@ -11,7 +11,7 @@ use yuncms\user\CropperAsset;
  */
 Asset::register($this);
 CropperAsset::register($this);
-$this->title = Yii::t('user', 'My Portrait');
+$this->title = Yii::t('user', 'My Avatar');
 ?>
 
 <?= $this->render('/_alert', ['module' => Yii::$app->getModule('user')]) ?>
@@ -44,8 +44,16 @@ $this->title = Yii::t('user', 'My Portrait');
                             </span>
                         </button>
                         <label class="btn btn-primary btn-upload" for="inputImage" title="<?=Yii::t('user','Upload avatar');?>">
-                            <input type="hidden" name="AvatarForm[file]" value="">
-                            <input type="file" id="inputImage" class="sr-only" name="AvatarForm[file]" accept="image/*">
+                            <?= $form->field($model, 'file', [
+                                'options' => [
+                                    'tag' => false
+                                ],
+                                'inputOptions' => [
+                                    'class' => 'sr-only',
+                                    'id' => 'inputImage',
+                                    'accept' => 'image/*'
+                                ],
+                            ])->fileInput()->label(false)->error(false); ?>
                             <span class="docs-tooltip" data-toggle="tooltip" title="<?=Yii::t('user','Upload avatar');?>">
                                 <span class="fa fa-upload"></span>
                             </span>
