@@ -38,15 +38,15 @@ $this->title = Yii::t('user', 'My Portrait');
                 <?= $form->field($model, 'height')->hiddenInput()->label(false) ?>
                 <div class="docs-buttons">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" data-method="reset" title="重设">
-                            <span class="docs-tooltip" data-toggle="tooltip" title="重设">
+                        <button type="button" class="btn btn-primary" data-method="reset" title="<?=Yii::t('user','Reset');?>">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="<?=Yii::t('user','Reset');?>">
                                 <span class="fa fa-refresh"></span>
                             </span>
                         </button>
-                        <label class="btn btn-primary btn-upload" for="inputImage" title="上传头像">
+                        <label class="btn btn-primary btn-upload" for="inputImage" title="<?=Yii::t('user','Upload avatar');?>">
                             <input type="hidden" name="AvatarForm[file]" value="">
                             <input type="file" id="inputImage" class="sr-only" name="AvatarForm[file]" accept="image/*">
-                            <span class="docs-tooltip" data-toggle="tooltip" title="上传头像">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="<?=Yii::t('user','Upload avatar');?>">
                                 <span class="fa fa-upload"></span>
                             </span>
                         </label>

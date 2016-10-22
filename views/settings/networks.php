@@ -7,7 +7,7 @@ use yuncms\user\widgets\Connect;
  * @var yii\widgets\ActiveForm $form
  */
 
-$this->title = Yii::t('user', 'Networks');
+$this->title = Yii::t('user', 'Social network');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
