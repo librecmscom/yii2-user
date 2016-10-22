@@ -69,6 +69,7 @@ return [
     'Recovery message sent' => '',
     'Request new confirmation message' => '',
     'Save' => '',
+    'Sex' => '性别',
     'Secrecy' => '保密',
     'Show' => '',
     'Show Career: ' => '',
