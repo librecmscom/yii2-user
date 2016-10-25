@@ -129,7 +129,7 @@ class CareerController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Yii::$app->getUser()->identity->getCareers()->where(['id' => $id])->one()) !== null) {
+        if (($model = Career::findOne(['user_id' => Yii::$app->user->id, 'id' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException (Yii::t('user', 'The requested page does not exist.'));
