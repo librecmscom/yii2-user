@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
  * @var yuncms\user\models\User $model
  */
 ?>
-<?php $form = ActiveForm::begin(['layout'=>'horizontal']); ?>
+<?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 <fieldset>
     <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>

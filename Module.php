@@ -9,6 +9,7 @@ namespace yuncms\user;
 
 use Yii;
 use yii\helpers\FileHelper;
+use yuncms\user\models\User;
 use yuncms\user\models\Doing;
 use yuncms\user\models\Notification;
 
@@ -128,7 +129,7 @@ class Module extends \yii\base\Module
         'forgot' => 'recovery/request',
         'notice' => 'notification/index',
         'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
-        'settings/<action:\w+>' => 'settings/<action>'
+        'setting/<action:\w+>' => 'setting/<action>'
     ];
 
     public $avatarUrl = '@uploadUrl/avatar';

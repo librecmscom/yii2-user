@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                             ],
                             [
-                                'label' => Yii::t('user', 'Delete'),
+                                'label' => Yii::t('app', 'Delete'),
                                 'url' => ['/user/user/delete', 'id' => $user->id],
                                 'linkOptions' => [
                                     'class' => 'text-danger',

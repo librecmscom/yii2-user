@@ -50,7 +50,7 @@ class NotificationController extends Controller
      */
     public function actionIndex()
     {
-        $query = Notification::find()->where(['to_user_id' => Yii::$app->user->id]);
+        $query = Notification::find()->where(['to_user_id' => Yii::$app->user->id])->orderBy(['id' => SORT_DESC]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -79,6 +79,6 @@ class NotificationController extends Controller
         $total = Notification::getDb()->cache(function ($db) {
             return Notification::find()->where(['to_user_id' => Yii::$app->user->id, 'status' => Notification::STATUS_UNREAD])->count();
         }, 60);
-        return ['total'=>$total];
+        return ['total' => $total];
     }
 }

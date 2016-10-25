@@ -28,7 +28,7 @@ use yuncms\user\models\SettingsForm;
  *
  * @property \yuncms\user\Module $module
  */
-class SettingsController extends Controller
+class SettingController extends Controller
 {
     /** @inheritdoc */
     public $defaultAction = 'profile';

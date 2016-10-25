@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 /* 头像编辑器开始 */
 .img-container,.img-preview { background-color: #f7f7f7; width: 100%; text-align: center; }
 .img-container { min-height: 200px; max-height: 419px; }

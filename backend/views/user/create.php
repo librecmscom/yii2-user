@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php Jarvis::begin(['editbutton' => false, 'deletebutton' => false, 'header' => Html::encode($this->title),
                 'bodyToolbarActions' => [
                     [
-                        'label' => Yii::t('user', 'Manage User'),
+                        'label' => Yii::t('user', 'Manage Users'),
                         'url' => ['/user/user/index'],
                     ],
                     [
