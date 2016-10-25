@@ -49,7 +49,7 @@ class EducationController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Yii::$app->getUser()->identity->getEducations(),
+            'query' => Education::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['id' => SORT_DESC]),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -126,7 +126,7 @@ class EducationController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Yii::$app->getUser()->identity->getEducations()->where(['id' => $id])->one()) !== null) {
+        if (($model = Education::findOne(['id' => $id, 'user_id' => Yii::$app->user->id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException (Yii::t('user', 'The requested page does not exist.'));
