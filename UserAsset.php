@@ -16,13 +16,9 @@ use yii\web\AssetBundle;
 class UserAsset extends AssetBundle
 {
     public $sourcePath = '@vendor/yuncms/yii2-user/assets';
-
-	public $css = [
-        'js/user.js',
-    ];
-
+    
     public $js = [
-        'js/cropper.js',
+        'js/user.js',
     ];
 
     public $depends = [
