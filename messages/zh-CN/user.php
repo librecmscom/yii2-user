@@ -18,9 +18,9 @@
  */
 return [
     'Create Access Key' => '创建 Access Key',
-    'Educational experience' => '',
+    'Educational experience' => '教育经历',
     'Manage Users' => '管理用户',
-    'Not blocked' => '',
+    'Not blocked' => '未封锁',
     'Social Networks' => '社交网络',
     'VKontakte' => '',
     'Yandex' => '',
