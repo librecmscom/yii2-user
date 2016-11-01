@@ -57,7 +57,7 @@ class ChangyanController extends Controller
             'data' => [
                 'is_login' => 1,
                 'user' => [
-                    'img_url' => Url::to([Yii::$app->user->identity->getAvatar()], true),
+                    'img_url' => Url::to('@web' . Yii::$app->user->identity->getAvatar(), true),
                     'nickname' => Yii::$app->user->identity->username,
                     'profile_url' => Url::to(['/user/profile/show', 'id' => Yii::$app->user->id]),
                     'user_id' => Yii::$app->user->id,
