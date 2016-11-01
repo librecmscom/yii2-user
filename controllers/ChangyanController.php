@@ -10,15 +10,19 @@ namespace yuncms\user\controllers;
 use Yii;
 use yii\web\Response;
 use yii\web\Controller;
-use yii\widgets\ActiveForm;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use yii\data\ActiveDataProvider;
-use yii\web\NotFoundHttpException;
-use yuncms\user\models\Career;
+use yii\helpers\Url;
 
+/**
+ * Class ChangyanController
+ * @package yuncms\user\controllers
+ */
 class ChangyanController extends Controller
 {
+    /**
+     * 畅言获取用户信息接口
+     * @param string $callback
+     * @return array
+     */
     public function actionInfo($callback)
     {
         Yii::$app->response->format = Response::FORMAT_JSONP;
@@ -30,16 +34,21 @@ class ChangyanController extends Controller
             'data' => [
                 'is_login' => 1,
                 'user' => [
-                    'img_url' => Yii::$app->user->id->getAvatar(),
-                    'nickname' => Yii::$app->user->id->username,
-                    'profile_url' => '',
+                    'img_url' => Yii::$app->user->identity->getAvatar(),
+                    'nickname' => Yii::$app->user->identity->username,
+                    'profile_url' => Url::to(['/user/profile/show', 'id' => Yii::$app->user->id]),
                     'user_id' => Yii::$app->user->id,
-                    'sign' => hash_hmac('img_url={img_url}&nickname={nickname}&profile_url={profile_url}&user_id={user_id}'),
+                    'sign' => md5('123456'),
                 ],
             ]
         ];
     }
 
+    /**
+     * 畅言退出接口
+     * @param string $callback
+     * @return array
+     */
     public function actionLogout($callback)
     {
         Yii::$app->getUser()->logout();
