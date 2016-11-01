@@ -8,9 +8,10 @@
 namespace yuncms\user\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Response;
 use yii\web\Controller;
-use yii\helpers\Url;
+use yii\filters\AccessControl;
 
 /**
  * Class ChangyanController
@@ -18,6 +19,23 @@ use yii\helpers\Url;
  */
 class ChangyanController extends Controller
 {
+    /** @inheritdoc */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['logout'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     /**
      * 畅言获取用户信息接口
      * @param string $callback
