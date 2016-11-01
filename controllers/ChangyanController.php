@@ -28,6 +28,11 @@ class ChangyanController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
+                        'actions' => ['info'],
+                        'roles' => ['?', '@'],
+                    ],
+                    [
+                        'allow' => true,
                         'actions' => ['logout'],
                         'roles' => ['@'],
                     ],
@@ -52,11 +57,11 @@ class ChangyanController extends Controller
             'data' => [
                 'is_login' => 1,
                 'user' => [
-                    'img_url' => Yii::$app->user->identity->getAvatar(),
+                    'img_url' => Url::to([Yii::$app->user->identity->getAvatar()], true),
                     'nickname' => Yii::$app->user->identity->username,
                     'profile_url' => Url::to(['/user/profile/show', 'id' => Yii::$app->user->id]),
                     'user_id' => Yii::$app->user->id,
-                    'sign' => md5('123456'),
+                    'sign' => md5(time()),
                 ],
             ]
         ];
