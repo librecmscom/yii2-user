@@ -210,9 +210,10 @@ class Module extends \yii\base\Module
         $message = $mailer->compose(['html' => $view, 'text' => 'text/' . $view], $params)->setTo($to)->setSubject($subject);
         if ($this->mailSender != null) {
             $message->setFrom($this->mailSender);
-        } else if (isset(Yii::$app->params['adminEmail'])) {
-            $message->setFrom(Yii::$app->params['adminEmail']);
         }
+//        else if (isset(Yii::$app->params['adminEmail'])) {
+//            $message->setFrom(Yii::$app->params['adminEmail']);
+//        }
         return $message->send();
     }
 
