@@ -84,7 +84,7 @@ class RegistrationController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->register()) {
-            return $this->redirect(['/user/settings/profile']);
+            return $this->redirect(['/user/setting/profile']);
         }
         return $this->render('register', ['model' => $model, 'module' => $this->module]);
     }
