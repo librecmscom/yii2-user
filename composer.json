@@ -21,6 +21,10 @@
             "yuncms\\user\\": ""
         }
     },
+    "suggest": {
+        "yuncms/yii2-vote": "Allows you to use vote",
+        "yuncms/yii2-tag": "Allows you to use tag"
+    },
     "extra": {
         "bootstrap": "yuncms\\user\\Bootstrap",
         "asset-vcs-driver-options": {
