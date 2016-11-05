@@ -16,7 +16,11 @@ use yii\web\AssetBundle;
 class UserAsset extends AssetBundle
 {
     public $sourcePath = '@vendor/yuncms/yii2-user/assets';
-    
+
+    public $css = [
+        'css/user.css'
+    ];
+
     public $js = [
         'js/user.js',
     ];
@@ -24,5 +28,4 @@ class UserAsset extends AssetBundle
     public $depends = [
         'yii\web\JqueryAsset',
     ];
-
 }
