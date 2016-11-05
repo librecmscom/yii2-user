@@ -2,7 +2,6 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
-
 ?>
 
 <div class="panel panel-default">
@@ -13,9 +12,10 @@ use yii\helpers\Html;
         <ul class="avatar-list">
             <?php if (!empty($models)): ?>
                 <?php foreach ($models as $model): ?>
-                    <li><a href="<?= Url::to(['/user/profile/show', 'id' => $model->id]); ?>" rel="author"><img
-                                src="<?= $model->profile->getAvatar(); ?>"
-                                alt="<?= Html::encode($model->username); ?>"></a></li>
+                    <li><a href="<?= Url::to(['/user/profile/show', 'id' => $model->id]); ?>" rel="author">
+                            <img src="<?= $model->getAvatar(); ?>" class="avatar-24" alt="<?= Html::encode($model->username); ?>">
+                        </a>
+                    </li>
                 <?php endforeach; ?>
             <?php else: ?>
                 <?= Yii::t('user', 'No popular users') ?>
