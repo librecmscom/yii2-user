@@ -445,7 +445,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function lastLoginAt()
     {
-        return (bool)$this->updateAttributes(['last_login_at' => time()]);
+        return (bool)$this->updateAttributes(['login_at' => time()]);
     }
 
     /**

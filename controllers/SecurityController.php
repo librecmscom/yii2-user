@@ -86,7 +86,6 @@ class SecurityController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
-            Yii::$app->user->identity->updateCounters(['login_num' => 1]);
             return $this->goBack();
         }
         return $this->render('login', ['model' => $model, 'module' => $this->module]);

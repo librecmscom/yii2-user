@@ -56,7 +56,7 @@ class RegistrationController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['confirm', 'resend'],
+                        'actions' => ['register', 'confirm', 'resend'],
                         'roles' => ['?', '@']
                     ]
                 ]
@@ -73,8 +73,13 @@ class RegistrationController extends Controller
      */
     public function actionRegister()
     {
+        if (!Yii::$app->user->isGuest) {
+            Yii::$app->session->setFlash('danger', Yii::t('user', 'You have already registered.'));
+            return $this->goHome();
+        }
         if (!$this->module->enableRegistration) {
-            throw new NotFoundHttpException();
+            Yii::$app->session->setFlash('danger', Yii::t('user', 'The system has closed the new user registration.'));
+            return $this->goHome();
         }
         /** @var RegistrationForm $model */
         $model = new RegistrationForm();
