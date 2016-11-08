@@ -1,15 +1,11 @@
 <?php
 
+namespace yuncms\user\migrations;
+
 use yii\db\Migration;
 
-/**
- * Handles the creation for table `notifcation`.
- */
-class m160921_093501_create_notifcation_table extends Migration
+class M161108091432Create_notifcation_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $tableOptions = null;
@@ -30,15 +26,23 @@ class m160921_093501_create_notifcation_table extends Migration
             'created_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
 
-		$this->addForeignKey('{{%user_notifcation_ibfk_1}}', '{{%user_notifcation}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
-		$this->addForeignKey('{{%user_notifcation_ibfk_2}}', '{{%user_notifcation}}', 'to_user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
+        $this->addForeignKey('{{%user_notifcation_ibfk_1}}', '{{%user_notifcation}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
+        $this->addForeignKey('{{%user_notifcation_ibfk_2}}', '{{%user_notifcation}}', 'to_user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
         $this->dropTable('{{%user_notifcation}}');
     }
+
+    /*
+    // Use safeUp/safeDown to run migration code within a transaction
+    public function safeUp()
+    {
+    }
+
+    public function safeDown()
+    {
+    }
+    */
 }

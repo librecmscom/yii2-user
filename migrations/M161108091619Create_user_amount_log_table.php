@@ -1,15 +1,11 @@
 <?php
 
+namespace yuncms\user\migrations;
+
 use yii\db\Migration;
 
-/**
- * Handles the creation of table `user_amount_log`.
- */
-class m161025_092324_create_user_amount_log_table extends Migration
+class M161108091619Create_user_amount_log_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $tableOptions = null;
@@ -35,11 +31,19 @@ class m161025_092324_create_user_amount_log_table extends Migration
         ], $tableOptions);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
         $this->dropTable('{{%user_amount_log}}');
     }
+
+    /*
+    // Use safeUp/safeDown to run migration code within a transaction
+    public function safeUp()
+    {
+    }
+
+    public function safeDown()
+    {
+    }
+    */
 }

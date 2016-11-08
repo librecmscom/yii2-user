@@ -1,15 +1,11 @@
 <?php
 
+namespace yuncms\user\migrations;
+
 use yii\db\Migration;
 
-/**
- * Handles the creation for table `user_education`.
- */
-class m160919_095938_create_user_education_table extends Migration
+class M161108091235Create_user_education_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $tableOptions = null;
@@ -34,11 +30,19 @@ class m160919_095938_create_user_education_table extends Migration
         $this->addForeignKey('{{%user_education_history_ibfk_1}}', '{{%user_education}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
         $this->dropTable('{{%user_education}}');
     }
+
+    /*
+    // Use safeUp/safeDown to run migration code within a transaction
+    public function safeUp()
+    {
+    }
+
+    public function safeDown()
+    {
+    }
+    */
 }

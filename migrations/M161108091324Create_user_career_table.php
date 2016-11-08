@@ -1,15 +1,11 @@
 <?php
 
+namespace yuncms\user\migrations;
+
 use yii\db\Migration;
 
-/**
- * Handles the creation for table `user_career`.
- */
-class m160919_095948_create_user_career_table extends Migration
+class M161108091324Create_user_career_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $tableOptions = null;
@@ -36,11 +32,19 @@ class m160919_095948_create_user_career_table extends Migration
         $this->addForeignKey('{{%user_career_history_ibfk_1}}', '{{%user_career}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
         $this->dropTable('{{%user_career}}');
     }
+
+    /*
+    // Use safeUp/safeDown to run migration code within a transaction
+    public function safeUp()
+    {
+    }
+
+    public function safeDown()
+    {
+    }
+    */
 }

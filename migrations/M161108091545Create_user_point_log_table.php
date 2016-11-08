@@ -1,26 +1,25 @@
 <?php
 
+namespace yuncms\user\migrations;
+
 use yii\db\Migration;
 
-/**
- * Handles the creation for table `doing`.
- */
-class m160921_092803_create_doing_table extends Migration
+class M161108091545Create_user_point_log_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $tableOptions = 'CHARACTER SET utf8mb4 COLLATE  utf8mb4_general_ci ENGINE=InnoDB';
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
-        $this->createTable('{{%user_doing}}', [
+
+        $this->createTable('{{%user_point_log}}', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer(),
+            'type' => $this->integer(1),
             'action' => $this->string(),
+            'value' => $this->decimal(10, 2),
             'source_id' => $this->integer(),
             'source_type' => $this->string(),
             'subject' => $this->string(),
@@ -30,15 +29,21 @@ class m160921_092803_create_doing_table extends Migration
             'refer_content' => $this->string(),
             'created_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
-
-        $this->addForeignKey('{{%user_doing_ibfk_1}}', '{{%user_doing}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
-        $this->dropTable('{{%user_doing}}');
+        $this->dropTable('{{%user_point_log}}');
     }
+
+    /*
+    // Use safeUp/safeDown to run migration code within a transaction
+    public function safeUp()
+    {
+    }
+
+    public function safeDown()
+    {
+    }
+    */
 }

@@ -1,15 +1,11 @@
 <?php
 
+namespace yuncms\user\migrations;
+
 use yii\db\Migration;
 
-/**
- * Handles the creation for table `user_follow`.
- */
-class m160919_095831_create_user_follow_table extends Migration
+class M161108091135Create_user_follow_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $tableOptions = null;
@@ -32,11 +28,19 @@ class m160919_095831_create_user_follow_table extends Migration
         $this->addForeignKey('{{%user_follow_ibfk_2}}', '{{%user_follow}}', 'follow_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
         $this->dropTable('{{%user_follow}}');
     }
+
+    /*
+    // Use safeUp/safeDown to run migration code within a transaction
+    public function safeUp()
+    {
+    }
+
+    public function safeDown()
+    {
+    }
+    */
 }

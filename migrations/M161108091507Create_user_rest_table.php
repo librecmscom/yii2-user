@@ -1,15 +1,11 @@
 <?php
 
+namespace yuncms\user\migrations;
+
 use yii\db\Migration;
 
-/**
- * Handles the creation of table `user_rest`.
- */
-class m161013_022124_create_user_rest_table extends Migration
+class M161108091507Create_user_rest_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $tableOptions = null;
@@ -35,11 +31,19 @@ class m161013_022124_create_user_rest_table extends Migration
         $this->addForeignKey('{{%user_rest_ibfk_1}}', '{{%user_rest}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down()
     {
         $this->dropTable('{{%user_rest}}');
     }
+
+    /*
+    // Use safeUp/safeDown to run migration code within a transaction
+    public function safeUp()
+    {
+    }
+
+    public function safeDown()
+    {
+    }
+    */
 }
