@@ -137,24 +137,6 @@ class Module extends \yii\base\Module
     public $avatarPath = '@uploads/avatar';
 
     /**
-     * @inheritdoc
-     */
-    public function beforeAction($action)
-    {
-        if (parent::beforeAction($action)) {
-            /* @var $action \yii\base\Action */
-            $view = $action->controller->getView();
-
-            $view->params['breadcrumbs'][] = [
-                'label' => Yii::t('user', 'User'),
-                'url' => ['/' . $this->uniqueId]
-            ];
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * 获取头像的存储路径
      * @param int $userId
      * @return string
