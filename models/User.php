@@ -281,8 +281,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * 获取我的关注
-     * 一对多关系
+     * 获取我的关注一对多关系
      */
     public function getAttentions()
     {
@@ -290,12 +289,21 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * 获取我的粉丝
-     * 一对多关系
+     * 获取我关注
+     * @return $this
+     */
+    public function getFollowers()
+    {
+        return $this->hasMany(Attention::className(), ['user_id' => 'id'])->andOnCondition(['source_type' => get_class($this)]);
+    }
+
+    /**
+     * 用户我的粉丝
+     * @return $this
      */
     public function getFans()
     {
-        return $this->hasMany(Follow::className(), ['follow_id' => 'id']);
+        return $this->hasMany(Attention::className(), ['source_id' => 'id'])->andOnCondition(['source_type' => get_class($this)]);
     }
 
     /**
@@ -451,7 +459,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * 设置最后登录时间
      */
-    public function lastLoginAt()
+    public function resetLoginAt()
     {
         return (bool)$this->updateAttributes(['login_at' => time()]);
     }
