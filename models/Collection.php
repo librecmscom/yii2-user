@@ -20,14 +20,14 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property User $user
  */
-class Attention extends ActiveRecord
+class Collection extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%user_attentions}}';
+        return '{{%user_collections}}';
     }
 
     /**
@@ -45,7 +45,7 @@ class Attention extends ActiveRecord
     {
         return [
             [['user_id', 'source_id', 'source_type'], 'required'],
-            ['source_type', 'filter', 'filter' => 'trim'],
+            [['source_type', 'subject'], 'filter', 'filter' => 'trim'],
         ];
     }
 

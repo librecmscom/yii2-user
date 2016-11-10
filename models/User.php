@@ -272,9 +272,17 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * 获取我的收藏
+     * 一对多关系
+     */
+    public function getCollections()
+    {
+        return $this->hasMany(Collection::className(), ['user_id' => 'id']);
+    }
+
+    /**
      * 获取我的关注
      * 一对多关系
-     * @return ActiveQuery
      */
     public function getAttentions()
     {
@@ -535,14 +543,25 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * 是否已经收藏过Source和ID
+     * @param string $sourceType
+     * @param int $sourceId
+     * @return bool
+     */
+    public function isCollected($sourceType, $sourceId)
+    {
+        return $this->getCollections()->andWhere(['source_type' => $sourceType, 'source_id' => $sourceId])->exists();
+    }
+
+    /**
      * 是否已关注指定的Source和ID
      * @param string $sourceType
      * @param int $sourceId
      * @return mixed
      */
-    public function isFollowed($sourceType,$sourceId)
+    public function isFollowed($sourceType, $sourceId)
     {
-        return $this->getAttentions()->andWhere(['source_type'=>$sourceType,'source_id'=>$sourceId])->exists();
+        return $this->getAttentions()->andWhere(['source_type' => $sourceType, 'source_id' => $sourceId])->exists();
     }
 
     /**

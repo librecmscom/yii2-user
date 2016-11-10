@@ -4,7 +4,7 @@ namespace yuncms\user\migrations;
 
 use yii\db\Migration;
 
-class M161110065144Create_user_attentions_table extends Migration
+class M161110071701Create_user_collections_table extends Migration
 {
     public function up()
     {
@@ -14,22 +14,23 @@ class M161110065144Create_user_attentions_table extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%user_attentions}}', [
+        $this->createTable('{{%user_collections}}', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
             'source_id' => $this->integer()->notNull(),
             'source_type' => $this->string()->notNull(),
+            'subject' => $this->string(),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
 
-        $this->addForeignKey('{{%user_attentions_ibfk_1}}', '{{%user_attentions}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
-        $this->createIndex('attentions_source_id_source_type_index', '{{%user_attentions}}', ['source_id', 'source_type'], false);
+        $this->addForeignKey('{{%user_collections_ibfk_1}}', '{{%user_collections}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
+        $this->createIndex('collections_source_id_source_type_index', '{{%user_collections}}', ['source_id', 'source_type'], false);
     }
 
     public function down()
     {
-        $this->dropTable('{{%user_attentions}}');
+        $this->dropTable('{{%user_collections}}');
     }
 
     /*
