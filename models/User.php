@@ -294,7 +294,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getFollowers()
     {
-        return $this->hasMany(Attention::className(), ['user_id' => 'id'])->andOnCondition(['source_type' => get_class($this)]);
+        return $this->hasMany(Follow::className(), ['user_id' => 'id'])->andOnCondition(['source_type' => get_class($this)]);
     }
 
     /**

@@ -12,7 +12,7 @@ use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * This is the model class for table "user_follow".
+ * This is the model class for table "user_attentions".
  *
  * @property integer $user_id
  * @property string $follow_id
@@ -21,60 +21,13 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property User $user
  */
-class Follow extends ActiveRecord
+class Follow extends Attention
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%user_follow}}';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [TimestampBehavior::className()];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            ['follow_id', 'filter', 'filter' => 'trim'],
-            ['follow_id', 'required'],
-        ];
-    }
-
     /**
      * @return \yii\db\ActiveQueryInterface
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQueryInterface
-     */
-    public function getFollow()
-    {
-        return $this->hasOne(User::className(), ['id' => 'follow_id']);
-    }
-
-    /**
-     * @param boolean $insert
-     * @param array $changedAttributes
-     */
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-        if ($insert) {
-            $this->link('user', Yii::$app->user->identity);
-        }
+        return $this->hasOne(User::className(), ['id' => 'source_id']);
     }
 }
