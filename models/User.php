@@ -265,7 +265,6 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * 获取最后一次登陆
-     * @return array|ActiveRecord|null
      */
     public function getLoginHistory()
     {
@@ -273,12 +272,13 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * 获取我关注的所有用户
+     * 获取我的关注
      * 一对多关系
+     * @return ActiveQuery
      */
-    public function getFollows()
+    public function getAttentions()
     {
-        return $this->hasMany(Follow::className(), ['user_id' => 'id']);
+        return $this->hasMany(Attention::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -302,12 +302,12 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * 获取我的APP列表
      * 一对多关系
+     * @return ActiveRecord
      */
     public function getRests()
     {
         return $this->hasMany(Rest::className(), ['user_id' => 'id']);
     }
-
 
     /** @inheritdoc */
     public function validateAuthKey($authKey)
@@ -505,6 +505,47 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * 获取头像Url
+     * @param string $size
+     * @return string
+     */
+    public function getAvatar($size = 'big')
+    {
+        $size = in_array($size, ['big', 'middle', 'small']) ? $size : 'big';
+        if ($this->getIsAvatar()) {
+            $avatarFileName = "_avatar_$size.jpg";
+            return $this->getModule()->getAvatarUrl($this->id) . $avatarFileName;
+        } else {
+            switch ($size) {
+                case 'big':
+                    $avatarUrl = '/img/no_avatar_big.gif';
+                    break;
+                case 'middle':
+                    $avatarUrl = '/img/no_avatar_middle.gif';
+                    break;
+                case 'small':
+                    $avatarUrl = '/img/no_avatar_small.gif';
+                    break;
+                default:
+                    $avatarUrl = '/img/no_avatar_big.gif';
+            }
+            $avatarUrlRoot = UserAsset::register(Yii::$app->view);
+            return $avatarUrlRoot->baseUrl . $avatarUrl;
+        }
+    }
+
+    /**
+     * 是否已关注指定的Source和ID
+     * @param string $sourceType
+     * @param int $sourceId
+     * @return mixed
+     */
+    public function isFollowed($sourceType,$sourceId)
+    {
+        return $this->getAttentions()->andWhere(['source_type'=>$sourceType,'source_id'=>$sourceId])->exists();
+    }
+
+    /**
      * @inheritdoc
      */
     public function beforeSave($insert)
@@ -532,37 +573,6 @@ class User extends ActiveRecord implements IdentityInterface
                 $this->_profile = new Profile();
             }
             $this->_profile->link('user', $this);
-        }
-    }
-
-
-    /**
-     * 获取头像Url
-     * @param string $size
-     * @return string
-     */
-    public function getAvatar($size = 'big')
-    {
-        $size = in_array($size, ['big', 'middle', 'small']) ? $size : 'big';
-        if ($this->getIsAvatar()) {
-            $avatarFileName = "_avatar_$size.jpg";
-            return $this->getModule()->getAvatarUrl($this->id) . $avatarFileName;
-        } else {
-            switch ($size) {
-                case 'big':
-                    $avatarUrl = '/img/no_avatar_big.gif';
-                    break;
-                case 'middle':
-                    $avatarUrl = '/img/no_avatar_middle.gif';
-                    break;
-                case 'small':
-                    $avatarUrl = '/img/no_avatar_small.gif';
-                    break;
-                default:
-                    $avatarUrl = '/img/no_avatar_big.gif';
-            }
-            $avatarUrlRoot = UserAsset::register(Yii::$app->view);
-            return $avatarUrlRoot->baseUrl . $avatarUrl;
         }
     }
 
