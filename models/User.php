@@ -35,6 +35,8 @@ use yuncms\user\UserAsset;
  * @property string $password_hash
  * @property string $auth_key
  * @property bool $avatar
+ * @property double $amount
+ * @property integer $point
  * @property integer $registration_ip
  * @property integer $confirmed_at
  * @property integer $blocked_at

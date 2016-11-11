@@ -11,6 +11,7 @@ use Yii;
 use yii\helpers\FileHelper;
 use yuncms\user\models\User;
 use yuncms\user\models\Doing;
+use yuncms\user\models\PurseLog;
 use yuncms\user\models\Notification;
 
 /**
@@ -197,6 +198,29 @@ class Module extends \yii\base\Module
 //            $message->setFrom(Yii::$app->params['adminEmail']);
 //        }
         return $message->send();
+    }
+
+    public function point($userId, $value, $action, $sourceType, $sourceId, $subject, $content = '')
+    {
+        $transaction = User::getDb()->beginTransaction();
+        try {
+            $user = User::findOne($userId);
+            if ($user) {
+                $user->point = $user->point + $value;
+                $user->save();
+                $log = new PurseLog (['user_id' => $userId, 'currency' => 'point', 'value' => $value, 'action' => $action, 'msg' => $msg]);
+                if ($value > 0) {
+                    $log->type = PurseLog::TYPE_INC;
+                } else {
+                    $log->type = PurseLog::TYPE_DEC;
+                }
+                $log->save();
+            }
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
     }
 
     /**
