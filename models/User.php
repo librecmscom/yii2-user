@@ -354,7 +354,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getVisits()
     {
-        return $this->hasMany(Visit::className(), ['user_id' => 'id']);
+        return $this->hasMany(Visit::className(), ['source_id' => 'id']);
     }
 
     /**
@@ -509,7 +509,6 @@ class User extends ActiveRecord implements IdentityInterface
         $this->userData->updateCounters(['login_num' => 1]);
     }
 
-
     /**
      * 重置密码
      *
@@ -617,7 +616,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getAttentions()->andWhere(['source_type' => $sourceType, 'source_id' => $sourceId])->exists();
     }
-
+    
     /**
      * @inheritdoc
      */

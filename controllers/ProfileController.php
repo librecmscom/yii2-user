@@ -50,7 +50,7 @@ class ProfileController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('show', ['model' => $this->findModel(Yii::$app->user->getId())]);
+        return $this->render('show', ['model' => $this->findModel(Yii::$app->user->id)]);
     }
 
     /**
@@ -62,15 +62,19 @@ class ProfileController extends Controller
      */
     public function actionShow($id)
     {
-        if (!Yii::$app->user->getIsGuest() && Yii::$app->user->getId() != $id) {
-            if ($id != Yii::$app->user->id) {
-                if (!Visit::find()->where(['user_id' => $id, 'visit_id' => Yii::$app->user->id])->exists()) {
-                    $visit = new Visit(['user_id' => $id, 'visit_id' => Yii::$app->user->id]);
-                    $visit->save();
-                }
+        $model = $this->findModel($id);
+        if (!Yii::$app->user->isGuest && Yii::$app->user->id != $id) {
+            //记录访客
+            if (($visit = Visit::findOne(['user_id' => Yii::$app->user->id, 'source_id' => $id])) == null) {
+                $visit = new Visit(['user_id' => Yii::$app->user->id, 'source_id' => $id]);
+                $visit->save(false);
+                //更新访客计数
+                $model->user->userData->updateCounters(['views' => 1]);
+            } else {
+                $visit->updateAttributes(['updated_at'=>time()]);
             }
         }
-        return $this->render('show', ['model' => $this->findModel($id)]);
+        return $this->render('show', ['model' => $model]);
     }
 
     /**
@@ -83,10 +87,10 @@ class ProfileController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Profile::findOne($id)) !== null) {
+        if (($model = Profile::find()->with('user')->andWhere(['user_id' => $id])->one()) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException(Yii::t('user', 'The requested page does not exist.'));
+            throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));
         }
     }
 }

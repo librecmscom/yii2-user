@@ -11,7 +11,6 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 
-
 /**
  * This is the model class for table "user_visit".
  *
@@ -37,12 +36,7 @@ class Visit extends ActiveRecord
     public function behaviors()
     {
         return [
-            'timestamp' => [
-                'class' => TimestampBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
-                ],
-            ],
+            TimestampBehavior::className(),
         ];
     }
 
@@ -52,8 +46,7 @@ class Visit extends ActiveRecord
     public function rules()
     {
         return [
-            ['visit_id', 'required'],
-            ['visit_id', 'filter', 'filter' => 'trim'],
+            ['source_id', 'required'],
         ];
     }
 
@@ -63,13 +56,5 @@ class Visit extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQueryInterface
-     */
-    public function getVisit()
-    {
-        return $this->hasOne(User::className(), ['id' => 'visit_id']);
     }
 }
