@@ -1,14 +1,12 @@
-/* 用户头像 */
-.avatar-16{width:16px;height:16px;border-radius:1px;}
-.avatar-20{width:20px;height:20px;border-radius:2px;}
-.avatar-24{width:20px;height:20px;border-radius:2px;}
-.avatar-27{width:27px;height:27px;border-radius:2px;}
-.avatar-32{width:32px;height:32px;border-radius:2px;}
-.avatar-40{width:40px;height:40px;border-radius:4px;}
-.avatar-50{width:40px;height:40px;border-radius:4px;}
-.avatar-64{width:64px;height:64px;border-radius:3px;}
-.avatar-82{width:82px;height:82px;border-radius:4px;opacity: 0.9;}
-.avatar-128{width:128px;height:128px;border-radius:50%;}
-.avatar-256{width:256px;height:256px}
-
-.avatar-link{display:block;}
+/*主页头部*/
+.space-header{background-color:#f6f6f6;padding:40px 0 30px}
+.space-header-name{margin:0}
+.space-header-desc{padding:10px;background: #eee;line-height:18px;}
+.space-header-desc p:last-child{margin-bottom:0}
+.space-header-authentication,.space-authentication-skill{color:#999;}
+.space-header-authentication .fa{color:#ff8a00;}
+.space-header-item{margin-right:30px;font-size:14px;line-height:20px;vertical-align:middle}
+.space-header-social .space-header-item,.space-authentication-skill{color:#666;}
+.space-header-info a{text-decoration:none}
+.space-header-info .h3{display:block;color:#333;margin:0 0 5px}
+.space-header-info span{color:#999;line-height:20px}
