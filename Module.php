@@ -200,15 +200,34 @@ class Module extends \yii\base\Module
         return $message->send();
     }
 
-    public function point($userId, $value, $action, $sourceType, $sourceId, $subject, $content = '')
+    /**
+     * amount变动
+     * @param $userId
+     * @param $value
+     * @param $action
+     * @param $sourceType
+     * @param $sourceId
+     * @param $subject
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function amount($userId, $value, $action, $sourceType, $sourceId = 0, $subject = '')
     {
         $transaction = User::getDb()->beginTransaction();
         try {
             $user = User::findOne($userId);
             if ($user) {
-                $user->point = $user->point + $value;
+                $user->amount = $user->amount + $value;
                 $user->save();
-                $log = new PurseLog (['user_id' => $userId, 'currency' => 'point', 'value' => $value, 'action' => $action, 'msg' => $msg]);
+                $log = new PurseLog ([
+                    'user_id' => $userId,
+                    'currency' => 'amount',
+                    'value' => $value,
+                    'action' => $action,
+                    'source_id' => $sourceId,
+                    'source_type' => $sourceType,
+                    'subject' => $subject,
+                ]);
                 if ($value > 0) {
                     $log->type = PurseLog::TYPE_INC;
                 } else {
@@ -221,6 +240,50 @@ class Module extends \yii\base\Module
             $transaction->rollBack();
             return false;
         }
+        return true;
+    }
+
+    /**
+     * 积分变动
+     * @param $userId
+     * @param $value
+     * @param $action
+     * @param $sourceType
+     * @param $sourceId
+     * @param $subject
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function point($userId, $value, $action, $sourceType, $sourceId = 0, $subject = '')
+    {
+        $transaction = User::getDb()->beginTransaction();
+        try {
+            $user = User::findOne($userId);
+            if ($user) {
+                $user->point = $user->point + $value;
+                $user->save();
+                $log = new PurseLog ([
+                    'user_id' => $userId,
+                    'currency' => 'point',
+                    'value' => $value,
+                    'action' => $action,
+                    'source_id' => $sourceId,
+                    'source_type' => $sourceType,
+                    'subject' => $subject,
+                ]);
+                if ($value > 0) {
+                    $log->type = PurseLog::TYPE_INC;
+                } else {
+                    $log->type = PurseLog::TYPE_DEC;
+                }
+                $log->save();
+            }
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -251,7 +314,7 @@ class Module extends \yii\base\Module
             ]);
             return $notify->save();
         } catch (\Exception $e) {
-            exit($e->getMessage());
+            return false;
         }
     }
 
@@ -284,7 +347,7 @@ class Module extends \yii\base\Module
             ]);
             return $doing->save();
         } catch (\Exception $e) {
-            exit($e->getMessage());
+            return false;
         }
     }
 

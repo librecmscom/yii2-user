@@ -68,10 +68,10 @@ class PurseLog extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'type' => Yii::t('app', 'PurseLog Type'),
-            'msg' => Yii::t('app', 'PurseLog Msg'),
-            'value' => Yii::t('app', 'PurseLog Value'),
-            'created_at' => Yii::t('app', 'PurseLog Created At'),
+            'type' => Yii::t('user', 'Purse Log Type'),
+            'msg' => Yii::t('user', 'Purse Log Msg'),
+            'value' => Yii::t('user', 'Purse Log Value'),
+            'created_at' => Yii::t('user', 'Purse Log Created At'),
         ];
     }
 }
