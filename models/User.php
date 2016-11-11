@@ -305,6 +305,24 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * 获取我的积分日志
+     * 一对多关系
+     */
+    public function getPointLogs()
+    {
+        return $this->hasMany(PurseLog::className(), ['user_id' => 'id'])->onCondition(['currency' => 'point']);
+    }
+
+    /**
+     * 获取我的积分日志
+     * 一对多关系
+     */
+    public function getAmountLogs()
+    {
+        return $this->hasMany(PurseLog::className(), ['user_id' => 'id'])->onCondition(['currency' => 'amount']);
+    }
+
+    /**
      * 获取我的关注一对多关系
      */
     public function getAttentions()
