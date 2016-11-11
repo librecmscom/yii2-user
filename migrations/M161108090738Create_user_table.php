@@ -29,6 +29,7 @@ class M161108090738Create_user_table extends Migration
             'blocked_at' => $this->integer()->unsigned(),
             'registration_ip' => $this->string(),
             'flags' => $this->integer()->notNull()->defaultValue(0),
+            'ver'=> $this->integer()->defaultValue(0),
             'confirmed_at' => $this->integer(),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->notNull(),
