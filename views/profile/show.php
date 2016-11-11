@@ -8,6 +8,7 @@ use yuncms\user\models\Profile;
  * @var \yuncms\user\models\Profile $model
  */
 $this->title = empty($model->name) ? Html::encode($model->user->username) : Html::encode($model->name);
+//$this->context->layout = '//space';
 ?>
 <header class="space-header">
     <div class="container">
