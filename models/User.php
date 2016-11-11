@@ -45,6 +45,7 @@ use yuncms\user\UserAsset;
  * Defined relations:
  * @property Social[] $accounts
  * @property Profile $profile
+ * @property Data $userData
  *
  * Dependencies:
  * @property-read Module $module
@@ -70,6 +71,10 @@ class User extends ActiveRecord implements IdentityInterface
      */
     private $_profile;
 
+    /**
+     * @var Data|null
+     */
+    private $_userData;
 
     /**
      * @var string Default username regexp
@@ -216,6 +221,23 @@ class User extends ActiveRecord implements IdentityInterface
     public function setProfile(Profile $profile)
     {
         $this->_profile = $profile;
+    }
+
+    /**
+     * 返回用户附加资料
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserData()
+    {
+        return $this->hasOne(Data::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @param Data $data
+     */
+    public function setUserData(Data $data)
+    {
+        $this->_userData = $data;
     }
 
     /**
@@ -458,11 +480,15 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * 设置最后登录时间
+     * @return void
      */
-    public function resetLoginAt()
+    public function resetLoginData()
     {
-        return (bool)$this->updateAttributes(['login_at' => time()]);
+        $this->userData->updateAttributes(['login_at' => time()]);
+        $this->userData->updateAttributes(['login_ip' => Yii::$app->request->userIP]);
+        $this->userData->updateCounters(['login_num' => 1]);
     }
+
 
     /**
      * 重置密码
@@ -600,6 +626,11 @@ class User extends ActiveRecord implements IdentityInterface
                 $this->_profile = new Profile();
             }
             $this->_profile->link('user', $this);
+
+            if ($this->_data == null) {
+                $this->_data = new Data();
+            }
+            $this->_data->link('user', $this);
         }
     }
 

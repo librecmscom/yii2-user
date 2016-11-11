@@ -95,8 +95,7 @@ class LoginForm extends Model
         if ($this->validate()) {
             $loginHistory = new LoginHistory(['ip' => Yii::$app->request->getUserIP()]);
             $loginHistory->link('user', $this->user);
-            $this->user->lastLoginAt();
-            $this->user->updateCounters(['login_num' => 1]);
+            
             return Yii::$app->getUser()->login($this->user, $this->rememberMe ? $this->module->rememberFor : 0);
         } else {
             return false;

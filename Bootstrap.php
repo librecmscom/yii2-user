@@ -18,6 +18,11 @@ use yii\base\BootstrapInterface;
  */
 class Bootstrap implements BootstrapInterface
 {
+    /**
+     * 初始化
+     * @param \yii\base\Application $app
+     * @throws \yii\base\InvalidConfigException
+     */
     public function bootstrap($app)
     {
         /** @var Module $module */
@@ -43,6 +48,22 @@ class Bootstrap implements BootstrapInterface
                     $configUrlRule['routePrefix'] = 'user';
                 }
                 $app->urlManager->addRules([new GroupUrlRule($configUrlRule)], false);
+
+                //监听用户登录事件
+                /** @var \yii\web\UserEvent $event */
+                $app->user->on(\yii\web\User::EVENT_AFTER_LOGIN, function ($event) {
+                    //记录最后登录时间记录最后登录IP记录登录次数
+                    $event->identity->resetLoginData();
+                });
+
+                //监听用户活动时间
+                /** @var \yii\web\UserEvent $event */
+                $app->on(\yii\web\Application::EVENT_AFTER_REQUEST, function ($event) use ($app) {
+                    if (!$app->user->isGuest) {
+                        //记录最后活动时间
+                        $app->user->identity->userData->updateAttributes(['last_visit' => time()]);
+                    }
+                });
             }
         }
         /**

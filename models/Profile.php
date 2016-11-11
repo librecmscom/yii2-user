@@ -16,7 +16,7 @@ use yuncms\user\ModuleTrait;
  *
  * @property int $user_id 用户ID
  * @property string $name
- * @property int $gender 性别
+ * @property int $sex 性别
  * @property string $public_email
  * @property string $location
  * @property string $website
