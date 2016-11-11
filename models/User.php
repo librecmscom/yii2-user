@@ -627,10 +627,10 @@ class User extends ActiveRecord implements IdentityInterface
             }
             $this->_profile->link('user', $this);
 
-            if ($this->_data == null) {
-                $this->_data = new Data();
+            if ($this->_userData == null) {
+                $this->_userData = new Data();
             }
-            $this->_data->link('user', $this);
+            $this->_userData->link('user', $this);
         }
     }
 
