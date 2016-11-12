@@ -71,7 +71,7 @@ class ProfileController extends Controller
                 //更新访客计数
                 $model->user->userData->updateCounters(['views' => 1]);
             } else {
-                $visit->updateAttributes(['updated_at'=>time()]);
+                $visit->updateAttributes(['updated_at' => time()]);
             }
         }
         return $this->render('show', ['model' => $model]);
@@ -87,8 +87,9 @@ class ProfileController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Profile::find()->with('user')->andWhere(['user_id' => $id])->one()) !== null) {
-            return $model;
+        $userClass = Yii::$app->user->identityClass;
+        if (($model = $userClass::findOne($id)) !== null) {
+            return $model->profile;
         } else {
             throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));
         }
