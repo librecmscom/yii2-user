@@ -66,3 +66,45 @@ $this->title = empty($model->name) ? Html::encode($model->user->username) : Html
         </div>
     </div>
 </header>
+
+<button type="button" class="btn mr-10 btn-success" data-target="follow-button" data-source_type="user"
+        data-source_id="1" data-show_num="true" data-toggle="tooltip" data-placement="right" title=""
+        data-original-title="关注后将获得更新提醒">关注
+</button>
+
+
+<script>
+    window.onload=function(){
+    /*关注模块处理，用户等*/
+    jQuery(document).on('click', '[data-target="follow-button"]', function (e) {
+        $(this).button('loading');
+        var follow_btn = $(this);
+        var source_type = $(this).data('source_type');
+        var source_id = $(this).data('source_id');
+        var show_num = $(this).data('show_num');
+        if (source_type == 'user') {
+            follow(source_type,source_id,function(status){
+                follow_btn.removeClass('disabled');
+                follow_btn.removeAttr('disabled');
+                if (status == 'followed') {
+                    follow_btn.html('已关注');
+                    follow_btn.addClass('active');
+                } else {
+                    follow_btn.html('关注');
+                    follow_btn.removeClass('active');
+                }
+
+                /*是否操作关注数*/
+                if (Boolean(show_num)) {
+                    var follower_num = $("#follower-num").html();
+                    if (msg === 'followed') {
+                        $("#follower-num").html(parseInt(follower_num) + 1);
+                    } else {
+                        $("#follower-num").html(parseInt(follower_num) - 1);
+                    }
+                }
+            })
+        }
+    });
+        }
+</script>
