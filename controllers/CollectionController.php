@@ -59,7 +59,14 @@ class CollectionController extends Controller
         /** @var null|\yii\db\ActiveRecord $source */
         $source = null;
 
-        //此处获取要收藏的模型
+        if ($sourceType == 'question' && Yii::$app->hasModule('question')) {
+            $source = \yuncms\question\models\Question::findOne($sourceId);
+            $subject = $source->title;
+        } else if ($sourceType == 'user') {
+            $userClass = Yii::$app->user->identityClass;
+            $source = $userClass::find()->with('userData')->where(['id' => $sourceId])->one();
+            $subject = $source->username;
+        }
 
         if (!$source) {
             throw new NotFoundHttpException ();
@@ -69,7 +76,12 @@ class CollectionController extends Controller
         $userCollect = Collection::findOne(['user_id' => Yii::$app->user->id, 'source_type' => get_class($source), 'source_id' => $sourceId]);
         if ($userCollect) {
             $userCollect->delete();
-            $source->updateCounters(['collections' => -1]);
+            if($sourceType == 'user'){
+                $source->userData->updateCounters(['collections' => -1]);
+            } else {
+                $source->updateCounters(['collections' => -1]);
+            }
+
             return ['status' => 'uncollect'];
         }
 
@@ -82,7 +94,11 @@ class CollectionController extends Controller
 
         $collect = new Collection($data);
         if ($collect) {
-            $source->updateCounters(['collections' => 1]);
+            if($sourceType == 'user'){
+                $source->userData->updateCounters(['collections' => 1]);
+            } else {
+                $source->updateCounters(['collections' => 1]);
+            }
             $collect->save();
         }
         return ['status' => 'collected'];

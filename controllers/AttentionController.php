@@ -13,7 +13,6 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yuncms\user\models\Attention;
-use yuncms\user\models\User;
 
 /**
  * Class AttentionController
@@ -57,7 +56,10 @@ class AttentionController extends Controller
             $userClass = Yii::$app->user->identityClass;
             $source = $userClass::findOne($sourceId);
             $subject = $source->username;
-        } //etc..
+        } else if ($sourceType == 'question' && Yii::$app->hasModule('question')) {
+            $source = \yuncms\question\models\Question::findOne($sourceId);
+            $subject = $source->title;
+        }//etc..
 
         if (!$source) {
             throw new NotFoundHttpException ();
