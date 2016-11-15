@@ -58,7 +58,10 @@ class SupportController extends Controller
             $source = \yuncms\question\models\Question::findOne($sourceId);
         } else if ($sourceType == 'answer' && Yii::$app->hasModule('question')) {
             $source = \yuncms\question\models\Answer::findOne($sourceId);
-        }//etc..
+        } else if ($sourceType == 'article' && Yii::$app->hasModule('article')) {
+            $source = \yuncms\article\models\Article::findOne($sourceId);
+        }
+        //etc..
 
         if (!$source) {
             throw new NotFoundHttpException ();

@@ -32,7 +32,6 @@ class NotificationController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'read-all', 'unread-notifications'],
                 'rules' => [
                     [
                         'allow' => true,

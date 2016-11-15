@@ -59,6 +59,9 @@ class AttentionController extends Controller
         } else if ($sourceType == 'question' && Yii::$app->hasModule('question')) {
             $source = \yuncms\question\models\Question::findOne($sourceId);
             $subject = $source->title;
+        } else if ($sourceType == 'article' && Yii::$app->hasModule('article')) {
+            $source = \yuncms\article\models\Article::findOne($sourceId);
+            $subject = $source->title;
         }//etc..
 
         if (!$source) {
