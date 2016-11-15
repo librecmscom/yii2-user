@@ -28,6 +28,7 @@ return [
     'Access Key ID' => 'Access ID',
     'Access Key Token' => 'Access Token',
     'Access Keys' => 'Access Keys',
+    'Successful operation.'=>'操作成功',
     'Account Setting' => '账户设置',
     'Account confirmation' => '帐户确认',
     'Account details' => '帐户详情',

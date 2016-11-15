@@ -141,6 +141,6 @@ class SecurityController extends Controller
          */
         $account = new Social();
         $account->connectWithUser($client);
-        $this->action->successUrl = Url::to(['/user/settings/networks']);
+        $this->action->successUrl = Url::to(['/user/setting/networks']);
     }
 }
