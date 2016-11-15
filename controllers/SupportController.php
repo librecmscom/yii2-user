@@ -28,6 +28,7 @@ class SupportController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'store' => ['POST'],
+                    'check' => ['POST'],
                 ],
             ],
             'access' => [
@@ -35,12 +36,33 @@ class SupportController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['store'],
+                        'actions' => ['check', 'store'],
                         'roles' => ['@'],
                     ],
                 ],
             ],
         ];
+    }
+
+    public function actionCheck()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $sourceType = Yii::$app->request->post('sourceType');
+        $sourceId = Yii::$app->request->post('sourceId');
+
+        if ($sourceType === 'answer' && Yii::$app->hasModule('question')) {
+            $source = \yuncms\question\models\Answer::findOne($sourceId);
+        }
+
+        if (!$source) {
+            throw new NotFoundHttpException ();
+        }
+
+        $support = Support::findOne(['user_id' => Yii::$app->user->id, 'source_type' => get_class($source), 'source_id' => $sourceId]);
+        if ($support) {
+            return ['status' => 'failed'];
+        }
+        return ['status' => 'success'];
     }
 
     public function actionStore()
@@ -83,6 +105,6 @@ class SupportController extends Controller
             $source->updateCounters(['supports' => 1]);
             $source->save();
         }
-        return ['status' => 'supported'];
+        return ['status' => 'success'];
     }
 }
