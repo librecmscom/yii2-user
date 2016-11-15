@@ -48,8 +48,9 @@ class EducationController extends Controller
      */
     public function actionIndex()
     {
+        $query = Education::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['id' => SORT_DESC]);
         $dataProvider = new ActiveDataProvider([
-            'query' => Education::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['id' => SORT_DESC]),
+            'query' => $query,
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,

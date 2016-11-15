@@ -147,7 +147,7 @@ class RegistrationController extends Controller
             return $this->goBack();
         }
         $user->attemptConfirmation($code);
-        return $this->render('/message', ['title' => Yii::t('user', 'Account confirmation'), 'module' => $this->module]);
+        return $this->redirect(['/user/setting/profile']);
     }
 
     /**
@@ -168,10 +168,7 @@ class RegistrationController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->resend()) {
-            return $this->render('/message', [
-                'title' => Yii::t('user', 'A new confirmation link has been sent'),
-                'module' => $this->module
-            ]);
+            return $this->redirect(['/user/setting/profile']);
         }
         return $this->render('resend', ['model' => $model]);
     }

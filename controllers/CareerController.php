@@ -48,8 +48,9 @@ class CareerController extends Controller
      */
     public function actionIndex()
     {
+        $query = Career::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['id' => SORT_DESC]);
         $dataProvider = new ActiveDataProvider([
-            'query' => Yii::$app->getUser()->identity->getCareers(),
+            'query' => $query,
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,

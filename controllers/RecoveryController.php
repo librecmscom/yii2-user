@@ -49,7 +49,7 @@ class RecoveryController extends Controller
     public function actionRequest()
     {
         if (!$this->module->enablePasswordRecovery) {
-            throw new NotFoundHttpException();
+            return $this->redirect(['/user/security/login']);
         }
         /** @var RecoveryForm $model */
         $model = new RecoveryForm(['scenario' => 'request']);
@@ -58,10 +58,7 @@ class RecoveryController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->sendRecoveryMessage()) {
-            return $this->render('/message', [
-                'title' => Yii::t('user', 'Recovery message sent'),
-                'module' => $this->module
-            ]);
+            return $this->redirect(['/user/recovery/request']);
         }
         return $this->render('request', ['model' => $model]);
     }
@@ -78,7 +75,7 @@ class RecoveryController extends Controller
     public function actionReset($id, $code)
     {
         if (!$this->module->enablePasswordRecovery) {
-            throw new NotFoundHttpException();
+            return $this->redirect(['/user/security/login']);
         }
         /** @var Token $token */
         $token = Token::findOne(['user_id' => $id, 'code' => $code, 'type' => Token::TYPE_RECOVERY]);
@@ -96,10 +93,7 @@ class RecoveryController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->getRequest()->post()) && $model->resetPassword($token)) {
-            return $this->render('/message', [
-                'title' => Yii::t('user', 'Password has been changed'),
-                'module' => $this->module
-            ]);
+            return $this->redirect(['/user/security/login']);
         }
 
         return $this->render('reset', ['model' => $model]);
