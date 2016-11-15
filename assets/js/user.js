@@ -10,6 +10,32 @@ function getUnreadNotifications(callback) {
 }
 
 /**
+ * 发起赞
+ * @param {string} source_type
+ * @param {int} source_id
+ * @param callback
+ */
+function support(source_type, source_id, callback) {
+    callback = callback || jQuery.noop;
+    jQuery.post("/user/support/store", {sourceType: source_type, sourceId: source_id}, function (result) {
+        return callback(result.status);
+    });
+}
+
+/**
+ * 发起赞
+ * @param {string} source_type
+ * @param {int} source_id
+ * @param callback
+ */
+function checkSupport(source_type, source_id, callback) {
+    callback = callback || jQuery.noop;
+    jQuery.post("/user/support/check", {sourceType: source_type, sourceId: source_id}, function (result) {
+        return callback(result.status);
+    });
+}
+
+/**
  * 发起关注
  * @param {string} source_type
  * @param {int} source_id
