@@ -7,13 +7,11 @@ use yii\widgets\ListView;
 
 $this->title = Yii::t('user', 'Notice');
 ?>
-
-
 <div class="row">
     <div class="col-md-3">
         <?= $this->render('/setting/_menu') ?>
     </div>
-    <div class="col-md-9" style="margin-bottom:30px">
+    <div class="col-md-9">
 
         <?= Html::a('全部标记为已读', ['/user/notification/read-all'], ['class' => 'btn btn-primary', 'data' => ['method' => 'post']]); ?>
 

@@ -10,7 +10,6 @@ use yii\grid\GridView;
 $this->title = Yii::t('user', 'Careers');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?= $this->render('/_alert', ['module' => Yii::$app->getModule('user')]) ?>
 
 <div class="row">
     <div class="col-md-3">

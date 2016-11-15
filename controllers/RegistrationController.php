@@ -144,7 +144,7 @@ class RegistrationController extends Controller
     {
         $user = User::findOne($id);
         if ($user === null || $this->module->enableConfirmation == false) {
-            throw new NotFoundHttpException();
+            return $this->goBack();
         }
         $user->attemptConfirmation($code);
         return $this->render('/message', ['title' => Yii::t('user', 'Account confirmation'), 'module' => $this->module]);
@@ -159,7 +159,7 @@ class RegistrationController extends Controller
     public function actionResend()
     {
         if ($this->module->enableConfirmation == false) {
-            throw new NotFoundHttpException();
+            return $this->goBack();
         }
         /** @var ResendForm $model */
         $model = new ResendForm();

@@ -14,8 +14,6 @@ CropperAsset::register($this);
 $this->title = Yii::t('user', 'My Avatar');
 ?>
 
-<?= $this->render('/_alert', ['module' => Yii::$app->getModule('user')]) ?>
-
 <div class="row">
     <div class="col-md-3">
         <?= $this->render('_menu') ?>
