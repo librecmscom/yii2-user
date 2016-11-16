@@ -103,8 +103,8 @@ class SupportController extends Controller
         $support = new Support($data);
         if ($support) {
             $source->updateCounters(['supports' => 1]);
-            $source->save();
         }
+        $support->save();
         return ['status' => 'success'];
     }
 }
