@@ -9,6 +9,7 @@ namespace yuncms\user;
 
 use Yii;
 use yii\helpers\FileHelper;
+use yuncms\user\models\Data;
 use yuncms\user\models\User;
 use yuncms\user\models\Doing;
 use yuncms\user\models\PurseLog;
@@ -208,12 +209,12 @@ class Module extends \yii\base\Module
      */
     public function amount($userId, $value, $action, $sourceType, $sourceId = 0, $subject = '')
     {
-        $transaction = User::getDb()->beginTransaction();
+        $transaction = Data::getDb()->beginTransaction();
         try {
-            $user = User::findOne($userId);
-            if ($user) {
-                $user->amount = $user->amount + $value;
-                $user->save();
+            $userData = Data::findOne($userId);
+            if ($userData) {
+                $userData->amount = $userData->amount + $value;
+                $userData->save();
                 $log = new PurseLog ([
                     'user_id' => $userId,
                     'currency' => 'amount',
@@ -251,12 +252,12 @@ class Module extends \yii\base\Module
      */
     public function point($userId, $value, $action, $sourceType, $sourceId = 0, $subject = '')
     {
-        $transaction = User::getDb()->beginTransaction();
+        $transaction = Data::getDb()->beginTransaction();
         try {
-            $user = User::findOne($userId);
-            if ($user) {
-                $user->point = $user->point + $value;
-                $user->save();
+            $userData = Data::findOne($userId);
+            if ($userData) {
+                $userData->point = $userData->point + $value;
+                $userData->save();
                 $log = new PurseLog ([
                     'user_id' => $userId,
                     'currency' => 'point',
