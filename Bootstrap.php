@@ -58,12 +58,12 @@ class Bootstrap implements BootstrapInterface
 
                 //监听用户活动时间
                 /** @var \yii\web\UserEvent $event */
-                $app->on(\yii\web\Application::EVENT_AFTER_REQUEST, function ($event) use ($app) {
-                    if (!$app->user->isGuest) {
-                        //记录最后活动时间
-                        $app->user->identity->userData->updateAttributes(['last_visit' => time()]);
-                    }
-                });
+//                $app->on(\yii\web\Application::EVENT_AFTER_REQUEST, function ($event) use ($app) {
+//                    if (!$app->user->isGuest) {
+//                        //记录最后活动时间
+//                        $app->user->identity->userData->updateAttributes(['last_visit' => time()]);
+//                    }
+//                });
             }
         }
         /**
