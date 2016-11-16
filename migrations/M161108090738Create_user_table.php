@@ -21,8 +21,6 @@ class M161108090738Create_user_table extends Migration
             'mobile' => $this->string(11)->unique(),
             'auth_key' => $this->string()->notNull(),
             'password_hash' => $this->string()->notNull(),
-            'amount' => $this->decimal(10, 2)->defaultValue('0.00'),
-            'point' => $this->integer()->defaultValue(0),
             'avatar' => $this->boolean()->defaultValue(false),
             'unconfirmed_email' => $this->string(150),
             'unconfirmed_mobile' => $this->string(11),
