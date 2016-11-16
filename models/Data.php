@@ -41,4 +41,14 @@ class Data extends ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    /**
+     * 获取指定排行榜
+     * @param string $type 类别
+     * @param int $limit
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function top($type, $limit)
+    {
+        return static::find()->with('user')->orderBy([$type => SORT_DESC,'last_visit'=> SORT_DESC])->limit($limit)->all();
+    }
 }
