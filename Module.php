@@ -34,7 +34,7 @@ class Module extends \yii\base\Module
      * Email is changed after user clicks both confirmation links sent to his old and new email addresses.
      */
     const STRATEGY_SECURE = 2;
-    
+
     /**
      * @var bool Whether to enable registration.
      */

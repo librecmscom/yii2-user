@@ -32,17 +32,17 @@ use yuncms\user\UserAsset;
  * @property string $username
  * @property string $email
  * @property string $unconfirmed_email
+ * @property string $unconfirmed_mobile
  * @property string $password_hash
  * @property string $auth_key
  * @property bool $avatar
- * @property double $amount
- * @property integer $point
  * @property integer $registration_ip
  * @property integer $confirmed_at
  * @property integer $blocked_at
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $flags
+ * @property integer $ver
  *
  * Defined relations:
  * @property Social[] $accounts
@@ -63,7 +63,8 @@ class User extends ActiveRecord implements IdentityInterface
     // following constants are used on secured email changing process
     const OLD_EMAIL_CONFIRMED = 0b1;
     const NEW_EMAIL_CONFIRMED = 0b10;
-
+    const OLD_MOBILE_CONFIRMED = 0b11;
+    const NEW_MOBILE_CONFIRMED = 0b100;
     /**
      * @var string Plain password. Used for model validation.
      */
@@ -288,38 +289,12 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * 获取最后一次登陆
-     */
-    public function getLoginHistory()
-    {
-        return $this->getLoginHistorys()->orderBy(['id' => SORT_DESC])->one();
-    }
-
-    /**
      * 获取我的收藏
      * 一对多关系
      */
     public function getCollections()
     {
         return $this->hasMany(Collection::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * 获取我的积分日志
-     * 一对多关系
-     */
-    public function getPointLogs()
-    {
-        return $this->hasMany(PurseLog::className(), ['user_id' => 'id'])->onCondition(['currency' => 'point']);
-    }
-
-    /**
-     * 获取我的积分日志
-     * 一对多关系
-     */
-    public function getAmountLogs()
-    {
-        return $this->hasMany(PurseLog::className(), ['user_id' => 'id'])->onCondition(['currency' => 'amount']);
     }
 
     /**
@@ -366,6 +341,25 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasMany(Rest::className(), ['user_id' => 'id']);
     }
+
+    /**
+     * 获取我的积分日志
+     * 一对多关系
+     */
+    public function getPointLogs()
+    {
+        return $this->hasMany(PurseLog::className(), ['user_id' => 'id'])->onCondition(['currency' => 'point']);
+    }
+
+    /**
+     * 获取我的积分日志
+     * 一对多关系
+     */
+    public function getAmountLogs()
+    {
+        return $this->hasMany(PurseLog::className(), ['user_id' => 'id'])->onCondition(['currency' => 'amount']);
+    }
+
 
     /** @inheritdoc */
     public function validateAuthKey($authKey)
@@ -476,6 +470,47 @@ class User extends ActiveRecord implements IdentityInterface
                             break;
                         case Token::TYPE_CONFIRM_OLD_EMAIL:
                             $this->flags |= self::OLD_EMAIL_CONFIRMED;
+                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your new email address'));
+                            break;
+                    }
+                }
+                if ($this->module->emailChangeStrategy == Module::STRATEGY_DEFAULT || ($this->flags & self::NEW_EMAIL_CONFIRMED && $this->flags & self::OLD_EMAIL_CONFIRMED)) {
+                    $this->email = $this->unconfirmed_email;
+                    $this->unconfirmed_email = null;
+                    Yii::$app->session->setFlash('success', Yii::t('user', 'Your email address has been changed'));
+                }
+                $this->save(false);
+            }
+        }
+    }
+
+    /**
+     * 该方法将更新用户的手机，如果`unconfirmed_mobile`字段为空将返回false,如果该邮件已经有人使用了将返回false; 否则返回true
+     *
+     * @param string $code
+     *
+     * @return boolean
+     * @throws \Exception
+     */
+    public function attemptMobileChange($code)
+    {
+        /** @var Token $token */
+        $token = Token::find()->where(['user_id' => $this->id, 'code' => $code])->andWhere(['in', 'type', [Token::TYPE_CONFIRM_NEW_MOBILE, Token::TYPE_CONFIRM_OLD_MOBILE]])->one();
+        if (empty($this->unconfirmed_mobile) || $token === null || $token->isExpired) {
+            Yii::$app->session->setFlash('danger', Yii::t('user', 'Your confirmation token is invalid or expired'));
+        } else {
+            $token->delete();
+            if (empty($this->unconfirmed_mobile)) {
+                Yii::$app->session->setFlash('danger', Yii::t('user', 'An error occurred processing your request'));
+            } elseif (static::find()->where(['mobile' => $this->unconfirmed_mobile])->exists() == false) {
+                if ($this->module->emailChangeStrategy == Module::STRATEGY_SECURE) {
+                    switch ($token->type) {
+                        case Token::TYPE_CONFIRM_NEW_MOBILE:
+                            $this->flags |= self::NEW_MOBILE_CONFIRMED;
+                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your old email address'));
+                            break;
+                        case Token::TYPE_CONFIRM_OLD_MOBILE:
+                            $this->flags |= self::OLD_MOBILE_CONFIRMED;
                             Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your new email address'));
                             break;
                     }
@@ -616,7 +651,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getAttentions()->andWhere(['source_type' => $sourceType, 'source_id' => $sourceId])->exists();
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -691,6 +726,16 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findByEmail($email)
     {
         return static::findOne(['email' => $email]);
+    }
+
+    /**
+     * 通过手机号获取用户
+     * @param string $mobile
+     * @return static
+     */
+    public static function findByMobile($mobile)
+    {
+        return static::findOne(['mobile' => $mobile]);
     }
 
     /**

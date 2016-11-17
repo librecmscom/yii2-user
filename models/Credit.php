@@ -11,16 +11,15 @@ use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * PurseLog model
+ * Credit model
  *
  * @property integer $id
  * @property integer $user_id
  * @property string $type
  * @property double $amount
  * @property integer $created_at
- * @property integer $updated_at
  */
-class PurseLog extends ActiveRecord
+class Credit extends ActiveRecord
 {
 
     /**
@@ -38,7 +37,7 @@ class PurseLog extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%user_purse_log}}';
+        return '{{%user_credits}}';
     }
 
     /**

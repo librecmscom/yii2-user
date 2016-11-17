@@ -31,6 +31,8 @@ class Token extends ActiveRecord
     const TYPE_RECOVERY = 1;
     const TYPE_CONFIRM_NEW_EMAIL = 2;
     const TYPE_CONFIRM_OLD_EMAIL = 3;
+    const TYPE_CONFIRM_NEW_MOBILE = 4;
+    const TYPE_CONFIRM_OLD_MOBILE = 5;
 
 
     /**
