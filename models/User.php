@@ -507,18 +507,18 @@ class User extends ActiveRecord implements IdentityInterface
                     switch ($token->type) {
                         case Token::TYPE_CONFIRM_NEW_MOBILE:
                             $this->flags |= self::NEW_MOBILE_CONFIRMED;
-                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your old email address'));
+                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your old mobile address'));
                             break;
                         case Token::TYPE_CONFIRM_OLD_MOBILE:
                             $this->flags |= self::OLD_MOBILE_CONFIRMED;
-                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your new email address'));
+                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your new mobile address'));
                             break;
                     }
                 }
-                if ($this->module->emailChangeStrategy == Module::STRATEGY_DEFAULT || ($this->flags & self::NEW_EMAIL_CONFIRMED && $this->flags & self::OLD_EMAIL_CONFIRMED)) {
-                    $this->email = $this->unconfirmed_email;
-                    $this->unconfirmed_email = null;
-                    Yii::$app->session->setFlash('success', Yii::t('user', 'Your email address has been changed'));
+                if ($this->module->emailChangeStrategy == Module::STRATEGY_DEFAULT || ($this->flags & self::NEW_MOBILE_CONFIRMED && $this->flags & self::OLD_MOBILE_CONFIRMED)) {
+                    $this->mobile = $this->unconfirmed_mobile;
+                    $this->unconfirmed_mobile = null;
+                    Yii::$app->session->setFlash('success', Yii::t('user', 'Your mobile address has been changed'));
                 }
                 $this->save(false);
             }
