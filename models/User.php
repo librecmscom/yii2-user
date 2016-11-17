@@ -503,19 +503,19 @@ class User extends ActiveRecord implements IdentityInterface
             if (empty($this->unconfirmed_mobile)) {
                 Yii::$app->session->setFlash('danger', Yii::t('user', 'An error occurred processing your request'));
             } elseif (static::find()->where(['mobile' => $this->unconfirmed_mobile])->exists() == false) {
-                if ($this->module->emailChangeStrategy == Module::STRATEGY_SECURE) {
+                if ($this->module->mobileChangeStrategy == Module::STRATEGY_SECURE) {
                     switch ($token->type) {
                         case Token::TYPE_CONFIRM_NEW_MOBILE:
                             $this->flags |= self::NEW_MOBILE_CONFIRMED;
-                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your old mobile address'));
+                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to input the confirmation code sent to your old mobile'));
                             break;
                         case Token::TYPE_CONFIRM_OLD_MOBILE:
                             $this->flags |= self::OLD_MOBILE_CONFIRMED;
-                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your new mobile address'));
+                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to input the confirmation code sent to your new mobile'));
                             break;
                     }
                 }
-                if ($this->module->emailChangeStrategy == Module::STRATEGY_DEFAULT || ($this->flags & self::NEW_MOBILE_CONFIRMED && $this->flags & self::OLD_MOBILE_CONFIRMED)) {
+                if ($this->module->mobileChangeStrategy == Module::STRATEGY_DEFAULT || ($this->flags & self::NEW_MOBILE_CONFIRMED && $this->flags & self::OLD_MOBILE_CONFIRMED)) {
                     $this->mobile = $this->unconfirmed_mobile;
                     $this->unconfirmed_mobile = null;
                     Yii::$app->session->setFlash('success', Yii::t('user', 'Your mobile address has been changed'));

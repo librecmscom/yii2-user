@@ -72,6 +72,11 @@ class Module extends \yii\base\Module
     public $emailChangeStrategy = self::STRATEGY_DEFAULT;
 
     /**
+     * @var int mobile changing strategy.
+     */
+    public $mobileChangeStrategy = self::STRATEGY_DEFAULT;
+
+    /**
      * @var int The time you want the user will be remembered without asking for credentials.
      */
     public $rememberFor = 1209600; // two weeks
