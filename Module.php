@@ -297,7 +297,7 @@ class Module extends \yii\base\Module
      * @param string $referContent
      * @return static
      */
-    public function notify($fromUserId, $toUserId, $type, $subject = '', $sourceId = 0, $referContent = '')
+    public function notify($fromUserId, $toUserId, $type, $subject = '', $sourceId = 0, $content='',$refer_type='',$refer_id=0)
     {
         /*不能自己给自己发通知*/
         if ($fromUserId == $toUserId) {
@@ -310,7 +310,9 @@ class Module extends \yii\base\Module
                 'type' => $type,
                 'subject' => $subject,
                 'source_id' => $sourceId,
-                'refer_content' => strip_tags($referContent),
+                'content' => strip_tags($content),
+                'refer_type'  => $refer_type,
+                'refer_id'  => $refer_id,
                 'status' => Notification::STATUS_UNREAD
             ]);
             return $notify->save();

@@ -21,7 +21,9 @@ class M161108091432Create_notifcation_table extends Migration
             'type' => $this->string(),
             'subject' => $this->string(),
             'source_id' => $this->integer(),
-            'refer_content' => $this->string(),
+            'refer_type' => $this->string(),
+            'refer_id' => $this->integer(),
+            'content' => $this->string(),
             'status' => $this->integer(2),
             'created_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
