@@ -20,7 +20,7 @@ class M161117091820Create_user_amounts_table extends Migration
             'action' => $this->string(100)->notNull(),
             'source_id' => $this->integer()->notNull(),
             'source_subject' => $this->string()->notNull(),
-            'amounts' => $this->decimal(8, 2)->defaultValue('0.00')->notNull(),
+            'coins' => $this->decimal(8, 2)->defaultValue('0.00')->notNull(),
             'credits' => $this->integer()->defaultValue(0),
             'created_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
