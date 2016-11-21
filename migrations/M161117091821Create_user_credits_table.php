@@ -20,7 +20,6 @@ class M161117091821Create_user_credits_table extends Migration
             'action' => $this->string(100)->notNull(),
             'source_id' => $this->integer()->notNull(),
             'source_subject' => $this->string()->notNull(),
-            'amounts' => $this->decimal(8, 2)->defaultValue('0.00')->notNull(),
             'credits' => $this->integer()->defaultValue(0),
             'created_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);

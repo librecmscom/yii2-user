@@ -13,6 +13,7 @@ use yuncms\user\models\Data;
 use yuncms\user\models\User;
 use yuncms\user\models\Doing;
 use yuncms\user\models\Amount;
+use yuncms\user\models\Coin;
 use yuncms\user\models\Credit;
 use yuncms\user\models\Notification;
 use yuncms\system\helpers\DateHelper;
@@ -230,11 +231,9 @@ class Module extends \yii\base\Module
                     'source_id' => $source_id,
                     'source_subject' => $source_subject,
                     'amounts' => $amounts,
-                    'credits' => $credits,
                 ]);
 
                 /*修改用户账户信息*/
-                $userData->updateCounters(['credits' => $credits]);
                 $userData->updateAttributes(['amount' => $userData->amounts + $amounts]);
                 $userData->save();
                 $transaction->commit();
@@ -256,10 +255,9 @@ class Module extends \yii\base\Module
      * @param int $source_id 源：问题id、回答id、文章id等
      * @param string $source_subject 源主题：问题标题、文章标题等
      * @param int $coins 金币数/财富值
-     * @param int $credits 经验值
-     * @return bool           操作成功返回true 否则  false
+     * @return bool  操作成功返回true 否则  false
      */
-    public function credit($user_id, $action, $coins = 0, $credits = 0, $source_id = 0, $source_subject = null)
+    public function coin($user_id, $action, $coins = 0, $source_id = 0, $source_subject = null)
     {
         $userData = Data::findOne($user_id);
         if ($userData) {
@@ -268,20 +266,51 @@ class Module extends \yii\base\Module
                 if (($userData->coins + $coins) < 0) {
                     return false;
                 }
-                /*记录详情数据*/
-                Credit::create([
+                Coin::create([
                     'user_id' => $user_id,
                     'action' => $action,
                     'source_id' => $source_id,
                     'source_subject' => $source_subject,
                     'coins' => $coins,
-                    'credits' => $credits,
                 ]);
-
                 /*修改用户账户信息*/
-                $userData->updateCounters(['credits' => $credits]);
                 $userData->updateAttributes(['coins' => $userData->coins + $coins]);
                 $userData->save();
+                $transaction->commit();
+                return true;
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 修改用户经验值
+     * @param int $user_id 用户id
+     * @param string $action 执行动作：提问、回答、发起文章
+     * @param int $source_id 源：问题id、回答id、文章id等
+     * @param string $source_subject 源主题：问题标题、文章标题等
+     * @param int $credits 经验值
+     * @return bool  操作成功返回true 否则  false
+     */
+    public function credit($user_id, $action, $credits = 0, $source_id = 0, $source_subject = null)
+    {
+        $userData = Data::findOne($user_id);
+        if ($userData) {
+            $transaction = Data::getDb()->beginTransaction();
+            try {
+                Credit::create([
+                    'user_id' => $user_id,
+                    'action' => $action,
+                    'source_id' => $source_id,
+                    'source_subject' => $source_subject,
+                    'credits' => $credits,
+                ]);
+                /*修改用户账户信息*/
+                $userData->updateCounters(['credits' => $credits]);
                 $transaction->commit();
                 return true;
             } catch (\Exception $e) {

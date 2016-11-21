@@ -4,7 +4,7 @@ namespace yuncms\user\migrations;
 
 use yii\db\Migration;
 
-class M161117091820Create_user_amounts_table extends Migration
+class M161117091822Create_user_coins_table extends Migration
 {
     public function up()
     {
@@ -14,20 +14,20 @@ class M161117091820Create_user_amounts_table extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%user_amounts}}', [
+        $this->createTable('{{%user_coins}}', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
             'action' => $this->string(100)->notNull(),
             'source_id' => $this->integer()->notNull(),
             'source_subject' => $this->string()->notNull(),
-            'amounts' => $this->decimal(8, 2)->defaultValue('0.00')->notNull(),
+            'coins' => $this->decimal(8, 2)->defaultValue('0.00')->notNull(),
             'created_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
     }
 
     public function down()
     {
-        $this->dropTable('{{%user_amounts}}');
+        $this->dropTable('{{%user_coins}}');
     }
 
     /*
