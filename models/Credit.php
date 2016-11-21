@@ -73,4 +73,10 @@ class Credit extends ActiveRecord
             'created_at' => Yii::t('user', 'Purse Log Created At'),
         ];
     }
+
+    public static function create($attribute)
+    {
+        $model = new static ($attribute);
+        return $model->save();
+    }
 }
