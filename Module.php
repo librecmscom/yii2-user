@@ -235,7 +235,7 @@ class Module extends \yii\base\Module
 
                 /*修改用户账户信息*/
                 $userData->updateCounters(['credits' => $credits]);
-                $userData->updateAttributes(['amount' => $this->amounts + $amounts]);
+                $userData->updateAttributes(['amount' => $userData->amounts + $amounts]);
                 $userData->save();
                 $transaction->commit();
                 return true;
@@ -280,7 +280,7 @@ class Module extends \yii\base\Module
 
                 /*修改用户账户信息*/
                 $userData->updateCounters(['credits' => $credits]);
-                $userData->updateAttributes(['coins' => $this->coins + $coins]);
+                $userData->updateAttributes(['coins' => $userData->coins + $coins]);
                 $userData->save();
                 $transaction->commit();
                 return true;
