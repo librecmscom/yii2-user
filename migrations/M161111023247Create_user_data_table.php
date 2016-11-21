@@ -19,7 +19,8 @@ class M161111023247Create_user_data_table extends Migration
         $this->createTable('{{%user_data}}', [
             'user_id' => $this->integer()->notNull() . ' PRIMARY KEY',
             'amount' => $this->decimal(10, 2)->defaultValue('0.00'),
-            'point' => $this->integer()->defaultValue(0),
+            'coins' => $this->decimal(10, 2)->defaultValue('0.00'),
+            'credits' => $this->integer()->defaultValue(0),
             'login_at' => $this->integer()->unsigned(),
             'login_num' => $this->integer()->unsigned()->defaultValue(0),
             'views' => $this->integer()->unsigned()->defaultValue(0),
