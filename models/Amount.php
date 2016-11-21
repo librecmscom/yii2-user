@@ -11,7 +11,7 @@ use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * Credit model
+ * Amount model
  *
  * @property integer $id
  * @property integer $user_id
@@ -19,7 +19,7 @@ use yii\behaviors\TimestampBehavior;
  * @property double $amount
  * @property integer $created_at
  */
-class Credit extends ActiveRecord
+class Amount extends ActiveRecord
 {
 
     /**
@@ -27,7 +27,7 @@ class Credit extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%user_credits}}';
+        return '{{%user_amounts}}';
     }
 
     /**

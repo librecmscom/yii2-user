@@ -12,6 +12,7 @@ use yii\helpers\FileHelper;
 use yuncms\user\models\Data;
 use yuncms\user\models\User;
 use yuncms\user\models\Doing;
+use yuncms\user\models\Amount;
 use yuncms\user\models\Credit;
 use yuncms\user\models\Notification;
 use yuncms\system\helpers\DateHelper;
@@ -204,46 +205,49 @@ class Module extends \yii\base\Module
 
     /**
      * amount变动
-     * @param $userId
-     * @param $value
-     * @param $action
-     * @param $sourceType
-     * @param $sourceId
-     * @param $subject
+     * @param int $user_id
+     * @param string $action
+     * @param int $amounts
+     * @param int $credits
+     * @param int $source_id
+     * @param null $source_subject
      * @return bool
      * @throws \yii\db\Exception
      */
-    public function amount($userId, $value, $action, $sourceType, $sourceId = 0, $subject = '')
+    public function amount($user_id, $action, $amounts = 0, $credits = 0, $source_id = 0, $source_subject = null)
     {
-        $transaction = Data::getDb()->beginTransaction();
-        try {
-            $userData = Data::findOne($userId);
-            if ($userData) {
-                $userData->amount = $userData->amount + $value;
-                $userData->save();
-                $log = new PurseLog ([
-                    'user_id' => $userId,
-                    'currency' => 'amount',
-                    'value' => $value,
-                    'action' => $action,
-                    'source_id' => $sourceId,
-                    'source_type' => $sourceType,
-                    'subject' => $subject,
-                ]);
-                if ($value > 0) {
-                    $log->type = PurseLog::TYPE_INC;
-                } else {
-                    $log->type = PurseLog::TYPE_DEC;
+        $userData = Data::findOne($user_id);
+        if ($userData) {
+            $transaction = Data::getDb()->beginTransaction();
+            try {
+                if (($userData->amounts + $amounts) < 0) {
+                    return false;
                 }
-                $log->save();
+                /*记录详情数据*/
+                Amount::create([
+                    'user_id' => $user_id,
+                    'action' => $action,
+                    'source_id' => $source_id,
+                    'source_subject' => $source_subject,
+                    'amounts' => $amounts,
+                    'credits' => $credits,
+                ]);
+
+                /*修改用户账户信息*/
+                $userData->updateCounters(['credits' => $credits]);
+                $userData->updateAttributes(['amount' => $this->amounts + $amounts]);
+                $userData->save();
+                $transaction->commit();
+                return true;
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                return false;
             }
-            $transaction->commit();
-        } catch (\Exception $e) {
-            $transaction->rollBack();
+        } else {
             return false;
         }
-        return true;
     }
+
 
     /**
      * 修改用户积分
@@ -255,18 +259,13 @@ class Module extends \yii\base\Module
      * @param int $credits 经验值
      * @return bool           操作成功返回true 否则  false
      */
-    protected function credit($user_id, $action, $coins = 0, $credits = 0, $source_id = 0, $source_subject = null)
+    public function credit($user_id, $action, $coins = 0, $credits = 0, $source_id = 0, $source_subject = null)
     {
         $userData = Data::findOne($user_id);
         if ($userData) {
             $transaction = Data::getDb()->beginTransaction();
             try {
-                /*用户登陆只添加一次积分*/
-                if ($action == 'login' && Credit::find()
-                        ->where(['user_id' => $user_id, 'action' => $action])
-                        ->andWhere(['>', 'created_at', DateHelper::todayFirstSecond()])
-                        ->count() > 0
-                ) {
+                if (($userData->coins + $coins) < 0) {
                     return false;
                 }
                 /*记录详情数据*/
@@ -280,10 +279,11 @@ class Module extends \yii\base\Module
                 ]);
 
                 /*修改用户账户信息*/
-                $userData->updateCounters(['coins' => $coins, 'credits' => $credits]);
+                $userData->updateCounters(['credits' => $credits]);
+                $userData->updateAttributes(['coins' => $this->coins + $coins]);
+                $userData->save();
                 $transaction->commit();
                 return true;
-
             } catch (\Exception $e) {
                 $transaction->rollBack();
                 return false;
@@ -291,49 +291,6 @@ class Module extends \yii\base\Module
         } else {
             return false;
         }
-    }
-
-    /**
-     * 积分变动
-     * @param $userId
-     * @param $value
-     * @param $action
-     * @param $sourceType
-     * @param $sourceId
-     * @param $subject
-     * @return bool
-     * @throws \yii\db\Exception
-     */
-    public function point($userId, $value, $action, $sourceType, $sourceId = 0, $subject = '')
-    {
-        $transaction = Data::getDb()->beginTransaction();
-        try {
-            $userData = Data::findOne($userId);
-            if ($userData) {
-                $userData->point = $userData->point + $value;
-                $userData->save();
-                $log = new PurseLog ([
-                    'user_id' => $userId,
-                    'currency' => 'point',
-                    'value' => $value,
-                    'action' => $action,
-                    'source_id' => $sourceId,
-                    'source_type' => $sourceType,
-                    'subject' => $subject,
-                ]);
-                if ($value > 0) {
-                    $log->type = PurseLog::TYPE_INC;
-                } else {
-                    $log->type = PurseLog::TYPE_DEC;
-                }
-                $log->save();
-            }
-            $transaction->commit();
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
-        }
-        return true;
     }
 
     /**
