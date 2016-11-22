@@ -142,6 +142,27 @@ class Module extends \yii\base\Module
     public $avatarPath = '@uploads/avatar';
 
     /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $this->registerTranslations();
+    }
+
+    /**
+     * 注册语言包
+     */
+    public function registerTranslations()
+    {
+        Yii::$app->i18n->translations['modules/users/*'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'sourceLanguage' => 'en-US',
+            'basePath' => __DIR__ . '/messages',
+        ];
+    }
+
+    /**
      * 获取头像的存储路径
      * @param int $userId
      * @return string
@@ -246,7 +267,6 @@ class Module extends \yii\base\Module
             return false;
         }
     }
-
 
     /**
      * 修改用户积分
@@ -392,15 +412,16 @@ class Module extends \yii\base\Module
     }
 
     /**
-     * @param $category
-     * @param $message
+     * 翻译语言
+     * @param string $category
+     * @param string $message
      * @param array $params
      * @param null $language
      * @return string
      */
     public static function t($category, $message, $params = [], $language = null)
     {
-        return Yii::t('user/' . $category, $message, $params, $language);
+        return Yii::t('modules/user/' . $category, $message, $params, $language);
     }
 
 
