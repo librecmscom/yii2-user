@@ -6,7 +6,7 @@ use yii\db\Migration;
 
 class M161108091015Create_user_social_account_table extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -21,8 +21,8 @@ class M161108091015Create_user_social_account_table extends Migration
             'user_id' => $this->integer(),
             'username' => $this->string(),
             'email' => $this->string(),
-            'provider' => $this->string(255)->notNull(),
-            'client_id' => $this->string(255)->notNull(),
+            'provider' => $this->string(50)->notNull(),
+            'client_id' => $this->string(100)->notNull(),
             'code' => $this->string(32)->unique(),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'data' => $this->text(),
@@ -32,7 +32,7 @@ class M161108091015Create_user_social_account_table extends Migration
         $this->addForeignKey('{{%user_account_ibfk_1}}', '{{%user_social_account}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%user_social_account}}');
     }
