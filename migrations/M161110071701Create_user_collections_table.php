@@ -14,18 +14,21 @@ class M161110071701Create_user_collections_table extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
+        /**
+         * 用户收藏表
+         */
         $this->createTable('{{%user_collections}}', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
-            'source_id' => $this->integer()->notNull(),
-            'source_type' => $this->string()->notNull(),
+            'model_id' => $this->integer()->notNull(),
+            'model' => $this->string()->notNull(),
             'subject' => $this->string(),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
 
         $this->addForeignKey('{{%user_collections_ibfk_1}}', '{{%user_collections}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
-        $this->createIndex('collections_source_id_source_type_index', '{{%user_collections}}', ['source_id', 'source_type'], false);
+        $this->createIndex('collections_source_id_source_type_index', '{{%user_collections}}', ['model_id', 'model'], false);
     }
 
     public function down()

@@ -36,15 +36,4 @@ class M161108091015Create_user_social_account_table extends Migration
     {
         $this->dropTable('{{%user_social_account}}');
     }
-
-    /*
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
-    */
 }

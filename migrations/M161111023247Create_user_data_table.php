@@ -6,7 +6,7 @@ use yii\db\Migration;
 
 class M161111023247Create_user_data_table extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -14,13 +14,13 @@ class M161111023247Create_user_data_table extends Migration
             $tableOptions = 'CHARACTER SET utf8mb4 COLLATE  utf8mb4_general_ci ENGINE=InnoDB';
         }
         /**
-         * 创建用户资料表
+         * 创建用户附表
          */
         $this->createTable('{{%user_data}}', [
-            'user_id' => $this->integer()->notNull() . ' PRIMARY KEY',
-            'amount' => $this->decimal(10, 2)->defaultValue('0.00'),
-            'coins' => $this->decimal(10, 2)->defaultValue('0.00'),
-            'credits' => $this->integer()->defaultValue(0),
+            'user_id' => $this->integer()->notNull(),
+            'amount' => $this->decimal(10, 2)->defaultValue('0.00')->comment('余额'),
+            'coins' => $this->decimal(10, 2)->defaultValue('0.00')->comment('金币'),
+            'credits' => $this->integer()->defaultValue(0)->comment('信用分'),
             'login_at' => $this->integer()->unsigned(),
             'login_num' => $this->integer()->unsigned()->defaultValue(0),
             'views' => $this->integer()->unsigned()->defaultValue(0),
@@ -32,19 +32,8 @@ class M161111023247Create_user_data_table extends Migration
         $this->addForeignKey('{{%user_data_ibfk_1}}', '{{%user_data}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%user_data}}');
     }
-
-    /*
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
-    */
 }

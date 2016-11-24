@@ -6,7 +6,7 @@ use yii\db\Migration;
 
 class M161108090856Create_user_token_table extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -28,19 +28,8 @@ class M161108090856Create_user_token_table extends Migration
         $this->addForeignKey('{{%user_token_ibfk_1}}', '{{%user_token}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%user_token}}');
     }
-
-    /*
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
-    */
 }

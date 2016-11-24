@@ -6,7 +6,7 @@ use yii\db\Migration;
 
 class M161108091359Create_doing_table extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -17,8 +17,8 @@ class M161108091359Create_doing_table extends Migration
             'id' => $this->primaryKey(),
             'user_id' => $this->integer(),
             'action' => $this->string(),
-            'source_id' => $this->integer(),
-            'source_type' => $this->string(),
+            'model_id' => $this->integer(),
+            'model' => $this->string(),
             'subject' => $this->string(),
             'content' => $this->string(),
             'refer_id' => $this->integer(),
@@ -30,19 +30,8 @@ class M161108091359Create_doing_table extends Migration
         $this->addForeignKey('{{%user_doing_ibfk_1}}', '{{%user_doing}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%user_doing}}');
     }
-
-    /*
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
-    */
 }

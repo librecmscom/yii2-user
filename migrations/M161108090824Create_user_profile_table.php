@@ -6,7 +6,7 @@ use yii\db\Migration;
 
 class M161108090824Create_user_profile_table extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -17,7 +17,7 @@ class M161108090824Create_user_profile_table extends Migration
          * 创建用户资料表
          */
         $this->createTable('{{%user_profile}}', [
-            'user_id' => $this->integer()->notNull() . ' PRIMARY KEY',
+            'user_id' => $this->integer()->notNull(),
             'nickname' => $this->string(),
             'sex' => $this->smallInteger(1)->notNull()->defaultValue(0),
             'mobile' => $this->string(),
@@ -33,19 +33,8 @@ class M161108090824Create_user_profile_table extends Migration
         $this->addForeignKey('{{%user_profile_ibfk_1}}', '{{%user_profile}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%user_profile}}');
     }
-
-    /*
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
-    */
 }

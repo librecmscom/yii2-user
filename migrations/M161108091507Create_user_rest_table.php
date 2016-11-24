@@ -6,7 +6,7 @@ use yii\db\Migration;
 
 class M161108091507Create_user_rest_table extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -31,19 +31,8 @@ class M161108091507Create_user_rest_table extends Migration
         $this->addForeignKey('{{%user_rest_ibfk_1}}', '{{%user_rest}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%user_rest}}');
     }
-
-    /*
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
-    */
 }

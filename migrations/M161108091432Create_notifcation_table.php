@@ -6,7 +6,7 @@ use yii\db\Migration;
 
 class M161108091432Create_notifcation_table extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -20,9 +20,9 @@ class M161108091432Create_notifcation_table extends Migration
             'to_user_id' => $this->integer(),
             'type' => $this->string(),
             'subject' => $this->string(),
-            'source_id' => $this->integer(),
-            'refer_type' => $this->string(),
-            'refer_id' => $this->integer(),
+            'model_id' => $this->integer(),
+            'refer_model' => $this->string(),
+            'refer_model_id' => $this->integer(),
             'content' => $this->string(),
             'status' => $this->integer(2),
             'created_at' => $this->integer()->unsigned()->notNull(),
@@ -32,19 +32,8 @@ class M161108091432Create_notifcation_table extends Migration
         $this->addForeignKey('{{%user_notifcation_ibfk_2}}', '{{%user_notifcation}}', 'to_user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%user_notifcation}}');
     }
-
-    /*
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
-    */
 }

@@ -6,7 +6,7 @@ use yii\db\Migration;
 
 class M161108091055Create_user_visit_table extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -20,28 +20,17 @@ class M161108091055Create_user_visit_table extends Migration
         $this->createTable('{{%user_visit}}', [
             'id' => $this->primaryKey(11),
             'user_id' => $this->integer()->notNull(),
-            'source_id' => $this->integer()->notNull(),
+            'model_id' => $this->integer()->notNull(),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
-        $this->createIndex('visit_source_id_user_id_index', '{{%user_visit}}', ['user_id', 'source_id']);
+        $this->createIndex('visit_source_id_user_id_index', '{{%user_visit}}', ['user_id', 'model_id']);
         $this->addForeignKey('{{%user_visit_ibfk_1}}', '{{%user_visit}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
         $this->addForeignKey('{{%user_visit_ibfk_2}}', '{{%user_visit}}', 'source_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%user_visit}}');
     }
-
-    /*
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
-    */
 }
