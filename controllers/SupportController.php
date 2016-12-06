@@ -58,7 +58,7 @@ class SupportController extends Controller
             throw new NotFoundHttpException ();
         }
 
-        $support = Support::findOne(['user_id' => Yii::$app->user->id, 'source_type' => get_class($source), 'source_id' => $sourceId]);
+        $support = Support::findOne(['user_id' => Yii::$app->user->id, 'model' => get_class($source), 'model_id' => $sourceId]);
         if ($support) {
             return ['status' => 'failed'];
         }
@@ -89,15 +89,15 @@ class SupportController extends Controller
             throw new NotFoundHttpException ();
         }
 
-        $support = Support::findOne(['user_id' => Yii::$app->user->id, 'source_type' => get_class($source), 'source_id' => $sourceId]);
+        $support = Support::findOne(['user_id' => Yii::$app->user->id, 'model' => get_class($source), 'model_id' => $sourceId]);
         if ($support) {
             return ['status' => 'supported'];
         }
 
         $data = [
             'user_id' => Yii::$app->user->id,
-            'source_id' => $sourceId,
-            'source_type' => get_class($source),
+            'model_id' => $sourceId,
+            'model' => get_class($source),
         ];
 
         $support = Support::create($data);

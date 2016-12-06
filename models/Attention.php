@@ -44,8 +44,8 @@ class Attention extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'source_id', 'source_type'], 'required'],
-            ['source_type', 'filter', 'filter' => 'trim'],
+            [['user_id', 'model_id', 'model'], 'required'],
+            ['model', 'filter', 'filter' => 'trim'],
         ];
     }
 

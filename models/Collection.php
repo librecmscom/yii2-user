@@ -44,8 +44,8 @@ class Collection extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'source_id', 'source_type'], 'required'],
-            [['source_type', 'subject'], 'filter', 'filter' => 'trim'],
+            [['user_id', 'model_id', 'model'], 'required'],
+            [['model', 'subject'], 'filter', 'filter' => 'trim'],
         ];
     }
 

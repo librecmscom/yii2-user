@@ -69,7 +69,7 @@ class AttentionController extends Controller
         }
 
         /*再次关注相当于是取消关注*/
-        $attention = Attention::findOne(['user_id' => Yii::$app->user->id, 'source_type' => get_class($source), 'source_id' => $sourceId]);
+        $attention = Attention::findOne(['user_id' => Yii::$app->user->id, 'model' => get_class($source), 'model_id' => $sourceId]);
         if ($attention) {
             $attention->delete();
             if ($sourceType == 'user') {
@@ -82,8 +82,8 @@ class AttentionController extends Controller
 
         $data = [
             'user_id' => Yii::$app->user->id,
-            'source_id' => $sourceId,
-            'source_type' => get_class($source),
+            'model_id' => $sourceId,
+            'model' => get_class($source),
         ];
 
         $attention = Attention::create($data);
