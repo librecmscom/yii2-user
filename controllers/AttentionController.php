@@ -86,7 +86,7 @@ class AttentionController extends Controller
             'source_type' => get_class($source),
         ];
 
-        $attention = new Attention($data);
+        $attention = Attention::create($data);
         if ($attention) {
             switch ($sourceType) {
                 case 'user':

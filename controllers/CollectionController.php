@@ -95,7 +95,7 @@ class CollectionController extends Controller
             'subject' => $subject,
         ];
 
-        $collect = new Collection($data);
+        $collect = Collection::create($data);
         if ($collect) {
             if ($sourceType == 'user') {
                 $source->userData->updateCounters(['collections' => 1]);

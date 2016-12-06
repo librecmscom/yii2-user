@@ -60,6 +60,9 @@ class Support extends ActiveRecord
     public static function create($attribute)
     {
         $model = new static ($attribute);
-        return $model->save();
+        if ($model->save()) {
+            return $model;
+        }
+        return false;
     }
 }

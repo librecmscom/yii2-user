@@ -100,7 +100,7 @@ class SupportController extends Controller
             'source_type' => get_class($source),
         ];
 
-        $support = new Support($data);
+        $support = Support::create($data);
         if ($support) {
             $source->updateCounters(['supports' => 1]);
         }
