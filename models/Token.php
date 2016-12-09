@@ -73,7 +73,7 @@ class Token extends ActiveRecord
                 break;
             case self::TYPE_CONFIRM_NEW_EMAIL:
             case self::TYPE_CONFIRM_OLD_EMAIL:
-                $route = '/user/settings/confirm';
+                $route = '/user/setting/confirm';
                 break;
             default:
                 throw new \RuntimeException();
