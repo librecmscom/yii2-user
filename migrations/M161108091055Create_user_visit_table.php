@@ -20,7 +20,7 @@ class M161108091055Create_user_visit_table extends Migration
         $this->createTable('{{%user_visit}}', [
             'id' => $this->primaryKey(11),
             'user_id' => $this->integer()->notNull(),
-            'model_id' => $this->integer()->notNull(),
+            'source_id' => $this->integer()->notNull(),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
