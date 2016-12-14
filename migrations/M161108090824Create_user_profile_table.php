@@ -30,6 +30,7 @@ class M161108090824Create_user_profile_table extends Migration
             'introduction' => $this->string(),
             'bio' => $this->text()
         ], $tableOptions);
+        $this->addPrimaryKey('{{%user_profile}}','{{%user_profile}}','user_id');
         $this->addForeignKey('{{%user_profile_ibfk_1}}', '{{%user_profile}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
