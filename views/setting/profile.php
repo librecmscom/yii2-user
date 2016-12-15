@@ -2,7 +2,8 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
-use yuncms\user\helpers\Timezone;
+use yuncms\system\helpers\DateHelper;
+use yuncms\system\helpers\CountryHelper;
 
 /*
  * @var yii\web\View $this
@@ -39,13 +40,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'template' => "{label}\n<div class=\"col-lg-6\">{input}</div>\n<div class=\"col-sm-offset-3 col-lg-6\">{error}\n{hint}</div>",
         ]); ?>
 
+        <?= $form->field($model, 'country')->dropDownList(ArrayHelper::map(CountryHelper::getCountryAll(), 'identifier', 'name')); ?>
+
         <?= $form->field($model, 'location') ?>
 
         <?= $form->field($model, 'address') ?>
 
         <?= $form->field($model, 'website') ?>
 
-        <?= $form->field($model, 'timezone')->dropDownList(ArrayHelper::map(Timezone::getAll(), 'timezone', 'name')); ?>
+        <?= $form->field($model, 'timezone')->dropDownList(ArrayHelper::map(DateHelper::getTimeZoneAll(), 'identifier', 'name')); ?>
 
         <?= $form->field($model, 'introduction')->textarea() ?>
 

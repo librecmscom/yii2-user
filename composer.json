@@ -9,7 +9,8 @@
         "yiisoft/yii2-swiftmailer": "^2.0.0",
         "yiisoft/yii2-bootstrap": "^2.0.0",
         "xutl/yii2-authclient": ">=1.0.8",
-        "xutl/yii2-fontawesome": ">=1.0.3"
+        "xutl/yii2-fontawesome": ">=1.0.3",
+        "yuncms/yii2-system": "~1.0.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "^2.0.0",

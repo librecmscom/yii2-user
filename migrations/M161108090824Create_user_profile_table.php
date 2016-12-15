@@ -22,6 +22,7 @@ class M161108090824Create_user_profile_table extends Migration
             'sex' => $this->smallInteger(1)->notNull()->defaultValue(0),
             'mobile' => $this->string(),
             'public_email' => $this->string(),
+            'country' => $this->string(),
             'location' => $this->string(),
             'address' => $this->string(),
             'website' => $this->string(),
