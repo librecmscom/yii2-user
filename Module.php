@@ -135,7 +135,8 @@ class Module extends \yii\base\Module
         'notice' => 'notification/index',
         'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
         'setting/<action:\w+>' => 'setting/<action>',
-        '<username:[A-Za-z0-9]+>' => 'profile/view',
+        //这个默认不启用
+        //'<username:[A-Za-z0-9]+>' => 'profile/view',
     ];
 
     public $avatarUrl = '@uploadUrl/avatar';
