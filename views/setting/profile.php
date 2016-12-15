@@ -19,7 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $this->render('_menu') ?>
     </div>
     <div class="col-md-9">
-        <?= $this->render('_header') ?>
         <?php $form = ActiveForm::begin([
             'id' => 'profile-form',
             'options' => ['class' => 'form-horizontal'],

@@ -86,13 +86,14 @@ $asset = AppAsset::register($this);
                                 data-source_type="user"
                                 data-source_id="<?= $this->params['profile']->user_id; ?>" data-show_num="true"
                                 data-toggle="tooltip" data-placement="right" title=""
-                                data-original-title="关注后将获得更新提醒">关注
+                                data-original-title="<?= Yii::t('user', 'Follow will be updated to remind') ?>"><?= Yii::t('user', 'Follow') ?>
                         </button>
 
                         <button class="btn btn-default btnMessageTo" data-toggle="modal"
                                 data-target="#sendTo_message_model"
                                 data-to_user_id="<?= $this->params['profile']->user_id; ?>"
-                                data-to_user_name="<?= $this->params['profile']->user->username; ?>">发私信
+                                data-to_user_name="<?= $this->params['profile']->user->username; ?>">
+                            <?= Yii::t('user', 'Send messages') ?>
                         </button>
                     </div>
                     <div class="space-header-info row mt-30">
