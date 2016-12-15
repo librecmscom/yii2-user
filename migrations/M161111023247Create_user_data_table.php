@@ -18,16 +18,16 @@ class M161111023247Create_user_data_table extends Migration
          */
         $this->createTable('{{%user_data}}', [
             'user_id' => $this->integer()->notNull(),
-            'amount' => $this->decimal(10, 2)->defaultValue('0.00')->comment('余额'),
-            'coins' => $this->decimal(10, 2)->defaultValue('0.00')->comment('金币'),
-            'credits' => $this->integer()->defaultValue(0)->comment('信用分'),
-            'login_at' => $this->integer()->unsigned(),
-            'login_num' => $this->integer()->unsigned()->defaultValue(0),
-            'views' => $this->integer()->unsigned()->defaultValue(0),
-            'supports' => $this->integer()->unsigned()->defaultValue(0),
-            'followers' => $this->integer()->unsigned()->defaultValue(0),
-            'last_visit' => $this->integer()->unsigned(),
-            'login_ip' => $this->string()
+            'integrals' => $this->integer()->unsigned()->defaultValue(0)->comment('积分'),
+            'coins' => $this->integer()->unsigned()->defaultValue(0)->comment('金币'),
+            'credits' => $this->integer()->unsigned()->defaultValue(0)->comment('信用'),
+            'login_ip' => $this->string()->comment('登录IP'),
+            'login_at' => $this->integer()->unsigned()->comment('登录事件'),
+            'login_num' => $this->integer()->unsigned()->defaultValue(0)->comment('登录次数'),
+            'views' => $this->integer()->unsigned()->defaultValue(0)->comment('查看数数'),
+            'supports' => $this->integer()->unsigned()->defaultValue(0)->comment('赞数'),
+            'followers' => $this->integer()->unsigned()->defaultValue(0)->comment('关注数'),
+            'last_visit' => $this->integer()->unsigned()->comment('最后活动'),
         ], $tableOptions);
         $this->addPrimaryKey('{{%user_data}}','{{%user_data}}','user_id');
         $this->addForeignKey('{{%user_data_ibfk_1}}', '{{%user_data}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
