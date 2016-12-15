@@ -134,7 +134,8 @@ class Module extends \yii\base\Module
         'forgot' => 'recovery/request',
         'notice' => 'notification/index',
         'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
-        'setting/<action:\w+>' => 'setting/<action>'
+        'setting/<action:\w+>' => 'setting/<action>',
+        '<username:[A-Za-z0-9]+>' => 'profile/view',
     ];
 
     public $avatarUrl = '@uploadUrl/avatar';

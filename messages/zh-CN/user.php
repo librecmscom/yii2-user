@@ -105,7 +105,7 @@ return [
     'Finish' => '完成',
     'Forgot password?' => '忘记密码？',
     'Follow'=>'关注',
-    'Send messages'=>'发私信',
+    'Message'=>'发私信',
     'Follow will be updated to remind'=>'关注后将获得更新提醒',
     'Hello' => '你好',
     'If you already registered, sign in and connect this account on settings page' => '如果您已经注册，登录并在设置页连接此帐户',

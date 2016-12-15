@@ -93,7 +93,7 @@ $asset = AppAsset::register($this);
                                 data-target="#sendTo_message_model"
                                 data-to_user_id="<?= $this->params['profile']->user_id; ?>"
                                 data-to_user_name="<?= $this->params['profile']->user->username; ?>">
-                            <?= Yii::t('user', 'Send messages') ?>
+                            <?= Yii::t('user', 'Message') ?>
                         </button>
                     </div>
                     <div class="space-header-info row mt-30">
