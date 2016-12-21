@@ -32,13 +32,13 @@ class Bootstrap implements BootstrapInterface
                 $app->controllerMap['user'] = [
                     'class' => 'yuncms\user\console\UserController',
                 ];
-            } else if ($module instanceof \yuncms\user\backend\Module) {
+            } else if (class_exists('\yuncms\admin\Application') && $app instanceof \yuncms\admin\Application) {
 
             } elseif ($module instanceof Module) {//前台判断放最后
                 Yii::$container->set('yii\web\User', [
                     'enableAutoLogin' => true,
                     'loginUrl' => ['/user/security/login'],
-                    'identityClass' => '\yuncms\user\models\User',
+                    'identityClass' => 'yuncms\user\models\User',
                 ]);
                 $configUrlRule = [
                     'prefix' => $module->urlPrefix,
