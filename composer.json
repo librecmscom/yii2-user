@@ -5,12 +5,11 @@
     "type": "yii2-extension",
     "license": "MIT",
     "require": {
-        "yiisoft/yii2": "^2.0.0",
-        "yiisoft/yii2-swiftmailer": "^2.0.0",
-        "yiisoft/yii2-bootstrap": "^2.0.0",
-        "xutl/yii2-authclient": ">=1.0.8",
-        "xutl/yii2-fontawesome": ">=1.0.3",
-        "yuncms/yii2-system": "~1.0.0"
+        "yiisoft/yii2": "~2.0.10",
+        "yiisoft/yii2-swiftmailer": "~2.0.0",
+        "yiisoft/yii2-bootstrap": "~2.0.0",
+        "xutl/yii2-authclient": "~1.0.0",
+        "xutl/yii2-fontawesome": "~1.0.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "^2.0.0",
@@ -28,10 +27,6 @@
         "yuncms/yii2-tag": "Allows you to use tag"
     },
     "extra": {
-        "bootstrap": "yuncms\\user\\Bootstrap",
-        "asset-vcs-driver-options": {
-            "github-no-api": true
-        },
-        "asset-pattern-skip-version": "(-build|-patch)"
+        "bootstrap": "yuncms\\user\\Bootstrap"
     }
 }
