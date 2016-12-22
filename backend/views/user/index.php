@@ -1,11 +1,10 @@
 <?php
 use yii\web\View;
 use yii\helpers\Html;
-use backend\components\GridView;
-use yii\jui\DatePicker;
+use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
+use yuncms\admin\widgets\Jarvis;
 use yuncms\user\backend\models\UserSearch;
-use backend\widgets\Jarvis;
 
 /**
  * @var View $this
@@ -41,8 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'id',
                     'username',
                     'email:email',
-                    'amount',
-                    'point',
+                    //'userData.amount',
+                    //'userData.point',
                     [
                         'attribute' => 'registration_ip',
                         'value' => function ($model) {

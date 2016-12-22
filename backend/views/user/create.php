@@ -3,7 +3,7 @@
 use yii\bootstrap\Nav;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use backend\widgets\Jarvis;
+use yuncms\admin\widgets\Jarvis;
 /**
  * @var yii\web\View $this
  * @var yuncms\user\models\User $model
