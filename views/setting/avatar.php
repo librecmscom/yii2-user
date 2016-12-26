@@ -15,10 +15,11 @@ $this->title = Yii::t('user', 'My Avatar');
 ?>
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <?= $this->render('_menu') ?>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-10">
+        <h2 class="h3 post-title"><?= Yii::t('user', 'My Avatar') ?></h2>
         <div class="row">
             <div class="col-lg-6">
                 <div class="img-container">
@@ -40,6 +41,7 @@ $this->title = Yii::t('user', 'My Avatar');
                             <span class="docs-tooltip" data-toggle="tooltip" title="<?= Yii::t('user', 'Reset'); ?>">
                                 <span class="fa fa-refresh"></span>
                             </span>
+                            <?= Yii::t('user', 'Refresh') ?>
                         </button>
                         <label class="btn btn-primary btn-upload" for="inputImage"
                                title="<?= Yii::t('user', 'Upload avatar'); ?>">
@@ -57,8 +59,9 @@ $this->title = Yii::t('user', 'My Avatar');
                                   title="<?= Yii::t('user', 'Upload avatar'); ?>">
                                 <span class="fa fa-upload"></span>
                             </span>
+                            <?= Yii::t('user', 'Select a File') ?>
                         </label>
-                        <?= Html::submitButton('<span class="fa fa-check"></span>', ['class' => 'btn btn-primary']) ?>
+                        <?= Html::submitButton('<span class="fa fa-check"></span> '.Yii::t('user', 'Save'), ['class' => 'btn btn-primary']) ?>
                     </div>
                 </div>
                 <?php ActiveForm::end(); ?>

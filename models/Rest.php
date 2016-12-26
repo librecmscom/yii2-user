@@ -73,10 +73,12 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('user', 'Access Key ID'),
-            'token' => Yii::t('user', 'Access Key Token'),
+            'id' => Yii::t('user', 'App ID'),
+            'token' => Yii::t('user', 'App Token'),
             'status' => Yii::t('app', 'Status'),
             'created_at' => Yii::t('app', 'Created At'),
+            'rate_period'=>Yii::t('user', 'Rate Period'),
+            'rate_limit'=>Yii::t('user', 'Rate Limit'),
         ];
     }
 

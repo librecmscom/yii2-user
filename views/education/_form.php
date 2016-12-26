@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\AdminForm */
@@ -9,6 +9,7 @@ use yii\widgets\ActiveForm;
 
 
 <?php $form = ActiveForm::begin([
+    'layout' => 'horizontal',
     'enableAjaxValidation' => true,
     'enableClientValidation' => false,
     'validateOnBlur' => false,

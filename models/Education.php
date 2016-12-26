@@ -66,7 +66,7 @@ class Education extends ActiveRecord
             'school' => Yii::t('user', 'School'),
             'department' => Yii::t('user', 'Education Department'),
             'degree' => Yii::t('user', 'Degree'),
-            'date' => Yii::t('user', 'Enrollment Year'),
+            'date' => Yii::t('user', 'Year of graduation'),
         ];
     }
 
