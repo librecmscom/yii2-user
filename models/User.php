@@ -8,6 +8,7 @@
 namespace yuncms\user\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 use yii\db\Query;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -335,7 +336,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * 获取我的APP列表
      * 一对多关系
-     * @return ActiveRecord
+     * @return ActiveQuery
      */
     public function getRests()
     {
