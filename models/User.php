@@ -284,7 +284,7 @@ class User extends ActiveRecord implements IdentityInterface
      * 获取登陆历史
      * @return \yii\db\ActiveQuery
      */
-    public function getLoginHistorys()
+    public function getLoginHistories()
     {
         return $this->hasMany(LoginHistory::className(), ['user_id' => 'id']);
     }
@@ -308,7 +308,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * 获取我关注
-     * @return $this
+     * @return \yii\db\ActiveQueryInterface
      */
     public function getFollowers()
     {
@@ -317,7 +317,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * 用户我的粉丝
-     * @return $this
+     * @return \yii\db\ActiveQueryInterface
      */
     public function getFans()
     {
@@ -360,7 +360,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasMany(PurseLog::className(), ['user_id' => 'id'])->onCondition(['currency' => 'amount']);
     }
-
 
     /** @inheritdoc */
     public function validateAuthKey($authKey)
