@@ -14,11 +14,16 @@ use yuncms\user\ModuleTrait;
  * This is the model class for table "user_data".
  *
  * @property int $user_id 用户ID
- * @property int $views
+ * @property int $integrals 积分
+ * @property int $coins 金币
+ * @property int $credits 威望
+ * @property int $views 主页访问量
  * @property int $followers 关注
  * @property int $fans 粉丝数量
  * @property int $last_visit 最后访问时间
  * @property string $login_ip 登录IP
+ * @property int $login_at 登录时间
+ * @property int $login_num 登录次数
  * @property User $user 用户模型实例
  */
 class Data extends ActiveRecord

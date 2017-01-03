@@ -32,6 +32,7 @@ use yuncms\user\UserAsset;
  * @property integer $id
  * @property string $username
  * @property string $email
+ * @property string $mobile 用户手机
  * @property string $unconfirmed_email
  * @property string $unconfirmed_mobile
  * @property string $password_hash
@@ -359,6 +360,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function getAmountLogs()
     {
         return $this->hasMany(PurseLog::className(), ['user_id' => 'id'])->onCondition(['currency' => 'amount']);
+    }
+
+    /**
+     * 获取用户已经激活的钱包
+     */
+    public function getPurses()
+    {
+        return $this->hasMany(Purse::className(), ['user_id' => 'id']);
     }
 
     /** @inheritdoc */
