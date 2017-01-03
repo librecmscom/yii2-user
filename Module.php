@@ -261,56 +261,14 @@ class Module extends \yii\base\Module
     }
 
     /**
-     * amount变动
+     * 金币变动
      * @param int $user_id
      * @param string $action
-     * @param int $amounts
-     * @param int $credits
-     * @param int $source_id
-     * @param null $source_subject
+     * @param int $coins 金币数量
+     * @param int $source_id 源ID
+     * @param null $source_subject 源标题
      * @return bool
      * @throws \yii\db\Exception
-     */
-    public function amount($user_id, $action, $amounts = 0, $credits = 0, $source_id = 0, $source_subject = null)
-    {
-        $userData = Data::findOne($user_id);
-        if ($userData) {
-            $transaction = Data::getDb()->beginTransaction();
-            try {
-                if (($userData->amounts + $amounts) < 0) {
-                    return false;
-                }
-                /*记录详情数据*/
-                Amount::create([
-                    'user_id' => $user_id,
-                    'action' => $action,
-                    'source_id' => $source_id,
-                    'source_subject' => $source_subject,
-                    'amounts' => $amounts,
-                ]);
-
-                /*修改用户账户信息*/
-                $userData->updateAttributes(['amount' => $userData->amounts + $amounts]);
-                $userData->save();
-                $transaction->commit();
-                return true;
-            } catch (\Exception $e) {
-                $transaction->rollBack();
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * 修改用户积分
-     * @param int $user_id 用户id
-     * @param string $action 执行动作：提问、回答、发起文章
-     * @param int $source_id 源：问题id、回答id、文章id等
-     * @param string $source_subject 源主题：问题标题、文章标题等
-     * @param int $coins 金币数/财富值
-     * @return bool  操作成功返回true 否则  false
      */
     public function coin($user_id, $action, $coins = 0, $source_id = 0, $source_subject = null)
     {
@@ -318,9 +276,13 @@ class Module extends \yii\base\Module
         if ($userData) {
             $transaction = Data::getDb()->beginTransaction();
             try {
-                if (($userData->coins + $coins) < 0) {
+                $value = $userData->coins + $coins;
+                if ($coins < 0 && $value < 0) {
                     return false;
                 }
+                //更新用户钱包
+                $userData->updateAttributes(['coins' => $value]);
+                /*记录详情数据*/
                 Coin::create([
                     'user_id' => $user_id,
                     'action' => $action,
@@ -328,9 +290,6 @@ class Module extends \yii\base\Module
                     'source_subject' => $source_subject,
                     'coins' => $coins,
                 ]);
-                /*修改用户账户信息*/
-                $userData->updateAttributes(['coins' => $userData->coins + $coins]);
-                $userData->save();
                 $transaction->commit();
                 return true;
             } catch (\Exception $e) {
@@ -357,6 +316,8 @@ class Module extends \yii\base\Module
         if ($userData) {
             $transaction = Data::getDb()->beginTransaction();
             try {
+                /*修改用户账户信息*/
+                $userData->updateCounters(['credits' => $credits]);
                 Credit::create([
                     'user_id' => $user_id,
                     'action' => $action,
@@ -364,8 +325,6 @@ class Module extends \yii\base\Module
                     'source_subject' => $source_subject,
                     'credits' => $credits,
                 ]);
-                /*修改用户账户信息*/
-                $userData->updateCounters(['credits' => $credits]);
                 $transaction->commit();
                 return true;
             } catch (\Exception $e) {

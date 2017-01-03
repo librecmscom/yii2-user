@@ -9,7 +9,8 @@ namespace yuncms\user\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
-use yii\web\NotFoundHttpException;
+use yii\data\ActiveDataProvider;
+use yuncms\user\models\Purse;
 
 /**
  * ProfileController shows users profiles.
@@ -29,11 +30,6 @@ class PurseController extends Controller
                         'allow' => true,
                         'actions' => ['index'],
                         'roles' => ['@']
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['view', 'show'],
-                        'roles' => ['?', '@']
                     ]
                 ]
             ]
@@ -41,13 +37,18 @@ class PurseController extends Controller
     }
 
     /**
-     * Redirects to current user's profile.
+     * 显示钱包首页
      *
      * @return \yii\web\Response
      */
     public function actionIndex()
     {
-        return $this->render('index', []);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Purse::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['created_at' => SORT_DESC]),
+        ]);
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
 

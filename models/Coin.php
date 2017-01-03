@@ -49,10 +49,10 @@ class Coin extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'type' => Yii::t('user', 'Purse Log Type'),
-            'msg' => Yii::t('user', 'Purse Log Msg'),
-            'value' => Yii::t('user', 'Purse Log Value'),
-            'created_at' => Yii::t('user', 'Purse Log Created At'),
+            'type' => Yii::t('user', 'Coin Type'),
+            'msg' => Yii::t('user', 'Coin Msg'),
+            'value' => Yii::t('user', 'Coin Value'),
+            'created_at' => Yii::t('user', 'Created At'),
         ];
     }
 

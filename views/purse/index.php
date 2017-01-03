@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-
+use yii\grid\GridView;
 /*
  * @var $this  yii\web\View
  * @var $form  yii\widgets\ActiveForm
@@ -18,10 +18,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-md-10">
         <h2 class="h3 post-title"><?= Yii::t('user', 'Purses') ?></h2>
         <div class="row">
-            <div class="col-md-8">
-
-
-
+            <div class="col-md-12">
+                <?=GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'layout' => "{items}\n{pager}",
+                    'columns' => [
+                        //'id',
+                        'currency',
+                        'amount',
+                        ['class' => 'yii\grid\ActionColumn', 'template' => '{delete}'],
+                    ],
+                ]);
+                ?>
             </div>
         </div>
     </div>

@@ -18,7 +18,6 @@ class M161111023247Create_user_data_table extends Migration
          */
         $this->createTable('{{%user_data}}', [
             'user_id' => $this->integer()->notNull(),
-            'integrals' => $this->integer()->unsigned()->defaultValue(0)->comment('积分'),
             'coins' => $this->integer()->unsigned()->defaultValue(0)->comment('金币'),
             'credits' => $this->integer()->unsigned()->defaultValue(0)->comment('信用'),
             'login_ip' => $this->string()->comment('登录IP'),

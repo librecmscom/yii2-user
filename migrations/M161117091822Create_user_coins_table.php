@@ -18,8 +18,8 @@ class M161117091822Create_user_coins_table extends Migration
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
             'action' => $this->string(100)->notNull(),
-            'source_id' => $this->integer()->notNull(),
-            'source_subject' => $this->string()->notNull(),
+            'source_id' => $this->integer(),
+            'source_subject' => $this->string(),
             'coins' => $this->decimal(8, 2)->defaultValue('0.00')->notNull(),
             'created_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
