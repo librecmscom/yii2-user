@@ -59,7 +59,12 @@ class Doing extends ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    public static function create($attribute)
+    /**
+     * 快速创建实例
+     * @param array $attribute
+     * @return mixed
+     */
+    public static function create(array $attribute)
     {
         $model = new static ($attribute);
         if ($model->save()) {

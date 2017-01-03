@@ -10,13 +10,13 @@ namespace yuncms\user;
 use Yii;
 use yii\helpers\FileHelper;
 use yuncms\user\models\Data;
-use yuncms\user\models\User;
 use yuncms\user\models\Doing;
 use yuncms\user\models\Amount;
 use yuncms\user\models\Coin;
 use yuncms\user\models\Credit;
+use yuncms\user\models\Purse;
+use yuncms\user\models\PurseLog;
 use yuncms\user\models\Notification;
-use yuncms\system\helpers\DateHelper;
 
 /**
  * This is the main module class for the yii2-user.
@@ -221,10 +221,43 @@ class Module extends \yii\base\Module
         if ($this->mailSender != null) {
             $message->setFrom($this->mailSender);
         }
-//        else if (isset(Yii::$app->params['adminEmail'])) {
-//            $message->setFrom(Yii::$app->params['adminEmail']);
-//        }
         return $message->send();
+    }
+
+    /**
+     * 变更指定用户钱包 + 钱或 - 钱
+     * @param int $user_id
+     * @param string $currency
+     * @param double $amount
+     * @param string $action
+     * @param string $msg
+     * @return bool
+     */
+    public function purse($user_id, $currency, $amount, $action = '', $msg = ''){
+        $purse = Purse::findByUserID($user_id, $currency);
+        $value = $purse->amount + $amount;
+        if ($amount < 0 && $value < 0) {
+            return false;
+        }
+        $transaction = Purse::getDb()->beginTransaction();
+        try {
+            //更新用户钱包
+            $purse->updateAttributes(['amount' => $value]);
+            //创建钱包操作日志
+            PurseLog::create([
+                'purse_id' => $purse->id,
+                'currency' => $currency,
+                'value' => $amount,
+                'action' => $action,
+                'msg' => $msg,
+                'type' => $amount > 0 ? PurseLog::TYPE_INC : PurseLog::TYPE_DEC
+            ]);
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
     }
 
     /**
@@ -354,7 +387,7 @@ class Module extends \yii\base\Module
      * @param string $content
      * @param string $refer_type
      * @param int $refer_id
-     * @return static
+     * @return bool
      */
     public function notify($fromUserId, $toUserId, $type, $subject = '', $sourceId = 0, $content = '', $refer_type = '', $refer_id = 0)
     {
@@ -363,7 +396,7 @@ class Module extends \yii\base\Module
             return false;
         }
         try {
-            $notify = new Notification([
+            $notify = Notification::create([
                 'user_id' => $fromUserId,
                 'to_user_id' => $toUserId,
                 'type' => $type,
@@ -374,7 +407,7 @@ class Module extends \yii\base\Module
                 'refer_id' => $refer_id,
                 'status' => Notification::STATUS_UNREAD
             ]);
-            return $notify->save();
+            return $notify != false;
         } catch (\Exception $e) {
             return false;
         }
@@ -396,7 +429,7 @@ class Module extends \yii\base\Module
     public function doing($userId, $action, $sourceType, $sourceId, $subject, $content = '', $referId = 0, $referUserId = 0, $referContent = null)
     {
         try {
-            $doing = new Doing([
+            $doing = Doing::create([
                 'user_id' => $userId,
                 'action' => $action,
                 'source_id' => $sourceId,
@@ -407,7 +440,7 @@ class Module extends \yii\base\Module
                 'refer_user_id' => $referUserId,
                 'refer_content' => strip_tags($referContent),
             ]);
-            return $doing->save();
+            return $doing != false;
         } catch (\Exception $e) {
             return false;
         }
@@ -425,6 +458,4 @@ class Module extends \yii\base\Module
     {
         return Yii::t('modules/user/' . $category, $message, $params, $language);
     }
-
-
 }

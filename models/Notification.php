@@ -92,9 +92,17 @@ class Notification extends ActiveRecord
         return self::updateAll(['status' => self::STATUS_READ], ['to_user_id' => $toUserId]);
     }
 
-    public static function create($attribute)
+    /**
+     * 快速创建实例
+     * @param array $attribute
+     * @return mixed
+     */
+    public static function create(array $attribute)
     {
         $model = new static ($attribute);
-        return $model->save();
+        if ($model->save()) {
+            return $model;
+        }
+        return false;
     }
 }

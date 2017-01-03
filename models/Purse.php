@@ -99,43 +99,4 @@ class Purse extends ActiveRecord
     {
         return 'ver';
     }
-
-    /**
-     * 变更指定用户钱包 + 钱或 - 钱
-     *
-     * @param integer $userId 用户ID
-     * @param string $currency 钱包类型
-     * @param float $amount 变更的钱数 正数加钱，负数减钱
-     * @param string $action 操作代码
-     * @param string $msg 备注
-     * @return bool true 操作成功，false 余额不足
-     */
-    public static function change($userId, $currency, $amount, $action = '', $msg = '')
-    {
-        //获取用户钱包
-        $purse = static::findByUserID($userId, $currency);
-        $value = $purse->amount + $amount;
-        if ($amount < 0 && $value < 0) {
-            return false;
-        }
-        $transaction = static::getDb()->beginTransaction();
-        try {
-            //更新用户钱包
-            $purse->updateAttributes(['amount' => $value]);
-            //创建钱包操作日志
-            PurseLog::create([
-                'purse_id' => $purse->id,
-                'currency' => $currency,
-                'value' => $amount,
-                'action' => $action,
-                'msg' => $msg,
-                'type' => $amount > 0 ? PurseLog::TYPE_INC : PurseLog::TYPE_DEC
-            ]);
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
-        }
-    }
 }
