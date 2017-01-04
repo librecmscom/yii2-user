@@ -27,9 +27,19 @@ $items = [
         'icon' => 'fa fa-graduation-cap'
     ],
     [
-        'label' => Yii::t('user', 'Purse'),
+        'label' => Yii::t('user', 'Purse Manage'),
         'url' => ['/user/purse/index'],
         'icon' => 'fa fa-money'
+    ],
+    [
+        'label' => Yii::t('user', 'Coin Manage'),
+        'url' => ['/user/coin/index'],
+        'icon' => 'fa fa-gift'
+    ],
+    [
+        'label' => Yii::t('user', 'Credit Manage'),
+        'url' => ['/user/credit/index'],
+        'icon' => 'fa fa-credit-card'
     ],
     [
         'label' => Yii::t('user', 'Careers'),

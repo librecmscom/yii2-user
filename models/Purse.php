@@ -51,6 +51,15 @@ class Purse extends ActiveRecord
         ];
     }
 
+    /** @inheritdoc */
+    public function attributeLabels()
+    {
+        return [
+            'currency' => Yii::t('user', 'Currency'),
+            'amount' => Yii::t('user', 'Amount'),
+        ];
+    }
+
     /**
      * 一对一关联用户
      *

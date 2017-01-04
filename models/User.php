@@ -8,6 +8,7 @@
 namespace yuncms\user\models;
 
 use Yii;
+use yii\helpers\Url;
 use yii\db\ActiveQuery;
 use yii\db\Query;
 use yii\db\ActiveRecord;
@@ -635,7 +636,7 @@ class User extends ActiveRecord implements IdentityInterface
                     $avatarUrl = '/img/no_avatar_big.gif';
             }
             $avatarUrlRoot = UserAsset::register(Yii::$app->view);
-            return $avatarUrlRoot->baseUrl . $avatarUrl;
+            return Url::to($avatarUrlRoot->baseUrl . $avatarUrl, true);
         }
     }
 
