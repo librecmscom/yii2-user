@@ -1,13 +1,11 @@
 <?php
 use yii\helpers\Html;
-use yii\helpers\Json;
 use yii\widgets\ActiveForm;
 use xutl\fontawesome\Asset;
 use yuncms\user\CropperAsset;
-
 /*
- * @var yii\web\View $this
- * @var yuncms\user\models\PortraitForm $model
+ * @var \yii\web\View $this
+ * @var \yuncms\user\models\AvatarForm $model
  */
 Asset::register($this);
 CropperAsset::register($this);

@@ -88,6 +88,13 @@ class SecurityController extends Controller
         if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
             return $this->goBack();
         }
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->user->setReturnUrl(Yii::$app->request->getReferrer());
+            return $this->renderAjax('login_modal', [
+                'model' => $model,
+                'module' => $this->module,
+            ]);
+        }
         return $this->render('login', ['model' => $model, 'module' => $this->module]);
     }
 
