@@ -1,9 +1,9 @@
 <?php
 use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Modal;
 use yii\helpers\ArrayHelper;
+use yii\bootstrap\ActiveForm;
 use yuncms\payment\models\Payment;
 
 /*
@@ -64,8 +64,8 @@ if (Yii::$app->hasModule('payment')):
     'header' => Yii::t('user', 'Coin Recharge'),
     'footer' => Html::button(Yii::t('app', 'Clean'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) . Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary']),
 ]); ?>
-    <?= $form->field($payment, 'money'); ?>
-    <?= $form->field($payment, 'payment')->inline(true)->radioList(ArrayHelper::map(Yii::$app->getModule('payment')->gateways, 'id', 'title')); ?>
+    <?= $form->field($payment, 'money')->hint('1元一个金币'); ?>
+    <?= $form->field($payment, 'gateway')->inline(true)->radioList(ArrayHelper::map(Yii::$app->getModule('payment')->gateways, 'id', 'title')); ?>
     <?php
     Modal::end();
     ActiveForm::end();
