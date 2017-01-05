@@ -29,7 +29,7 @@ use yuncms\user\widgets\Connect;
             <?= Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary btn-block  mt-10']) ?>
         </div>
         <div class="col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 mt-10">
-            <div><?= Yii::t('user', 'Quick login:') ?></div>
+            <div><?= Yii::t('user', 'Quick login') ?></div>
             <div class="row">
                 <div class="col-md-12">
                     <?= Connect::widget([

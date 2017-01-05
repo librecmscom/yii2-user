@@ -69,7 +69,7 @@ return [
     'Save' => '保存',
     'Rate Period' => '速率周期',
     'Refresh' => '刷新',
-    'Quick login:' => '快速登录：',
+    'Quick login' => '快速登录',
     'Career End At' => '结束时间',
     'Career Position' => '职位头衔',
     'Career Start At' => '开始时间',

@@ -50,6 +50,7 @@ class SupportController extends Controller
         $sourceType = Yii::$app->request->post('sourceType');
         $sourceId = Yii::$app->request->post('sourceId');
 
+        $source = null;
         if ($sourceType === 'answer' && Yii::$app->hasModule('question')) {
             $source = \yuncms\question\models\Answer::findOne($sourceId);
         }
