@@ -10,13 +10,13 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
-use yuncms\user\models\Coin;
+use yuncms\user\models\Credit;
 
 /**
- * Class CoinController
+ * Class CreditController
  * @package yuncms\user
  */
-class CoinController extends Controller
+class CreditController extends Controller
 {
     /** @inheritdoc */
     public function behaviors()
@@ -42,7 +42,7 @@ class CoinController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Coin::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['created_at' => SORT_DESC]),
+            'query' => Credit::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['created_at' => SORT_DESC]),
             'pagination' => [
                 'defaultPageSize' => 10,
                 'pageSize' => 10

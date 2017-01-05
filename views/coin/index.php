@@ -1,4 +1,5 @@
 <?php
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Modal;
@@ -18,11 +19,25 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-10">
             <h2 class="h3 profile-title"><?= Yii::t('user', 'Coin Manage') ?></h2>
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <p class="mb-20">
-                        您当前的金币数为：<strong class="text-gold"><?= Yii::$app->user->identity->userData->coins ?></strong>
-                        <span class="ml-10">[ <a href="#" data-toggle="modal" data-target="#charge_modal">立即充值</a> ]</span>
+                        <?= Yii::t('user', 'Your current coins are:') ?><strong class="text-gold"><?= Yii::$app->user->identity->userData->coins ?></strong>
+                        <span class="ml-10">[ <a href="#" data-toggle="modal" data-target="#charge_modal"><?= Yii::t('user', 'Recharge') ?></a> ]</span>
                     </p>
+
+                    <?php
+                    echo GridView::widget([
+                        'dataProvider' => $dataProvider,
+                        'layout' => "{items}\n{pager}",
+                        'columns' => [
+                            'id',
+                            'action',
+                            'coins',
+                            'source_subject',
+                            'created_at:datetime'
+                        ],
+                    ]);
+                    ?>
                 </div>
             </div>
         </div>
