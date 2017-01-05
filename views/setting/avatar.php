@@ -19,7 +19,7 @@ $this->title = Yii::t('user', 'My Avatar');
         <?= $this->render('_menu') ?>
     </div>
     <div class="col-md-10">
-        <h2 class="h3 post-title"><?= Yii::t('user', 'My Avatar') ?></h2>
+        <h2 class="h3 profile-title"><?= Yii::t('user', 'My Avatar') ?></h2>
         <div class="row">
             <div class="col-lg-6">
                 <div class="img-container">

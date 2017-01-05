@@ -16,27 +16,31 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $this->render('/setting/_menu') ?>
     </div>
     <div class="col-md-10">
-        <?php
-        echo GridView::widget([
-            'dataProvider' => $dataProvider,
-            'layout' => "{items}\n{pager}",
-            'columns' => [
-                'id',
-                'token',
-                'rate_limit',
-                'rate_period',
-                'status:boolean',
-                'created_at:datetime',
-                ['class' => 'yii\grid\ActionColumn', 'template' => '{delete}'],
-            ],
-        ]);
-        ?>
-        <div class="form-group">
-            <div class="edu-btn">
-                <?= Html::a(Yii::t('user', 'Create'), ['create'], ['class' => 'btn btn-primary btn-block']) ?>
-                <br>
+        <h2 class="h3 profile-title"><?= Yii::t('user', 'Access Keys') ?></h2>
+        <div class="row">
+            <div class="col-md-12">
+                <?php
+                echo GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'layout' => "{items}\n{pager}",
+                    'columns' => [
+                        'id',
+                        'token',
+                        'rate_limit',
+                        'rate_period',
+                        'status:boolean',
+                        'created_at:datetime',
+                        ['class' => 'yii\grid\ActionColumn', 'template' => '{delete}'],
+                    ],
+                ]);
+                ?>
+                <div class="form-group">
+                    <div class="edu-btn">
+                        <?= Html::a(Yii::t('user', 'Create'), ['create'], ['class' => 'btn btn-primary btn-block']) ?>
+                        <br>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 </div>

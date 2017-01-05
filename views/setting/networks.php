@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $this->render('_menu') ?>
     </div>
     <div class="col-md-10">
-        <h2 class="h3 post-title"><?= Yii::t('user', 'Social Networks') ?></h2>
+        <h2 class="h3 profile-title"><?= Yii::t('user', 'Social Networks') ?></h2>
         <div class="row">
             <div class="alert alert-info">
                 <p><?= Yii::t('user', 'You can connect multiple accounts to be able to log in using them') ?>.</p>

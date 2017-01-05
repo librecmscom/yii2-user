@@ -1,3 +1,6 @@
+/** profile title **/
+.profile-title{padding-bottom:15px;border-bottom:1px solid #eee;}
+
 /*主页头部*/
 .space-header{background-color:#f6f6f6;padding:40px 0 30px}
 .space-header-name{margin:0}

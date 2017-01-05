@@ -13,7 +13,7 @@ $this->title = Yii::t('user', 'Notice');
     </div>
     <div class="col-md-10">
 
-        <h2 class="h3 post-title"><?= Yii::t('user', 'Notice') ?></h2>
+        <h2 class="h3 profile-title"><?= Yii::t('user', 'Notice') ?></h2>
         <div class="row">
             <div class="col-md-12">
                 <?= Html::a('全部标记为已读', ['/user/notification/read-all'], ['class' => 'btn btn-primary', 'data' => ['method' => 'post']]); ?>
