@@ -78,7 +78,7 @@ class Rest extends ActiveRecord implements IdentityInterface, RateLimitInterface
             'status' => Yii::t('app', 'Status'),
             'created_at' => Yii::t('app', 'Created At'),
             'rate_period'=>Yii::t('user', 'Rate Period'),
-            'rate_limit'=>Yii::t('user', 'Rate Limit'),
+            'rate_limit'=>Yii::t('user', 'Rate Limiting'),
         ];
     }
 

@@ -64,7 +64,7 @@ return [
     'Career' => '工作经历',
     'Career City' => '工作城市',
     'Career Description' => '工作描述',
-    'Rate Limit' => '速率限制',
+    'Rate Limiting' => '速率限制',
     'Select a File' => '选择文件',
     'Save' => '保存',
     'Rate Period' => '速率周期',
