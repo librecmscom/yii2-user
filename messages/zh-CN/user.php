@@ -88,6 +88,7 @@ return [
     'Continue' => '继续',
     'Create' => '创建',
     'Recharge'=>'立即充值',
+    'Coin Recharge'=>'金币充值',
     'Your current coins are:'=>'您当前的金币数为：',
     'Your current credits are:'=>'您当前的积分数为：',
     'Create Access Key' => '创建 Access Key',
