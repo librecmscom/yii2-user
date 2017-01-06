@@ -62,7 +62,7 @@ if (Yii::$app->hasModule('payment')):
     <?php Modal::begin([
     'options' => ['id' => 'charge_modal'],
     'header' => Yii::t('user', 'Coin Recharge'),
-    'footer' => Html::button(Yii::t('user', 'Clean'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) . Html::submitButton(Yii::t('user', 'Submit'), ['class' => 'btn btn-primary']),
+    'footer' => Html::button(Yii::t('app', 'Clean'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) . Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary']),
 ]); ?>
     <?= $form->field($payment, 'money')->hint('1元一个金币'); ?>
     <?= $form->field($payment, 'gateway')->inline(true)->radioList(ArrayHelper::map(Yii::$app->getModule('payment')->gateways, 'id', 'title')); ?>

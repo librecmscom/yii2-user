@@ -17,10 +17,13 @@ $this->params['breadcrumbs'][] = Yii::t('user', 'Show');
 ?>
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <?= $this->render('/setting/_menu') ?>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-10">
+        <h2 class="h3 profile-title"><?= Yii::t('user', 'Show Career: ') . ' ' . $model->id ?></h2>
+        <div class="row">
+            <div class="col-md-12">
         <p>
             <?= Html::a(Yii::t('user', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
             <?= Html::a(Yii::t('user', 'Delete'), ['delete', 'id' => $model->id], [
@@ -44,4 +47,4 @@ $this->params['breadcrumbs'][] = Yii::t('user', 'Show');
         ]) ?>
 
     </div>
-</div>
+</div></div></div>
