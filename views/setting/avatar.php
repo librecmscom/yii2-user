@@ -1,11 +1,13 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\widgets\ActiveForm;
 use xutl\fontawesome\Asset;
 use yuncms\user\CropperAsset;
+
 /*
- * @var \yii\web\View $this
- * @var \yuncms\user\models\AvatarForm $model
+ * @var yii\web\View $this
+ * @var yuncms\user\models\PortraitForm $model
  */
 Asset::register($this);
 CropperAsset::register($this);
@@ -13,11 +15,11 @@ $this->title = Yii::t('user', 'My Avatar');
 ?>
 
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-3">
         <?= $this->render('_menu') ?>
     </div>
-    <div class="col-md-10">
-        <h2 class="h3 profile-title"><?= Yii::t('user', 'My Avatar') ?></h2>
+    <div class="col-md-9">
+        <?= $this->render('_header') ?>
         <div class="row">
             <div class="col-lg-6">
                 <div class="img-container">
@@ -34,15 +36,12 @@ $this->title = Yii::t('user', 'My Avatar');
                 <?= $form->field($model, 'height')->hiddenInput()->label(false) ?>
                 <div class="docs-buttons">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" data-method="reset"
-                                title="<?= Yii::t('user', 'Reset'); ?>">
-                            <span class="docs-tooltip" data-toggle="tooltip" title="<?= Yii::t('user', 'Reset'); ?>">
+                        <button type="button" class="btn btn-primary" data-method="reset" title="<?=Yii::t('user','Reset');?>">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="<?=Yii::t('user','Reset');?>">
                                 <span class="fa fa-refresh"></span>
                             </span>
-                            <?= Yii::t('user', 'Refresh') ?>
                         </button>
-                        <label class="btn btn-primary btn-upload" for="inputImage"
-                               title="<?= Yii::t('user', 'Upload avatar'); ?>">
+                        <label class="btn btn-primary btn-upload" for="inputImage" title="<?=Yii::t('user','Upload avatar');?>">
                             <?= $form->field($model, 'file', [
                                 'options' => [
                                     'tag' => false
@@ -53,13 +52,11 @@ $this->title = Yii::t('user', 'My Avatar');
                                     'accept' => 'image/*'
                                 ],
                             ])->fileInput()->label(false)->error(false); ?>
-                            <span class="docs-tooltip" data-toggle="tooltip"
-                                  title="<?= Yii::t('user', 'Upload avatar'); ?>">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="<?=Yii::t('user','Upload avatar');?>">
                                 <span class="fa fa-upload"></span>
                             </span>
-                            <?= Yii::t('user', 'Select a File') ?>
                         </label>
-                        <?= Html::submitButton('<span class="fa fa-check"></span> '.Yii::t('user', 'Save'), ['class' => 'btn btn-primary']) ?>
+                        <?= Html::submitButton('<span class="fa fa-check"></span>', ['class' => 'btn btn-primary']) ?>
                     </div>
                 </div>
                 <?php ActiveForm::end(); ?>

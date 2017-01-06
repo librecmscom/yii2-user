@@ -12,42 +12,41 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-3">
         <?= $this->render('_menu') ?>
     </div>
-    <div class="col-md-10">
-        <h2 class="h3 profile-title"><?= Yii::t('user', 'Account settings') ?></h2>
-        <div class="row">
-            <div class="col-md-8">
-                <?php $form = ActiveForm::begin([
-                    'id' => 'account-form',
-                    'options' => ['class' => 'form-horizontal'],
-                    'fieldConfig' => [
-                        'template' => "{label}\n<div class=\"col-sm-9\">{input}</div>\n<div class=\"col-sm-offset-3 col-sm-9\">{error}\n{hint}</div>",
-                        'labelOptions' => ['class' => 'col-sm-3 control-label'],
-                    ],
-                    'enableAjaxValidation' => true,
-                    'enableClientValidation' => false,
-                ]); ?>
+    <div class="col-md-9">
+        <?= $this->render('_header') ?>
 
-                <?= $form->field($model, 'email') ?>
+        <?php $form = ActiveForm::begin([
+            'id' => 'account-form',
+            'options' => ['class' => 'form-horizontal'],
+            'fieldConfig' => [
+                'template' => "{label}\n<div class=\"col-lg-6\">{input}</div>\n<div class=\"col-sm-offset-3 col-lg-6\">{error}\n{hint}</div>",
+                'labelOptions' => ['class' => 'col-lg-3 control-label'],
+            ],
+            'enableAjaxValidation' => true,
+            'enableClientValidation' => false,
+        ]); ?>
 
-                <?= $form->field($model, 'username') ?>
+        <?= $form->field($model, 'email') ?>
 
-                <?= $form->field($model, 'new_password')->passwordInput() ?>
+        <?= $form->field($model, 'username') ?>
 
-                <?= $form->field($model, 'current_password')->passwordInput() ?>
+        <?= $form->field($model, 'new_password')->passwordInput() ?>
 
-                <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-9">
-                        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-block btn-success']) ?><br>
-                    </div>
-                </div>
+        <hr/>
 
-                <?php ActiveForm::end(); ?>
+        <?= $form->field($model, 'current_password')->passwordInput() ?>
 
-
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-6">
+                <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-block btn-success']) ?><br>
             </div>
         </div>
+
+        <?php ActiveForm::end(); ?>
+
+
     </div>
 </div>

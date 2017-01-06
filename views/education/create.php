@@ -12,15 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-3">
         <?= $this->render('/setting/_menu') ?>
     </div>
-    <div class="col-md-10">
-        <h2 class="h3 profile-title"><?= Yii::t('user', 'Update Educational experience') ?></h2>
-        <div class="row">
-            <div class="col-md-12">
-                <?= $this->render('_form', ['model' => $model]) ?>
-            </div>
-        </div>
+    <div class="col-md-9">
+        <?= $this->render('_form', ['model' => $model]) ?>
+
     </div>
 </div>

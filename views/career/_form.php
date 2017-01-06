@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\widgets\ActiveForm;
 use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
@@ -10,7 +10,6 @@ use yii\jui\DatePicker;
 
 
 <?php $form = ActiveForm::begin([
-    'layout' => 'horizontal',
     'enableAjaxValidation' => true,
     'enableClientValidation' => false,
     'validateOnBlur' => false,

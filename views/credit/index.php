@@ -1,6 +1,9 @@
 <?php
 
 use yii\grid\GridView;
+
+$this->title = Yii::t('user', 'Credit Manage');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
     <div class="col-md-2">
