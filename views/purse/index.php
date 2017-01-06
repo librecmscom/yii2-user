@@ -59,7 +59,7 @@ if (Yii::$app->hasModule('payment')):
     <?php Modal::begin([
     'options' => ['id' => 'recharge_modal'],
     'header' => Yii::t('user', 'Recharge'),
-    'footer' => Html::button(Yii::t('app', 'Clean'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) . Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary']),
+    'footer' => Html::button(Yii::t('user', 'Clean'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) . Html::submitButton(Yii::t('user', 'Submit'), ['class' => 'btn btn-primary']),
 ]); ?>
     <?= $form->field($payment, 'money'); ?>
     <?= $form->field($payment, 'gateway')->inline(true)->radioList(ArrayHelper::map(Yii::$app->getModule('payment')->gateways, 'id', 'title')); ?>
