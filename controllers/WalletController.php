@@ -10,14 +10,14 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
-use yuncms\user\models\Purse;
+use yuncms\user\models\Wallet;
 
 /**
- * ProfileController shows users profiles.
+ * WalletController
  *
  * @property \yuncms\user\Module $module
  */
-class PurseController extends Controller
+class WalletController extends Controller
 {
     /** @inheritdoc */
     public function behaviors()
@@ -44,7 +44,7 @@ class PurseController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Purse::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['created_at' => SORT_DESC]),
+            'query' => Wallet::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['created_at' => SORT_DESC]),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,

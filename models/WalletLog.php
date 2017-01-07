@@ -11,7 +11,7 @@ use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 
 /**
- * PurseLog model
+ * 钱包交易历史
  *
  * @property integer $id
  * @property integer $purse_id
@@ -19,7 +19,7 @@ use yii\db\BaseActiveRecord;
  * @property double $amount
  * @property integer $created_at
  */
-class PurseLog extends ActiveRecord
+class WalletLog extends ActiveRecord
 {
 
     /**
@@ -37,7 +37,7 @@ class PurseLog extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%purse_log}}';
+        return '{{%user_wallet_log}}';
     }
 
     /**
@@ -79,7 +79,7 @@ class PurseLog extends ActiveRecord
      */
     public function getPurse()
     {
-        return $this->hasOne(Purse::className(), ['id' => 'purse_id']);
+        return $this->hasOne(Wallet::className(), ['id' => 'wallet_id']);
     }
 
     /**

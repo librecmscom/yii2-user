@@ -11,11 +11,10 @@ use Yii;
 use yii\helpers\FileHelper;
 use yuncms\user\models\Data;
 use yuncms\user\models\Doing;
-use yuncms\user\models\Amount;
 use yuncms\user\models\Coin;
 use yuncms\user\models\Credit;
-use yuncms\user\models\Purse;
-use yuncms\user\models\PurseLog;
+use yuncms\user\models\Wallet;
+use yuncms\user\models\WalletLog;
 use yuncms\user\models\Notification;
 
 /**
@@ -228,29 +227,29 @@ class Module extends \yii\base\Module
      * 变更指定用户钱包 + 钱或 - 钱
      * @param int $user_id
      * @param string $currency
-     * @param double $amount
+     * @param double $money
      * @param string $action
      * @param string $msg
      * @return bool
      */
-    public function purse($user_id, $currency, $amount, $action = '', $msg = ''){
-        $purse = Purse::findByUserID($user_id, $currency);
-        $value = $purse->amount + $amount;
-        if ($amount < 0 && $value < 0) {
+    public function wallet($user_id, $currency, $money, $action = '', $msg = ''){
+        $wallet = Wallet::findByUserID($user_id, $currency);
+        $value = $wallet->money + $money;
+        if ($money < 0 && $value < 0) {
             return false;
         }
-        $transaction = Purse::getDb()->beginTransaction();
+        $transaction = Wallet::getDb()->beginTransaction();
         try {
             //更新用户钱包
-            $purse->updateAttributes(['amount' => $value]);
+            $wallet->updateAttributes(['money' => $value]);
             //创建钱包操作日志
-            PurseLog::create([
-                'purse_id' => $purse->id,
+            WalletLog::create([
+                'wallet_id' => $wallet->id,
                 'currency' => $currency,
-                'value' => $amount,
+                'money' => $money,
                 'action' => $action,
                 'msg' => $msg,
-                'type' => $amount > 0 ? PurseLog::TYPE_INC : PurseLog::TYPE_DEC
+                'type' => $money > 0 ? WalletLog::TYPE_INC : WalletLog::TYPE_DEC
             ]);
             $transaction->commit();
             return true;

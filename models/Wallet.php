@@ -14,19 +14,19 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $user_id
- * @property string $type
- * @property double $amount
+ * @property string $currency 币种
+ * @property double $money 10,2
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Purse extends ActiveRecord
+class Wallet extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%purse}}';
+        return '{{%user_wallet}}';
     }
 
     /**
@@ -71,6 +71,15 @@ class Purse extends ActiveRecord
     }
 
     /**
+     * 关联钱包日志
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLogs()
+    {
+        return $this->hasMany(WalletLog::className(), ['wallet_id' => 'id']);
+    }
+
+    /**
      * 快速创建实例
      * @param array $attribute
      * @return mixed
@@ -104,8 +113,8 @@ class Purse extends ActiveRecord
      * 定义乐观锁
      * @return string
      */
-    public function optimisticLock()
-    {
-        return 'ver';
-    }
+//    public function optimisticLock()
+//    {
+//        return 'ver';
+//    }
 }

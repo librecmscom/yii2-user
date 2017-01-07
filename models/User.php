@@ -702,10 +702,10 @@ class User extends ActiveRecord implements IdentityInterface
      * 定义乐观锁
      * @return string
      */
-    public function optimisticLock()
-    {
-        return 'ver';
-    }
+//    public function optimisticLock()
+//    {
+//        return 'ver';
+//    }
 
     /**
      * @inheritdoc

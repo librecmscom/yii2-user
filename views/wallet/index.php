@@ -11,7 +11,7 @@ use yuncms\payment\models\Payment;
  * @var $form  yii\widgets\ActiveForm
  * @var $model yuncms\user\models\SettingsForm
  */
-$this->title = Yii::t('user', 'Purses Manage');
+$this->title = Yii::t('user', 'Wallet Manage');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $this->render('/setting/_menu') ?>
         </div>
         <div class="col-md-10">
-            <h2 class="h3 profile-title"><?= Yii::t('user', 'Purses') ?></h2>
+            <h2 class="h3 profile-title"><?= Yii::t('user', 'Wallet') ?></h2>
             <div class="row">
                 <div class="col-md-12">
                     <?= GridView::widget([
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'layout' => "{items}\n{pager}",
                         'columns' => [
                             'currency',
-                            'amount',
+                            'money',
                             [
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => Yii::t('user', 'Operation'),
