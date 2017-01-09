@@ -264,12 +264,12 @@ class Module extends \yii\base\Module
      * @param int $user_id
      * @param string $action
      * @param int $coins 金币数量
-     * @param int $source_id 源ID
-     * @param null $source_subject 源标题
+     * @param int $sourceId 源ID
+     * @param null $sourceSubject 源标题
      * @return bool
      * @throws \yii\db\Exception
      */
-    public function coin($user_id, $action, $coins = 0, $source_id = 0, $source_subject = null)
+    public function coin($user_id, $action, $coins = 0, $sourceId = 0, $sourceSubject = null)
     {
         $userData = Data::findOne($user_id);
         if ($userData) {
@@ -285,8 +285,8 @@ class Module extends \yii\base\Module
                 Coin::create([
                     'user_id' => $user_id,
                     'action' => $action,
-                    'source_id' => $source_id,
-                    'source_subject' => $source_subject,
+                    'source_id' => $sourceId,
+                    'source_subject' => $sourceSubject,
                     'coins' => $coins,
                 ]);
                 $transaction->commit();
@@ -304,12 +304,12 @@ class Module extends \yii\base\Module
      * 修改用户经验值
      * @param int $user_id 用户id
      * @param string $action 执行动作：提问、回答、发起文章
-     * @param int $source_id 源：问题id、回答id、文章id等
-     * @param string $source_subject 源主题：问题标题、文章标题等
+     * @param int $sourceId 源：问题id、回答id、文章id等
+     * @param string $sourceSubject 源主题：问题标题、文章标题等
      * @param int $credits 经验值
      * @return bool  操作成功返回true 否则  false
      */
-    public function credit($user_id, $action, $credits = 0, $source_id = 0, $source_subject = null)
+    public function credit($user_id, $action, $credits = 0, $sourceId = 0, $sourceSubject = null)
     {
         $userData = Data::findOne($user_id);
         if ($userData) {
@@ -320,8 +320,8 @@ class Module extends \yii\base\Module
                 Credit::create([
                     'user_id' => $user_id,
                     'action' => $action,
-                    'source_id' => $source_id,
-                    'source_subject' => $source_subject,
+                    'source_id' => $sourceId,
+                    'source_subject' => $sourceSubject,
                     'credits' => $credits,
                 ]);
                 $transaction->commit();
@@ -343,11 +343,11 @@ class Module extends \yii\base\Module
      * @param string $subject
      * @param int $sourceId
      * @param string $content
-     * @param string $refer_type
+     * @param string $referType
      * @param int $refer_id
      * @return bool
      */
-    public function notify($fromUserId, $toUserId, $type, $subject = '', $sourceId = 0, $content = '', $refer_type = '', $refer_id = 0)
+    public function notify($fromUserId, $toUserId, $type, $subject = '', $sourceId = 0, $content = '', $referType = '', $refer_id = 0)
     {
         /*不能自己给自己发通知*/
         if ($fromUserId == $toUserId) {
@@ -361,7 +361,7 @@ class Module extends \yii\base\Module
                 'subject' => $subject,
                 'source_id' => $sourceId,
                 'content' => strip_tags($content),
-                'refer_type' => $refer_type,
+                'refer_type' => $referType,
                 'refer_id' => $refer_id,
                 'status' => Notification::STATUS_UNREAD
             ]);
