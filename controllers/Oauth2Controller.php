@@ -7,6 +7,7 @@
 namespace yuncms\user\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yuncms\user\models\Social;
 use yuncms\user\models\Oauth2LoginForm;
@@ -86,29 +87,15 @@ class Oauth2Controller extends Controller
         if ($account->user instanceof Yii::$app->user->id) {
             if ($account->user->isBlocked) {
                 Yii::$app->session->setFlash('danger', Yii::t('user', 'Your account has been blocked.'));
-                $this->action->successUrl = Url::to(['/user/security/login']);
+                $this->action->successUrl = Url::to(['/user/oauth2/authorize']);
             } else {
                 Yii::$app->user->login($account->user, $this->module->rememberFor);
-                $this->action->successUrl = Yii::$app->getUser()->getReturnUrl();
+                if ($this->isOauthRequest) {
+                    $this->finishAuthorization();
+                }
             }
         } else {
-            $this->action->successUrl = $account->getConnectUrl();
-        }
-
-        switch ($client::className()) {
-            case GoogleOAuth::className():
-                // Do login with automatic signup
-                break;
-            //...
-            default:
-                break;
-        }
-        /**
-         * If user is logged on, redirects to oauth client with success,
-         * or redirects error with Access Denied
-         */
-        if ($this->isOauthRequest) {
-            $this->finishAuthorization();
+            $this->action->successUrl = Url::to(['/user/oauth2/authorize']);
         }
     }
 }
