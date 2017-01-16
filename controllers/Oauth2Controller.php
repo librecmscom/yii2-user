@@ -39,7 +39,7 @@ class Oauth2Controller extends Controller
             /**
              * Returns an access token.
              */
-            'access_token' => [
+            'access-token' => [
                 'class' => 'yuncms\oauth2\TokenAction',
             ],
             /**

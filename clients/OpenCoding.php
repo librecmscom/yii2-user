@@ -17,7 +17,7 @@ class OpenCoding extends OAuth2 implements ClientInterface
     /**
      * @inheritdoc
      */
-    public $tokenUrl = 'https://www.opencoding.com/user/oauth2/access_token';
+    public $tokenUrl = 'https://www.opencoding.com/user/oauth2/access-token';
 
     /**
      * @inheritdoc
