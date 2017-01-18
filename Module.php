@@ -101,7 +101,7 @@ class Module extends \yii\base\Module
     /**
      * @var array Mailer configuration
      */
-    public $mailViewPath = '@vendor/yuncms/yii2-user/views/mail';
+    public $mailViewPath = '@yuncms/user/views/mail';
 
     /**
      * @var string|array Default: `Yii::$app->params['adminEmail']` OR `no-reply@example.com`
@@ -138,9 +138,9 @@ class Module extends \yii\base\Module
         //'<username:[A-Za-z0-9]+>' => 'profile/view',
     ];
 
-    public $avatarUrl = '@uploadUrl/avatar';
+    public $avatarUrl = '@uploads/avatar';
 
-    public $avatarPath = '@uploads/avatar';
+    public $avatarPath = '@uploadroot/avatar';
 
     /**
      * @inheritdoc
