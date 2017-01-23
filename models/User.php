@@ -213,6 +213,17 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Validates password
+     *
+     * @param string $password password to validate
+     * @return boolean if password provided is valid for current user
+     */
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
+    }
+
+    /**
      * 返回用户详细资料
      * @return \yii\db\ActiveQuery
      */
