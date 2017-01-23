@@ -30,6 +30,10 @@ class M161111023247Create_user_data_table extends Migration
         ], $tableOptions);
         $this->addPrimaryKey('{{%user_data}}','{{%user_data}}','user_id');
         $this->addForeignKey('{{%user_data_ibfk_1}}', '{{%user_data}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
+
+        $this->insert('{{%user_data}}', [
+            'user_id' => 1,
+        ]);
     }
 
     public function safeDown()
