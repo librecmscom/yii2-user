@@ -50,7 +50,7 @@ class ProfileController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('show', ['model' => $this->findModel(Yii::$app->user->id)]);
+        return $this->render('view', ['model' => $this->findModel(Yii::$app->user->id)]);
     }
 
     /**
@@ -97,7 +97,7 @@ class ProfileController extends Controller
                 $visit->updateAttributes(['updated_at' => time()]);
             }
         }
-        return $this->render('show', ['model' => $model]);
+        return $this->render('view', ['model' => $model]);
     }
 
     /**
