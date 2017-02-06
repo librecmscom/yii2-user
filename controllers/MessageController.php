@@ -106,7 +106,7 @@ class MessageController extends Controller
      * @return array
      * @throws \Exception
      */
-    public function actionUnreadNotifications()
+    public function actionUnreadMessages()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $total = Message::getDb()->cache(function ($db) {
