@@ -23,3 +23,10 @@
 .space-header-desc p:last-child{margin-bottom:0}
 .space-header-item{margin-right:30px;font-size:14px;line-height:20px;vertical-align:middle}
 .space-header-social .space-header-item,.space-authentication-skill{color:#666;}
+
+/*消息菜单*/
+.widget-messages {margin-bottom: 15px}
+.widget-message-item {display: block;color: #666;margin-left: -10px;padding: 6px 10px;width: 100%;text-decoration: none}
+.widget-message-item .badge {margin-left: 5px;padding: 2px 6px;font-weight: 400}
+.widget-message-item.active, .widget-messages-item:hover {text-decoration: none;color: #008E59;background-color: #F6F6F6}
+.widget-message-item.active .badge, .widget-message-item:hover .badge {background-color: #008E59}
