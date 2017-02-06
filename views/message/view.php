@@ -2,48 +2,38 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ListView;
+use yii\widgets\ActiveForm;
+use yuncms\user\models\Message;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Message Inbox');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
-
-
 <div class="row">
-    <div class="col-md-3">
-        <?= $this->render('/_right_menu') ?>
-    </div>
-    <div class="col-md-9" style="margin-bottom:30px">
-        <h1 class="msg-to-title">
-       	<span class="pull-left">
-			<?= Yii::t('app', 'Dialogue with'); ?>
-
+    <div class="col-xs-12 col-md-9 main">
+        <h2 class="h3 profile-title">
+            <?= Yii::t('user', 'Dialogue with'); ?>
             <?php
             if (Yii::$app->user->getId() == $conversation->user_id) {//收件人是自己
-                $conversation->updateAttributes(['status' => 2]);
+                $conversation->updateAttributes(['status' => Message::STATUS_READ]);
                 ?>
-
-
-                <a class="tiltle-username" href="<?=Url::to(['/user/profile/show', 'id' => $conversation->from_id]);?>"><?=Html::img($conversation->from->getAvatar(48),['class'=>'top-title-pho']);?><?=$conversation->from->username;?></a>
-
+                <a class="tiltle-username" href="<?=Url::to(['/user/profile/show', 'id' => $conversation->from_id]);?>"><?=$conversation->from->username;?></a>
                 <?php
             } else {
                 ?>
-                <a class="tiltle-username" href="<?=Url::to(['/user/profile/show', 'id' => $conversation->user_id]);?>"><?=Html::img($conversation->user->getAvatar(48),['class'=>'top-title-pho']);?><?=$conversation->user->username;?></a>
-
+                <a class="tiltle-username" href="<?=Url::to(['/user/profile/show', 'id' => $conversation->user_id]);?>"><?=$conversation->user->username;?></a>
             <?php } ?>
-
-           </span>
-            <a class="pull-right" style=" font-size:15px" href="<?= Url::to(['/user/message/index']); ?>"><span class="fa fa-backward"></span><?= Yii::t('app', 'Back to list'); ?></a>
-            <div style="clear:both"></div>
-        </h1>
+            <div class="pull-right">
+                <a class="btn btn-primary" href="<?= Url::to(['/user/message/index']); ?>"><?= Yii::t('user', 'Back to message list'); ?></a>
+            </div>
+        </h2>
         <div class="mg-con">
             <div class="message-main">
                 <div class="media-left">
                     <a href="<?=Url::to(['/user/profile/show', 'id' => $conversation->from_id]);?>" rel="author">
-                        <?=Html::img($conversation->from->getAvatar(48),['class'=>'media-object']);?>
+                        <?=Html::img($conversation->from->getAvatar(48),['class'=>'media-object avatar-32']);?>
                     </a>
                 </div>
                 <div class="media-body">
@@ -54,8 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?=$conversation->message;?>
                 </div>
             </div>
-            <?php
-            echo ListView::widget([
+            <?=ListView::widget([
                 'dataProvider' => $dataProvider,
                 'itemOptions' => ['tag' => 'li', 'class' => 'media'],
                 'itemView' => '_view_item',//子视图
@@ -66,23 +55,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ]); ?>
         </div>
-        <?php $form = \yii\widgets\ActiveForm::begin([
-            'id' => 'message-form',
-            'options' => ['class' => 'msg-form-view'],
-            'fieldConfig' => [
-                'template' => "{input}{error}\n{hint}",
-            ],
-        ]); ?>
-
-        <?= $form->field($model, 'parent',['template'=>'{input}'])->hiddenInput() ?>
-
-        <?= $form->field($model, 'message')->textarea(['onkeydown'=>'keySend(event)']) ?>
-        <div class="form-group form-bottom-bar">
-            <span class="send-tip stp1"><?= Yii::t('app', 'Press CTRL+ENTER to send messages'); ?></span>
-            <span class="send-tip stp2"><?= Yii::t('app', 'Click the SEND button to send the message'); ?></span>
-            <button type="reset" class="btn btn-primary resetbtn"><?= Yii::t('app', 'Reset'); ?></button>
-            <?= \yii\helpers\Html::submitButton('<span class="fa fa-send"></span>'.Yii::t('app', 'Send') , ['id' =>'sendBtn','class' => 'btn btn-primary']) ?>
+        <div class="row">
+            <div class="col-md-12">
+                <?php $form = ActiveForm::begin([
+                    'id' => 'message-form',
+                    'options' => ['class' => 'msg-form-view'],
+                    'fieldConfig' => [
+                        'template' => "{input}{error}\n{hint}",
+                    ],
+                ]); ?>
+                <?= $form->field($model, 'parent',['template'=>'{input}'])->hiddenInput() ?>
+                <?= $form->field($model, 'message')->textarea(['onkeydown'=>'keySend(event)']) ?>
+                <div class="form-group form-bottom-bar">
+                    <span class="send-tip stp1"><?= Yii::t('app', 'Press CTRL+ENTER to send messages'); ?></span>
+                    <span class="send-tip stp2"><?= Yii::t('app', 'Click the SEND button to send the message'); ?></span>
+                    <button type="reset" class="btn btn-primary resetbtn"><?= Yii::t('app', 'Reset'); ?></button>
+                    <?= Html::submitButton('<span class="fa fa-send"></span>'.Yii::t('app', 'Send') , ['id' =>'sendBtn','class' => 'btn btn-primary']) ?>
+                </div>
+                <?php ActiveForm::end(); ?>
+            </div>
         </div>
-        <?php \yii\widgets\ActiveForm::end(); ?>
+    </div>
+    <div class="col-xs-12 col-md-3 side">
+        <?= $this->render('/_right_menu') ?>
     </div>
 </div>

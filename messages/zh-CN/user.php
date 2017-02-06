@@ -17,6 +17,18 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    '{form} say to {to}' => '{form} 对 {to} 说',
+    'You' => '您',
+    'Detail' => '详情',
+    'Message content' => '私信内容',
+    'My Message' => '我的私信',
+    'My Message Inbox' => '收件箱',
+    'New Message' => '新信息',
+    'Please enter a user name' => '请输入一个用户名',
+    'Please enter the message content' => '请输入要发的私信内容',
+    'Read' => '已读',
+    'Send Message' => '发送',
+    'Unread' => '未读',
     'VKontakte' => '',
     'Yandex' => '',
     'Account' => '账户',
