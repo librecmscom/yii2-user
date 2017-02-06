@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
     <div class="col-md-3">
-        <?= $this->render('/setting/_menu') ?>
+        <?= $this->render('/_right_menu') ?>
     </div>
     <div class="col-md-9" style="margin-bottom:30px">
         <h1 class="msg-to-title">
