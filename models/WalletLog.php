@@ -67,10 +67,10 @@ class WalletLog extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'type' => Yii::t('user', 'PurseLog Type'),
-            'msg' => Yii::t('user', 'PurseLog Msg'),
-            'value' => Yii::t('user', 'PurseLog Value'),
-            'created_at' => Yii::t('user', 'PurseLog Created At'),
+            'type' => Yii::t('user', 'WalletLog Type'),
+            'msg' => Yii::t('user', 'WalletLog Msg'),
+            'value' => Yii::t('user', 'WalletLog Value'),
+            'created_at' => Yii::t('user', 'WalletLog Created At'),
         ];
     }
 

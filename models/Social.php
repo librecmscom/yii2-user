@@ -64,11 +64,11 @@ class Social extends ActiveRecord
     }
 
     /**
-     * @return User
+     * @return \yii\db\ActiveQuery
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
     }
 
     /**
@@ -107,9 +107,6 @@ class Social extends ActiveRecord
         return $this->updateAttributes(['username' => null, 'email' => null, 'code' => null, 'user_id' => $user->id]);
     }
 
-    /**
-     * @return SocialQuery
-     */
     public static function find()
     {
         return Yii::createObject(SocialQuery::className(), [get_called_class()]);

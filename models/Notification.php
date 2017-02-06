@@ -71,7 +71,7 @@ class Notification extends ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
     }
 
     /**
@@ -79,7 +79,7 @@ class Notification extends ActiveRecord
      */
     public function getToUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'to_user_id']);
+        return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'to_user_id']);
     }
 
     /**
