@@ -102,6 +102,15 @@ class Message extends ActiveRecord
      * 收件人是不是我自己
      * @return bool
      */
+    public function isRead()
+    {
+        return $this->status == static::STATUS_READ;
+    }
+
+    /**
+     * 收件人是不是我自己
+     * @return bool
+     */
     public function isRecipient()
     {
         return Yii::$app->user->id == $this->user_id;

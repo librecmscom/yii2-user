@@ -36,6 +36,16 @@ class MessageForm extends Model
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'message' => Yii::t('user', 'Message'),
+        ];
+    }
+
     public function save()
     {
         if ($this->validate()) {

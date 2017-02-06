@@ -19,7 +19,9 @@
 return [
     'Dialogue in {dialogue}' => '与 {dialogue} 对话',
     '{form} say to {to}' => '{form} 对 {to} 说',
+    'Click the SEND button to send the message' => '点击发送按钮发送该消息。',
     'You' => '您',
+    'Send' => '发送',
     'Detail' => '详情',
     'Message content' => '私信内容',
     'My Message' => '我的私信',

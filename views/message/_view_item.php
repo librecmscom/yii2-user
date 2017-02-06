@@ -21,6 +21,10 @@ if ($model->isRecipient()) {//收件人是自己 别人对你说
 <div class="media-body">
     <div class="media-heading">
         <?= Yii::t('user', '{form} say to {to}', ['form' => $form, 'to' => $to,]); ?>
+        <?php if($model->isRecipient() && !$model->isRead()):?>
+            <?php $model->setRead();?>
+        <span class="badge" style="background-color: #f52c32">new</span>
+        <?php endif;?>
     </div>
     <div class="media-content"><?= mb_substr(Html::encode($model->message), 0, 100) ?></div>
     <div class="media-action">
