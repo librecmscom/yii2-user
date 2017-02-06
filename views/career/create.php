@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
     <div class="col-md-2">
-        <?= $this->render('/setting/_menu') ?>
+        <?= $this->render('/_profile_menu') ?>
     </div>
     <div class="col-md-10">
         <h2 class="h3 profile-title"><?= Yii::t('user', 'Create Career') ?></h2>

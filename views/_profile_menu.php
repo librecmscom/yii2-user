@@ -57,11 +57,6 @@ $items = [
         'icon' => 'glyphicon glyphicon-retweet',
         'visible' => $networksVisible
     ],
-    [
-        'label' => Yii::t('user', 'Notification alerts'),
-        'url' => ['/user/notification/index'],
-        'icon' => 'glyphicon glyphicon-bell'
-    ]
 ];
 ?>
 

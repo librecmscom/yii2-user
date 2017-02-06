@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
     <div class="col-md-2">
-        <?= $this->render('/setting/_menu') ?>
+        <?= $this->render('/_profile_menu') ?>
     </div>
     <div class="col-md-10">
         <?php $form = ActiveForm::begin([

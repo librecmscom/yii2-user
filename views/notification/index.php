@@ -10,10 +10,8 @@ $this->title = Yii::t('user', 'Notice');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
-    <div class="col-md-2">
-        <?= $this->render('/setting/_menu') ?>
-    </div>
-    <div class="col-md-10">
+
+    <div class="col-xs-12 col-md-9 main">
         <h2 class="h3 profile-title">
             <?= Yii::t('user', 'Notice') ?>
             <div class="pull-right">
@@ -34,5 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]); ?>
             </div>
         </div>
+    </div>
+    <div class="col-xs-12 col-md-3 side">
+        <?= $this->render('/_right_menu') ?>
     </div>
 </div>
