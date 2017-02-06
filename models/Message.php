@@ -21,12 +21,15 @@ use yii\behaviors\TimestampBehavior;
  * @property int $created_at
  * @property int $updated_at
  *
+ * @property Message $lastMessage
+ * @property User $user
+ * @property Message[] $Messages
  * @package yuncms\user\models
  */
 class Message extends ActiveRecord
 {
-    const STATUS_NEW = '1';
-    const STATUS_READ = '2';
+    const STATUS_NEW = false;
+    const STATUS_READ = true;
 
     /**
      * @inheritdoc
@@ -56,8 +59,17 @@ class Message extends ActiveRecord
             [['from_id', 'user_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['message'], 'string', 'max' => 750],
             [['status'], 'default', 'value' => static::STATUS_NEW],
-            ['status', 'in', 'range' => [static::STATUS_NEW, static::STATUS_READ], 'message' => Yii::t('user','Incorrect status')],
+            ['status', 'in', 'range' => [static::STATUS_NEW, static::STATUS_READ], 'message' => Yii::t('user', 'Incorrect status')],
         ];
+    }
+
+    /**
+     * 设置已读
+     * @return int
+     */
+    public function setRead()
+    {
+        return $this->updateAttributes(['status' => static::STATUS_READ]);
     }
 
     /**
@@ -70,14 +82,29 @@ class Message extends ActiveRecord
         return $this->hasOne(static::className(), ['id' => 'parent']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getFrom()
     {
         return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'from_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUser()
     {
         return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
+    }
+
+    /**
+     * 收件人是不是我自己
+     * @return bool
+     */
+    public function isRecipient()
+    {
+        return Yii::$app->user->id == $this->user_id;
     }
 
     /**
@@ -88,5 +115,17 @@ class Message extends ActiveRecord
     public function getMessages()
     {
         return $this->hasMany(static::className(), ['parent' => 'id']);
+    }
+
+    /**
+     * 获取会话最后一行
+     * @return $this|array|null|ActiveRecord
+     */
+    public function getLastMessage()
+    {
+        if (($message = $this->getMessages()->orderBy(['created_at' => SORT_DESC])->limit(1)->one()) != null) {
+            return $message;
+        }
+        return $this;
     }
 }

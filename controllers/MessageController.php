@@ -83,33 +83,35 @@ class MessageController extends Controller
     public function actionView($id)
     {
         //获取会话
-        $conversation = $this->findModel($id);
+        $model = $this->findModel($id);
 
-        $query = $conversation->getMessages();
+        $dialogue = Message::find()->where(['id' => $model->id])->orWhere(['parent' => $model->id]);
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query
+            'query' => $dialogue
         ]);
-        $query->orderBy(['created_at' => SORT_ASC]);
+        $dialogue->orderBy(['created_at' => SORT_ASC]);
 
-        $model = new MessageForm();
-        $model->parent = $conversation->id;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $form = new MessageForm();
+        $form->parent = $model->id;
+        if ($form->load(Yii::$app->request->post()) && $form->save()) {
             return $this->refresh();
         }
-        return $this->render('view', ['dataProvider' => $dataProvider, 'conversation' => $conversation, 'model' => $model]);
+        return $this->render('view', ['dataProvider' => $dataProvider, 'model' => $model, 'formModel' => $form]);
     }
 
     /**
      * 获取会话
      * @param int $id
      * @return Message
+     * @return array|null|\yii\db\ActiveRecord
      * @throws NotFoundHttpException
      */
     protected function findModel($id)
     {
         if (($model = Message::find()
-                ->where(['id' => $id, 'parent' => null])->andWhere(['or', ['from_id' => Yii::$app->user->id], ['user_id' => Yii::$app->user->id]])->one()) !== null) {
+                ->where(['id' => $id, 'parent' => null])->andWhere(['or', ['from_id' => Yii::$app->user->id], ['user_id' => Yii::$app->user->id]])->limit(1)->one()) !== null
+        ) {
             return $model;
         } else {
             throw new NotFoundHttpException (Yii::t('user', 'The requested page does not exist.'));

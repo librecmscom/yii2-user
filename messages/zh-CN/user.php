@@ -17,6 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Dialogue in {dialogue}' => '与 {dialogue} 对话',
     '{form} say to {to}' => '{form} 对 {to} 说',
     'You' => '您',
     'Detail' => '详情',
@@ -104,7 +105,7 @@ return [
     'Submit' => '提交',
     'All marked as read' => '全部标记为已读',
     'Notice' => '通知提醒',
-    'Purses Manage'=>'钱包管理',
+    'Purses Manage' => '钱包管理',
     'Recharge' => '立即充值',
     'Coin Recharge' => '金币充值',
     'Your current coins are:' => '您当前的金币数为：',
