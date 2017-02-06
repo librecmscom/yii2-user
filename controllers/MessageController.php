@@ -36,6 +36,11 @@ class MessageController extends Controller
                         'actions' => ['index', 'send', 'view', 'delete'],
                         'roles' => ['@']
                     ],
+                    [
+                        'allow' => true,
+                        'actions' => ['unread-messages'],
+                        'roles' => ['@','?']
+                    ],
                 ],
             ],
         ];
@@ -109,10 +114,14 @@ class MessageController extends Controller
     public function actionUnreadMessages()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $total = Message::getDb()->cache(function ($db) {
-            return Message::find()->where(['user_id' => Yii::$app->user->id, 'status' => Message::STATUS_NEW])->count();
-        }, 60);
-        return ['total' => $total];
+        if (Yii::$app->user->isGuest) {
+            return ['total' => 0];
+        } else {
+            $total = Message::getDb()->cache(function ($db) {
+                return Message::find()->where(['user_id' => Yii::$app->user->id, 'status' => Message::STATUS_NEW])->count();
+            }, 60);
+            return ['total' => $total];
+        }
     }
 
     /**

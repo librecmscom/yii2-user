@@ -35,8 +35,13 @@ class NotificationController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'read-all', 'unread-notifications'],
+                        'actions' => ['index', 'read-all'],
                         'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['unread-notifications'],
+                        'roles' => ['@','?']
                     ],
                 ],
             ],
@@ -75,9 +80,13 @@ class NotificationController extends Controller
     public function actionUnreadNotifications()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $total = Notification::getDb()->cache(function ($db) {
-            return Notification::find()->where(['to_user_id' => Yii::$app->user->id, 'status' => Notification::STATUS_UNREAD])->count();
-        }, 60);
-        return ['total' => $total];
+        if (Yii::$app->user->isGuest) {
+            return ['total' => 0];
+        } else {
+            $total = Notification::getDb()->cache(function ($db) {
+                return Notification::find()->where(['to_user_id' => Yii::$app->user->id, 'status' => Notification::STATUS_UNREAD])->count();
+            }, 60);
+            return ['total' => $total];
+        }
     }
 }
