@@ -7,6 +7,7 @@
 namespace yuncms\user\controllers;
 
 use Yii;
+use yii\web\Response;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -98,6 +99,20 @@ class MessageController extends Controller
             return $this->refresh();
         }
         return $this->render('view', ['dataProvider' => $dataProvider, 'model' => $model, 'formModel' => $form]);
+    }
+
+    /**
+     * 未读通知数目
+     * @return array
+     * @throws \Exception
+     */
+    public function actionUnreadNotifications()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $total = Message::getDb()->cache(function ($db) {
+            return Message::find()->where(['user_id' => Yii::$app->user->id, 'status' => Message::STATUS_NEW])->count();
+        }, 60);
+        return ['total' => $total];
     }
 
     /**
