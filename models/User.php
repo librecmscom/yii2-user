@@ -628,8 +628,12 @@ class User extends ActiveRecord implements IdentityInterface
                 default:
                     $avatarUrl = '/img/no_avatar_big.gif';
             }
-            $avatarUrlRoot = UserAsset::register(Yii::$app->view);
-            return Url::to($avatarUrlRoot->baseUrl . $avatarUrl, true);
+            if(!file_exists(Yii::getAlias('@webroot/img/no_avatar_big.gif'))){
+                $baseUrl = UserAsset::register(Yii::$app->view)->baseUrl;
+            } else {
+                $baseUrl = '';
+            }
+            return Url::to($baseUrl . $avatarUrl, true);
         }
     }
 
