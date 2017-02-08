@@ -54,8 +54,8 @@ class CollectionController extends Controller
     public function actionStore()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $model = Yii::$app->request->post('model');
-        $modelId = Yii::$app->request->post('model_id');
+        $model = Yii::$app->request->post('sourceType');
+        $modelId = Yii::$app->request->post('sourceId');
         /** @var null|\yii\db\ActiveRecord $source */
         $source = null;
 

@@ -61,7 +61,6 @@ function attention(source_type, source_id, callback) {
 
 /**
  * 发起关注
- * @param {string} source_type
  * @param {int} source_id
  * @param callback
  */
