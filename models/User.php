@@ -645,7 +645,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function isCollected($sourceType, $sourceId)
     {
-        return $this->getCollections()->andWhere(['source_type' => $sourceType, 'source_id' => $sourceId])->exists();
+        return $this->getCollections()->andWhere(['model' => $sourceType, 'model_id' => $sourceId])->exists();
     }
 
     /**
@@ -656,7 +656,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function isFollowed($sourceType, $sourceId)
     {
-        return $this->getAttentions()->andWhere(['source_type' => $sourceType, 'source_id' => $sourceId])->exists();
+        return $this->getAttentions()->andWhere(['model' => $sourceType, 'model_id' => $sourceId])->exists();
     }
 
     /**
