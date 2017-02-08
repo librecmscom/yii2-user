@@ -14,13 +14,13 @@ use yii\db\Query;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
-use yii\behaviors\TimestampBehavior;
 use yii\base\NotSupportedException;
 use yii\web\Application as WebApplication;
 use yuncms\user\Module;
 use yuncms\user\ModuleTrait;
 use yuncms\user\helpers\Password;
 use yuncms\user\UserAsset;
+use yuncms\tag\models\Tag;
 
 
 /**
@@ -100,7 +100,23 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function behaviors()
     {
-        return [TimestampBehavior::className()];
+        return [
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior'
+            ],
+            'taggable' => [
+                'class' => 'yuncms\tag\behaviors\TagBehavior',
+                'tagValuesAsArray' => true,
+                'tagRelation' => 'tags',
+                'tagValueAttribute' => 'id',
+                'tagFrequencyAttribute' => 'frequency',
+            ],
+        ];
+    }
+
+    public static function find()
+    {
+        return new UserQuery(get_called_class());
     }
 
     /**
@@ -255,6 +271,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function setUserData(Data $data)
     {
         $this->_userData = $data;
+    }
+
+    /**
+     * 获取用户关注的Tag
+     */
+    public function getTags()
+    {
+        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('{{%user_tag}}', ['user_id' => 'id']);
     }
 
     /**
@@ -628,7 +652,7 @@ class User extends ActiveRecord implements IdentityInterface
                 default:
                     $avatarUrl = '/img/no_avatar_big.gif';
             }
-            if(!file_exists(Yii::getAlias('@webroot/img/no_avatar_big.gif'))){
+            if (!file_exists(Yii::getAlias('@webroot/img/no_avatar_big.gif'))) {
                 $baseUrl = UserAsset::register(Yii::$app->view)->baseUrl;
             } else {
                 $baseUrl = '';
