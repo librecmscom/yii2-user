@@ -6,11 +6,11 @@ use yii\grid\GridView;
  * @var yii\web\View
  * @var yii\data\ActiveDataProvider $dataProvider
  */
+$this->params['noPadding'] = true;
 ?>
 <?php $this->beginContent('@yuncms/user/backend/views/user/update.php', ['model' => $model]) ?>
 
-<?php
-echo GridView::widget([
+<?=GridView::widget([
     'dataProvider' => $dataProvider,
     'layout' => "{items}\n{pager}",
     'columns' => [

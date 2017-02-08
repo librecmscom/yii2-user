@@ -3,6 +3,7 @@
  * @var yii\web\View
  * @var yuncms\user\models\User
  */
+$this->params['noPadding'] = true;
 ?>
 
 <?php $this->beginContent('@vendor/yuncms/yii2-user/backend/views/user/update.php', ['model' => $model]) ?>

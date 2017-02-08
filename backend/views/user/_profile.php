@@ -9,29 +9,22 @@ use yii\helpers\Html;
  */
 
 ?>
-<?php $this->beginContent('@vendor/yuncms/yii2-user/backend/views/user/update.php', ['model' => $model]) ?>
+<?php $this->beginContent('@yuncms/user/backend/views/user/update.php', ['model' => $model]) ?>
 
-<?php $form = ActiveForm::begin([
-    'layout' => 'horizontal',
-    'enableAjaxValidation' => true,
-    'enableClientValidation' => false,
-    'fieldConfig' => [
-        'horizontalCssClasses' => [
-            'wrapper' => 'col-sm-9',
-        ],
-    ],
-]); ?>
+<?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
+<fieldset>
+    <?= $form->field($profile, 'nickname') ?>
+    <?= $form->field($profile, 'public_email') ?>
+    <?= $form->field($profile, 'website') ?>
+    <?= $form->field($profile, 'location') ?>
+    <?= $form->field($profile, 'bio')->textarea() ?>
+</fieldset>
 
-<?= $form->field($profile, 'nickname') ?>
-<?= $form->field($profile, 'public_email') ?>
-<?= $form->field($profile, 'website') ?>
-<?= $form->field($profile, 'location') ?>
-<?= $form->field($profile, 'bio')->textarea() ?>
-
-
-<div class="form-group">
-    <div class="col-lg-offset-3 col-lg-9">
-        <?= Html::submitButton(Yii::t('app', 'Update'), ['class' => 'btn btn-block btn-success']) ?>
+<div class="form-actions">
+    <div class="row">
+        <div class="col-md-12">
+            <?= Html::submitButton(Yii::t('app', 'Update'), ['class' => 'btn btn-primary']) ?>
+        </div>
     </div>
 </div>
 

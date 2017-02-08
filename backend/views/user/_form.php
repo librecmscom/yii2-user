@@ -1,9 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-
 /**
- * @var yii\widgets\ActiveForm $form
+ * @var yii\bootstrap\ActiveForm $form
  * @var yuncms\user\models\User $model
  */
 ?>
@@ -12,7 +11,6 @@ use yii\bootstrap\ActiveForm;
     <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'password')->passwordInput() ?>
-
 </fieldset>
 <div class="form-actions">
     <div class="row">
