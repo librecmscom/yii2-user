@@ -12,6 +12,8 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
+use yuncms\tag\models\Tag;
+use yuncms\user\models\User;
 use yuncms\user\models\Attention;
 
 /**
@@ -29,6 +31,7 @@ class AttentionController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'store' => ['POST'],
+                    'tag' => ['POST'],
                 ],
             ],
             'access' => [
@@ -36,7 +39,7 @@ class AttentionController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['store'],
+                        'actions' => ['store','tag'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -98,5 +101,24 @@ class AttentionController extends Controller
             $attention->save();
         }
         return ['status' => 'followed'];
+    }
+
+    public function actionTag(){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $sourceId = Yii::$app->request->post('sourceId', null);
+        $source = Tag::findOne($sourceId);
+        if (!$source) {
+            throw new NotFoundHttpException ();
+        }
+        $user = Yii::$app->user->identity;
+        if ($user->hasTagValues($source->id)) {
+            $user->removeTagValues($source->id);
+            $user->save();
+            return ['status' => 'unfollowed'];
+        } else {
+            $user->addTagValues($source->id);
+            $user->save();
+            return ['status' => 'followed'];
+        }
     }
 }
