@@ -111,11 +111,11 @@ class UserController extends Controller
     public function actionUpdateProfile($id)
     {
         Url::remember('', 'actions-redirect');
-        $user = $this->findModel($id);
-        $profile = $user->profile;
+        $model = $this->findModel($id);
+        $profile = $model->profile;
         if ($profile == null) {
             $profile = Yii::createObject(Profile::className());
-            $profile->link('user', $user);
+            $profile->link('user', $model);
         }
         if (Yii::$app->request->isAjax && $profile->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -127,7 +127,7 @@ class UserController extends Controller
         }
 
         return $this->render('_profile', [
-            'user' => $user,
+            'model' => $model,
             'profile' => $profile,
         ]);
     }
@@ -142,10 +142,10 @@ class UserController extends Controller
     public function actionView($id)
     {
         Url::remember('', 'actions-redirect');
-        $user = $this->findModel($id);
+        $model = $this->findModel($id);
 
         return $this->render('view', [
-            'user' => $user,
+            'model' => $model,
         ]);
     }
 
@@ -159,12 +159,12 @@ class UserController extends Controller
     public function actionEducation($id)
     {
         Url::remember('', 'actions-redirect');
-        $user = $this->findModel($id);
+        $model = $this->findModel($id);
         $dataProvider = new ActiveDataProvider([
-            'query' => $user->getEducations(),
+            'query' => $model->getEducations(),
         ]);
         return $this->render('_education', [
-            'user' => $user,
+            'model' => $model,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -179,12 +179,12 @@ class UserController extends Controller
     public function actionCareer($id)
     {
         Url::remember('', 'actions-redirect');
-        $user = $this->findModel($id);
+        $model = $this->findModel($id);
         $dataProvider = new ActiveDataProvider([
-            'query' => $user->getCareers(),
+            'query' => $model->getCareers(),
         ]);
         return $this->render('_career', [
-            'user' => $user,
+            'model' => $model,
             'dataProvider' => $dataProvider,
         ]);
 

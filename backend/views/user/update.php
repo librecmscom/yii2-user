@@ -5,7 +5,7 @@ use yii\web\View;
 use yuncms\user\models\User;
 /**
  * @var View $this
- * @var User $user
+ * @var User $model
  * @var string $content
  */
 
@@ -28,16 +28,16 @@ $this->params['breadcrumbs'][] = $this->title;
                             'class' => 'nav-pills nav-stacked',
                         ],
                         'items' => [
-                            ['label' => Yii::t('user', 'Account details'), 'url' => ['/user/user/update', 'id' => $user->id]],
-                            ['label' => Yii::t('user', 'Profile details'), 'url' => ['/user/user/update-profile', 'id' => $user->id]],
-                            ['label' => Yii::t('user', 'Information'), 'url' => ['/user/user/view', 'id' => $user->id]],
-                            ['label' => Yii::t('user', 'Education'), 'url' => ['/user/user/education', 'id' => $user->id]],
-                            ['label' => Yii::t('user', 'Career'), 'url' => ['/user/user/career', 'id' => $user->id]],
+                            ['label' => Yii::t('user', 'Account details'), 'url' => ['/user/user/update', 'id' => $model->id]],
+                            ['label' => Yii::t('user', 'Profile details'), 'url' => ['/user/user/update-profile', 'id' => $model->id]],
+                            ['label' => Yii::t('user', 'Information'), 'url' => ['/user/user/view', 'id' => $model->id]],
+                            ['label' => Yii::t('user', 'Education'), 'url' => ['/user/user/education', 'id' => $model->id]],
+                            ['label' => Yii::t('user', 'Career'), 'url' => ['/user/user/career', 'id' => $model->id]],
                             '<hr>',
                             [
                                 'label' => Yii::t('user', 'Confirm'),
-                                'url' => ['/user/user/confirm', 'id' => $user->id],
-                                'visible' => !$user->isConfirmed,
+                                'url' => ['/user/user/confirm', 'id' => $model->id],
+                                'visible' => !$model->isConfirmed,
                                 'linkOptions' => [
                                     'class' => 'text-success',
                                     'data-method' => 'post',
@@ -46,8 +46,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             [
                                 'label' => Yii::t('user', 'Block'),
-                                'url' => ['/user/user/block', 'id' => $user->id],
-                                'visible' => !$user->isBlocked,
+                                'url' => ['/user/user/block', 'id' => $model->id],
+                                'visible' => !$model->isBlocked,
                                 'linkOptions' => [
                                     'class' => 'text-danger',
                                     'data-method' => 'post',
@@ -56,8 +56,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             [
                                 'label' => Yii::t('user', 'Unblock'),
-                                'url' => ['/user/user/block', 'id' => $user->id],
-                                'visible' => $user->isBlocked,
+                                'url' => ['/user/user/block', 'id' => $model->id],
+                                'visible' => $model->isBlocked,
                                 'linkOptions' => [
                                     'class' => 'text-success',
                                     'data-method' => 'post',
@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             [
                                 'label' => Yii::t('app', 'Delete'),
-                                'url' => ['/user/user/delete', 'id' => $user->id],
+                                'url' => ['/user/user/delete', 'id' => $model->id],
                                 'linkOptions' => [
                                     'class' => 'text-danger',
                                     'data-method' => 'post',

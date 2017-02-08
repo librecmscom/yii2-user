@@ -5,7 +5,7 @@ use yii\grid\GridView;
  * @var yii\data\ActiveDataProvider $dataProvider
  */
 ?>
-<?php $this->beginContent('@vendor/yuncms/yii2-user/backend/views/user/update.php', ['user' => $user]) ?>
+<?php $this->beginContent('@vendor/yuncms/yii2-user/backend/views/user/update.php', ['model' => $model]) ?>
 
 <?php
 echo GridView::widget([

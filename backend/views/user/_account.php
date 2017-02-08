@@ -11,7 +11,7 @@ use yii\bootstrap\ActiveForm;
 
 ?>
 
-<?php $this->beginContent('@vendor/yuncms/yii2-user/backend/views/user/update.php', ['user' => $user]) ?>
+<?php $this->beginContent('@yuncms/user/backend/views/user/update.php', ['model' => $model]) ?>
 
 <?php $form = ActiveForm::begin([
     'layout' => 'horizontal',
@@ -24,7 +24,7 @@ use yii\bootstrap\ActiveForm;
     ],
 ]); ?>
 
-<?= $this->render('_user', ['form' => $form, 'user' => $user]) ?>
+<?= $this->render('_form', ['form' => $form, 'model' => $model]) ?>
 
 <div class="form-group">
     <div class="col-lg-offset-3 col-lg-9">

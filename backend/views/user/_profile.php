@@ -9,7 +9,7 @@ use yii\helpers\Html;
  */
 
 ?>
-<?php $this->beginContent('@vendor/yuncms/yii2-user/backend/views/user/update.php', ['user' => $user]) ?>
+<?php $this->beginContent('@vendor/yuncms/yii2-user/backend/views/user/update.php', ['model' => $model]) ?>
 
 <?php $form = ActiveForm::begin([
     'layout' => 'horizontal',
@@ -22,7 +22,7 @@ use yii\helpers\Html;
     ],
 ]); ?>
 
-<?= $form->field($profile, 'name') ?>
+<?= $form->field($profile, 'nickname') ?>
 <?= $form->field($profile, 'public_email') ?>
 <?= $form->field($profile, 'website') ?>
 <?= $form->field($profile, 'location') ?>
