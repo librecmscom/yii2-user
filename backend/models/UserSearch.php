@@ -56,7 +56,7 @@ class UserSearch extends Model
      */
     public function search($params)
     {
-        $query = User::find();
+        $query = User::find()->with('authentication');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

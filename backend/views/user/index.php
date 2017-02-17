@@ -44,6 +44,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     //'userData.amount',
                     //'userData.point',
                     [
+                        'header' => Yii::t('user', 'Authentication'),
+                        'value' => function ($model) {
+                            if ($model->authentication->status == 0) {
+                                return '<div class="text-center"><span class="text-success">' . Yii::t('user', 'Confirmed') . '</span></div>';
+                            } elseif ($model->authentication->status == 1) {
+                                return Html::a(Yii::t('user', 'Confirm'), ['confirm', 'id' => $model->id], [
+                                    'class' => 'btn btn-xs btn-success btn-block',
+                                    'data-method' => 'post',
+                                    'data-confirm' => Yii::t('user', 'Are you sure you want to confirm this user?'),
+                                ]);
+                            } elseif ($model->authentication->status == 2) {
+                                return '已认证';
+                            }
+                            return $model->authentication->status;
+                        },
+                        'format' => 'raw',
+                    ],
+                    [
                         'attribute' => 'registration_ip',
                         'value' => function ($model) {
                             return $model->registration_ip == null
