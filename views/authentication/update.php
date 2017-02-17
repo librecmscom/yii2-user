@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'real_name') ?>
                 <?= $form->field($model, 'id_card') ?>
                 <?= $form->field($model, 'imageFile')->fileInput(['class' => 'filestyle', 'data' => [
-                    'buttonText' => Yii::t('app', 'Choose file')
+                    'buttonText' => Yii::t('user', 'Choose file')
                 ]]); ?>
                 <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                     'captchaAction' => '/user/authentication/captcha',

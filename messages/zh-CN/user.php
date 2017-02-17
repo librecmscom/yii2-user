@@ -229,6 +229,7 @@ return [
     'Update User Account' => '更新用户帐户',
     'Upload avatar' => '上传头像',
     'User' => '用户',
+    'Choose file' => '选择文件',
     'User has been blocked' => '用户已被锁定',
     'User has been confirmed' => '用户已被确认',
     'User has been created' => '用户已被创建',

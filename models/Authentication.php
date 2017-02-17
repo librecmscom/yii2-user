@@ -86,8 +86,9 @@ class Authentication extends ActiveRecord
     public function rules()
     {
         return [
-            [['real_name', 'id_card', 'imageFile','verifyCode'], 'required', 'on' => ['create', 'update']],
+            [['real_name', 'id_card', 'imageFile', 'verifyCode'], 'required', 'on' => ['create', 'update']],
             [['real_name', 'id_card'], 'filter', 'filter' => 'trim'],
+            ['id_card', 'string', 'min' => 18, 'max' => 18],
             ['id_card', 'yuncms\system\validators\IdCardValidator'],
             [['imageFile'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('user', 'File has to be smaller than 2MB')],
             // verifyCode needs to be entered correctly
@@ -105,7 +106,7 @@ class Authentication extends ActiveRecord
             'id_card' => Yii::t('user', 'Id Card'),
             'imageFile' => Yii::t('user', 'Id Card Image'),
             'id_card_image' => Yii::t('user', 'Id Card Image'),
-            'verifyCode'=>Yii::t('user', 'Verify Code'),
+            'verifyCode' => Yii::t('user', 'Verify Code'),
         ];
     }
 
