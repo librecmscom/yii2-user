@@ -134,13 +134,18 @@ class Module extends \yii\base\Module
         'notice' => 'notification/index',
         'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
         'setting/<action:\w+>' => 'setting/<action>',
+        'authentication' => 'authentication/index',
         //这个默认不启用
         //'<username:[A-Za-z0-9]+>' => 'profile/view',
     ];
 
-    public $avatarUrl = '@uploads/avatar';
+    public $avatarUrl = '@web/uploads/avatar';
 
-    public $avatarPath = '@uploadroot/avatar';
+    public $avatarPath = '@root/uploads/avatar';
+
+    public $idCardUrl = '@web/uploads/id_card';
+
+    public $idCardPath = '@root/uploads/id_card';
 
     /**
      * @inheritdoc
@@ -148,19 +153,30 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-        $this->registerTranslations();
     }
 
     /**
-     * 注册语言包
+     * 获取身份证的存储路径
+     * @param int $userId
+     * @return string
      */
-    public function registerTranslations()
+    public function getIdCardPath($userId)
     {
-        Yii::$app->i18n->translations['modules/users/*'] = [
-            'class' => 'yii\i18n\PhpMessageSource',
-            'sourceLanguage' => 'en-US',
-            'basePath' => __DIR__ . '/messages',
-        ];
+        $avatarPath = Yii::getAlias($this->idCardPath) . '/' . $this->getAvatarHome($userId);
+        if (!is_dir($avatarPath)) {
+            FileHelper::createDirectory($avatarPath);
+        }
+        return $avatarPath . substr($userId, -2) . substr($userId, -2) . 'id_card_image.jpg';
+    }
+
+    /**
+     * 获取身份证访问Url
+     * @param int $userId 用户ID
+     * @return string
+     */
+    public function getIdCardUrl($userId)
+    {
+        return Yii::getAlias($this->idCardUrl) . '/' . $this->getAvatarHome($userId) . substr($userId, -2) . substr($userId, -2) . 'id_card_image.jpg';
     }
 
     /**
@@ -232,7 +248,8 @@ class Module extends \yii\base\Module
      * @param string $msg
      * @return bool
      */
-    public function wallet($user_id, $currency, $money, $action = '', $msg = ''){
+    public function wallet($user_id, $currency, $money, $action = '', $msg = '')
+    {
         $wallet = Wallet::findByUserID($user_id, $currency);
         $value = $wallet->money + $money;
         if ($money < 0 && $value < 0) {

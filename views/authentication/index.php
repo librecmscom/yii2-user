@@ -2,8 +2,11 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\captcha\Captcha;
 use yii\bootstrap\ActiveForm;
+use yuncms\attachment\FileUploadAsset;
 
+FileUploadAsset::register($this);
 /*
  * @var yii\web\View $this
  * @var yuncms\user\models\Authentication $model
@@ -23,7 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php if (Yii::$app->user->identity->authentication->status == 0): ?>
                 <div class="alert alert-info" role="alert">
                     <?= Yii::t('user', 'Your application is submitted successfully! We will be processed within three working days, the results will be processed by mail, station message to inform you, if in doubt please contact the official administrator.') ?>
-
                 </div>
             <?php elseif (Yii::$app->user->identity->authentication->status == 1): ?>
                 <div class="alert alert-danger" role="alert">
@@ -49,13 +51,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <dd><?= Yii::$app->user->identity->authentication->id_card ?></dd>
                                 <dt><?= Yii::t('user', 'Id Card Image') ?></dt>
                                 <dd><img class="img-responsive"
-                                         src="<?= Yii::$app->user->identity->authentication->id_card_image ?>"/></dd>
+                                         src="<?= Yii::$app->user->identity->authentication->idCardUrl ?>"/></dd>
                                 <dd><a href="<?= Url::to(['/user/authentication/update']) ?>" class="btn btn-warning">修改认证资料</a>
                                 </dd>
                             </dl>
                         </div>
                     </div>
-                    <?php else: ?>
+                <?php else: ?>
                     <?php $form = ActiveForm::begin([
                         'layout' => 'horizontal',
                         'options' => [
@@ -64,7 +66,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]); ?>
                     <?= $form->field($model, 'real_name') ?>
                     <?= $form->field($model, 'id_card') ?>
-                    <?= $form->field($model, 'imageFile')->fileInput(); ?>
+                    <?= $form->field($model, 'imageFile')->fileInput(['class' => 'filestyle', 'data' => [
+                        'buttonText' => Yii::t('app', 'Choose file')
+                    ]]); ?>
+                    <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+                        'captchaAction' => '/user/authentication/captcha',
+
+                    ]); ?>
                     <div class="form-group">
                         <?= Html::submitButton(Yii::t('user', 'Submit'), ['class' => 'btn btn-success']) ?>
                     </div>

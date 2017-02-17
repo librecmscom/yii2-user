@@ -17,7 +17,6 @@ class M170217041155Create_user_authentications_table extends Migration
             'user_id' => $this->integer()->notNull(),
             'real_name' => $this->string(),
             'id_card' => $this->string(),
-            'id_card_image' => $this->string(),
             'status' => $this->smallInteger(1)->defaultValue(0),
             'failed_reason' => $this->string(),
             'created_at' => $this->integer()->unsigned()->notNull(),

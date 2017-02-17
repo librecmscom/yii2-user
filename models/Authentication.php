@@ -10,6 +10,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
+use yuncms\user\ModuleTrait;
 
 /**
  * This is the model class for table "user_authentications".
@@ -27,10 +28,17 @@ use yii\web\UploadedFile;
  */
 class Authentication extends ActiveRecord
 {
+    use ModuleTrait;
+
     /**
      * @var \yii\web\UploadedFile 头像上传字段
      */
     public $imageFile;
+
+    /**
+     * @var string 验证码
+     */
+    public $verifyCode;
 
     /**
      * @inheritdoc
@@ -78,9 +86,12 @@ class Authentication extends ActiveRecord
     public function rules()
     {
         return [
-            [['real_name', 'id_card', 'imageFile'], 'required', 'on' => ['create', 'update']],
+            [['real_name', 'id_card', 'imageFile','verifyCode'], 'required', 'on' => ['create', 'update']],
             [['real_name', 'id_card'], 'filter', 'filter' => 'trim'],
+            ['id_card', 'yuncms\system\validators\IdCardValidator'],
             [['imageFile'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('user', 'File has to be smaller than 2MB')],
+            // verifyCode needs to be entered correctly
+            ['verifyCode', 'captcha', 'captchaAction' => '/user/authentication/captcha'],
         ];
     }
 
@@ -94,6 +105,7 @@ class Authentication extends ActiveRecord
             'id_card' => Yii::t('user', 'Id Card'),
             'imageFile' => Yii::t('user', 'Id Card Image'),
             'id_card_image' => Yii::t('user', 'Id Card Image'),
+            'verifyCode'=>Yii::t('user', 'Verify Code'),
         ];
     }
 
@@ -103,5 +115,25 @@ class Authentication extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
+    }
+
+    public function getIdCardUrl()
+    {
+        return $this->getModule()->getIdCardUrl($this->user_id);
+    }
+
+    /**
+     * @param bool $insert
+     * @return bool
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $idCardPath = $this->getModule()->getIdCardPath(Yii::$app->user->id);
+            $this->imageFile->saveAs($idCardPath);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

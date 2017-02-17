@@ -257,6 +257,7 @@ return [
     'Your password has been changed successfully.' => '您的密码已成功更改。',
     'Your profile has been updated' => '你的个人资料已经更新。',
     'verifyCode' => '验证码',
+    'Verify Code' => '验证码',
     'File has to be smaller than 2MB' => '文件必须小于2M',
     'Failure reason:' => '失败原因:',
     'Sorry, after passing your review, the information you submitted has not been approved. Please check the information and submit it again.' => '抱歉，经过我们的审核您提交的资料未通过审核，请核实一下资料信息,再次提交。',

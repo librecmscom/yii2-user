@@ -19,6 +19,21 @@ use yuncms\user\models\Authentication;
  */
 class AuthenticationController extends Controller
 {
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        return [
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'minLength' => 4,
+                'maxLength' => 5,
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+        ];
+    }
+
     /** @inheritdoc */
     public function behaviors()
     {
@@ -28,7 +43,7 @@ class AuthenticationController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'update'],
+                        'actions' => ['index', 'update','captcha'],
                         'roles' => ['@'],
                     ],
                 ],
