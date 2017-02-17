@@ -48,9 +48,9 @@ class AuthenticationController extends Controller
                 'class' => Authentication::className(),
                 'scenario' => 'create',
             ]);
-            if (Yii::$app->request->isPost) {
+            if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-                if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                if ($model->save()) {
                     return $this->redirect(['index']);
                 }
             }
@@ -71,9 +71,9 @@ class AuthenticationController extends Controller
             return $this->redirect(['index']);
         }
         $model->scenario = 'update';
-        if (Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if ($model->save()) {
                 return $this->redirect(['index']);
             }
         }
