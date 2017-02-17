@@ -268,6 +268,15 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * 返回用户用户认证信息
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuthentication()
+    {
+        return $this->hasOne(Authentication::className(), ['user_id' => 'id']);
+    }
+
+    /**
      * @param Data $data
      */
     public function setUserData(Data $data)

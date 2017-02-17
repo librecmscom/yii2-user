@@ -17,6 +17,10 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Authentication' => '实名认证',
+    'Real Name' => '真实姓名',
+    'Id Card' => '身份证号码',
+    'Id Card Image' => '身份证照片',
     'Dialogue in {dialogue}' => '与 {dialogue} 对话',
     '{form} say to {to}' => '{form} 对 {to} 说',
     'Click the SEND button to send the message' => '点击发送按钮发送该消息。',
@@ -253,5 +257,9 @@ return [
     'Your password has been changed successfully.' => '您的密码已成功更改。',
     'Your profile has been updated' => '你的个人资料已经更新。',
     'verifyCode' => '验证码',
+    'File has to be smaller than 2MB' => '文件必须小于2M',
+    'Failure reason:' => '失败原因:',
+    'Sorry, after passing your review, the information you submitted has not been approved. Please check the information and submit it again.' => '抱歉，经过我们的审核您提交的资料未通过审核，请核实一下资料信息,再次提交。',
+    'Your application is submitted successfully! We will be processed within three working days, the results will be processed by mail, station message to inform you, if in doubt please contact the official administrator.' => '您的申请提交成功！我们会在三个工作日内处理，处理结果会通过邮件、站内消息方式通知您，如有疑问请联系官方管理员。',
     '{0, date, MMMM dd, YYYY HH:mm}' => '{0, date, dd MMMM, YYYY HH:mm}',
 ];
