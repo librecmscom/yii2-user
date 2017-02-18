@@ -22,6 +22,11 @@ $items = [
         'icon' => 'glyphicon glyphicon-picture'
     ],
     [
+        'label' => Yii::t('user', 'Authentication'),
+        'url' => ['/user/authentication/index'],
+        'icon' => 'glyphicon glyphicon-education'
+    ],
+    [
         'label' => Yii::t('user', 'Educations'),
         'url' => ['/user/education/index'],
         'icon' => 'fa fa-graduation-cap'

@@ -1,6 +1,8 @@
 /** profile title **/
 .profile-title{padding-bottom:15px;border-bottom:1px solid #eee;}
 
+.box dl>dd,dl>dt{line-height: 50px;}
+
 /* 用户头像
 .avatar-16{width:16px;height:16px;border-radius:1px;}
 .avatar-20{width:20px;height:20px;border-radius:2px;}
