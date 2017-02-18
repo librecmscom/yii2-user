@@ -129,7 +129,9 @@ class Authentication extends ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             $idCardPath = $this->getModule()->getIdCardPath(Yii::$app->user->id);
-            $this->imageFile->saveAs($idCardPath);
+            if ($this->imageFile) {
+                $this->imageFile->saveAs($idCardPath);
+            }
             return true;
         } else {
             return false;

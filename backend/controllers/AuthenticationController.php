@@ -61,28 +61,6 @@ class AuthenticationController extends Controller
     }
 
     /**
-     * Creates a new Authentication model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Authentication();
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
-        }
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', Yii::t('app','Create success.'));
-            return $this->redirect(['view', 'id' => $model->user_id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
      * Updates an existing Authentication model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -91,6 +69,7 @@ class AuthenticationController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = 'verify';
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);

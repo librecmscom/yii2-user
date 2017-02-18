@@ -19,7 +19,7 @@ class AuthenticationSearch extends Authentication
     {
         return [
             [['user_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['real_name', 'id_card', 'id_card_image', 'failed_reason'], 'safe'],
+            [['real_name', 'id_card'], 'safe'],
         ];
     }
 
@@ -66,8 +66,7 @@ class AuthenticationSearch extends Authentication
         ]);
 
         $query->andFilterWhere(['like', 'real_name', $this->real_name])
-            ->andFilterWhere(['like', 'id_card', $this->id_card])
-            ->andFilterWhere(['like', 'failed_reason', $this->failed_reason]);
+            ->andFilterWhere(['like', 'id_card', $this->id_card]);
 
         return $dataProvider;
     }

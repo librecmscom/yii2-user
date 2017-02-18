@@ -79,7 +79,7 @@ $this->registerJs("jQuery(\"#batch_deletion\").on(\"click\", function () {
                     [
                         'class' => 'yii\grid\ActionColumn',
                         'header' => Yii::t('app', 'Operation'),
-                        'template' => '{view} {delete}',
+                        'template' => '{view} {update} {delete}',
                         //'buttons' => [
                         //    'update' => function ($url, $model, $key) {
                         //        return $model->status === 'editable' ? Html::a('Update', $url) : '';
