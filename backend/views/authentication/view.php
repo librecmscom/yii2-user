@@ -24,26 +24,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         'label' => Yii::t('user', 'Manage Authentication'),
                         'url' => ['index'],
                     ],
-                    [
-                        'label' => Yii::t('user', 'Create Authentication'),
-                        'url' => ['create'],
-                    ],
+
                     [
                         'label' => Yii::t('user', 'Update Authentication'),
                         'url' => ['update', 'id' => $model->user_id],
                         'options' => ['class' => 'btn btn-primary btn-sm']
                     ],
-                    [
-                        'label' => Yii::t('user', 'Delete Authentication'),
-                        'url' => ['delete', 'id' => $model->user_id],
-                        'options' => [
-                            'class' => 'btn btn-danger btn-sm',
-                            'data' => [
-                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                                'method' => 'post',
-                            ],
-                        ]
-                    ],
+
                 ]
             ]); ?>
             <?= DetailView::widget([
@@ -54,7 +41,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     'real_name',
                     'id_card',
                     'idCardUrl:image',
-                    'status',
+                    [
+                        'header' => Yii::t('user', 'Authentication'),
+                        'attribute' => 'status',
+                        'value' => function ($model) {
+                            if ($model->status == 0) {
+                                return Yii::t('user', 'Pending review');
+                            } elseif ($model->status == 1) {
+                                return Yii::t('user', 'Rejected');
+                            } elseif ($model->status == 2) {
+                                return Yii::t('user', 'Authenticated');
+                            }
+                        },
+                        'format' => 'raw',
+                    ],
                     'failed_reason',
                     'created_at:datetime',
                     'updated_at:datetime',

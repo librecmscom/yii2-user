@@ -17,21 +17,6 @@ use yii\web\Controller;
  */
 class AuthenticationController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                    'batch-delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Authentication models.
@@ -82,37 +67,6 @@ class AuthenticationController extends Controller
                 'model' => $model,
             ]);
         }
-    }
-
-    /**
-     * Deletes an existing Authentication model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-        Yii::$app->getSession()->setFlash('success', Yii::t('app','Delete success.'));
-        return $this->redirect(['index']);
-    }
-     /**
-      * Batch Delete existing Authentication model.
-      * If deletion is successful, the browser will be redirected to the 'index' page.
-      * @return mixed
-      */
-    public function actionBatchDelete()
-    {
-        if (($ids = Yii::$app->request->post('ids', null)) != null) {
-            foreach ($ids as $id) {
-                $model = $this->findModel($id);
-                $model->delete();
-            }
-            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Delete success.'));
-        } else {
-            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Delete failed.'));
-        }
-        return $this->redirect(['index']);
     }
 
     /**

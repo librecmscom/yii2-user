@@ -12,12 +12,6 @@ use yii\widgets\Pjax;
 
 $this->title = Yii::t('user', 'Manage Authentication');
 $this->params['breadcrumbs'][] = $this->title;
-$this->registerJs("jQuery(\"#batch_deletion\").on(\"click\", function () {
-    yii.confirm('" . Yii::t('app', 'Are you sure you want to delete this item?') . "',function(){
-        var ids = jQuery('#gridview').yiiGridView(\"getSelectedRows\");
-        jQuery.post(\"/user/authentication/batch-delete\",{ids:ids});
-    });
-});", View::POS_LOAD);
 ?>
 <section id="widget-grid">
     <div class="row">
@@ -33,15 +27,6 @@ $this->registerJs("jQuery(\"#batch_deletion\").on(\"click\", function () {
                         'label' => Yii::t('user', 'Manage Authentication'),
                         'url' => ['index'],
                     ],
-                    [
-                        'label' => Yii::t('user', 'Create Authentication'),
-                        'url' => ['create'],
-                    ],
-                    [
-                        'options' => ['id' => 'batch_deletion', 'class' => 'btn btn-sm btn-danger'],
-                        'label' => Yii::t('user', 'Batch Deletion'),
-                        'url' => 'javascript:void(0);',
-                    ]
                 ]
             ]); ?>
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -79,7 +64,7 @@ $this->registerJs("jQuery(\"#batch_deletion\").on(\"click\", function () {
                     [
                         'class' => 'yii\grid\ActionColumn',
                         'header' => Yii::t('app', 'Operation'),
-                        'template' => '{view} {update} {delete}',
+                        'template' => '{view} {update}',
                         //'buttons' => [
                         //    'update' => function ($url, $model, $key) {
                         //        return $model->status === 'editable' ? Html::a('Update', $url) : '';

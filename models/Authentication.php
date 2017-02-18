@@ -75,7 +75,7 @@ class Authentication extends ActiveRecord
         return ArrayHelper::merge($scenarios, [
             'create' => ['real_name', 'id_card', 'imageFile'],
             'update' => ['real_name', 'id_card', 'imageFile'],
-            'verify' => ['status'],
+            'verify' => ['real_name', 'id_card', 'status', 'failed_reason'],
         ]);
     }
 
@@ -87,6 +87,7 @@ class Authentication extends ActiveRecord
         return [
             [['real_name', 'id_card', 'imageFile', 'verifyCode'], 'required', 'on' => ['create', 'update']],
             [['real_name', 'id_card'], 'filter', 'filter' => 'trim'],
+            [['failed_reason'], 'filter', 'filter' => 'trim'],
             ['id_card', 'string', 'min' => 18, 'max' => 18],
             ['id_card', 'yuncms\system\validators\IdCardValidator'],
             [['imageFile'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('user', 'File has to be smaller than 2MB')],
@@ -101,10 +102,16 @@ class Authentication extends ActiveRecord
     public function attributeLabels()
     {
         return [
+            'user_id' => Yii::t('user', 'User Id'),
             'real_name' => Yii::t('user', 'Real Name'),
             'id_card' => Yii::t('user', 'Id Card'),
             'imageFile' => Yii::t('user', 'Id Card Image'),
+            'status' => Yii::t('user', 'Status'),
+            'failed_reason' => Yii::t('user', 'Failed Reason'),
             'verifyCode' => Yii::t('user', 'Verify Code'),
+            'idCardUrl' => Yii::t('user', 'Id Card Image'),
+            'created_at' => Yii::t('user', 'Created At'),
+            'updated_at' => Yii::t('user', 'Updated At'),
         ];
     }
 

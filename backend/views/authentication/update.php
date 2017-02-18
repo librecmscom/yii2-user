@@ -23,10 +23,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
                         'label' => Yii::t('user', 'Manage Authentication'),
                         'url' => ['index'],
                     ],
-                    [
-                        'label' => Yii::t('user', 'Create Authentication'),
-                        'url' => ['create'],
-                    ],
                 ]
             ]); ?>
 
