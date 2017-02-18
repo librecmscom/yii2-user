@@ -47,17 +47,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         'header' => Yii::t('user', 'Authentication'),
                         'value' => function ($model) {
                             if ($model->authentication->status == 0) {
-                                return '<div class="text-center"><span class="text-success">' . Yii::t('user', 'Confirmed') . '</span></div>';
+                                return Yii::t('user', 'Pending review');
                             } elseif ($model->authentication->status == 1) {
-                                return Html::a(Yii::t('user', 'Confirm'), ['confirm', 'id' => $model->id], [
-                                    'class' => 'btn btn-xs btn-success btn-block',
-                                    'data-method' => 'post',
-                                    'data-confirm' => Yii::t('user', 'Are you sure you want to confirm this user?'),
-                                ]);
+                                return Yii::t('user', 'Rejected');
                             } elseif ($model->authentication->status == 2) {
-                                return '已认证';
+                                return Yii::t('user', 'Authenticated');
                             }
-                            return $model->authentication->status;
                         },
                         'format' => 'raw',
                     ],

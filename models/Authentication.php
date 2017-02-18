@@ -18,7 +18,6 @@ use yuncms\user\ModuleTrait;
  * @property integer $user_id
  * @property string $real_name
  * @property string $id_card
- * @property string $id_card_image
  * @property int $status
  * @property string $failed_reason
  * @property integer $created_at
@@ -105,7 +104,6 @@ class Authentication extends ActiveRecord
             'real_name' => Yii::t('user', 'Real Name'),
             'id_card' => Yii::t('user', 'Id Card'),
             'imageFile' => Yii::t('user', 'Id Card Image'),
-            'id_card_image' => Yii::t('user', 'Id Card Image'),
             'verifyCode' => Yii::t('user', 'Verify Code'),
         ];
     }

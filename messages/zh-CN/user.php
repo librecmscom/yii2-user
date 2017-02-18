@@ -17,6 +17,9 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Pending review' => '待审核',
+    'Rejected' => '已拒绝',
+    'Authenticated' => '已认证',
     'Authentication' => '实名认证',
     'Real Name' => '真实姓名',
     'Id Card' => '身份证号码',
