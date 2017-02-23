@@ -39,6 +39,10 @@ class Authentication extends ActiveRecord
      */
     public $verifyCode;
 
+    const STATUS_PENDING = 0;
+    const STATUS_REJECTED = 1;
+    const STATUS_AUTHENTICATED = 2;
+
     /**
      * @inheritdoc
      */
@@ -126,6 +130,11 @@ class Authentication extends ActiveRecord
     public function getIdCardUrl()
     {
         return $this->getModule()->getIdCardUrl($this->user_id);
+    }
+
+    public function isAuthentication()
+    {
+        return $this->status == static::STATUS_AUTHENTICATED;
     }
 
     /**

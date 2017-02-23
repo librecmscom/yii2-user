@@ -51,6 +51,7 @@ use yuncms\tag\models\Tag;
  * @property Social[] $accounts
  * @property Profile $profile
  * @property Data $userData
+ * @property Authentication $authentication
  *
  * Dependencies:
  * @property-read Module $module
@@ -692,6 +693,18 @@ class User extends ActiveRecord implements IdentityInterface
     public function isFollowed($sourceType, $sourceId)
     {
         return $this->getAttentions()->andWhere(['model' => $sourceType, 'model_id' => $sourceId])->exists();
+    }
+
+    /**
+     * 是否实名认证
+     * @return bool
+     */
+    public function isAuthentication()
+    {
+        if ($this->authentication && $this->authentication->status == Authentication::STATUS_AUTHENTICATED) {
+            return true;
+        }
+        return false;
     }
 
     /**

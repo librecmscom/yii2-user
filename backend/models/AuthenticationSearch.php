@@ -93,13 +93,9 @@ class AuthenticationSearch extends Model
     {
         $dropDownList = [
             "status" => [
-                0 => Yii::t('user', 'Pending review'),
-                1 => Yii::t('user', 'Rejected'),
-                2 => Yii::t('user', 'Authenticated'),
-            ],
-            "redirect_code" => [
-                "301" => "301",
-                "302" => "302",
+                Authentication::STATUS_PENDING => Yii::t('user', 'Pending review'),
+                Authentication::STATUS_REJECTED => Yii::t('user', 'Rejected'),
+                Authentication::STATUS_AUTHENTICATED => Yii::t('user', 'Authenticated'),
             ],
         ];
         //根据具体值显示对应的值
