@@ -65,7 +65,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'format' => 'html',
                     ],
-                    'created_at:datetime',
+                    [
+                        'attribute' => 'created_at',
+                        'format' => 'datetime',
+                        'filter' => \yii\jui\DatePicker::widget([
+                            'model' => $searchModel,
+                            'options'=>[
+                                'class'=>'form-control'
+                            ],
+                            'attribute' => 'created_at',
+                            'name' => 'created_at',
+                            'dateFormat' => 'yyyy-MM-dd'
+                        ]),
+                    ],
                     [
                         'header' => Yii::t('user', 'Confirmation'),
                         'value' => function ($model) {

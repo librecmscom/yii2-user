@@ -16,6 +16,8 @@ use yuncms\user\models\User;
  */
 class UserSearch extends Model
 {
+    public $id;
+
     /** @var string */
     public $username;
 
@@ -33,8 +35,9 @@ class UserSearch extends Model
     public function rules()
     {
         return [
-            'fieldsSafe' => [['username', 'email', 'registration_ip', 'created_at'], 'safe'],
-            'createdDefault' => ['created_at', 'default', 'value' => null],
+            [['id'], 'integer'],
+            [['username', 'email', 'registration_ip','created_at'], 'safe'],
+            ['created_at', 'default', 'value' => null],
         ];
     }
 
@@ -42,9 +45,10 @@ class UserSearch extends Model
     public function attributeLabels()
     {
         return [
-            'username'        => Yii::t('user', 'Username'),
-            'email'           => Yii::t('user', 'Email'),
-            'created_at'      => Yii::t('user', 'Registration time'),
+            'id' => Yii::t('user', 'ID'),
+            'username' => Yii::t('user', 'Username'),
+            'email' => Yii::t('user', 'Email'),
+            'created_at' => Yii::t('user', 'Registration time'),
             'registration_ip' => Yii::t('user', 'Registration ip'),
         ];
     }
@@ -66,9 +70,13 @@ class UserSearch extends Model
             return $dataProvider;
         }
 
+        $query->andFilterWhere([
+            'id' => $this->id,
+        ]);
+
         if ($this->created_at !== null) {
             $date = strtotime($this->created_at);
-            $query->andFilterWhere(['between', 'created_at', $date, $date + 3600 * 24]);
+            $query->andWhere(['between', 'created_at', $date, $date + 3600 * 24]);
         }
 
         $query->andFilterWhere(['like', 'username', $this->username])
