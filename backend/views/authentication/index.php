@@ -2,9 +2,10 @@
 use yii\web\View;
 use yii\helpers\Url;
 use yii\helpers\Html;
-use yuncms\admin\widgets\Jarvis;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yuncms\admin\widgets\Jarvis;
+use yuncms\user\backend\models\AuthenticationSearch;
 
 /* @var $this yii\web\View */
 /* @var $searchModel yuncms\user\backend\models\AuthenticationSearch */
@@ -48,19 +49,38 @@ $this->params['breadcrumbs'][] = $this->title;
                         'header' => Yii::t('user', 'Authentication'),
                         'attribute' => 'status',
                         'value' => function ($model) {
-                            if ($model->status == 0) {
-                                return Yii::t('user', 'Pending review');
-                            } elseif ($model->status == 1) {
-                                return Yii::t('user', 'Rejected');
-                            } elseif ($model->status == 2) {
-                                return Yii::t('user', 'Authenticated');
-                            }
+                            return AuthenticationSearch::dropDown("status", $model->status);
                         },
+                        "filter" => AuthenticationSearch::dropDown("status"),
                         'format' => 'raw',
                     ],
                     'failed_reason',
-                    'created_at:datetime',
-                    'updated_at:datetime',
+                    [
+                        'attribute' => 'created_at',
+                        'format' => 'datetime',
+                        'filter' => \yii\jui\DatePicker::widget([
+                            'model' => $searchModel,
+                            'options'=>[
+                                'class'=>'form-control'
+                            ],
+                            'attribute' => 'created_at',
+                            'name' => 'created_at',
+                            'dateFormat' => 'yyyy-MM-dd'
+                        ]),
+                    ],
+                    [
+                        'attribute' => 'updated_at',
+                        'format' => 'datetime',
+                        'filter' => \yii\jui\DatePicker::widget([
+                            'model' => $searchModel,
+                            'options'=>[
+                                'class'=>'form-control'
+                            ],
+                            'attribute' => 'updated_at',
+                            'name' => 'updated_at',
+                            'dateFormat' => 'yyyy-MM-dd'
+                        ]),
+                    ],
                     [
                         'class' => 'yii\grid\ActionColumn',
                         'header' => Yii::t('app', 'Operation'),
