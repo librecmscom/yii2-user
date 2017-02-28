@@ -4,9 +4,6 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\captcha\Captcha;
 use yii\bootstrap\ActiveForm;
-use xutl\bootstrap\filestyle\FilestyleAsset;
-
-FilestyleAsset::register($this);
 /*
  * @var yii\web\View $this
  * @var yuncms\user\models\Authentication $model
