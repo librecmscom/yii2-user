@@ -11,6 +11,8 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
+use yii\data\ActiveDataProvider;
+use yuncms\user\models\Doing;
 use yuncms\user\models\Visit;
 use yuncms\user\models\Profile;
 
@@ -50,7 +52,12 @@ class ProfileController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('view', ['model' => $this->findModel(Yii::$app->user->id)]);
+        $model = $this->findModel(Yii::$app->user->id);
+        $dataProvider = $this->getDoingDataProvider($model->user_id);
+        return $this->render('view', [
+            'model' => $model,
+            'dataProvider' => $dataProvider
+        ]);
     }
 
     /**
@@ -73,7 +80,11 @@ class ProfileController extends Controller
                 $visit->updateAttributes(['updated_at' => time()]);
             }
         }
-        return $this->render('view', ['model' => $model]);
+        $dataProvider = $this->getDoingDataProvider($model->user_id);
+        return $this->render('view', [
+            'model' => $model,
+            'dataProvider' => $dataProvider
+        ]);
     }
 
     /**
@@ -97,7 +108,29 @@ class ProfileController extends Controller
                 $visit->updateAttributes(['updated_at' => time()]);
             }
         }
-        return $this->render('view', ['model' => $model]);
+
+        $dataProvider = $this->getDoingDataProvider($model->user_id);
+
+        return $this->render('view', [
+            'model' => $model,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    /**
+     * 获取个人动态
+     * @param int $user_id
+     * @return ActiveDataProvider
+     */
+    protected function getDoingDataProvider($user_id)
+    {
+        $query = Doing::find()->where(['user_id' => $user_id])->orderBy(['created_at' => SORT_DESC]);
+        return new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pagesize' => 15,
+            ]
+        ]);
     }
 
     /**

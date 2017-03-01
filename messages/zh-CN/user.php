@@ -27,6 +27,8 @@ return [
     'Credit Msg' => '',
     'Credit Type' => '',
     'Credit Value' => '',
+    'My Page'=>'我的主页',
+    'His Page'=>'他的主页',
     'Passed' => '通过',
     'Refuse' => '拒绝',
     'VKontakte' => '',
