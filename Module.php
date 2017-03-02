@@ -9,6 +9,7 @@ namespace yuncms\user;
 
 use Yii;
 use yii\helpers\FileHelper;
+use yuncms\user\models\User;
 use yuncms\user\models\Data;
 use yuncms\user\models\Doing;
 use yuncms\user\models\Coin;
@@ -358,28 +359,33 @@ class Module extends \yii\base\Module
      * @param int $toUserId
      * @param string $type
      * @param string $subject
-     * @param int $sourceId
+     * @param int $model_id
      * @param string $content
      * @param string $referType
      * @param int $refer_id
      * @return bool
      */
-    public function notify($fromUserId, $toUserId, $type, $subject = '', $sourceId = 0, $content = '', $referType = '', $refer_id = 0)
+    public function notify($fromUserId, $toUserId, $type, $subject = '', $model_id = 0, $content = '', $referType = '', $refer_id = 0)
     {
         /*不能自己给自己发通知*/
         if ($fromUserId == $toUserId) {
             return false;
         }
+        $toUser = User::findOne($toUserId);
+        if( !$toUser ){
+            return false;
+        }
+
         try {
             $notify = Notification::create([
                 'user_id' => $fromUserId,
                 'to_user_id' => $toUserId,
                 'type' => $type,
-                'subject' => $subject,
-                'source_id' => $sourceId,
+                'subject' => strip_tags($subject),
+                'model_id' => $model_id,
                 'content' => strip_tags($content),
-                'refer_type' => $referType,
-                'refer_id' => $refer_id,
+                'refer_model' => $referType,
+                'refer_model_id' => $refer_id,
                 'status' => Notification::STATUS_UNREAD
             ]);
             return $notify != false;

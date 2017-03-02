@@ -18,7 +18,7 @@ $this->params['profile'] = $model;
         '_nav.php', ['model' => $model]
     ) ?>
     <div class="col-md-10">
-        <h2 class="h4">最近动态</h2>
+        <h2 class="h4"><?=Yii::t('user','Recently Doing')?></h2>
         <div class="stream-doing clearfix">
             <?= ListView::widget([
                 'dataProvider' => $dataProvider,

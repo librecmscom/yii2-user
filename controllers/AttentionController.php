@@ -15,11 +15,14 @@ use yii\web\NotFoundHttpException;
 use yuncms\tag\models\Tag;
 use yuncms\user\models\User;
 use yuncms\user\models\Attention;
+use yuncms\user\Module;
 
 /**
- * Class AttentionController
+ * 关注操作
  * @property \yuncms\user\Module $module
  * @package yuncms\user
+ *
+ * @property Module $module
  */
 class AttentionController extends Controller
 {
@@ -39,7 +42,7 @@ class AttentionController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['store','tag'],
+                        'actions' => ['store', 'tag'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -58,13 +61,10 @@ class AttentionController extends Controller
             /** @var \yii\db\ActiveRecord $userClass */
             $userClass = Yii::$app->user->identityClass;
             $source = $userClass::findOne($sourceId);
-            $subject = $source->username;
         } else if ($sourceType == 'question' && Yii::$app->hasModule('question')) {
             $source = \yuncms\question\models\Question::findOne($sourceId);
-            $subject = $source->title;
         } else if ($sourceType == 'article' && Yii::$app->hasModule('article')) {
             $source = \yuncms\article\models\Article::findOne($sourceId);
-            $subject = $source->title;
         }//etc..
 
         if (!$source) {
@@ -83,6 +83,7 @@ class AttentionController extends Controller
             return ['status' => 'unfollowed'];
         }
 
+
         $data = [
             'user_id' => Yii::$app->user->id,
             'model_id' => $sourceId,
@@ -94,6 +95,7 @@ class AttentionController extends Controller
             switch ($sourceType) {
                 case 'user':
                     $source->userData->updateCounters(['followers' => 1]);
+                    $this->module->notify(Yii::$app->user->id, $sourceId, 'follow_user');
                     break;
                 default:
                     $source->updateCounters(['followers' => 1]);
@@ -103,7 +105,8 @@ class AttentionController extends Controller
         return ['status' => 'followed'];
     }
 
-    public function actionTag(){
+    public function actionTag()
+    {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $sourceId = Yii::$app->request->post('sourceId', null);
         $source = Tag::findOne($sourceId);

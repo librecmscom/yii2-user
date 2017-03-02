@@ -90,13 +90,21 @@ $asset = AppAsset::register($this);
                     </div>
                     <div class="col-md-3">
                         <div class="mt-10">
-                            <button type="button" class="btn mr-10 btn-success" data-target="follow-button"
+                            <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isFollowed(get_class($this->params['profile']->user), $this->params['profile']->user_id)): ?>
+                            <button type="button" class="btn mr-10 btn-success active" data-target="follow-button"
                                     data-source_type="user"
                                     data-source_id="<?= $this->params['profile']->user_id; ?>" data-show_num="true"
                                     data-toggle="tooltip" data-placement="right" title=""
-                                    data-original-title="<?= Yii::t('user', 'Follow will be updated to remind') ?>"><?= Yii::t('user', 'Follow') ?>
+                                    data-original-title="<?= Yii::t('user', 'Follow will be updated to remind') ?>"><?= Yii::t('user', 'Followed') ?>
                             </button>
-
+                            <?php else: ?>
+                                <button type="button" class="btn mr-10 btn-success" data-target="follow-button"
+                                        data-source_type="user"
+                                        data-source_id="<?= $this->params['profile']->user_id; ?>" data-show_num="true"
+                                        data-toggle="tooltip" data-placement="right" title=""
+                                        data-original-title="<?= Yii::t('user', 'Follow will be updated to remind') ?>"><?= Yii::t('user', 'Follow') ?>
+                                </button>
+                            <?php endif; ?>
                             <button class="btn btn-default btnMessageTo" data-toggle="modal"
                                     data-target="#sendTo_message_model"
                                     data-to_user_id="<?= $this->params['profile']->user_id; ?>"

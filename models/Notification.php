@@ -83,6 +83,37 @@ class Notification extends ActiveRecord
     }
 
     /**
+     * 获取类型字符
+     * @return mixed|null
+     */
+    public function getTypeText()
+    {
+        switch ($this->type) {
+            case 'follow_user':
+                return Yii::t('user', 'follow on you');
+                break;
+            case 'answer_question':
+                return Yii::t('user', 'answered the question');
+                break;
+            case 'follow_question':
+                return Yii::t('user', 'is concerned about the problem');
+                break;
+            case 'comment_question':
+                return Yii::t('user', 'commented on the question');
+                break;
+            case 'invite_answer':
+                return Yii::t('user', 'invited you to answer');
+                break;
+            case 'adopt_answer':
+                return Yii::t('user', 'accepted your answer');
+                break;
+            default:
+                return 'sorry none is the same!';
+                break;
+        }
+    }
+
+    /**
      * 设置指定用户为全部已读
      * @param int $toUserId
      * @return int
