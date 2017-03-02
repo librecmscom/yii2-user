@@ -7,7 +7,6 @@ use yii\widgets\ActiveForm;
     'id' => 'message-form',
     'action' => ['/user/message/send']
 ]); ?>
-<?= $form->field($model, 'user_id')->label(false)->hiddenInput(); ?>
 <?= $form->field($model, 'username')->label(false)->hiddenInput(); ?>
 <?= $form->field($model, 'message')->label(false)->textarea(['class' => 'form-control']) ?>
 
