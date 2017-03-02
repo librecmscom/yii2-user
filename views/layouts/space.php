@@ -142,36 +142,36 @@ $asset = AppAsset::register($this);
             $menuItems = [
                 ['label' => Yii::t('user', 'My Page'), 'url' => ['/user/profile/index']],
                 //问答
-                ['label' => Yii::t('app', 'My answer'), 'url' => ['/user/profile/answer'], 'visible' => Yii::$app->hasModule('question')],
-                ['label' => Yii::t('app', 'Question'), 'url' => ['/user/profile/question'], 'visible' => Yii::$app->hasModule('question')],
+                ['label' => Yii::t('app', 'My Answer'), 'url' => ['/user/profile/answer', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
+                ['label' => Yii::t('app', 'My Question'), 'url' => ['/user/profile/question', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
                 //文章
-                ['label' => Yii::t('app', 'Note'), 'url' => ['/note/note/index'], 'visible' => Yii::$app->hasModule('article')],
+                ['label' => Yii::t('app', 'My Note'), 'url' => ['/note/note/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('article')],
 
                 '<li role="separator" class="divider"></li>',
 
-                ['label' => '我的金币', 'url' => ['/tag/index']],
-                ['label' => '我的经验', 'url' => ['/site/about']],
-                ['label' => '我的粉丝', 'url' => ['/site/contact']],
-                ['label' => '我的关注', 'url' => ['/site/contact']],
-                ['label' => '我的收藏', 'url' => ['/user/profile/collect', 'id' => $user->id]],
+                ['label' => Yii::t('app', 'My Coin'), 'url' => ['/user/profile/coin', 'id' => $user->id]],
+                ['label' => Yii::t('app', 'My Credit'), 'url' => ['/user/profile/credit', 'id' => $user->id]],
+                ['label' => Yii::t('app', 'My Follower'), 'url' => ['/user/profile/follower', 'id' => $user->id]],
+                ['label' => Yii::t('app', 'My Followed'), 'url' => ['/user/profile/followed', 'id' => $user->id]],
+                ['label' => Yii::t('app', 'My Collect'), 'url' => ['/user/profile/collect', 'id' => $user->id]],
             ];
         } else {//he
             $menuItems = [
-                ['label' => Yii::t('app', 'His Page'), 'url' => ['/user/profile/show', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Page'), 'url' => ['/user/profile/show', 'id' => $user->id]],
                 //问答
-                ['label' => Yii::t('app', 'My answer'), 'url' => ['/article/article/index'], 'visible' => Yii::$app->hasModule('question')],
-                ['label' => Yii::t('app', 'Question'), 'url' => ['/question/question/index'], 'visible' => Yii::$app->hasModule('question')],
+                ['label' => Yii::t('app', 'His Answer'), 'url' => ['/article/article/index'], 'visible' => Yii::$app->hasModule('question')],
+                ['label' => Yii::t('app', 'His Question'), 'url' => ['/question/question/index'], 'visible' => Yii::$app->hasModule('question')],
 
                 //文章
-                ['label' => Yii::t('app', 'Note'), 'url' => ['/note/note/index'], 'visible' => Yii::$app->hasModule('article')],
+                ['label' => Yii::t('app', 'His Note'), 'url' => ['/note/note/index'], 'visible' => Yii::$app->hasModule('article')],
 
                 '<li role="separator" class="divider"></li>',
 
-                ['label' => '我的金币', 'url' => ['/tag/index']],
-                ['label' => '我的经验', 'url' => ['/site/about']],
-                ['label' => '我的粉丝', 'url' => ['/site/contact']],
-                ['label' => '我的关注', 'url' => ['/site/contact']],
-                ['label' => '我的收藏', 'url' => ['/user/profile/collect', 'id' => $user->id]],
+                ['label' => Yii::t('app', 'His Coin'), 'url' => ['/user/profile/coin', 'id' => $user->id]],
+                ['label' => Yii::t('app', 'His Credit'), 'url' => ['/user/profile/credit', 'id' => $user->id]],
+                ['label' => Yii::t('app', 'His Follower'), 'url' => ['/user/profile/follower', 'id' => $user->id]],
+                ['label' => Yii::t('app', 'His Followed'), 'url' => ['/user/profile/followed', 'id' => $user->id]],
+                ['label' => Yii::t('app', 'His Collect'), 'url' => ['/user/profile/collect', 'id' => $user->id]],
             ];
         } ?>
         <?= Nav::widget([

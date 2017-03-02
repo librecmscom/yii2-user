@@ -56,6 +56,28 @@ class Coin extends ActiveRecord
         ];
     }
 
+    /**
+     * 获取类型字符
+     * @return mixed|null
+     */
+    public function getActionText()
+    {
+        switch ($this->action) {
+            case 'ask':
+                return Yii::t('user', 'Ask questions');
+                break;
+            case 'answer_question':
+                return Yii::t('user', 'Answered the question');
+                break;
+            case 'answer_adopted':
+                return Yii::t('user', 'answer is adopted');
+                break;
+            default:
+                return null;
+                break;
+        }
+    }
+
     public static function create($attribute)
     {
         $model = new static ($attribute);

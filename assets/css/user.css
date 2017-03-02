@@ -32,3 +32,24 @@
 .widget-message-item .badge {margin-left: 5px;padding: 2px 6px;font-weight: 400}
 .widget-message-item.active, .widget-messages-item:hover {text-decoration: none;color: #008E59;background-color: #F6F6F6}
 .widget-message-item.active .badge, .widget-message-item:hover .badge {background-color: #008E59}
+
+/*动态样式*/
+.stream-doing section{padding:10px 0;border-top:1px solid #EEE}
+.stream-doing-item-info{color:#999;margin-bottom:5px}
+.stream-doing-item-title h4{display:inline;margin:0 5px 0 0;font-size:15px}
+.stream-doing-item-title h4 a{color:#333}
+.stream-doing-item-title h4 a:hover{color:#017e66}
+.stream-doing-item-quote{border-left:5px solid #EEE;padding-left:10px;margin-top:5px;margin-bottom:0;color:#888;word-break:break-all}
+
+/*积分记录*/
+.record-list li{overflow:hidden;margin-top:10px;border-bottom:1px solid #EEE}
+.record-list li .pull-left{width:37px;text-align:right;margin-right:15px}
+.record-list li p{margin-left:52px}
+.coins .badge{background-color:#FF8100;}
+.credits .badge{background-color:#449d44;}
+
+/* 关注列表 */
+.stream-following .avatar-32{float:left;margin-right:10px}
+.stream-following-list >li{padding:12px 0;border-bottom:1px solid #eee}
+.stream-following-followed{color:#999;line-height:20px}
+.stream-following-desc {font-size: 13px;color: #666;line-height: 21px;}

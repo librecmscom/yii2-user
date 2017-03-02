@@ -14,7 +14,7 @@ use yii\behaviors\TimestampBehavior;
  * This is the model class for table "user_attentions".
  *
  * @property integer $user_id
- * @property string $follow_id
+ * @property string $model_id
  * @property integer $created_at
  * @property integer $updated_at
  *

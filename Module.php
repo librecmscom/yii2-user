@@ -136,6 +136,10 @@ class Module extends \yii\base\Module
         'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
         'setting/<action:\w+>' => 'setting/<action>',
         'authentication' => 'authentication/index',
+        'profile/<id:\d+>/coins' => 'profile/coin',
+        'profile/<id:\d+>/credits' => 'profile/credit',
+        'profile/<id:\d+>/followers' => 'profile/follower',
+        'profile/<id:\d+>/followed' => 'profile/followed',
         //这个默认不启用
         //'<username:[A-Za-z0-9]+>' => 'profile/view',
     ];
@@ -372,7 +376,7 @@ class Module extends \yii\base\Module
             return false;
         }
         $toUser = User::findOne($toUserId);
-        if( !$toUser ){
+        if (!$toUser) {
             return false;
         }
 

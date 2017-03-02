@@ -13,7 +13,10 @@ use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use yuncms\user\models\Doing;
+use yuncms\user\models\Follow;
 use yuncms\user\models\User;
+use yuncms\user\models\Coin;
+use yuncms\user\models\Credit;
 use yuncms\user\models\Visit;
 use yuncms\user\models\Profile;
 
@@ -113,6 +116,56 @@ class ProfileController extends Controller
         $dataProvider = $this->getDoingDataProvider($model->id);
 
         return $this->render('view', [
+            'model' => $model,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    /**
+     * 我的金币
+     * @param int $id
+     * @return string
+     */
+    public function actionCoin($id)
+    {
+        $model = $this->findModel($id);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Coin::find()->where(['user_id' => $model->id])->orderBy(['created_at' => SORT_DESC]),
+        ]);
+        return $this->render('coin', [
+            'model' => $model,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    /**
+     * 我的经验
+     * @param int $id
+     * @return string
+     */
+    public function actionCredit($id)
+    {
+        $model = $this->findModel($id);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Credit::find()->where(['user_id' => $model->id])->orderBy(['created_at' => SORT_DESC]),
+        ]);
+        return $this->render('credit', [
+            'model' => $model,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    /**
+     * 我的粉丝
+     * @param int $id
+     * @return string
+     */
+    public function actionFollower($id){
+        $model = $this->findModel($id);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model->getFans()->orderBy(['created_at' => SORT_DESC]),
+        ]);
+        return $this->render('follower', [
             'model' => $model,
             'dataProvider' => $dataProvider
         ]);

@@ -361,7 +361,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getFollowers()
     {
-        return $this->hasMany(Follow::className(), ['user_id' => 'id'])->andOnCondition(['source_type' => get_class($this)]);
+        return $this->hasMany(Follow::className(), ['user_id' => 'id'])->andOnCondition(['model' => get_class($this)]);
     }
 
     /**
@@ -370,7 +370,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getFans()
     {
-        return $this->hasMany(Attention::className(), ['source_id' => 'id'])->andOnCondition(['source_type' => get_class($this)]);
+        return $this->hasMany(Attention::className(), ['model_id' => 'id'])->andOnCondition(['model' => get_class($this)]);
     }
 
     /**
