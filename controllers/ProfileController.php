@@ -13,6 +13,7 @@ use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use yuncms\user\models\Doing;
+use yuncms\user\models\User;
 use yuncms\user\models\Visit;
 use yuncms\user\models\Profile;
 
@@ -37,7 +38,7 @@ class ProfileController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['view', 'show'],
+                        'actions' => ['view', 'show', 'collect', 'followed', 'follower', 'credit', 'coin'],
                         'roles' => ['?', '@']
                     ]
                 ]
@@ -53,7 +54,7 @@ class ProfileController extends Controller
     public function actionIndex()
     {
         $model = $this->findModel(Yii::$app->user->id);
-        $dataProvider = $this->getDoingDataProvider($model->user_id);
+        $dataProvider = $this->getDoingDataProvider($model->id);
         return $this->render('view', [
             'model' => $model,
             'dataProvider' => $dataProvider
@@ -69,10 +70,10 @@ class ProfileController extends Controller
     public function actionView($username)
     {
         $model = $this->findModelByUsername($username);
-        if (!Yii::$app->user->isGuest && Yii::$app->user->id != $model->user_id) {
+        if (!Yii::$app->user->isGuest && Yii::$app->user->id != $model->id) {
             //记录访客
-            if (($visit = Visit::findOne(['user_id' => Yii::$app->user->id, 'source_id' => $model->user_id])) == null) {
-                $visit = new Visit(['user_id' => Yii::$app->user->id, 'source_id' => $model->user_id]);
+            if (($visit = Visit::findOne(['user_id' => Yii::$app->user->id, 'source_id' => $model->id])) == null) {
+                $visit = new Visit(['user_id' => Yii::$app->user->id, 'source_id' => $model->id]);
                 $visit->save(false);
                 //更新访客计数
                 $model->user->userData->updateCounters(['views' => 1]);
@@ -80,7 +81,7 @@ class ProfileController extends Controller
                 $visit->updateAttributes(['updated_at' => time()]);
             }
         }
-        $dataProvider = $this->getDoingDataProvider($model->user_id);
+        $dataProvider = $this->getDoingDataProvider($model->id);
         return $this->render('view', [
             'model' => $model,
             'dataProvider' => $dataProvider
@@ -109,10 +110,42 @@ class ProfileController extends Controller
             }
         }
 
-        $dataProvider = $this->getDoingDataProvider($model->user_id);
+        $dataProvider = $this->getDoingDataProvider($model->id);
 
         return $this->render('view', [
             'model' => $model,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    /**
+     * 我的关注
+     * @param int $id
+     * @return string
+     */
+    public function actionFollowed($id)
+    {
+        $model = $this->findModel($id);
+        $dataProvider = $this->getDoingDataProvider($model->id);
+        return $this->render('collect', [
+            'model' => $model,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    /**
+     * 查看收藏
+     * @param int $id
+     * @return string
+     */
+    public function actionCollect($id)
+    {
+        $model = $this->findModel($id);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model->getCollections(),
+        ]);
+        return $this->render('collect', [
+            'model' => $model->profile,
             'dataProvider' => $dataProvider
         ]);
     }
@@ -134,36 +167,38 @@ class ProfileController extends Controller
     }
 
     /**
-     * Finds the Profile model based on its primary key value.
+     * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
      * @param integer $id
-     * @return Profile the loaded model
+     * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
+        /** @var User $userClass */
         $userClass = Yii::$app->user->identityClass;
         if (($model = $userClass::findOne($id)) !== null) {
-            return $model->profile;
+            return $model;
         } else {
             throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));
         }
     }
 
     /**
-     * Finds the Profile model based on its primary key value.
+     * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
      * @param integer $username
-     * @return Profile the loaded model
+     * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModelByUsername($username)
     {
+        /** @var User $userClass */
         $userClass = Yii::$app->user->identityClass;
         if (($model = $userClass::findByUsername($username)) !== null) {
-            return $model->profile;
+            return $model;
         } else {
             throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));
         }
