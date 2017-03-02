@@ -2,94 +2,122 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\ListView;
-use yuncms\user\models\Profile;
+use yii\bootstrap\Nav;
+use yuncms\user\models\User;
+
 /**
  * @var \yii\web\View $this
- * @var  Profile $model
+ * @var  User $model
  */
-$this->title = empty($model->name) ? Html::encode($model->user->username) : Html::encode($model->name);
 $this->context->layout = 'space';
-$this->params['profile'] = $model;
+$this->params['user'] = $model;
+
+switch ($model->action) {
+    case 'follow_stream':
+        echo Yii::t('app', 'Concerned about live');
+        break;
+    default:
+        echo $model->action;
+        break;
+}
+
+if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
+    Yii::t('user', 'My');
+} else {
+    Yii::t('user', 'His');
+}
+$this->title = empty($model->profile->name) ? Html::encode($model->username) : Html::encode($model->profile->name);
 ?>
 
-<h2 class="h4"><?= Yii::t('user', 'Recently Doing') ?></h2>
-<div class="stream-doing clearfix">
-    @section('seo_title')@if(Auth()->check() && Auth()->user()->id === $userInfo->id
-    )我@else他@endif收藏的@if($source_type==='questions')问题@else文章@endif - {{ Setting()->get('website_name') }}@endsection
+@section('seo_title')
 
-    @section('space_content')
-    <div class="stream-following">
-        <ul class="nav nav-tabs">
-            <li @if($source_type==='questions') class="active" @endif><a
-                    href="{{ route('auth.space.collections',['user_id'=>$userInfo->id,'source_type'=>'questions']) }}">收藏的问题</a>
-            </li>
-            <li @if($source_type==='articles') class="active" @endif><a
-                    href="{{ route('auth.space.collections',['user_id'=>$userInfo->id,'source_type'=>'articles']) }}">收藏的文章</a>
-            </li>
-        </ul>
+@if(Auth()->check() && Auth()->user()->id === $userInfo->id)
+我
+@else
+他
+@endif
+收藏的
+@if($source_type==='questions')
+问题
+@else
+文章
+@endif - {{ Setting()->get('website_name') }}
+@endsection
 
-        <div class="stream-list question-stream mt-10">
-            @foreach($collections as $collection)
+@section('space_content')
+<div class="stream-following">
 
-            @if($source_type==='questions')
-            <section class="stream-list-item">
-                <div class="bookmark-rank">
-                    <div class="collections">
-                        {{ $collection['info']->collections }}
-                        <small>收藏</small>
-                    </div>
+    <?= Nav::widget([
+        'options' => ['class' => 'nav nav-tabs'],
+        'items' => [
+            //问答
+            ['label' => Yii::t('app', 'Collection of questions'), 'url' => ['/user/profile/collect', 'id' => $model->id, 'type' => 'questions'], 'visible' => Yii::$app->hasModule('question')],
+            //文章
+            ['label' => Yii::t('app', 'Collection of articles'), 'url' => ['/user/profile/collect', 'id' => $model->id, 'type' => 'articles'], 'visible' => Yii::$app->hasModule('article')],
+        ],
+    ]); ?>
+
+    <div class="stream-list question-stream mt-10">
+        @foreach($collections as $collection)
+
+        @if($source_type==='questions')
+        <section class="stream-list-item">
+            <div class="bookmark-rank">
+                <div class="collections">
+                    {{ $collection['info']->collections }}
+                    <small>收藏</small>
                 </div>
+            </div>
 
-                <div class="summary">
-                    <ul class="author list-inline">
-                        <li>
-                            <a href="{{ route('auth.space.index',['user_id'=>$collection['info']->user->id]) }}">{{
-                                $collection['info']->user->name }}</a>
-                            <span class="split"></span>
-                            {{ timestamp_format($collection['info']->created_at) }}
-                        </li>
-                    </ul>
-                    <h2 class="title">
-                        <a href="{{ route('ask.question.detail',['id'=>$collection['info']->id]) }}">{{
-                            $collection->subject }}</a>
-                    </h2>
+            <div class="summary">
+                <ul class="author list-inline">
+                    <li>
+                        <a href="{{ route('auth.space.index',['user_id'=>$collection['info']->user->id]) }}">{{
+                            $collection['info']->user->name }}</a>
+                        <span class="split"></span>
+                        {{ timestamp_format($collection['info']->created_at) }}
+                    </li>
+                </ul>
+                <h2 class="title">
+                    <a href="{{ route('ask.question.detail',['id'=>$collection['info']->id]) }}">{{
+                        $collection->subject }}</a>
+                </h2>
+            </div>
+        </section>
+        @else
+        <section class="stream-list-item">
+            <div class="bookmark-rank">
+                <div class="collections">
+                    {{ $collection['info']->collections }}
+                    <small>收藏</small>
                 </div>
-            </section>
-            @else
-            <section class="stream-list-item">
-                <div class="bookmark-rank">
-                    <div class="collections">
-                        {{ $collection['info']->collections }}
-                        <small>收藏</small>
-                    </div>
-                </div>
+            </div>
 
-                <div class="summary">
-                    <ul class="author list-inline">
-                        <li>
-                            <a href="{{ route('auth.space.index',['user_id'=>$collection['info']->user->id]) }}">{{
-                                $collection['info']->user->name }}</a>
-                            <span class="split"></span>
-                            {{ timestamp_format($collection['info']->created_at) }}
-                        </li>
-                    </ul>
-                    <h2 class="title">
-                        <a href="{{ route('blog.article.detail',['id'=>$collection['info']->id]) }}">{{
-                            $collection->subject }}</a>
-                    </h2>
-                </div>
-            </section>
-            @endif
-            @endforeach
-        </div>
-
-        <div class="text-center">
-            {!! str_replace('/?', '?', $collections->render()) !!}
-        </div>
+            <div class="summary">
+                <ul class="author list-inline">
+                    <li>
+                        <a href="{{ route('auth.space.index',['user_id'=>$collection['info']->user->id]) }}">{{
+                            $collection['info']->user->name }}</a>
+                        <span class="split"></span>
+                        {{ timestamp_format($collection['info']->created_at) }}
+                    </li>
+                </ul>
+                <h2 class="title">
+                    <a href="{{ route('blog.article.detail',['id'=>$collection['info']->id]) }}">{{
+                        $collection->subject }}</a>
+                </h2>
+            </div>
+        </section>
+        @endif
+        @endforeach
     </div>
 
-    @endsection
+    <div class="text-center">
+        {!! str_replace('/?', '?', $collections->render()) !!}
+    </div>
 </div>
+
+@endsection
 
 
 

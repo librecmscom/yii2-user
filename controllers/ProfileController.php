@@ -138,14 +138,14 @@ class ProfileController extends Controller
      * @param int $id
      * @return string
      */
-    public function actionCollect($id)
+    public function actionCollect($id, $type = 'questions')
     {
         $model = $this->findModel($id);
         $dataProvider = new ActiveDataProvider([
-            'query' => $model->getCollections(),
+            'query' => $model->getCollections()->andWhere(['model' => $type]),
         ]);
         return $this->render('collect', [
-            'model' => $model->profile,
+            'model' => $model,
             'dataProvider' => $dataProvider
         ]);
     }
