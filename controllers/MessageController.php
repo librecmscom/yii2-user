@@ -66,15 +66,11 @@ class MessageController extends Controller
 
     /**
      * 发送私信
-     * @param null|string $username 给指定用户发信
      * @return string|\yii\web\Response
      */
-    public function actionSend($username = null)
+    public function actionSend()
     {
         $model = new MessageSendForm();
-        if (!empty($username)) {
-            $model->username = $username;
-        }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['/user/message/index']);
         }

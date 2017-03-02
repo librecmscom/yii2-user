@@ -16,9 +16,20 @@ use yii\base\Model;
 class MessageSendForm extends Model
 {
 
-    public $parent;
-    public $message;
+    /**
+     * @var int 用户ID
+     */
+    public $user_id;
+
+    /**
+     * @var string 用户名
+     */
     public $username;
+
+    /**
+     * @var string 消息内容
+     */
+    public $message;
 
     private $_user;
 
@@ -40,13 +51,14 @@ class MessageSendForm extends Model
     public function attributeLabels()
     {
         return [
+            'user_id' => Yii::t('user', 'User ID'),
             'username' => Yii::t('user', 'Username'),
-            'message' => Yii::t('user', 'Message'),
+            'message' => Yii::t('user', 'Message Body'),
         ];
     }
 
     /**
-     * 验证用户是否已经报名
+     * 验证用户是否已存在
      * @param string $attribute
      * @param array $params
      */
@@ -54,7 +66,7 @@ class MessageSendForm extends Model
     {
         if (!$this->hasErrors()) {
             if (!$this->_user) {
-                $this->addError($attribute, '你输入的用户名不存在哦！');
+                $this->addError($attribute, Yii::t('user', 'You enter the user name does not exist oh！'));
             }
         }
     }
@@ -88,7 +100,8 @@ class MessageSendForm extends Model
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+            $userClass = Yii::$app->user->identityClass;
+            $this->_user = $userClass::findOne(['username'=>$this->username]);
         }
         return $this->_user;
     }
