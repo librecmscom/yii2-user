@@ -23,6 +23,8 @@ return [
     'Awesome, almost there. Now you need to input the confirmation code sent to your old mobile' => '',
     'Coin Msg' => '',
     'Coin Type' => '',
+    'Support'=>'赞同',
+    'Follower'=>'关注',
     'Coin Value' => '',
     'Credit Msg' => '',
     'Credit Type' => '',

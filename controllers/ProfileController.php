@@ -179,8 +179,10 @@ class ProfileController extends Controller
     public function actionFollowed($id)
     {
         $model = $this->findModel($id);
-        $dataProvider = $this->getDoingDataProvider($model->id);
-        return $this->render('collect', [
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model->getFollowers()->orderBy(['created_at' => SORT_DESC]),
+        ]);
+        return $this->render('followed', [
             'model' => $model,
             'dataProvider' => $dataProvider
         ]);

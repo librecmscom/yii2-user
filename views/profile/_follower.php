@@ -8,10 +8,12 @@ use yii\helpers\Html;
 ?>
 <div class="row">
     <div class="col-md-10">
-        <img class="avatar-32" src="<?=$model->user->getAvatar($model->user_id)?>" />
+        <img class="avatar-32" src="<?= $model->user->getAvatar($model->user_id) ?>"/>
         <div>
-            <a href="<?=Url::to(['/user/profile/show','id'=>$model->user_id])?>"><?=$model->user->username?></a>
-            <div class="stream-following-followed"><?=$model->user->userData->supports?>赞同 / <?=$model->user->userData->followers?>关注</div>
+            <a href="<?= Url::to(['/user/profile/show', 'id' => $model->user_id]) ?>"><?= $model->user->username ?></a>
+            <div
+                class="stream-following-followed"><?= $model->user->userData->supports ?><?= Yii::t('user', 'Support') ?>
+                / <?= $model->user->userData->followers ?><?= Yii::t('user', 'Follower') ?></div>
         </div>
     </div>
     <div class="col-md-2 text-right">
