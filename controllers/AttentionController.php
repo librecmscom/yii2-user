@@ -61,10 +61,13 @@ class AttentionController extends Controller
             /** @var \yii\db\ActiveRecord $userClass */
             $userClass = Yii::$app->user->identityClass;
             $source = $userClass::findOne($sourceId);
+            $subject = $source->username;
         } else if ($sourceType == 'question' && Yii::$app->hasModule('question')) {
             $source = \yuncms\question\models\Question::findOne($sourceId);
+            $subject = $source->title;
         } else if ($sourceType == 'article' && Yii::$app->hasModule('article')) {
             $source = \yuncms\article\models\Article::findOne($sourceId);
+            $subject = $source->title;
         }//etc..
 
         if (!$source) {
@@ -93,6 +96,11 @@ class AttentionController extends Controller
         $attention = Attention::create($data);
         if ($attention) {
             switch ($sourceType) {
+                case 'question' :
+                    $this->module->notify(Yii::$app->user->id, $source->user_id, 'follow_question', $subject, $source->id);
+                    $this->module->doing(Yii::$app->user->id, 'follow_question', get_class($source), $sourceId, $subject);
+                    $source->updateCounters(['followers' => 1]);
+                    break;
                 case 'user':
                     $source->userData->updateCounters(['followers' => 1]);
                     $this->module->notify(Yii::$app->user->id, $sourceId, 'follow_user');

@@ -413,8 +413,8 @@ class Module extends \yii\base\Module
             $doing = Doing::create([
                 'user_id' => $userId,
                 'action' => $action,
-                'source_id' => $sourceId,
-                'source_type' => $sourceType,
+                'model_id' => $sourceId,
+                'model' => $sourceType,
                 'subject' => $subject,
                 'content' => strip_tags($content),
                 'refer_id' => $referId,

@@ -10,13 +10,11 @@ use yii\helpers\Html;
     <div class="stream-doing-item-title">
         <h4>
             <?php if (in_array($model->action, ['ask', 'answer', 'follow_question', 'answer_question', 'ask_question', 'append_reward', 'answer_adopted'])): ?>
-                <?= Html::a($model->subject, ['/question/question/view', 'id' => $model->source_id]) ?>
-            <?php elseif (in_array($model->action, ['upload_code', 'download_code', 'view_code'])): ?>
-                <?= Html::a($model->subject, '/article/' . $model->source_id) ?>
+                <?= Html::a($model->subject, ['/question/question/view', 'id' => $model->model_id]) ?>
             <?php elseif (in_array($model->action, ['create_article'])): ?>
-                <?= Html::a($model->subject, '/article/' . $model->source_id); ?>
+                <?= Html::a($model->subject, ['/article/article/view', 'id' => $model->model_id]); ?>
             <?php elseif (in_array($model->action, ['follow_user'])): ?>
-                <?=Html::a($model->subject, ['/user/profile/show', 'id' => $model->source_id]);?>
+                <?= Html::a($model->subject, ['/user/profile/show', 'id' => $model->model_id]); ?>
             <?php endif; ?>
         </h4>
     </div>

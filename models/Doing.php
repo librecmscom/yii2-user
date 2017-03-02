@@ -52,6 +52,41 @@ class Doing extends ActiveRecord
     }
 
     /**
+     * @var array 通知类型
+     */
+    public $userActions = [
+        'ask'=>'提问',
+        'login' => '登录',
+        'register' => '注册',
+        'ask_question' => '发起提问',
+        'append_reward' => '对问题追加悬赏',
+        'answer_adopted' => '回答被采纳',
+        'create_article' => '发表了文章',
+    ];
+
+    /**
+     * 获取类型字符
+     * @return mixed|null
+     */
+    public function getActionText()
+    {
+        switch ($this->action) {
+            case 'follow_user':
+                return Yii::t('user', 'follow on you');
+                break;
+            case 'answer_question':
+                return Yii::t('user', 'answered the question');
+                break;
+            case 'follow_question':
+                return Yii::t('user', 'is concerned about the problem');
+                break;
+            default:
+                return null;
+                break;
+        }
+    }
+
+    /**
      * @return \yii\db\ActiveQueryInterface 发送者用户实例
      */
     public function getUser()

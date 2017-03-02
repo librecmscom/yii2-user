@@ -108,7 +108,7 @@ class Notification extends ActiveRecord
                 return Yii::t('user', 'accepted your answer');
                 break;
             default:
-                return 'sorry none is the same!';
+                return null;
                 break;
         }
     }
