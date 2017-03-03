@@ -186,12 +186,12 @@ class ProfileController extends Controller
     public function actionAttention($id, $type)
     {
         $model = $this->findModel($id);
-        if (!isset($this->collectionClassMaps[$type])) {
+        if (!isset($this->attentionClassMaps[$type])) {
             throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));
         }
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $model->getFollowers()->orderBy(['created_at' => SORT_DESC]),
+            'query' => $model->getAttentions()->andWhere(['model' => $this->attentionClassMaps[$type]])->orderBy(['created_at' => SORT_DESC]),
         ]);
         return $this->render('attention', [
             'model' => $model,
