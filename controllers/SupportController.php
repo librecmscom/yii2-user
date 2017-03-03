@@ -12,6 +12,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yuncms\user\models\Support;
 
 /**
@@ -40,6 +41,9 @@ class SupportController extends Controller
                         'roles' => ['@'],
                     ],
                 ],
+                'denyCallback' => function ($rule, $action) {
+                    throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
+                }
             ],
         ];
     }

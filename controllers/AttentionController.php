@@ -12,6 +12,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yuncms\tag\models\Tag;
 use yuncms\user\models\User;
 use yuncms\user\models\Attention;
@@ -19,9 +20,7 @@ use yuncms\user\Module;
 
 /**
  * 关注操作
- * @property \yuncms\user\Module $module
  * @package yuncms\user
- *
  * @property Module $module
  */
 class AttentionController extends Controller
@@ -46,6 +45,9 @@ class AttentionController extends Controller
                         'roles' => ['@'],
                     ],
                 ],
+                'denyCallback' => function ($rule, $action) {
+                    throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
+                }
             ],
         ];
     }
