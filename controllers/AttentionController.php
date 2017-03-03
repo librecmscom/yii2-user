@@ -12,7 +12,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
-use yii\web\ForbiddenHttpException;
+use yii\web\UnauthorizedHttpException;
 use yuncms\tag\models\Tag;
 use yuncms\user\models\User;
 use yuncms\user\models\Attention;
@@ -46,7 +46,7 @@ class AttentionController extends Controller
                     ],
                 ],
                 'denyCallback' => function ($rule, $action) {
-                    throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
+                    throw new UnauthorizedHttpException(Yii::t('user', 'The request has not been applied because it lacks valid authentication credentials for the target resource.'));
                 }
             ],
         ];

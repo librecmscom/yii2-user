@@ -33,6 +33,7 @@ return [
     'Credit Type' => '',
     'Credit Value' => '',
     'ID' => '',
+    'The request has not been applied because it lacks valid authentication credentials for the target resource.' => '请登录。',
     'You enter the user name does not exist oh！' => '你输入的用户名不存在哦！',
     'follow on you' => '关注了你',
     'answer is adopted' => '',
