@@ -195,6 +195,7 @@ class ProfileController extends Controller
         ]);
         return $this->render('attention', [
             'model' => $model,
+            'type' => $type,
             'dataProvider' => $dataProvider
         ]);
     }
