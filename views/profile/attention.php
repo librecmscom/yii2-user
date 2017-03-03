@@ -12,13 +12,23 @@ use yuncms\user\models\User;
  */
 $this->context->layout = 'space';
 $this->params['user'] = $model;
+
+if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
+    $this->title = Yii::t('user', '{who} followed {what}', [
+        'who' => Yii::t('user', 'My'),
+        'what' => Yii::t('user', 'articles'),
+    ]);
+} else {
+    $this->title = Yii::t('user', '{who} followed {what}', [
+        'who' => empty($model->profile->name) ? Html::encode($model->username) : Html::encode($model->profile->name),
+        'what' => 'articles'
+    ]);
+}
+
 ?>
-
-@extends('theme::layout.space')
-
 @section('seo_title')@if(Auth()->check() && Auth()->user()->id === $userInfo->id )我的@else{{ $userInfo->name }}@endif关注的@if($source_type==='questions')问题@elseif($source_type==='users')用户@else标签@endif@endsection
 
-@section('space_content')
+
 <div class="stream-following">
     <ul class="nav nav-tabs">
         <li @if($source_type==='questions') class="active" @endif ><a href="{{ route('auth.space.attentions',['user_id'=>$userInfo->id,'source_type'=>'questions']) }}">关注的问题</a></li>
@@ -85,10 +95,5 @@ $this->params['user'] = $model;
 
         @endforeach
     </ul>
-    <div class="text-center">
-        {!! str_replace('/?', '?', $attentions->render()) !!}
-    </div>
 </div>
-
-@endsection
 
