@@ -145,15 +145,15 @@ $asset = AppAsset::register($this);
                 ['label' => Yii::t('app', 'My Answer'), 'url' => ['/user/profile/answer', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
                 ['label' => Yii::t('app', 'My Question'), 'url' => ['/user/profile/question', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
                 //文章
-                ['label' => Yii::t('app', 'My Note'), 'url' => ['/note/note/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('article')],
+                ['label' => Yii::t('app', 'My Note'), 'url' => ['/note/manage/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('article')],
 
                 '<li role="separator" class="divider"></li>',
 
                 ['label' => Yii::t('app', 'My Coin'), 'url' => ['/user/profile/coin', 'id' => $user->id]],
                 ['label' => Yii::t('app', 'My Credit'), 'url' => ['/user/profile/credit', 'id' => $user->id]],
                 ['label' => Yii::t('app', 'My Follower'), 'url' => ['/user/profile/follower', 'id' => $user->id]],
-                ['label' => Yii::t('app', 'My Followed'), 'url' => ['/user/profile/followed', 'id' => $user->id]],
-                ['label' => Yii::t('app', 'My Collect'), 'url' => ['/user/profile/collect', 'id' => $user->id]],
+                ['label' => Yii::t('app', 'My Followed'), 'url' => ['/user/profile/attention', 'id' => $user->id, 'type' => 'questions']],
+                ['label' => Yii::t('app', 'My Collect'), 'url' => ['/user/profile/collected', 'id' => $user->id, 'type' => 'questions']],
             ];
         } else {//he
             $menuItems = [
@@ -163,15 +163,15 @@ $asset = AppAsset::register($this);
                 ['label' => Yii::t('app', 'His Question'), 'url' => ['/question/question/index'], 'visible' => Yii::$app->hasModule('question')],
 
                 //文章
-                ['label' => Yii::t('app', 'His Note'), 'url' => ['/note/note/index'], 'visible' => Yii::$app->hasModule('article')],
+                ['label' => Yii::t('app', 'His Note'), 'url' => ['/note/manage/index'], 'visible' => Yii::$app->hasModule('article')],
 
                 '<li role="separator" class="divider"></li>',
 
                 ['label' => Yii::t('app', 'His Coin'), 'url' => ['/user/profile/coin', 'id' => $user->id]],
                 ['label' => Yii::t('app', 'His Credit'), 'url' => ['/user/profile/credit', 'id' => $user->id]],
                 ['label' => Yii::t('app', 'His Follower'), 'url' => ['/user/profile/follower', 'id' => $user->id]],
-                ['label' => Yii::t('app', 'His Followed'), 'url' => ['/user/profile/followed', 'id' => $user->id]],
-                ['label' => Yii::t('app', 'His Collect'), 'url' => ['/user/profile/collect', 'id' => $user->id]],
+                ['label' => Yii::t('app', 'His Followed'), 'url' => ['/user/profile/attention', 'id' => $user->id, 'type' => 'questions']],
+                ['label' => Yii::t('app', 'His Collect'), 'url' => ['/user/profile/collected', 'id' => $user->id, 'type' => 'questions']],
             ];
         } ?>
         <?= Nav::widget([

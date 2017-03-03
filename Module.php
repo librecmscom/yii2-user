@@ -139,7 +139,8 @@ class Module extends \yii\base\Module
         'profile/<id:\d+>/coins' => 'profile/coin',
         'profile/<id:\d+>/credits' => 'profile/credit',
         'profile/<id:\d+>/followers' => 'profile/follower',
-        'profile/<id:\d+>/followed' => 'profile/followed',
+        'profile/<id:\d+>/followed/<type:\w+>' => 'profile/attention',
+        'profile/<id:\d+>/collected/<type:\w+>' => 'profile/collected',
         //这个默认不启用
         //'<username:[A-Za-z0-9]+>' => 'profile/view',
     ];
