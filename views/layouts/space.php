@@ -106,19 +106,19 @@ $asset = AppAsset::register($this);
                 <div class="space-header-info row mt-30">
                     <div class="col-md-4">
                             <span class="h3">
-                                <a href="<?= Url::to(['/user/profile/coins', 'id' => $user->id]) ?>"><?= $user->userData->coins; ?></a>
+                                <a href="<?= Url::to(['/user/profile/coin', 'id' => $user->id]) ?>"><?= $user->userData->coins; ?></a>
                             </span>
                         <span><?= Yii::t('user', 'Coins') ?></span>
                     </div>
                     <div class="col-md-4">
                             <span class="h3"><a
-                                    href="<?= Url::to(['/user/profile/credits', 'id' => $user->id]) ?>"><?= $user->userData->credits; ?></a></span>
+                                    href="<?= Url::to(['/user/profile/credit', 'id' => $user->id]) ?>"><?= $user->userData->credits; ?></a></span>
                         <span><?= Yii::t('user', 'Credits') ?></span>
                     </div>
                     <div class="col-md-4">
                             <span class="h3">
                                 <a id="follower-num"
-                                   href="<?= Url::to(['/user/profile/followers', 'id' => $user->id]) ?>"><?= $user->userData->followers; ?></a>
+                                   href="<?= Url::to(['/user/profile/follower', 'id' => $user->id]) ?>"><?= $user->userData->followers; ?></a>
                             </span>
                         <span><?= Yii::t('user', 'Fans') ?></span>
                     </div>
