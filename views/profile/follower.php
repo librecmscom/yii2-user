@@ -8,6 +8,14 @@ use yuncms\user\models\User;
  */
 $this->context->layout = 'space';
 $this->params['user'] = $model;
+if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
+    $who = Yii::t('user', 'My');
+} else {
+    $who = Yii::t('user', 'My');
+}
+$this->title = Yii::t('user', '{who} follower', [
+    'who' => $who,
+]);
 ?>
 <h2 class="h4"><?= $dataProvider->getTotalCount() ?> <?= Yii::t('user', 'records') ?></h2>
 <div class="stream-following border-top">
