@@ -13,7 +13,11 @@ use yii\helpers\Html;
             <a href="<?= Url::to(['/user/profile/view', 'id' => $model->user_id]) ?>"><?= $model->user->username ?></a>
             <div
                 class="stream-following-followed"><?= $model->user->userData->supports ?><?= Yii::t('user', 'Support') ?>
-                / <?= $model->user->userData->followers ?><?= Yii::t('user', 'Follower') ?></div>
+                / <?= $model->user->userData->followers ?><?= Yii::t('user', 'Follower') ?>
+                <?php if (isset($model->user->userData->answers)): ?>
+                    / <?= $model->user->userData->answers ?><?= Yii::t('user', 'Answer') ?>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
     <div class="col-md-2 text-right">

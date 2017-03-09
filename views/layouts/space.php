@@ -145,7 +145,7 @@ $asset = AppAsset::register($this);
                 ['label' => Yii::t('user', 'My Answer'), 'url' => ['/user/profile/answer', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
                 ['label' => Yii::t('user', 'My Question'), 'url' => ['/user/profile/question', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
                 //文章
-                ['label' => Yii::t('user', 'My Note'), 'url' => ['/note/manage/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('article')],
+                ['label' => Yii::t('user', 'My Note'), 'url' => ['/note/manage/index'], 'visible' => Yii::$app->hasModule('article')],
 
                 '<li role="separator" class="divider"></li>',
 

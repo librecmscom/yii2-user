@@ -12,7 +12,8 @@ use yii\helpers\Html;
                href="<?= Url::to(['/question/question/view', 'id' => $attention->id]) ?>"><?= Html::encode($attention->title); ?></a>
         </div>
         <div class="col-md-2 text-right">
-            <span class="stream-following-followed mr-10"><?= $attention->followers ?> 关注</span>
+            <span
+                class="stream-following-followed mr-10"><?= $attention->followers ?> <?= Yii::t('user', 'Follower') ?></span>
 
             <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isFollowed(get_class($attention), $model->model_id)): ?>
                 <button type="button" class="btn btn-default btn-xs active" data-target="follow-button"
@@ -34,10 +35,11 @@ use yii\helpers\Html;
             <img class="avatar-32" src="<?= $attention->getAvatar('middle') ?>"/>
             <div>
                 <a href="<?= Url::to(['/user/profile/view', 'id' => $attention->id]) ?>"><?= $attention->username; ?></a>
-                <div class="stream-following-followed"><?= $attention->userData->supports ?> 赞同
-                    / <?= $attention->userData->followers ?>关注
+                <div
+                    class="stream-following-followed"><?= $attention->userData->supports ?> <?= Yii::t('user', 'Support') ?>
+                    / <?= $attention->userData->followers ?><?= Yii::t('user', 'Follower') ?>
                     <?php if (isset($attention->userData->answers)): ?>
-                        / <?= $attention->userData->answers ?>回答
+                        / <?= $attention->userData->answers ?><?= Yii::t('user', 'Answer') ?>
                     <?php endif; ?>
                 </div>
             </div>

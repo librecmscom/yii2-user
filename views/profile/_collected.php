@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <div class="bookmark-rank">
         <div class="collections">
             <?= $collection->collections ?>
-            <small>收藏</small>
+            <small><?=Yii::t('user','Collection')?></small>
         </div>
     </div>
     <div class="summary">
@@ -32,7 +32,7 @@ use yii\helpers\Html;
     <div class="bookmark-rank">
         <div class="collections">
             <?= $collection->collections ?>
-            <small>收藏</small>
+            <small><?=Yii::t('user','Collection')?></small>
         </div>
     </div>
     <div class="summary">
