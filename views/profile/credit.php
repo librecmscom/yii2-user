@@ -12,7 +12,7 @@ $this->params['user'] = $model;
 if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
     $who = Yii::t('user', 'My');
 } else {
-    $who = Yii::t('user', 'My');
+    $who = Yii::t('user', 'His');
 }
 $this->title = Yii::t('user', '{who} Credit', [
     'who' => $who,
