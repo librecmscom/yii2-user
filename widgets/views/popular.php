@@ -12,7 +12,7 @@ use yii\helpers\Html;
         <ul class="avatar-list">
             <?php if (!empty($models)): ?>
                 <?php foreach ($models as $model): ?>
-                    <li><a href="<?= Url::to(['/user/profile/show', 'id' => $model->id]); ?>" rel="author">
+                    <li><a href="<?= Url::to(['/user/profile/view', 'id' => $model->id]); ?>" rel="author">
                             <img src="<?= $model->getAvatar(); ?>" class="avatar-24" alt="<?= Html::encode($model->username); ?>">
                         </a>
                     </li>

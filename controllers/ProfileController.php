@@ -69,7 +69,7 @@ class ProfileController extends Controller
      * @return \yii\web\Response
      * @throws \yii\web\NotFoundHttpException
      */
-    public function actionView($username)
+    public function actionShow($username)
     {
         $model = $this->findModelByUsername($username);
         if (!Yii::$app->user->isGuest && Yii::$app->user->id != $model->id) {
@@ -97,7 +97,7 @@ class ProfileController extends Controller
      * @return \yii\web\Response
      * @throws \yii\web\NotFoundHttpException
      */
-    public function actionShow($id)
+    public function actionView($id)
     {
         $model = $this->findModel($id);
         if (!Yii::$app->user->isGuest && Yii::$app->user->id != $id) {

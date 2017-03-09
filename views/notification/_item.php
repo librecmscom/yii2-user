@@ -6,7 +6,7 @@ use yuncms\user\models\Notification;
 
 
 <section class="stream-list-item <?= $model->status == Notification::STATUS_UNREAD ? 'not_read' : ''; ?>">
-    <a href="<?=Url::to(['/user/profile/show', 'id' => $model->user_id])?>"><?=$model->user->username?></a> <?= $model->typeText; ?>
+    <a href="<?=Url::to(['/user/profile/view', 'id' => $model->user_id])?>"><?=$model->user->username?></a> <?= $model->typeText; ?>
     <?php if (in_array($model->type, ['answer_question', 'follow_question', 'comment_question', 'comment_answer', 'comment_user', 'question_at'])) {
         echo Html::a($model->subject, ['/question/question/view', 'id' => $model->model_id], ['target' => '_blank']);
         if ($model->type == 'comment_answer') {

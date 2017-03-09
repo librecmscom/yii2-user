@@ -19,7 +19,7 @@ use yii\helpers\Html;
     <div class="summary">
         <ul class="author list-inline">
             <li>
-                <a href="<?= Url::to(['/user/profile/show', 'id' => $collection->user_id]) ?>"><?= $collection->user->username ?></a>
+                <a href="<?= Url::to(['/user/profile/view', 'id' => $collection->user_id]) ?>"><?= $collection->user->username ?></a>
                 <span class="split"></span>
                 <?= Yii::$app->formatter->asRelativeTime($collection->created_at); ?>
             </li>
@@ -42,7 +42,7 @@ use yii\helpers\Html;
     <div class="summary">
         <ul class="author list-inline">
             <li>
-                <a href="<?= Url::to(['/user/profile/show', 'id' => $collection->user_id]) ?>"><?= $collection->user->username ?></a>
+                <a href="<?= Url::to(['/user/profile/view', 'id' => $collection->user_id]) ?>"><?= $collection->user->username ?></a>
                 <span class="split"></span>
                 <?= Yii::$app->formatter->asRelativeTime($collection->created_at); ?>
             </li>
