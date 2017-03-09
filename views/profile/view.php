@@ -14,9 +14,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
 } else {
     $who = (empty($model->profile->name) ? Html::encode($model->username) : Html::encode($model->profile->name));
 }
-$this->title = Yii::t('user', '{who} Space', [
-    'who' => $who,
-]);
+$this->title = Yii::t('user', '{who} Space', ['who' => $who,]);
 $this->context->layout = 'space';
 $this->params['user'] = $model;
 ?>

@@ -15,7 +15,6 @@ use yii\helpers\Html;
             <small>收藏</small>
         </div>
     </div>
-
     <div class="summary">
         <ul class="author list-inline">
             <li>
@@ -28,8 +27,6 @@ use yii\helpers\Html;
             <a href="<?= Url::to(['/question/question/view', 'id' => $model->model_id]) ?>"><?= Html::encode($model->subject) ?></a>
         </h2>
     </div>
-
-
 <?php elseif ($type == 'articles'): ?>
     <?php $collection = \yuncms\article\models\Article::findOne($model->model_id) ?>
     <div class="bookmark-rank">
@@ -38,7 +35,6 @@ use yii\helpers\Html;
             <small>收藏</small>
         </div>
     </div>
-
     <div class="summary">
         <ul class="author list-inline">
             <li>
@@ -51,7 +47,5 @@ use yii\helpers\Html;
             <a href="<?= Url::to(['/article/article/view', 'id' => $model->model_id]) ?>"><?= Html::encode($model->subject) ?></a>
         </h2>
     </div>
-
-
 <?php endif; ?>
  
