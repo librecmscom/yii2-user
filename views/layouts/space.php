@@ -66,7 +66,7 @@ $asset = AppAsset::register($this);
                 </div>
 
                 <div class="space-header-social mt-15">
-                    <?= Url::to(['/user/profile/view', 'username' => $user->profile->user->username], true); ?>
+                    <?= Url::to(['/user/profile/show', 'username' => $user->profile->user->username], true); ?>
                 </div>
             </div>
             <div class="col-md-3">
