@@ -13,15 +13,22 @@ use yuncms\user\models\User;
 $this->context->layout = 'space';
 $this->params['user'] = $model;
 
+if($type == 'questions') {
+    $what = Yii::t('user', 'Questions');
+} elseif($type == 'articles') {
+    $what = Yii::t('user', 'Articles');
+} else {
+    $what = '';
+}
 if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
     $this->title = Yii::t('user', '{who} collected {what}', [
         'who' => Yii::t('user', 'My'),
-        'what' => Yii::t('user', 'articles'),
+        'what' => $what,
     ]);
 } else {
     $this->title = Yii::t('user', '{who} collected {what}', [
         'who' => empty($model->profile->name) ? Html::encode($model->username) : Html::encode($model->profile->name),
-        'what' => 'articles'
+        'what' => $what
     ]);
 }
 ?>

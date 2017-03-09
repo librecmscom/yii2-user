@@ -13,22 +13,27 @@ use yuncms\user\models\User;
 $this->context->layout = 'space';
 $this->params['user'] = $model;
 
+if ($type == 'questions') {
+    $what = Yii::t('user', 'Questions');
+} else if ($type == 'users') {
+    $what = Yii::t('user', 'Users');
+} else {
+    $what = '';
+}
+
 if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
     $this->title = Yii::t('user', '{who} followed {what}', [
         'who' => Yii::t('user', 'My'),
-        'what' => Yii::t('user', 'articles'),
+        'what' => $what
     ]);
 } else {
     $this->title = Yii::t('user', '{who} followed {what}', [
         'who' => empty($model->profile->name) ? Html::encode($model->username) : Html::encode($model->profile->name),
-        'what' => 'articles'
+        'what' => $what
     ]);
 }
 
 ?>
-@section('seo_title')@if(Auth()->check() && Auth()->user()->id === $userInfo->id )我的@else{{ $userInfo->name }}@endif关注的@if($source_type==='questions')问题@elseif($source_type==='users')用户@else标签@endif@endsection
-
-
 <div class="stream-following">
     <?= Nav::widget([
         'options' => ['class' => 'nav nav-tabs'],
