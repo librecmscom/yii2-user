@@ -25,6 +25,7 @@ return [
     'Coin Type' => '',
     'My' => '我',
     'His' => '他',
+    '{who} Space' => '的空间',
     '{who} follower' => '{who}的粉丝',
     '{who} Credit' => '{who}的经验',
     '{who} Coin' => '{who}的金币',

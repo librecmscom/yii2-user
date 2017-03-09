@@ -9,7 +9,14 @@ use yuncms\user\models\User;
  * @var \yii\web\View $this
  * @var  User $model
  */
-$this->title = (empty($model->profile->name) ? Html::encode($model->username) : Html::encode($model->profile->name)) . ' Space';
+if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
+    $who = Yii::t('user', 'My');
+} else {
+    $who = (empty($model->profile->name) ? Html::encode($model->username) : Html::encode($model->profile->name));
+}
+$this->title = Yii::t('user', '{who} Space', [
+    'who' => $who,
+]);
 $this->context->layout = 'space';
 $this->params['user'] = $model;
 ?>
