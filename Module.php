@@ -127,7 +127,8 @@ class Module extends \yii\base\Module
 
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
-        '<id:\d+>' => 'profile/show',
+        '<id:\d+>' => 'profile/view',
+
         '<action:(login|logout)>' => 'security/<action>',
         '<action:(register|resend)>' => 'registration/<action>',
         'confirm/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'registration/confirm',
@@ -142,7 +143,7 @@ class Module extends \yii\base\Module
         'profile/<id:\d+>/followed/<type:\w+>' => 'profile/attention',
         'profile/<id:\d+>/collected/<type:\w+>' => 'profile/collected',
         //这个默认不启用
-        //'<username:[A-Za-z0-9]+>' => 'profile/view',
+        //'<username:[-a-zA-Z0-9_\x7f-\xff\.@]+>' => 'profile/show',
     ];
 
     public $avatarUrl = '@web/uploads/avatar';
