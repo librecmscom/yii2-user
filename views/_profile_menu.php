@@ -34,7 +34,8 @@ $items = [
     [
         'label' => Yii::t('user', 'Wallet Manage'),
         'url' => ['/user/wallet/index'],
-        'icon' => 'fa fa-money'
+        'icon' => 'fa fa-money',
+        'visible' => Yii::$app->hasModule('payment')
     ],
     [
         'label' => Yii::t('user', 'Coin Manage'),
