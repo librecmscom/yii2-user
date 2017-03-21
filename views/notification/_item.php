@@ -2,6 +2,20 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yuncms\user\models\Notification;
+/** @var string $typeText */
+$typeText = $model->typeText;
+
+if ($typeText == null) {
+    switch ($model->type) {
+        case 'follow_xxx':
+            $typeText = Yii::t('app', 'follow on your xxx');
+            break;
+        default:
+            $typeText = null;
+            break;
+    }
+}
+?>
 ?>
 
 
