@@ -16,9 +16,6 @@ if ($typeText == null) {
     }
 }
 ?>
-?>
-
-
 <section class="stream-list-item <?= $model->status == Notification::STATUS_UNREAD ? 'not_read' : ''; ?>">
     <a href="<?=Url::to(['/user/profile/view', 'id' => $model->user_id])?>"><?=$model->user->username?></a> <?= $model->typeText; ?>
     <?php if (in_array($model->type, ['answer_question', 'follow_question', 'comment_question', 'comment_answer', 'comment_user', 'question_at'])) {
