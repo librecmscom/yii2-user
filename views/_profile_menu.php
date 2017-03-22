@@ -58,6 +58,12 @@ $items = [
         'icon' => 'glyphicon glyphicon-paperclip'
     ],
     [
+        'label' => Yii::t('user', 'Apps'),
+        'url' => ['/oauth2/client/index'],
+        'icon' => 'glyphicon glyphicon-paperclip',
+        'visible' => Yii::$app->hasModule('oauth2')
+    ],
+    [
         'label' => Yii::t('user', 'Social Networks'),
         'url' => ['/user/setting/networks'],
         'icon' => 'glyphicon glyphicon-retweet',
