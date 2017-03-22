@@ -19,6 +19,7 @@
 return [
     'App ID' => '',
     'App Token' => '',
+    'UnSubmitted'=>'未提交',
     'Awesome, almost there. Now you need to input the confirmation code sent to your new mobile' => '',
     'Awesome, almost there. Now you need to input the confirmation code sent to your old mobile' => '',
     'Coin Msg' => '',

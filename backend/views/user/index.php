@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 use yuncms\admin\widgets\Jarvis;
 use yuncms\user\backend\models\UserSearch;
+use yuncms\user\models\Authentication;
 
 /**
  * @var View $this
@@ -46,13 +47,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'header' => Yii::t('user', 'Authentication'),
                         'value' => function ($model) {
-                            if ($model->authentication->status == 0) {
-                                return Yii::t('user', 'Pending review');
-                            } elseif ($model->authentication->status == 1) {
-                                return Yii::t('user', 'Rejected');
-                            } elseif ($model->authentication->status == 2) {
-                                return Yii::t('user', 'Authenticated');
+                            if ($model->authentication) {
+                                if ($model->authentication->status == Authentication::STATUS_PENDING) {
+                                    return Yii::t('user', 'Pending review');
+                                } elseif ($model->authentication->status == Authentication::STATUS_REJECTED) {
+                                    return Yii::t('user', 'Rejected');
+                                } elseif ($model->authentication->status == Authentication::STATUS_AUTHENTICATED) {
+                                    return Yii::t('user', 'Authenticated');
+                                }
                             }
+                            return Yii::t('user', 'UnSubmitted');
                         },
                         'format' => 'raw',
                     ],
@@ -70,8 +74,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'datetime',
                         'filter' => \yii\jui\DatePicker::widget([
                             'model' => $searchModel,
-                            'options'=>[
-                                'class'=>'form-control'
+                            'options' => [
+                                'class' => 'form-control'
                             ],
                             'attribute' => 'created_at',
                             'name' => 'created_at',

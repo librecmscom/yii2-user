@@ -33,7 +33,14 @@ class Bootstrap implements BootstrapInterface
                     'class' => 'yuncms\user\console\UserController',
                 ];
             } else if (class_exists('\yuncms\admin\Application') && $app instanceof \yuncms\admin\Application) {
-
+                //监听用户活动时间
+                /** @var \yii\web\UserEvent $event */
+                $app->on(\yii\web\Application::EVENT_AFTER_REQUEST, function ($event) use ($app) {
+                    if (!$app->user->isGuest) {
+                        //记录最后活动时间
+                        $app->user->identity->userData->updateAttributes(['last_visit' => time()]);
+                    }
+                });
             } elseif ($module instanceof Module) {//前台判断放最后
                 Yii::$container->set('yii\web\User', [
                     'enableAutoLogin' => true,
@@ -64,12 +71,12 @@ class Bootstrap implements BootstrapInterface
 
                 //监听用户活动时间
                 /** @var \yii\web\UserEvent $event */
-//                $app->on(\yii\web\Application::EVENT_AFTER_REQUEST, function ($event) use ($app) {
-//                    if (!$app->user->isGuest) {
-//                        //记录最后活动时间
-//                        $app->user->identity->userData->updateAttributes(['last_visit' => time()]);
-//                    }
-//                });
+                $app->on(\yii\web\Application::EVENT_AFTER_REQUEST, function ($event) use ($app) {
+                    if (!$app->user->isGuest) {
+                        //记录最后活动时间
+                        $app->user->identity->userData->updateAttributes(['last_visit' => time()]);
+                    }
+                });
             }
         }
         /**
