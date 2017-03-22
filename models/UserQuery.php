@@ -26,4 +26,49 @@ class UserQuery extends ActiveQuery
             TagQueryBehavior::className(),
         ];
     }
+
+    /**
+     * 查询今日注册
+     * @return $this
+     */
+    public function DayRegister()
+    {
+        return $this->andWhere('date(created_at)=date(now())');
+    }
+
+    /**
+     * 查询本周注册
+     * @return $this
+     */
+    public function weekRegister()
+    {
+        return $this->andWhere('month(FROM_UNIXTIME(created_at)) = month(curdate()) AND week(FROM_UNIXTIME(created_at)) = week(curdate())');
+    }
+
+    /**
+     * 查询本月注册
+     * @return $this
+     */
+    public function monthRegister()
+    {
+        return $this->andWhere('month(FROM_UNIXTIME(created_at)) = month(curdate()) AND year(FROM_UNIXTIME(created_at)) = year(curdate())');
+    }
+
+    /**
+     * 查询本年注册
+     * @return $this
+     */
+    public function yearRegister()
+    {
+        return $this->andWhere('year(FROM_UNIXTIME(created_at)) = year(curdate())');
+    }
+
+    /**
+     * 查询本季度注册
+     * @return $this
+     */
+    public function quarterRegister()
+    {
+        return $this->andWhere('quarter(FROM_UNIXTIME(created_at)) = quarter(curdate())');
+    }
 }
