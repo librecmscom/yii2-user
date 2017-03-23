@@ -27,6 +27,6 @@ class LinkedIn extends BaseLinkedIn implements ClientInterface
      */
     public function getUsername()
     {
-        return null;
+        return isset($this->getUserAttributes()['first-name']) ? $this->getUserAttributes()['first-name'] : null;
     }
 }

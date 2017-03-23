@@ -25,6 +25,6 @@ class Weibo extends BaseWeiBo implements ClientInterface
      */
     public function getUsername()
     {
-        return isset($this->getUserAttributes()['username']) ? $this->getUserAttributes()['username'] : null;
+        return isset($this->getUserAttributes()['name']) ? $this->getUserAttributes()['name'] : null;
     }
 }
