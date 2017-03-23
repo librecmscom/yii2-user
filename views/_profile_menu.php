@@ -27,23 +27,23 @@ $items = [
         'icon' => 'glyphicon glyphicon-education'
     ],
     [
-        'label' => Yii::t('user', 'Educations'),
+        'label' => Yii::t('user', 'Education'),
         'url' => ['/user/education/index'],
         'icon' => 'fa fa-graduation-cap'
     ],
     [
-        'label' => Yii::t('user', 'Wallet Manage'),
+        'label' => Yii::t('user', 'My Funds'),
         'url' => ['/user/wallet/index'],
         'icon' => 'fa fa-money',
         'visible' => Yii::$app->hasModule('payment')
     ],
     [
-        'label' => Yii::t('user', 'Coin Manage'),
+        'label' => Yii::t('user', 'My Coin'),
         'url' => ['/user/coin/index'],
         'icon' => 'fa fa-gift'
     ],
     [
-        'label' => Yii::t('user', 'Credit Manage'),
+        'label' => Yii::t('user', 'My Credit'),
         'url' => ['/user/credit/index'],
         'icon' => 'fa fa-credit-card'
     ],

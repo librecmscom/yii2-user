@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'public_email') ?>
 
-                <?= $form->field($model, 'sex')->inline(true)->radioList(['0' => Yii::t('user', 'Secrecy'), '1' => Yii::t('user', 'Male'), '2' => Yii::t('user', 'Female')], [
+                <?= $form->field($model, 'gender')->inline(true)->radioList(['0' => Yii::t('user', 'Secrecy'), '1' => Yii::t('user', 'Male'), '2' => Yii::t('user', 'Female')], [
                     'template' => "{label}\n<div class=\"col-sm-9\">{input}</div>\n<div class=\"col-sm-offset-3 col-sm-9\">{error}\n{hint}</div>",
                 ]); ?>
 

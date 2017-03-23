@@ -7,7 +7,7 @@ use yii\grid\GridView;
  * @var yii\web\View $this
  */
 
-$this->title = Yii::t('user', 'Educational experience');
+$this->title = Yii::t('user', 'Education Background');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $this->render('/_profile_menu') ?>
     </div>
     <div class="col-md-10">
-        <h2 class="h3 profile-title"><?= Yii::t('user', 'Educational experience') ?></h2>
+        <h2 class="h3 profile-title"><?= Yii::t('user', 'Education Background') ?></h2>
         <div class="row">
             <div class="col-md-12">
                 <?php

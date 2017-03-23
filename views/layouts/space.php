@@ -35,11 +35,11 @@ $asset = AppAsset::register($this);
                 <hr>
                 <div class="space-header-social">
                         <span class="space-header-item"><?= Yii::t('user', 'Gender') ?>：
-                            <?php if ($user->profile->sex == Profile::SEX_UNCONFIRMED): ?>
+                            <?php if ($user->profile->gender == Profile::GENDER_UNCONFIRMED): ?>
                                 <i class="fa fa-genderless"></i>
-                            <?php elseif ($user->profile->sex == Profile::SEX_MALE): ?>
+                            <?php elseif ($user->profile->gender == Profile::GENDER_MALE): ?>
                                 <i class="fa fa-mars"></i>
-                            <?php elseif ($user->profile->sex == Profile::SEX_FEMALE): ?>
+                            <?php elseif ($user->profile->gender == Profile::GENDER_FEMALE): ?>
                                 <i class="fa fa-venus"></i>
                             <?php endif; ?>
                         </span>
@@ -83,7 +83,7 @@ $asset = AppAsset::register($this);
                                 data-source_type="user"
                                 data-source_id="<?= $user->id; ?>" data-show_num="true"
                                 data-toggle="tooltip" data-placement="right" title=""
-                                data-original-title="<?= Yii::t('user', 'Follow will be updated to remind') ?>"><?= Yii::t('user', 'Follow') ?>
+                                data-original-title="<?= Yii::t('user', 'Follow will be updated to remind') ?>"><?= Yii::t('user', 'Follower') ?>
                         </button>
                     <?php endif; ?>
 
@@ -152,8 +152,8 @@ $asset = AppAsset::register($this);
                 ['label' => Yii::t('user', 'My Coin'), 'url' => ['/user/profile/coin', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Credit'), 'url' => ['/user/profile/credit', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Follower'), 'url' => ['/user/profile/follower', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'My Followed'), 'url' => ['/user/profile/attention', 'id' => $user->id, 'type' => 'questions']],
-                ['label' => Yii::t('user', 'My Collect'), 'url' => ['/user/profile/collected', 'id' => $user->id, 'type' => 'questions']],
+                ['label' => Yii::t('user', 'I\'m Following'), 'url' => ['/user/profile/attention', 'id' => $user->id, 'type' => 'questions']],
+                ['label' => Yii::t('user', 'My Favorites'), 'url' => ['/user/profile/collected', 'id' => $user->id, 'type' => 'questions']],
             ];
         } else {//he
             $menuItems = [

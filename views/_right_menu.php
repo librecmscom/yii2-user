@@ -11,7 +11,7 @@ $items = [
         'url' => ['/user/message/index'],
     ],
     [
-        'label' => Yii::t('user', 'Notification alerts'),
+        'label' => Yii::t('user', 'Notifications'),
         'url' => ['/user/notification/index'],
     ]
 

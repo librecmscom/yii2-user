@@ -38,9 +38,9 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
         'options' => ['class' => 'nav nav-tabs'],
         'items' => [
             //问答
-            ['label' => Yii::t('user', 'Collected {what}', ['what' => Yii::t('user', 'Questions')]), 'url' => ['/user/profile/collected', 'id' => $model->id, 'type' => 'questions'], 'visible' => Yii::$app->hasModule('question')],
+            ['label' => Yii::t('user', 'Questions'), 'url' => ['/user/profile/collected', 'id' => $model->id, 'type' => 'questions'], 'visible' => Yii::$app->hasModule('question')],
             //文章
-            ['label' => Yii::t('user', 'Collected {what}', ['what' => Yii::t('user', 'Articles')]), 'url' => ['/user/profile/collected', 'id' => $model->id, 'type' => 'articles'], 'visible' => Yii::$app->hasModule('article')],
+            ['label' => Yii::t('user', 'Articles'), 'url' => ['/user/profile/collected', 'id' => $model->id, 'type' => 'articles'], 'visible' => Yii::$app->hasModule('article')],
         ],
     ]); ?>
 

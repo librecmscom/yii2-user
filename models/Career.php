@@ -60,11 +60,11 @@ class Career extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => Yii::t('user', 'Career name'),
-            'position' => Yii::t('user', 'Career Position'),
-            'city' => Yii::t('user', 'Career City'),
-            'start_at' => Yii::t('user', 'Career Start At'),
-            'end_at' => Yii::t('user', 'Career End At'),
+            'name' => Yii::t('user', 'Company'),
+            'position' => Yii::t('user', 'Position'),
+            'city' => Yii::t('user', 'City'),
+            'start_at' => Yii::t('user', 'From'),
+            'end_at' => Yii::t('user', 'To'),
             'description' => Yii::t('user', 'Career Description'),
         ];
     }

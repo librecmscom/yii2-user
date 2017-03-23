@@ -16,7 +16,7 @@ use yuncms\user\ModuleTrait;
  *
  * @property int $user_id 用户ID
  * @property string $name
- * @property int $sex 性别
+ * @property int $gender 性别
  * @property string $public_email
  * @property string $location
  * @property string $website
@@ -29,13 +29,13 @@ class Profile extends ActiveRecord
     use ModuleTrait;
 
     // 未选择
-    const SEX_UNCONFIRMED = 0;
+    const GENDER_UNCONFIRMED = 0;
     // 男
-    const SEX_MALE = 1;
+    const GENDER_MALE = 1;
     // 女
-    const SEX_FEMALE = 2;
+    const GENDER_FEMALE = 2;
 
-    public $sexName;
+    public $genderName;
 
     /**
      * @inheritdoc
@@ -53,8 +53,8 @@ class Profile extends ActiveRecord
         return [
             ['timezone', 'validateTimeZone'],
             ['mobile', 'string', 'min' => 11, 'max' => 11],
-            ['sex', 'default', 'value' => self::SEX_UNCONFIRMED],
-            ['sex', 'in', 'range' => [self::SEX_MALE, self::SEX_FEMALE, self::SEX_UNCONFIRMED]],
+            ['gender', 'default', 'value' => self::GENDER_UNCONFIRMED],
+            ['gender', 'in', 'range' => [self::GENDER_MALE, self::GENDER_FEMALE, self::GENDER_UNCONFIRMED]],
             ['public_email', 'email'],
             ['website', 'url'],
             ['address', 'string'],
@@ -72,7 +72,7 @@ class Profile extends ActiveRecord
     {
         return [
             'nickname' => Yii::t('user', 'Nickname'),
-            'sex' => Yii::t('user', 'Sex'),
+            'gender' => Yii::t('user', 'Gender'),
             'mobile' => Yii::t('user', 'Mobile'),
             'public_email' => Yii::t('user', 'Email (public)'),
             'country' => Yii::t('user', 'Country'),
@@ -88,16 +88,16 @@ class Profile extends ActiveRecord
     /**
      * 获取性别的字符串标识
      */
-    public function getSexName()
+    public function getGenderName()
     {
-        switch ($this->sex) {
-            case self::SEX_UNCONFIRMED:
+        switch ($this->gender) {
+            case self::GENDER_UNCONFIRMED:
                 $genderName = Yii::t('user', 'Secrecy');
                 break;
-            case self::SEX_MALE:
+            case self::GENDER_MALE:
                 $genderName = Yii::t('user', 'Male');
                 break;
-            case self::SEX_FEMALE:
+            case self::GENDER_FEMALE:
                 $genderName = Yii::t('user', 'Female');
                 break;
             default:
@@ -181,6 +181,6 @@ class Profile extends ActiveRecord
     public function afterFind()
     {
         parent::afterFind();
-        $this->sexName = $this->getSexName();
+        $this->genderName = $this->getGenderName();
     }
 }

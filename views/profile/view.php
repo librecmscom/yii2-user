@@ -20,7 +20,7 @@ $this->title = Yii::t('user', '{who} Space', [
 ]);
 $this->params['user'] = $model;
 ?>
-<h2 class="h4"><?= Yii::t('user', 'Recently Doing') ?></h2>
+<h2 class="h4"><?= Yii::t('user', 'Latest Activities') ?></h2>
 <div class="stream-doing clearfix">
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
