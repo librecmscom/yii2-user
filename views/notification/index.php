@@ -13,7 +13,7 @@ $this->title = Yii::t('user', 'Notice');
 
     <div class="col-xs-12 col-md-9 main">
         <h2 class="h3 profile-title">
-            <?= Yii::t('user', 'Notice') ?>
+            <?= Yii::t('user', 'Notifications') ?>
             <div class="pull-right">
                 <a class="btn btn-primary" href="<?=Url::to(['/user/notification/read-all'])?>" data-method="post"><?=Yii::t('user', 'All marked as read')?></a>
             </div>

@@ -9,7 +9,7 @@ $this->title = Yii::t('user', 'My Message Inbox');
 <div class="row">
     <div class="col-xs-12 col-md-9 main">
         <h2 class="h3 profile-title">
-            <?= Yii::t('user', 'My Message') ?>
+            <?= Yii::t('user', 'Messages') ?>
             <div class="pull-right">
                 <a class="btn btn-primary" href="<?= Url::to(['/user/message/send']); ?>" data-method="post"><?= Yii::t('user', 'New Message'); ?></a>
             </div>
