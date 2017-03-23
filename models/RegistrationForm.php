@@ -70,7 +70,7 @@ class RegistrationForm extends Model
             'email' => Yii::t('user', 'Email'),
             'username' => Yii::t('user', 'Username'),
             'password' => Yii::t('user', 'Password'),
-            'verifyCode' => Yii::t('user', 'verifyCode'),
+            'verifyCode' => Yii::t('user', 'Verification Code'),
         ];
     }
 
