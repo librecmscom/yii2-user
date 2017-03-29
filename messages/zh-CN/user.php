@@ -223,7 +223,6 @@ return [
     'Rate Limiting' => '速率限制',
     'Rate Period' => '速率周期',
     'Read' => '已读',
-    'Real Name' => '真实姓名',
     'Recharge' => '立即充值',
     'Recover your password' => '找回密码',
     'Recovery link is invalid or expired. Please try requesting a new one.' => '找回密码链接无效或者到期， 请重新提交请求。',

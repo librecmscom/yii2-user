@@ -107,7 +107,7 @@ class Authentication extends ActiveRecord
     {
         return [
             'user_id' => Yii::t('user', 'User Id'),
-            'real_name' => Yii::t('user', 'Real Name'),
+            'real_name' => Yii::t('user', 'Full Name'),
             'id_card' => Yii::t('user', 'Id Card'),
             'imageFile' => Yii::t('user', 'Id Card Image'),
             'status' => Yii::t('user', 'Status'),
