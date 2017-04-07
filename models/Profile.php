@@ -58,9 +58,10 @@ class Profile extends ActiveRecord
             ['public_email', 'email'],
             ['website', 'url'],
             ['address', 'string'],
+            ['timezone', 'default', 'value' => 'UTC'],
             ['introduction', 'string'],
             ['bio', 'string'],
-            [['public_email', 'nickname', 'timezone','country', 'location', 'website'], 'string', 'max' => 255],
+            [['public_email', 'nickname', 'timezone', 'country', 'location', 'website'], 'string', 'max' => 255],
 
         ];
     }
