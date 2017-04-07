@@ -18,7 +18,7 @@ class BankCardSearch extends BankCard
     public function rules()
     {
         return [
-            [['id', 'user_id', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'created_at', 'updated_at'], 'integer'],
             [['bank', 'bank_city', 'bank_username', 'bank_name', 'bankcard_number'], 'safe'],
         ];
     }
@@ -41,7 +41,7 @@ class BankCardSearch extends BankCard
      */
     public function search($params)
     {
-        $query = BankCard::find();
+        $query = BankCard::find()->where(['user_id' => Yii::$app->user->id]);
 
         // add conditions that should always apply here
 
@@ -60,7 +60,6 @@ class BankCardSearch extends BankCard
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

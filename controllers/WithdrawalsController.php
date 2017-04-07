@@ -3,16 +3,38 @@
 namespace yuncms\user\controllers;
 
 use Yii;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 use yuncms\user\models\Withdrawals;
 use yuncms\user\models\WithdrawalsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 
 /**
  * WithdrawalsController implements the CRUD actions for Withdrawals model.
  */
 class WithdrawalsController extends Controller
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create'],
+                        'roles' => ['@']
+                    ],
+                ]
+            ],
+        ];
+    }
+
     /**
      * Lists all Withdrawals models.
      * @return mixed
@@ -48,13 +70,13 @@ class WithdrawalsController extends Controller
     public function actionCreate()
     {
         $model = new Withdrawals();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        } else if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            return $this->redirect(['/user/wallet/index', 'id' => $model->id]);
         }
     }
 

@@ -3,6 +3,7 @@
 namespace yuncms\user\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use yuncms\user\models\BankCard;
 use yuncms\user\models\BankCardSearch;
 use yii\web\Controller;
@@ -26,8 +27,19 @@ class BankcardController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'delete'],
+                        'roles' => ['@']
+                    ],
+                ]
+            ],
         ];
     }
+
 
     /**
      * Lists all BankCard models.

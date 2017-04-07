@@ -14,7 +14,9 @@ use yii\db\ActiveRecord;
  * 提现模型
  * @property int $id
  * @property int $user_id
+ * @property int $bankcard_id
  * @property string $currency
+ * @property double $money
  * @package yuncms\user\models
  */
 class Withdrawals extends ActiveRecord
@@ -56,23 +58,33 @@ class Withdrawals extends ActiveRecord
     public function rules()
     {
         return [
-            [['bankcard_id', 'money'], 'required'],
+            [['bankcard_id', 'money', 'currency'], 'required'],
             [['bankcard_id'], 'integer'],
-            ['money', 'integer',
-                'min' => 100,
-                'tooSmall' => Yii::t('user', 'Please enter the correct money.')
-            ],
-            ['country', 'validateCountry'],
+            ['money', 'validateMoney'],
             ['status', 'default', 'value' => self::STATUS_PENDING],
             ['status', 'in', 'range' => [self::STATUS_PENDING, self::STATUS_REJECTED, self::STATUS_AUTHENTICATED]],
         ];
     }
 
-    public function validateCountry($attribute, $params)
+    /**
+     * 验证钱数
+     * @param $attribute
+     * @param $params
+     */
+    public function validateMoney($attribute, $params)
     {
+        if($this->money < 0){
+            $this->addError($attribute, Yii::t('user', 'Please enter the correct money.'));
+            return;
+        }
         $wallet = Wallet::find()->where(['user_id' => Yii::$app->user->identity->id, 'currency' => $this->currency])->one();
-        if ($this->money < $wallet->money) {
+        if(!$wallet){
+            $this->addError($attribute, Yii::t('user', 'Insufficient money.'));
+            return;
+        }
+        if (!$wallet || $this->money < $wallet->money) {
             $this->addError($attribute, Yii::t('user', 'Insufficient money, please recharge.'));
+            return;
         }
     }
 
