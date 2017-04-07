@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
  * @var $form  yii\widgets\ActiveForm
  * @var $model yuncms\user\models\SettingsForm
  */
-$this->title = Yii::t('user', 'Account settings');
+$this->title = Yii::t('user', 'Security Setting');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $this->render('/_profile_menu') ?>
     </div>
     <div class="col-md-10">
-        <h2 class="h3 profile-title"><?= Yii::t('user', 'Account settings') ?></h2>
+        <h2 class="h3 profile-title"><?= Yii::t('user', 'Security Setting') ?></h2>
         <div class="row">
             <div class="col-md-8">
                 <?php $form = ActiveForm::begin([

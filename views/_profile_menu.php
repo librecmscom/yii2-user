@@ -12,7 +12,7 @@ $items = [
         'icon' => 'glyphicon glyphicon-user',
     ],
     [
-        'label' => Yii::t('user', 'Account Setting'),
+        'label' => Yii::t('user', 'Security Setting'),
         'url' => ['/user/setting/account'],
         'icon' => 'glyphicon glyphicon-cog'
     ],
