@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model yuncms\user\models\BankCard */
 
-$this->title = $model->bankcard_number;
+$this->title = $model->number;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Bank Cards'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -36,10 +36,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $model,
                     'attributes' => [
                         'bank',
-                        'bank_city',
-                        'bank_username',
-                        'bank_name',
-                        'bankcard_number',
+                        'city',
+                        'username',
+                        'name',
+                        'number',
                         'created_at:datetime',
                         'updated_at:datetime',
                     ],

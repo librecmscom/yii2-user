@@ -32,7 +32,7 @@ class BankcardController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'delete'],
+                        'actions' => ['index', 'view', 'create','update', 'delete'],
                         'roles' => ['@']
                     ],
                 ]
@@ -127,7 +127,7 @@ class BankcardController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = BankCard::findOne($id)) !== null) {
+        if (($model = BankCard::findOne(['id' => $id, 'user_id' => Yii::$app->user->id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

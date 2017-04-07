@@ -14,13 +14,13 @@ use yii\bootstrap\ActiveForm;
 
 <?= $form->field($model, 'bank')->textInput(['maxlength' => true]) ?>
 
-<?= $form->field($model, 'bank_city')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
 
-<?= $form->field($model, 'bank_username')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
-<?= $form->field($model, 'bank_name')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-<?= $form->field($model, 'bankcard_number')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
 <div class="form-group">
     <?= Html::submitButton($model->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 </div>

@@ -81,7 +81,7 @@ Modal::begin([
 ]);
 
 echo $form->field($withdrawals, 'bankcard_id')->dropDownList(
-    ArrayHelper::map(\yuncms\user\models\Bankcard::find()->select(['id', "CONCAT(bank,' - ',bank_username,' - ',bankcard_number) as name"])->where(['user_id' => Yii::$app->user->id])->asArray()->all(), 'id', 'name')
+    ArrayHelper::map(\yuncms\user\models\Bankcard::find()->select(['id', "CONCAT(bank,' - ',username,' - ',number) as name"])->where(['user_id' => Yii::$app->user->id])->asArray()->all(), 'id', 'name')
 );
 echo $form->field($withdrawals, 'money');
 Modal::end();

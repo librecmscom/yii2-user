@@ -15,10 +15,10 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property int $user_id
  * @property string $bank 银行名称
- * @property string $bank_city 开户城市
- * @property string $bank_username 开户名
- * @property string $bank_name 开户行
- * @property string $bankcard_number 银行卡号
+ * @property string $city 开户城市
+ * @property string $username 开户名
+ * @property string $name 开户行
+ * @property string $number 银行卡号
  * @property integer $created_at
  * @property integer $updated_at
  * @package yuncms\user\models
@@ -58,8 +58,8 @@ class Bankcard extends ActiveRecord
     public function rules()
     {
         return [
-            [['bank', 'bank_city', 'bank_username', 'bank_name', 'bankcard_number'], 'required'],
-            [['bank', 'bank_city', 'bank_username', 'bank_name', 'bankcard_number'], 'filter', 'filter' => 'trim'],
+            [['bank', 'city', 'username', 'name', 'number'], 'required'],
+            [['bank', 'city', 'username', 'name', 'number'], 'filter', 'filter' => 'trim'],
         ];
     }
 
@@ -70,10 +70,10 @@ class Bankcard extends ActiveRecord
     {
         return [
             'bank' => Yii::t('user', 'Bank'),
-            'bank_city' => Yii::t('user', 'Bank City'),
-            'bank_username' => Yii::t('user', 'Bank Username'),
-            'bank_name' => Yii::t('user', 'Bank Name'),
-            'bankcard_number' => Yii::t('user', 'Bank Number'),
+            'city' => Yii::t('user', 'Bank City'),
+            'username' => Yii::t('user', 'Bank Username'),
+            'name' => Yii::t('user', 'Bank Name'),
+            'number' => Yii::t('user', 'BankCard Number'),
             'created_at' => Yii::t('user', 'Created At'),
             'updated_at' => Yii::t('user', 'Updated At'),
         ];

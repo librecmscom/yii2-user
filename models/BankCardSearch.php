@@ -19,7 +19,7 @@ class BankCardSearch extends BankCard
     {
         return [
             [['id', 'created_at', 'updated_at'], 'integer'],
-            [['bank', 'bank_city', 'bank_username', 'bank_name', 'bankcard_number'], 'safe'],
+            [['bank', 'city', 'username', 'name', 'number'], 'safe'],
         ];
     }
 
@@ -65,10 +65,10 @@ class BankCardSearch extends BankCard
         ]);
 
         $query->andFilterWhere(['like', 'bank', $this->bank])
-            ->andFilterWhere(['like', 'bank_city', $this->bank_city])
-            ->andFilterWhere(['like', 'bank_username', $this->bank_username])
-            ->andFilterWhere(['like', 'bank_name', $this->bank_name])
-            ->andFilterWhere(['like', 'bankcard_number', $this->bankcard_number]);
+            ->andFilterWhere(['like', 'bank_city', $this->city])
+            ->andFilterWhere(['like', 'bank_username', $this->username])
+            ->andFilterWhere(['like', 'bank_name', $this->name])
+            ->andFilterWhere(['like', 'bankcard_number', $this->number]);
 
         return $dataProvider;
     }

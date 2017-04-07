@@ -3,6 +3,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel yuncms\user\models\BankCardSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,7 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <h2 class="h3 profile-title">
             <?= Yii::t('user', 'Bank Cards') ?>
             <div class="pull-right">
-                <a class="btn btn-primary" href="<?= Url::to(['/user/bankcard/create']); ?>" ><?= Yii::t('user', 'Create'); ?></a>
+                <a class="btn btn-primary"
+                   href="<?= Url::to(['/user/bankcard/create']); ?>"><?= Yii::t('user', 'Create'); ?></a>
             </div>
         </h2>
         <div class="row">
@@ -29,12 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         'bank',
-                        'bank_city',
-                        'bank_username',
-                         'bank_name',
-                         'bankcard_number',
-                         'created_at:datetime',
-                         'updated_at:datetime',
+                        'city',
+                        'username',
+                        'name',
+                        'number',
+                        'created_at:datetime',
+                        'updated_at:datetime',
                         ['class' => 'yii\grid\ActionColumn'],
                     ],
                 ]); ?>
