@@ -82,7 +82,7 @@ class Withdrawals extends ActiveRecord
             $this->addError($attribute, Yii::t('user', 'Insufficient money.'));
             return;
         }
-        if (!$wallet || $this->money < $wallet->money) {
+        if ($this->money < $wallet->money) {
             $this->addError($attribute, Yii::t('user', 'Insufficient money, please recharge.'));
             return;
         }

@@ -10,7 +10,7 @@ use yuncms\user\models\WithdrawalsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
-
+use yuncms\user\models\Wallet;
 /**
  * WithdrawalsController implements the CRUD actions for Withdrawals model.
  */
@@ -75,8 +75,11 @@ class WithdrawalsController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $wallet = Wallet::find()->where(['user_id' => Yii::$app->user->identity->id, 'currency' => $currency])->one();
             return $this->render('create', [
-                'model' => $model
+                'model' => $model,
+                'currency' => $currency,
+                'wallet'=>$wallet
             ]);
         }
     }
