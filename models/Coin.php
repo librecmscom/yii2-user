@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\models;
 
 use Yii;
@@ -49,10 +50,11 @@ class Coin extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'type' => Yii::t('user', 'Coin Type'),
-            'msg' => Yii::t('user', 'Coin Msg'),
-            'value' => Yii::t('user', 'Coin Value'),
-            'created_at' => Yii::t('user', 'Created At'),
+            'id' => 'ID',
+            'action' => Yii::t('user', 'Action'),
+            'source_subject' => Yii::t('user', 'Source Subject'),
+            'coins' => Yii::t('user', 'Amount of the transaction'),
+            'created_at' => Yii::t('user', 'Transaction Hour'),
         ];
     }
 

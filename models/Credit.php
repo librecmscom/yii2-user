@@ -49,10 +49,11 @@ class Credit extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'type' => Yii::t('user', 'Credit Type'),
-            'msg' => Yii::t('user', 'Credit Msg'),
-            'value' => Yii::t('user', 'Credit Value'),
-            'created_at' => Yii::t('user', 'Created At'),
+            'id' => 'ID',
+            'action' => Yii::t('user', 'Action'),
+            'source_subject' => Yii::t('user', 'Source Subject'),
+            'credits' => Yii::t('user', 'Amount of the transaction'),
+            'created_at' => Yii::t('user', 'Transaction Hour'),
         ];
     }
 
