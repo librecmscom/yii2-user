@@ -65,18 +65,19 @@ class WithdrawalsController extends Controller
     /**
      * Creates a new Withdrawals model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     * @param string $currency
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($currency)
     {
         $model = new Withdrawals();
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
-        } else if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $model->currency = $currency;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->redirect(['/user/wallet/index', 'id' => $model->id]);
+            return $this->render('create', [
+                'model' => $model
+            ]);
         }
     }
 

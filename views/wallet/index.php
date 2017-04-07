@@ -1,11 +1,12 @@
 <?php
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\bootstrap\Modal;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
 use yuncms\payment\models\Payment;
-use yuncms\user\models\Withdrawals;
+
 /*
  * @var $this  yii\web\View
  * @var $form  yii\widgets\ActiveForm
@@ -37,8 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'recharge' =>
                                         function ($url, $model, $key) {
                                             return '<a href="#" onclick="jQuery(\'#payment-currency\').val(\'' . $model->currency . '\');" data-toggle="modal"
-                                                 data-target="#recharge_modal">' . Yii::t('user', 'Recharge') . '</a>   <a href="#" onclick="jQuery(\'#withdrawals-currency\').val(\'' . $model->currency . '\');" data-toggle="modal"
-                                                 data-target="#withdrawals_modal">' . Yii::t('user', 'Withdrawals') . '</a>';
+                                                 data-target="#recharge_modal">' . Yii::t('user', 'Recharge') . '</a>   ' .
+                                                Html::a(Yii::t('user', 'Withdrawals'), Url::to(['/user/withdrawals/create', 'currency' => $model->currency]));
                                         }]],
                         ],
                     ]);
@@ -53,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 if (Yii::$app->hasModule('payment')):
     $payment = new Payment();
     $form = ActiveForm::begin([
-        'action' => \yii\helpers\Url::toRoute(['/payment/default/index']),
+        'action' => Url::toRoute(['/payment/default/index']),
     ]); ?>
     <?= Html::activeInput('hidden', $payment, 'currency', ['value' => '']) ?>
     <?= Html::activeInput('hidden', $payment, 'pay_type', ['value' => Payment::TYPE_RECHARGE]) ?>
@@ -68,22 +69,4 @@ if (Yii::$app->hasModule('payment')):
     Modal::end();
     ActiveForm::end();
 endif;
-$withdrawals = new Withdrawals();
-$form = ActiveForm::begin([
-    'action' => \yii\helpers\Url::toRoute(['/user/withdrawals/create']),
-    'enableAjaxValidation' => true,
-]);
-echo Html::activeInput('hidden', $withdrawals, 'currency', ['value' => '']);
-Modal::begin([
-    'options' => ['id' => 'withdrawals_modal'],
-    'header' => Yii::t('user', 'Withdrawals'),
-    'footer' => Html::button(Yii::t('user', 'Clean'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) . Html::submitButton(Yii::t('user', 'Submit'), ['class' => 'btn btn-primary']),
-]);
-
-echo $form->field($withdrawals, 'bankcard_id')->dropDownList(
-    ArrayHelper::map(\yuncms\user\models\Bankcard::find()->select(['id', "CONCAT(bank,' - ',username,' - ',number) as name"])->where(['user_id' => Yii::$app->user->id])->asArray()->all(), 'id', 'name')
-);
-echo $form->field($withdrawals, 'money');
-Modal::end();
-ActiveForm::end();
 ?>
