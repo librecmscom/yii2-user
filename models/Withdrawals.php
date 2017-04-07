@@ -18,12 +18,61 @@ use yii\db\ActiveRecord;
  */
 class Withdrawals extends ActiveRecord
 {
+    const STATUS_PENDING = 0;
+    const STATUS_REJECTED = 1;
+    const STATUS_AUTHENTICATED = 2;
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return '{{%user_withdrawals}}';
+    }
+
+    /**
+     * 定义行为
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior'
+            ],
+            'blameable' => [
+                'class' => 'yii\behaviors\BlameableBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'user_id',
+                ],
+            ]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['bankcard_id', 'money'], 'required'],
+            [['bankcard_id','money'], 'integer'],
+            ['status', 'default', 'value' => self::STATUS_PENDING],
+            ['status', 'in', 'range' => [self::STATUS_PENDING, self::STATUS_REJECTED, self::STATUS_AUTHENTICATED]],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'user_id' => Yii::t('user', 'User Id'),
+            'status' => Yii::t('user', 'Status'),
+            'created_at' => Yii::t('user', 'Created At'),
+            'updated_at' => Yii::t('user', 'Updated At'),
+        ];
     }
 
     /**
