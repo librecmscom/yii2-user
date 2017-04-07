@@ -17,6 +17,7 @@ class M170407054259Create_withdrawals_table extends Migration
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
             'bankcard_id'=> $this->integer()->notNull()->comment('银行卡关系'),
+            'currency' => $this->string(10)->notNull()->comment('币种'),
             'money' => $this->decimal(10, 2)->defaultValue(0.00),
             'status'=>$this->smallInteger(1)->defaultValue(0)->comment('状态'),
             'created_at' => $this->integer()->unsigned()->notNull(),

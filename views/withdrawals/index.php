@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Yii::t('user', 'Withdrawals') ?>
             <div class="pull-right">
                 <a class="btn btn-primary"
-                   href="<?= Url::to(['/user/withdrawals/create']); ?>"><?= Yii::t('user', 'Create'); ?></a>
+                   href="<?= Url::to(['/user/wallet/index']); ?>"><?= Yii::t('user', 'Create'); ?></a>
             </div>
         </h2>
         <div class="row">
@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         'bankcard_id',
+                        'currency',
                         'money',
                         'status',
                         'created_at',

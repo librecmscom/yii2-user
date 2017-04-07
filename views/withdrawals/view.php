@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'bankcard_id',
+            'currency',
             'money',
             'status',
             'created_at',

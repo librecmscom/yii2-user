@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
  * 提现模型
  * @property int $id
  * @property int $user_id
+ * @property string $currency
  * @package yuncms\user\models
  */
 class Withdrawals extends ActiveRecord
@@ -56,10 +57,23 @@ class Withdrawals extends ActiveRecord
     {
         return [
             [['bankcard_id', 'money'], 'required'],
-            [['bankcard_id','money'], 'integer'],
+            [['bankcard_id'], 'integer'],
+            ['money', 'integer',
+                'min' => 100,
+                'tooSmall' => Yii::t('user', 'Please enter the correct money.')
+            ],
+            ['country', 'validateCountry'],
             ['status', 'default', 'value' => self::STATUS_PENDING],
             ['status', 'in', 'range' => [self::STATUS_PENDING, self::STATUS_REJECTED, self::STATUS_AUTHENTICATED]],
         ];
+    }
+
+    public function validateCountry($attribute, $params)
+    {
+        $wallet = Wallet::find()->where(['user_id' => Yii::$app->user->identity->id, 'currency' => $this->currency])->one();
+        if ($this->money < $wallet->money) {
+            $this->addError($attribute, Yii::t('user', 'Insufficient money, please recharge.'));
+        }
     }
 
     /**
