@@ -1,35 +1,41 @@
 {
-    "name": "yuncms/yii2-user",
-    "description": "Flexible user registration and authentication module for Yii",
-    "keywords": ["yii2", "yii2-user", "user management"],
-    "type": "yii2-extension",
-    "license": "MIT",
-    "require": {
-        "yiisoft/yii2": "~2.0",
-        "yiisoft/yii2-swiftmailer": "~2.0",
-        "yiisoft/yii2-bootstrap": "~2.0",
-	    "xutl/yii2-cropper-asset": "~1.0",
-        "xutl/yii2-authclient": "~1.0",
-        "xutl/yii2-fontawesome-asset": "~2.0",
-        "xutl/yii2-bootstrap-filestyle-asset": "~1.0",
-        "yuncms/yii2-system": "~1.0 | dev-master",
-        "yuncms/yii2-tag": "~1.0 | dev-master"
-    },
-    "require-dev": {
-        "yiisoft/yii2-codeception": "^2.0.0",
-        "codeception/specify": "^0.4.3",
-        "codeception/verify": "^0.3.1"
-    },
-    "autoload": {
-        "psr-4": {
-            "yuncms\\user\\": ""
-        }
-    },
-    "suggest": {
-        "yuncms/yii2-vote": "Allows you to use vote",
-        "yuncms/yii2-tag": "Allows you to use tag"
-    },
-    "extra": {
-        "bootstrap": "yuncms\\user\\Bootstrap"
+  "name": "yuncms/yii2-user",
+  "description": "Flexible user registration and authentication module for Yii",
+  "keywords": [
+    "yii2",
+    "yii2-user",
+    "user management"
+  ],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "require": {
+    "yiisoft/yii2": "~2.0",
+    "yiisoft/yii2-swiftmailer": "~2.0",
+    "yiisoft/yii2-bootstrap": "~2.0",
+    "xutl/yii2-cropper-asset": "~1.0",
+    "xutl/yii2-authclient": "~1.0",
+    "xutl/yii2-fontawesome-asset": "~2.0",
+    "xutl/yii2-bootstrap-filestyle-asset": "~1.0",
+    "yuncms/yii2-system": "~1.0 | dev-master",
+    "yuncms/yii2-tag": "~1.0 | dev-master"
+  },
+  "require-dev": {
+    "yiisoft/yii2-codeception": "^2.0.0",
+    "codeception/specify": "^0.4.3",
+    "codeception/verify": "^0.3.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "yuncms\\user\\": ""
     }
+  },
+  "suggest": {
+    "yuncms/yii2-vote": "Allows you to use vote",
+    "yuncms/yii2-tag": "Allows you to use tag",
+    "yuncms/yii2-message": "Allows you to use message",
+    "yuncms/yii2-wallet": "Allows you to use message"
+  },
+  "extra": {
+    "bootstrap": "yuncms\\user\\Bootstrap"
+  }
 }
