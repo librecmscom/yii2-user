@@ -394,10 +394,14 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * 获取用户已经激活的钱包
+     * @return null|ActiveQuery
      */
     public function getWallets()
     {
-        return $this->hasMany(Wallet::className(), ['user_id' => 'id']);
+        if (Yii::$app->hasModule('aallet')) {
+            return $this->hasMany(Wallet::className(), ['user_id' => 'id']);
+        }
+        return null;
     }
 
     /** @inheritdoc */
