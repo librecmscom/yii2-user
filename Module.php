@@ -14,8 +14,6 @@ use yuncms\user\models\Data;
 use yuncms\user\models\Doing;
 use yuncms\user\models\Coin;
 use yuncms\user\models\Credit;
-use yuncms\user\models\Wallet;
-use yuncms\user\models\WalletLog;
 use yuncms\user\models\Notification;
 
 /**
@@ -243,43 +241,6 @@ class Module extends \yii\base\Module
             $message->setFrom($this->mailSender);
         }
         return $message->send();
-    }
-
-    /**
-     * 变更指定用户钱包 + 钱或 - 钱
-     * @param int $user_id
-     * @param string $currency
-     * @param double $money
-     * @param string $action
-     * @param string $msg
-     * @return bool
-     */
-    public function wallet($user_id, $currency, $money, $action = '', $msg = '')
-    {
-        $wallet = Wallet::findByUserID($user_id, $currency);
-        $value = $wallet->money + $money;
-        if ($money < 0 && $value < 0) {
-            return false;
-        }
-        $transaction = Wallet::getDb()->beginTransaction();
-        try {
-            //更新用户钱包
-            $wallet->updateAttributes(['money' => $value]);
-            //创建钱包操作日志
-            WalletLog::create([
-                'wallet_id' => $wallet->id,
-                'currency' => $currency,
-                'money' => $money,
-                'action' => $action,
-                'msg' => $msg,
-                'type' => $money > 0 ? WalletLog::TYPE_INC : WalletLog::TYPE_DEC
-            ]);
-            $transaction->commit();
-            return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            return false;
-        }
     }
 
     /**

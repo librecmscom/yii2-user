@@ -33,7 +33,7 @@ $items = [
     ],
     [
         'label' => Yii::t('user', 'My Funds'),
-        'url' => ['/user/wallet/index'],
+        'url' => ['/wallet/wallet/index'],
         'icon' => 'fa fa-money',
         'visible' => Yii::$app->hasModule('wallet')
     ],
