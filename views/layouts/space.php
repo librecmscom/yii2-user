@@ -10,7 +10,6 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\Modal;
 use yuncms\user\models\Profile;
-use yuncms\user\widgets\SendMessage;
 use frontend\assets\AppAsset;
 
 $user = $this->params['user'];
@@ -88,7 +87,7 @@ $asset = AppAsset::register($this);
                     <?php endif; ?>
 
                     <?php
-                    if (!Yii::$app->user->isGuest) {
+                    if (!Yii::$app->user->isGuest && Yii::$app->hasModule('message')) {
                         Modal::begin([
                             'header' => Yii::t('user', 'Send message to') . '  ' . $user->username,
                             'toggleButton' => [
@@ -98,7 +97,7 @@ $asset = AppAsset::register($this);
                             ],
                         ]);
                         ?>
-                        <?= SendMessage::widget(['username' => $user->username]); ?>
+                        <?= \yuncms\message\widgets\SendMessage::widget(['username' => $user->username]); ?>
                         <?php Modal::end();
                     } ?>
 

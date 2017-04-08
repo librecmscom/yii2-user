@@ -8,7 +8,8 @@ $networksVisible = count(Yii::$app->authClientCollection->clients) > 0;
 $items = [
     [
         'label' => Yii::t('user', 'Messages'),
-        'url' => ['/user/message/index'],
+        'url' => ['/message/message/index'],
+        'visible' => Yii::$app->hasModule('message')
     ],
     [
         'label' => Yii::t('user', 'Notifications'),

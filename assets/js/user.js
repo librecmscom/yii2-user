@@ -10,17 +10,6 @@ function getUnreadNotifications(callback) {
 }
 
 /**
- * 获取未读短消息数
- * @param callback
- */
-function getUnreadMessages(callback) {
-    callback = callback || jQuery.noop;
-    jQuery.getJSON("/user/message/unread-messages", function (result) {
-        return callback(result.total);
-    });
-}
-
-/**
  * 发起赞
  * @param {string} source_type
  * @param {int} source_id
