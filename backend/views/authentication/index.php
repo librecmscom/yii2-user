@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'user_id',
                     'user.username',
                     'real_name',
+                    'type',
                     'id_card',
                     [
                         'header' => Yii::t('user', 'Authentication'),

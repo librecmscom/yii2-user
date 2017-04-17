@@ -40,7 +40,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'user.username',
                     'real_name',
                     'id_card',
-                    'idCardUrl:image',
+                    'passport_cover:image',
+                    'passport_person_page:image',
+                    'passport_self_holding:image',
                     [
                         'header' => Yii::t('user', 'Authentication'),
                         'attribute' => 'status',
