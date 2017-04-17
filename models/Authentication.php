@@ -4,8 +4,10 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\models;
 
+use phpDocumentor\Reflection\Types\Self_;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -15,13 +17,17 @@ use yuncms\user\ModuleTrait;
 /**
  * This is the model class for table "user_authentications".
  *
- * @property integer $user_id
- * @property string $real_name
- * @property string $id_card
- * @property int $status
- * @property string $failed_reason
- * @property integer $created_at
- * @property integer $updated_at
+ * @property integer $user_id 用户ID
+ * @property string $real_name 真实姓名
+ * @property string $id_card 证件号
+ * @property string $id_type 证件类型
+ * @property string $passport_cover
+ * @property string $passport_person_page
+ * @property string $passport_self_holding
+ * @property int $status 审核状态
+ * @property string $failed_reason 拒绝原因
+ * @property integer $created_at 创建时间
+ * @property integer $updated_at 更新时间
  *
  * @property User $user
  */
@@ -30,24 +36,30 @@ class Authentication extends ActiveRecord
     use ModuleTrait;
 
     /**
-     * @var \yii\web\UploadedFile 头像上传字段
+     * @var \yii\web\UploadedFile 身份证上传字段
      */
-    public $imageFile;
+    public $id_file;
 
     /**
-     * @var \yii\web\UploadedFile 头像上传字段
+     * @var \yii\web\UploadedFile 身份证上传字段
      */
-    public $imageFile1;
+    public $id_file1;
 
     /**
-     * @var \yii\web\UploadedFile 头像上传字段
+     * @var \yii\web\UploadedFile 身份证上传字段
      */
-    public $imageFile2;
+    public $id_file2;
 
     /**
      * @var string 验证码
      */
     public $verifyCode;
+
+    const TYPE_ID = 'id';
+    const TYPE_PASSPORT = 'passport';
+    const TYPE_ARMYID = 'armyid';
+    const TYPE_TAIWANID = 'taiwan';
+    const TYPE_HKMCID = 'hkmcid';
 
     const STATUS_PENDING = 0;
     const STATUS_REJECTED = 1;
@@ -87,8 +99,8 @@ class Authentication extends ActiveRecord
     {
         $scenarios = parent::scenarios();
         return ArrayHelper::merge($scenarios, [
-            'create' => ['real_name', 'id_card', 'imageFile','imageFile1','imageFile2'],
-            'update' => ['real_name', 'id_card', 'imageFile','imageFile1','imageFile2'],
+            'create' => ['real_name', 'id_type', 'id_card', 'id_file', 'id_file1', 'id_file2'],
+            'update' => ['real_name', 'id_type', 'id_card', 'id_file', 'id_file1', 'id_file2'],
             'verify' => ['real_name', 'id_card', 'status', 'failed_reason'],
         ]);
     }
@@ -99,16 +111,30 @@ class Authentication extends ActiveRecord
     public function rules()
     {
         return [
-            [['real_name', 'id_card', 'imageFile', 'verifyCode'], 'required', 'on' => ['create', 'update']],
-            [['real_name', 'id_card'], 'filter', 'filter' => 'trim'],
+            [['real_name', 'id_card', 'id_file','id_file1','id_file2', 'verifyCode'], 'required', 'on' => ['create', 'update']],
+            [['real_name', 'id_card',], 'filter', 'filter' => 'trim'],
+
+            ['id_type', 'in', 'range' => [self::TYPE_ID, self::TYPE_PASSPORT, self::TYPE_ARMYID, self::TYPE_TAIWANID, self::TYPE_HKMCID], 'on' => ['create', 'update']],
+
             [['failed_reason'], 'filter', 'filter' => 'trim'],
-            ['id_card', 'string', 'min' => 18, 'max' => 18],
-            ['id_card', 'yuncms\system\validators\IdCardValidator'],
-            [['imageFile'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('user', 'File has to be smaller than 2MB')],
-            [['imageFile1'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('user', 'File has to be smaller than 2MB')],
-            [['imageFile2'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('user', 'File has to be smaller than 2MB')],
+
+            [['id_card'], 'string', 'when' => function ($model) {//中国大陆18位身份证号码
+                return $model->id_type == static::TYPE_ID;
+            }, 'whenClient' => "function (attribute, value) {return jQuery(\"#authentication-id_type\").val() == '" . Authentication::TYPE_ID . "';}",
+                'length' => 18, 'on' => ['create', 'update']],
+
+            ['id_card', 'yuncms\system\validators\IdCardValidator', 'when' => function ($model) {//中国大陆18位身份证号码校验
+                return $model->id_type == static::TYPE_ID;
+            }, 'on' => ['create', 'update']],
+
+            [['id_file'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('user', 'File has to be smaller than 2MB'), 'on' => ['create', 'update']],
+            [['id_file1'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('user', 'File has to be smaller than 2MB'), 'on' => ['create', 'update']],
+            [['id_file2'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('user', 'File has to be smaller than 2MB'), 'on' => ['create', 'update']],
+
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha', 'captchaAction' => '/user/authentication/captcha'],
+
+
         ];
     }
 
@@ -120,10 +146,11 @@ class Authentication extends ActiveRecord
         return [
             'user_id' => Yii::t('user', 'User Id'),
             'real_name' => Yii::t('user', 'Full Name'),
+            'id_type' => Yii::t('user', 'Id Type'),
             'id_card' => Yii::t('user', 'Id Card'),
-            'imageFile' => Yii::t('user', 'Id Card Image'),
-            'imageFile1' => Yii::t('user', 'Id Card Image'),
-            'imageFile2' => Yii::t('user', 'Id Card Image'),
+            'id_file' => Yii::t('user', 'Passport cover'),
+            'id_file1' => Yii::t('user', 'Passport person page'),
+            'id_file2' => Yii::t('user', 'Passport self holding'),
             'status' => Yii::t('user', 'Status'),
             'failed_reason' => Yii::t('user', 'Failed Reason'),
             'verifyCode' => Yii::t('user', 'Verify Code'),
@@ -131,6 +158,30 @@ class Authentication extends ActiveRecord
             'created_at' => Yii::t('user', 'Created At'),
             'updated_at' => Yii::t('user', 'Updated At'),
         ];
+    }
+
+    public function getType()
+    {
+        switch ($this->id_type) {
+            case self::TYPE_ID:
+                $genderName = Yii::t('user', 'ID Card');
+                break;
+            case self::TYPE_PASSPORT:
+                $genderName = Yii::t('user', 'Passport ID');
+                break;
+            case self::TYPE_ARMYID:
+                $genderName = Yii::t('user', 'Army ID');
+                break;
+            case self::TYPE_TAIWANID:
+                $genderName = Yii::t('user', 'Taiwan ID');
+                break;
+            case self::TYPE_HKMCID:
+                $genderName = Yii::t('user', 'HKMC ID');
+                break;
+            default:
+                throw new \RuntimeException('Not set!');
+        }
+        return $genderName;
     }
 
     /**
@@ -143,12 +194,46 @@ class Authentication extends ActiveRecord
 
     public function getIdCardUrl()
     {
-        return $this->getModule()->getIdCardUrl($this->user_id);
+        if ($this->user_id) {
+            return $this->getModule()->getIdCardUrl($this->user_id);
+        }
+        return $this->getModule()->getIdCardUrl(Yii::$app->user->id);
+    }
+
+    public function getIdCardPath()
+    {
+        if ($this->user_id) {
+            return $this->getModule()->getIdCardPath($this->user_id);
+        }
+        return $this->getModule()->getIdCardPath(Yii::$app->user->id);
     }
 
     public function isAuthentication()
     {
         return $this->status == static::STATUS_AUTHENTICATED;
+    }
+
+    /**
+     * 删除前先删除附件
+     * @return bool
+     */
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            $idCardPath = $this->getIdCardPath();
+            if (file_exists($idCardPath . '_passport_cover_image.jpg')) {
+                @unlink($idCardPath . '_passport_cover_image.jpg');
+            }
+            if (file_exists($idCardPath . '_passport_person_page_image.jpg')) {
+                @unlink($idCardPath . '_passport_person_page_image.jpg');
+            }
+            if (file_exists($idCardPath . '_passport_self_holding_image.jpg')) {
+                @unlink($idCardPath . '_passport_self_holding_image.jpg');
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -158,15 +243,15 @@ class Authentication extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            $idCardPath = $this->getModule()->getIdCardPath(Yii::$app->user->id);
-            if ($this->imageFile) {
-                $this->imageFile->saveAs($idCardPath);
+            $idCardPath = $this->getIdCardPath();
+            if ($this->id_file && $this->id_file->saveAs($idCardPath . '_passport_cover_image.jpg')) {
+                $this->passport_cover = $this->getIdCardUrl() . '_passport_cover_image.jpg';
             }
-            if ($this->imageFile1) {
-                $this->imageFile1->saveAs($idCardPath);
+            if ($this->id_file1 && $this->id_file1->saveAs($idCardPath . '_passport_person_page_image.jpg')) {
+                $this->passport_person_page = $this->getIdCardUrl() . '_passport_person_page_image.jpg';
             }
-            if ($this->imageFile2) {
-                $this->imageFile2->saveAs($idCardPath);
+            if ($this->id_file2 && $this->id_file2->saveAs($idCardPath . '_passport_self_holding_image.jpg')) {
+                $this->passport_self_holding = $this->getIdCardUrl() . '_passport_self_holding_image.jpg';
             }
             return true;
         } else {

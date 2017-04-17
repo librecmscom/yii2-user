@@ -170,7 +170,7 @@ class Module extends \yii\base\Module
         if (!is_dir($avatarPath)) {
             FileHelper::createDirectory($avatarPath);
         }
-        return $avatarPath . substr($userId, -2) . substr($userId, -2) . 'id_card_image.jpg';
+        return $avatarPath . substr($userId, -2);
     }
 
     /**
@@ -180,7 +180,7 @@ class Module extends \yii\base\Module
      */
     public function getIdCardUrl($userId)
     {
-        return Yii::getAlias($this->idCardUrl) . '/' . $this->getAvatarHome($userId) . substr($userId, -2) . substr($userId, -2) . 'id_card_image.jpg';
+        return Yii::getAlias($this->idCardUrl) . '/' . $this->getAvatarHome($userId) . substr($userId, -2);
     }
 
     /**

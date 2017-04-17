@@ -4,6 +4,10 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\captcha\Captcha;
 use yii\bootstrap\ActiveForm;
+use xutl\bootstrap\filestyle\FilestyleAsset;
+use yuncms\user\models\Authentication;
+
+FilestyleAsset::register($this);
 /*
  * @var yii\web\View $this
  * @var yuncms\user\models\Authentication $model
@@ -44,11 +48,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <dd><?= Yii::$app->user->identity->authentication->real_name ?></dd>
                                 <dt><?= Yii::t('user', 'Email') ?></dt>
                                 <dd><?= Yii::$app->user->identity->email ?></dd>
+                                <dt><?= Yii::t('user', 'Id Type') ?></dt>
+                                <dd><?= Yii::$app->user->identity->authentication->type ?></dd>
                                 <dt><?= Yii::t('user', 'Id Card') ?></dt>
                                 <dd><?= Yii::$app->user->identity->authentication->id_card ?></dd>
                                 <dt><?= Yii::t('user', 'Id Card Image') ?></dt>
                                 <dd><img class="img-responsive"
-                                         src="<?= Yii::$app->user->identity->authentication->idCardUrl ?>"/></dd>
+                                         src="<?= Yii::$app->user->identity->authentication->passport_cover ?>"/></dd>
+                                <dt><?= Yii::t('user', 'Id Card Image') ?></dt>
+                                <dd><img class="img-responsive"
+                                         src="<?= Yii::$app->user->identity->authentication->passport_person_page ?>"/></dd>
+                                <dt><?= Yii::t('user', 'Id Card Image') ?></dt>
+                                <dd><img class="img-responsive"
+                                         src="<?= Yii::$app->user->identity->authentication->passport_self_holding ?>"/></dd>
                                 <dd><a href="<?= Url::to(['/user/authentication/update']) ?>" class="btn btn-warning">修改认证资料</a>
                                 </dd>
                             </dl>
@@ -61,9 +73,24 @@ $this->params['breadcrumbs'][] = $this->title;
                             'enctype' => 'multipart/form-data',
                         ],
                     ]); ?>
+
                     <?= $form->field($model, 'real_name') ?>
+
+                    <?= $form->field($model, 'id_type')->dropDownList([
+                        Authentication::TYPE_ID => Yii::t('user', 'ID Card'),
+                        Authentication::TYPE_PASSPORT => Yii::t('user', 'Passport ID'),
+                        Authentication::TYPE_ARMYID => Yii::t('user', 'Army ID'),
+                        Authentication::TYPE_TAIWANID => Yii::t('user', 'Taiwan ID'),
+                        Authentication::TYPE_HKMCID => Yii::t('user', 'HKMC ID'),
+                    ]); ?>
                     <?= $form->field($model, 'id_card') ?>
-                    <?= $form->field($model, 'imageFile')->fileInput(['class' => 'filestyle', 'data' => [
+                    <?= $form->field($model, 'id_file')->fileInput(['class' => 'filestyle', 'data' => [
+                        'buttonText' => Yii::t('user', 'Choose file')
+                    ]]); ?>
+                    <?= $form->field($model, 'id_file1')->fileInput(['class' => 'filestyle', 'data' => [
+                        'buttonText' => Yii::t('user', 'Choose file')
+                    ]]); ?>
+                    <?= $form->field($model, 'id_file2')->fileInput(['class' => 'filestyle', 'data' => [
                         'buttonText' => Yii::t('user', 'Choose file')
                     ]]); ?>
                     <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [

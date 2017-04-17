@@ -64,10 +64,14 @@ class AuthenticationController extends Controller
                 'scenario' => 'create',
             ]);
             if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+                $model->id_file = UploadedFile::getInstance($model, 'id_file');
+                $model->id_file1 = UploadedFile::getInstance($model, 'id_file1');
+                $model->id_file2 = UploadedFile::getInstance($model, 'id_file2');
                 if ($model->save()) {
                     return $this->redirect(['index']);
                 }
+                print_r($model->getErrors());
+                exit;
             }
         }
         return $this->render('index', [
@@ -87,7 +91,9 @@ class AuthenticationController extends Controller
         }
         $model->scenario = 'update';
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            $model->id_file = UploadedFile::getInstance($model, 'id_file');
+            $model->id_file1 = UploadedFile::getInstance($model, 'id_file1');
+            $model->id_file2 = UploadedFile::getInstance($model, 'id_file2');
             if ($model->save()) {
                 return $this->redirect(['index']);
             }
