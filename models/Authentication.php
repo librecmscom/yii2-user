@@ -35,6 +35,16 @@ class Authentication extends ActiveRecord
     public $imageFile;
 
     /**
+     * @var \yii\web\UploadedFile 头像上传字段
+     */
+    public $imageFile1;
+
+    /**
+     * @var \yii\web\UploadedFile 头像上传字段
+     */
+    public $imageFile2;
+
+    /**
      * @var string 验证码
      */
     public $verifyCode;
@@ -77,8 +87,8 @@ class Authentication extends ActiveRecord
     {
         $scenarios = parent::scenarios();
         return ArrayHelper::merge($scenarios, [
-            'create' => ['real_name', 'id_card', 'imageFile'],
-            'update' => ['real_name', 'id_card', 'imageFile'],
+            'create' => ['real_name', 'id_card', 'imageFile','imageFile1','imageFile2'],
+            'update' => ['real_name', 'id_card', 'imageFile','imageFile1','imageFile2'],
             'verify' => ['real_name', 'id_card', 'status', 'failed_reason'],
         ]);
     }
@@ -95,6 +105,8 @@ class Authentication extends ActiveRecord
             ['id_card', 'string', 'min' => 18, 'max' => 18],
             ['id_card', 'yuncms\system\validators\IdCardValidator'],
             [['imageFile'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('user', 'File has to be smaller than 2MB')],
+            [['imageFile1'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('user', 'File has to be smaller than 2MB')],
+            [['imageFile2'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('user', 'File has to be smaller than 2MB')],
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha', 'captchaAction' => '/user/authentication/captcha'],
         ];
@@ -110,6 +122,8 @@ class Authentication extends ActiveRecord
             'real_name' => Yii::t('user', 'Full Name'),
             'id_card' => Yii::t('user', 'Id Card'),
             'imageFile' => Yii::t('user', 'Id Card Image'),
+            'imageFile1' => Yii::t('user', 'Id Card Image'),
+            'imageFile2' => Yii::t('user', 'Id Card Image'),
             'status' => Yii::t('user', 'Status'),
             'failed_reason' => Yii::t('user', 'Failed Reason'),
             'verifyCode' => Yii::t('user', 'Verify Code'),
@@ -147,6 +161,12 @@ class Authentication extends ActiveRecord
             $idCardPath = $this->getModule()->getIdCardPath(Yii::$app->user->id);
             if ($this->imageFile) {
                 $this->imageFile->saveAs($idCardPath);
+            }
+            if ($this->imageFile1) {
+                $this->imageFile1->saveAs($idCardPath);
+            }
+            if ($this->imageFile2) {
+                $this->imageFile2->saveAs($idCardPath);
             }
             return true;
         } else {
