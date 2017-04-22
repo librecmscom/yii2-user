@@ -4,7 +4,9 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use yuncms\admin\widgets\Jarvis;
+use xutl\inspinia\Box;
+use xutl\inspinia\Toolbar;
+use xutl\inspinia\Alert;
 use yuncms\user\backend\models\AuthenticationSearch;
 
 /* @var $this yii\web\View */
@@ -14,27 +16,32 @@ use yuncms\user\backend\models\AuthenticationSearch;
 $this->title = Yii::t('user', 'Manage Authentication');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<section id="widget-grid">
+<div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12 authentication-index">
+        <div class="col-lg-12 authentication-index">
+            <?= Alert::widget() ?>
             <?php Pjax::begin(); ?>
-            <?php Jarvis::begin([
-                'noPadding' => true,
-                'editbutton' => false,
-                'deletebutton' => false,
+            <?php Box::begin([
                 'header' => Html::encode($this->title),
-                'bodyToolbarActions' => [
-                    [
-                        'label' => Yii::t('user', 'Manage Authentication'),
-                        'url' => ['index'],
-                    ],
-                ]
             ]); ?>
-            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <div class="row">
+                <div class="col-sm-4 m-b-xs">
+                    <?= Toolbar::widget(['items' => [
+                        [
+                            'label' => Yii::t('user', 'Manage Authentication'),
+                            'url' => ['index'],
+                        ],
+                    ]]); ?>
+                </div>
+                <div class="col-sm-8 m-b-xs">
+                    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+                </div>
+            </div>
             <?= GridView::widget([
+                'layout' => "{items}\n{summary}\n{pager}",
                 'dataProvider' => $dataProvider,
                 'options' => ['id' => 'gridview'],
-                'filterModel' => $searchModel,
+                //'filterModel' => $searchModel,
                 'columns' => [
                     [
                         'class' => 'yii\grid\CheckboxColumn',
@@ -94,8 +101,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ],
             ]); ?>
-            <?php Jarvis::end(); ?>
+            <?php Box::end(); ?>
             <?php Pjax::end(); ?>
-        </article>
+        </div>
     </div>
-</section>
+</div>

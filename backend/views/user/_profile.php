@@ -1,5 +1,5 @@
 <?php
-use yii\bootstrap\ActiveForm;
+use xutl\inspinia\ActiveForm;
 use yii\helpers\Html;
 
 /**
@@ -12,19 +12,21 @@ use yii\helpers\Html;
 <?php $this->beginContent('@yuncms/user/backend/views/user/update.php', ['model' => $model]) ?>
 
 <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
-<fieldset>
-    <?= $form->field($profile, 'nickname') ?>
-    <?= $form->field($profile, 'public_email') ?>
-    <?= $form->field($profile, 'website') ?>
-    <?= $form->field($profile, 'location') ?>
-    <?= $form->field($profile, 'bio')->textarea() ?>
-</fieldset>
 
-<div class="form-actions">
-    <div class="row">
-        <div class="col-md-12">
-            <?= Html::submitButton(Yii::t('app', 'Update'), ['class' => 'btn btn-primary']) ?>
-        </div>
+<?= $form->field($profile, 'nickname') ?>
+<div class="hr-line-dashed"></div>
+<?= $form->field($profile, 'public_email') ?>
+<div class="hr-line-dashed"></div>
+<?= $form->field($profile, 'website') ?>
+<div class="hr-line-dashed"></div>
+<?= $form->field($profile, 'location') ?>
+<div class="hr-line-dashed"></div>
+<?= $form->field($profile, 'bio')->textarea() ?>
+<div class="hr-line-dashed"></div>
+
+<div class="form-group">
+    <div class="col-sm-4 col-sm-offset-2">
+        <?= Html::submitButton(Yii::t('app', 'Update'), ['class' => 'btn btn-primary']) ?>
     </div>
 </div>
 

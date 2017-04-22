@@ -1,29 +1,46 @@
 <?php
 
 use yii\helpers\Html;
-use yuncms\admin\widgets\ActiveForm;
+use xutl\inspinia\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model yuncms\user\backend\models\AuthenticationSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="authentication-search">
+<div class="authentication-search  pull-right">
 
     <?php $form = ActiveForm::begin([
+        'layout' => 'inline',
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'user_id') ?>
+    <?= $form->field($model, 'user_id', [
+        'inputOptions' => [
+            'placeholder' => $model->getAttributeLabel('user_id'),
+        ],
+    ]) ?>
 
-    <?= $form->field($model, 'real_name') ?>
+    <?= $form->field($model, 'real_name', [
+        'inputOptions' => [
+            'placeholder' => $model->getAttributeLabel('real_name'),
+        ],
+    ]) ?>
 
-    <?= $form->field($model, 'id_card') ?>
+    <?= $form->field($model, 'id_card', [
+        'inputOptions' => [
+            'placeholder' => $model->getAttributeLabel('id_card'),
+        ],
+    ]) ?>
 
-    <?= $form->field($model, 'id_card_image') ?>
+    <?php // echo  $form->field($model, 'id_card_image') ?>
 
-    <?= $form->field($model, 'status') ?>
+    <?= $form->field($model, 'status', [
+        'inputOptions' => [
+            'placeholder' => $model->getAttributeLabel('status'),
+        ],
+    ]) ?>
 
     <?php // echo $form->field($model, 'failed_reason') ?>
 
