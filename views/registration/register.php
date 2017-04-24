@@ -36,8 +36,6 @@ $this->title = Yii::t('user', 'Sign up');
         ); ?>
     <?php endif ?>
 
-    <?= Html::submitButton(Yii::t('user', 'Sign up'), ['class' => 'btn btn-success btn-block btn-lg']) ?>
-
     <?= $form->field($model, 'registrationPolicy')->checkbox()->label(
         Yii::t('user', 'Agree and accept {serviceAgreement} and {privacyPolicy}', [
             'serviceAgreement' => Html::a(Yii::t('user', 'Service Agreement'), ['/legal/policy']),
@@ -46,6 +44,8 @@ $this->title = Yii::t('user', 'Sign up');
             'encode' => false
         ]
     ) ?>
+
+    <?= Html::submitButton(Yii::t('user', 'Sign up'), ['class' => 'btn btn-success btn-block btn-lg']) ?>
 
     <?php ActiveForm::end(); ?>
     <hr>
