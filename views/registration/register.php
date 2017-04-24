@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\captcha\Captcha;
 use yii\bootstrap\ActiveForm;
 use yuncms\user\widgets\Connect;
+
 /**
  * @var yii\web\View $this
  * @var yuncms\user\models\User $user
@@ -37,12 +38,21 @@ $this->title = Yii::t('user', 'Sign up');
 
     <?= Html::submitButton(Yii::t('user', 'Sign up'), ['class' => 'btn btn-success btn-block btn-lg']) ?>
 
+    <?= $form->field($model, 'registrationPolicy')->checkbox()->label(
+        Yii::t('user', 'Agree and accept {serviceAgreement} and {privacyPolicy}', [
+            'serviceAgreement' => Html::a(Yii::t('user', 'Service Agreement'), ['/legal/policy']),
+            'privacyPolicy' => Html::a(Yii::t('user', 'Privacy Policy'), ['/legal/privacy']),
+        ]), [
+            'encode' => false
+        ]
+    ) ?>
+
     <?php ActiveForm::end(); ?>
     <hr>
     <div class="widget-login pt-30">
-            <p class="text-center">
-                <?= Html::a(Yii::t('user', 'Already registered? Sign in!'), ['/user/security/login']) ?>
-            </p>
+        <p class="text-center">
+            <?= Html::a(Yii::t('user', 'Already registered? Sign in!'), ['/user/security/login']) ?>
+        </p>
         <?= Connect::widget([
             'baseAuthUrl' => ['/user/security/auth'],
         ]) ?>

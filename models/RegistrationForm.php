@@ -9,6 +9,7 @@ namespace yuncms\user\models;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\Html;
 use yuncms\user\ModuleTrait;
 
 /**
@@ -30,6 +31,15 @@ class RegistrationForm extends Model
      * @var string Password
      */
     public $password;
+
+    /**
+     * @var bool 是否同意注册协议
+     */
+    public $registrationPolicy;
+
+    /**
+     * @var string 验证码
+     */
     public $verifyCode;
 
 
@@ -58,6 +68,9 @@ class RegistrationForm extends Model
             // verifyCode needs to be entered correctly
             'verifyCodeRequired' => ['verifyCode', 'required', 'skipOnEmpty' => !$this->module->enableRegistrationCaptcha],
             'verifyCode' => ['verifyCode', 'captcha', 'captchaAction' => '/user/registration/captcha', 'skipOnEmpty' => !$this->module->enableRegistrationCaptcha],
+
+            'registrationPolicyRequired' => ['registrationPolicy', 'required', 'skipOnEmpty' => false, 'requiredValue' => true,
+                'message' => Yii::t('user', 'By registering you confirm that you accept the Service Agreement and Privacy Policy.'),],
         ];
     }
 
@@ -71,6 +84,7 @@ class RegistrationForm extends Model
             'username' => Yii::t('user', 'Username'),
             'password' => Yii::t('user', 'Password'),
             'verifyCode' => Yii::t('user', 'Verification Code'),
+            'registrationPolicy' => Yii::t('user', 'Agree and accept Service Agreement and Privacy Policy'),
         ];
     }
 
