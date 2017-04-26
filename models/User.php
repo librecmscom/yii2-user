@@ -8,9 +8,9 @@
 namespace yuncms\user\models;
 
 use Yii;
+use yii\db\Query;
 use yii\helpers\Url;
 use yii\db\ActiveQuery;
-use yii\db\Query;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
@@ -18,9 +18,9 @@ use yii\base\NotSupportedException;
 use yii\web\Application as WebApplication;
 use yuncms\user\Module;
 use yuncms\user\ModuleTrait;
-use yuncms\user\helpers\Password;
 use yuncms\user\UserAsset;
 use yuncms\tag\models\Tag;
+use yuncms\user\helpers\Password;
 use yuncms\system\helpers\DateHelper;
 
 /**
@@ -829,6 +829,21 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $total = static::getDb()->cache(function ($db) {
             return static::find()->where(['between', 'created_at', DateHelper::todayFirstSecond(), DateHelper::todayLastSecond()])->count();
+        }, $duration);
+        return $total;
+    }
+
+    /**
+     * 获取今日活跃用户
+     * @param null $duration
+     * @return mixed
+     */
+    public static function getDayActivityTotal($duration = null)
+    {
+        $total = static::getDb()->cache(function ($db) {
+            return static::find()->joinWith(['userData' => function (ActiveQuery $query) {
+                $query->where(['between', '{{%user_data}}.login_at', DateHelper::todayFirstSecond(), DateHelper::todayLastSecond()]);
+            }])->count();
         }, $duration);
         return $total;
     }
