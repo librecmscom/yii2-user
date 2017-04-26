@@ -825,7 +825,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @param null|int $duration 缓存时间
      * @return int|string
      */
-    public static function getDayTotal($duration = null)
+    public static function getTodayTotal($duration = null)
     {
         $total = static::getDb()->cache(function ($db) {
             return static::find()->where(['between', 'created_at', DateHelper::todayFirstSecond(), DateHelper::todayLastSecond()])->count();
@@ -838,7 +838,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @param null $duration
      * @return mixed
      */
-    public static function getDayActivityTotal($duration = null)
+    public static function getTodayActivityTotal($duration = null)
     {
         $total = static::getDb()->cache(function ($db) {
             return static::find()->joinWith(['userData' => function (ActiveQuery $query) {
