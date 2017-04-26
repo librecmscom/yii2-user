@@ -397,7 +397,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getWallets()
     {
-        if (Yii::$app->hasModule('aallet')) {
+        if (Yii::$app->hasModule('wallet')) {
             return $this->hasMany(\yuncms\wallet\models\Wallet::className(), ['user_id' => 'id']);
         }
         return null;
