@@ -21,7 +21,6 @@ use yuncms\user\ModuleTrait;
 use yuncms\user\UserAsset;
 use yuncms\tag\models\Tag;
 use yuncms\user\helpers\Password;
-use yuncms\system\helpers\DateHelper;
 
 /**
  * User ActiveRecord model.
@@ -805,46 +804,5 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findByUsername($username)
     {
         return static::findOne(['username' => $username]);
-    }
-
-    /**
-     * 获取用户总数
-     * @param null|int $duration 缓存时间
-     * @return int
-     */
-    public static function getTotal($duration = null)
-    {
-        $total = static::getDb()->cache(function ($db) {
-            return static::find()->count();
-        }, $duration);
-        return $total;
-    }
-
-    /**
-     * 获取今日注册用户总数
-     * @param null|int $duration 缓存时间
-     * @return int|string
-     */
-    public static function getTodayTotal($duration = null)
-    {
-        $total = static::getDb()->cache(function ($db) {
-            return static::find()->where(['between', 'created_at', DateHelper::todayFirstSecond(), DateHelper::todayLastSecond()])->count();
-        }, $duration);
-        return $total;
-    }
-
-    /**
-     * 获取今日活跃用户
-     * @param null $duration
-     * @return mixed
-     */
-    public static function getTodayActivityTotal($duration = null)
-    {
-        $total = static::getDb()->cache(function ($db) {
-            return static::find()->joinWith(['userData' => function (ActiveQuery $query) {
-                $query->where(['between', '{{%user_data}}.login_at', DateHelper::todayFirstSecond(), DateHelper::todayLastSecond()]);
-            }])->count();
-        }, $duration);
-        return $total;
     }
 }

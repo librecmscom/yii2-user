@@ -8,6 +8,7 @@
 namespace yuncms\user;
 
 use Yii;
+use yii\db\ActiveQuery;
 use yii\helpers\FileHelper;
 use yuncms\user\models\User;
 use yuncms\user\models\Data;
@@ -15,6 +16,7 @@ use yuncms\user\models\Doing;
 use yuncms\user\models\Coin;
 use yuncms\user\models\Credit;
 use yuncms\user\models\Notification;
+use yuncms\system\helpers\DateHelper;
 
 /**
  * This is the main module class for the yii2-user.
@@ -157,6 +159,47 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
+    }
+
+    /**
+     * 获取用户总数
+     * @param null|int $duration 缓存时间
+     * @return int
+     */
+    public function getTotal($duration = null)
+    {
+        $total = User::getDb()->cache(function ($db) {
+            return User::find()->count();
+        }, $duration);
+        return $total;
+    }
+
+    /**
+     * 获取今日注册用户总数
+     * @param null|int $duration 缓存时间
+     * @return int|string
+     */
+    public function getTodayTotal($duration = null)
+    {
+        $total = User::getDb()->cache(function ($db) {
+            return User::find()->where(['between', 'created_at', DateHelper::todayFirstSecond(), DateHelper::todayLastSecond()])->count();
+        }, $duration);
+        return $total;
+    }
+
+    /**
+     * 获取今日活跃用户
+     * @param null $duration
+     * @return mixed
+     */
+    public function getTodayActivityTotal($duration = null)
+    {
+        $total = User::getDb()->cache(function ($db) {
+            return User::find()->joinWith(['userData' => function (ActiveQuery $query) {
+                $query->where(['between', '{{%user_data}}.login_at', DateHelper::todayFirstSecond(), DateHelper::todayLastSecond()]);
+            }])->count();
+        }, $duration);
+        return $total;
     }
 
     /**
