@@ -27,6 +27,12 @@ $items = [
         'icon' => 'glyphicon glyphicon-education'
     ],
     [
+        'label' => Yii::t('user', 'My Streams'),
+        'url' => ['/live/manage/index'],
+        'icon' => 'fa fa-video-camera',
+        'visible' => Yii::$app->hasModule('live')
+    ],
+    [
         'label' => Yii::t('user', 'Education'),
         'url' => ['/user/education/index'],
         'icon' => 'fa fa-graduation-cap'
