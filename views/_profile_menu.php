@@ -27,7 +27,7 @@ $items = [
         'icon' => 'glyphicon glyphicon-education'
     ],
     [
-        'label' => Yii::t('user', 'My Streams'),
+        'label' => Yii::t('live', 'My Streams'),
         'url' => ['/live/manage/index'],
         'icon' => 'fa fa-video-camera',
         'visible' => Yii::$app->hasModule('live')
