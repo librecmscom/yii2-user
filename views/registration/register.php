@@ -38,7 +38,7 @@ $this->title = Yii::t('user', 'Sign up');
 
     <?= $form->field($model, 'registrationPolicy')->checkbox()->label(
         Yii::t('user', 'Agree and accept {serviceAgreement} and {privacyPolicy}', [
-            'serviceAgreement' => Html::a(Yii::t('user', 'Service Agreement'), ['/legal/policy']),
+            'serviceAgreement' => Html::a(Yii::t('user', 'Service Agreement'), ['/legal/terms']),
             'privacyPolicy' => Html::a(Yii::t('user', 'Privacy Policy'), ['/legal/privacy']),
         ]), [
             'encode' => false
