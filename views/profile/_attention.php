@@ -12,8 +12,7 @@ use yii\helpers\Html;
                href="<?= Url::to(['/question/question/view', 'id' => $attention->id]) ?>"><?= Html::encode($attention->title); ?></a>
         </div>
         <div class="col-md-2 text-right">
-            <span
-                class="stream-following-followed mr-10"><?= $attention->followers ?> <?= Yii::t('user', 'Follower') ?></span>
+            <span class="stream-following-followed mr-10"><?= $attention->followers ?> <?= Yii::t('user', 'Follower') ?></span>
 
             <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isFollowed(get_class($attention), $model->model_id)): ?>
                 <button type="button" class="btn btn-default btn-xs active" data-target="follow-button"
