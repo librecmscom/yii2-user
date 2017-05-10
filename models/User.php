@@ -736,6 +736,7 @@ class User extends ActiveRecord implements IdentityInterface
         if ($insert) {
             if ($this->_profile == null) {
                 $this->_profile = new Profile();
+                $this->_profile->nickname = $this->username;
             }
             $this->_profile->link('user', $this);
 

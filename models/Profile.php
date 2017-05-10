@@ -15,9 +15,9 @@ use yuncms\user\ModuleTrait;
  * This is the model class for table "profile".
  *
  * @property int $user_id 用户ID
- * @property string $name
+ * @property string $nickname 昵称
  * @property int $gender 性别
- * @property string $public_email
+ * @property string $public_email 公开邮箱
  * @property string $location
  * @property string $website
  * @property string $bio
