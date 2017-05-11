@@ -93,10 +93,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'id_file2')->fileInput(['class' => 'filestyle', 'data' => [
                         'buttonText' => Yii::t('user', 'Choose file')
                     ]]); ?>
+
                     <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                         'captchaAction' => '/user/authentication/captcha',
 
                     ]); ?>
+
+                    <?= $form->field($model, 'registrationPolicy')->checkbox()->label(
+                        Yii::t('user', 'Agree and accept {serviceAgreement} and {privacyPolicy}', [
+                            'serviceAgreement' => Html::a(Yii::t('user', 'Service Agreement'), ['/legal/terms']),
+                            'privacyPolicy' => Html::a(Yii::t('user', 'Privacy Policy'), ['/legal/privacy']),
+                        ]), [
+                            'encode' => false
+                        ]
+                    ) ?>
+
                     <div class="form-group">
                         <?= Html::submitButton(Yii::t('user', 'Submit'), ['class' => 'btn btn-success']) ?>
                     </div>

@@ -55,6 +55,11 @@ class Authentication extends ActiveRecord
      */
     public $verifyCode;
 
+    /**
+     * @var bool 是否同意注册协议
+     */
+    public $registrationPolicy;
+
     const TYPE_ID = 'id';
     const TYPE_PASSPORT = 'passport';
     const TYPE_ARMYID = 'armyid';
@@ -134,7 +139,8 @@ class Authentication extends ActiveRecord
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha', 'captchaAction' => '/user/authentication/captcha'],
 
-
+            'registrationPolicyRequired' => ['registrationPolicy', 'required', 'skipOnEmpty' => false, 'requiredValue' => true,
+                'message' => Yii::t('user', 'By authentication you confirm that you accept the Service Agreement and Privacy Policy.'),],
         ];
     }
 
@@ -161,6 +167,7 @@ class Authentication extends ActiveRecord
             'idCardUrl' => Yii::t('user', 'Id Card Image'),
             'created_at' => Yii::t('user', 'Created At'),
             'updated_at' => Yii::t('user', 'Updated At'),
+            'registrationPolicy' => Yii::t('user', 'Agree and accept Service Agreement and Privacy Policy'),
         ];
     }
 
