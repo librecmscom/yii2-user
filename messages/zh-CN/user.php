@@ -38,6 +38,7 @@ return [
     'Passport self holding' => '身份证件照片',
     'Taiwan ID' => '台湾居民通行证',
     'VKontakte' => '',
+    '{attribute} must be selected.' => '{attribute} 必须选中。',
     'Yandex' => '',
     'Your mobile address has been changed' => '',
     'Your mobile number has been changed' => '@@你的手机号码已经更改@@',

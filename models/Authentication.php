@@ -140,7 +140,8 @@ class Authentication extends ActiveRecord
             ['verifyCode', 'captcha', 'captchaAction' => '/user/authentication/captcha'],
 
             'registrationPolicyRequired' => ['registrationPolicy', 'required', 'skipOnEmpty' => false, 'requiredValue' => true,
-                'message' => Yii::t('user', 'By authentication you confirm that you accept the Service Agreement and Privacy Policy.'),],
+                'message'=>Yii::t('user','{attribute} must be selected.')
+                ],
         ];
     }
 
