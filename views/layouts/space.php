@@ -151,8 +151,8 @@ $asset = AppAsset::register($this);
                 ['label' => Yii::t('user', 'My Coin'), 'url' => ['/user/profile/coin', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Credit'), 'url' => ['/user/profile/credit', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Follower'), 'url' => ['/user/profile/follower', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'I\'m Following'), 'url' => ['/user/profile/attention', 'id' => $user->id, 'type' => 'questions']],
-                ['label' => Yii::t('user', 'My Favorites'), 'url' => ['/user/profile/collected', 'id' => $user->id, 'type' => 'questions']],
+                ['label' => Yii::t('user', 'I\'m Following'), 'url' => ['/user/profile/attention', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'My Favorites'), 'url' => ['/user/profile/collected', 'id' => $user->id]],
             ];
         } else {//he
             $menuItems = [
@@ -169,8 +169,8 @@ $asset = AppAsset::register($this);
                 ['label' => Yii::t('user', 'His Coin'), 'url' => ['/user/profile/coin', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'His Credit'), 'url' => ['/user/profile/credit', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'His Follower'), 'url' => ['/user/profile/follower', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'His Followed'), 'url' => ['/user/profile/attention', 'id' => $user->id, 'type' => 'questions']],
-                ['label' => Yii::t('user', 'His Collect'), 'url' => ['/user/profile/collected', 'id' => $user->id, 'type' => 'questions']],
+                ['label' => Yii::t('user', 'His Followed'), 'url' => ['/user/profile/attention', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Collect'), 'url' => ['/user/profile/collected', 'id' => $user->id]],
             ];
         } ?>
         <?= Nav::widget([

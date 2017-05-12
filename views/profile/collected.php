@@ -13,9 +13,9 @@ use yuncms\user\models\User;
 $this->context->layout = 'space';
 $this->params['user'] = $model;
 
-if($type == 'questions') {
+if ($type == 'questions') {
     $what = Yii::t('user', 'Questions');
-} elseif($type == 'articles') {
+} elseif ($type == 'articles') {
     $what = Yii::t('user', 'Articles');
 } else {
     $what = '';
@@ -43,19 +43,34 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
             ['label' => Yii::t('user', 'Articles'), 'url' => ['/user/profile/collected', 'id' => $model->id, 'type' => 'articles'], 'visible' => Yii::$app->hasModule('article')],
             //直播
             ['label' => Yii::t('user', 'Lives'), 'url' => ['/user/profile/collected', 'id' => $model->id, 'type' => 'lives'], 'visible' => Yii::$app->hasModule('live')],
+            //直播
+            ['label' => Yii::t('user', 'Notes'), 'url' => ['/user/profile/collected', 'id' => $model->id, 'type' => 'notes'], 'visible' => Yii::$app->hasModule('note')],
         ],
     ]); ?>
 
+    <?php if ($type == 'lives') {
+        $tag = 'div';
+        $class = 'live-box';
+        $options = [
+            'tag' => 'div',
+            'class' => 'live-box'
+        ];
+        $itemOptions = ['tag' => 'div', 'class' => 'live'];
+    } else {
+        $options = [
+            'tag' => 'div',
+            'class' => 'stream-list question-stream mt-10'
+        ];
+        $itemOptions = ['tag' => 'section', 'class' => 'stream-list-item'];
+    } ?>
+
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
-        'itemOptions' => ['tag' => 'section', 'class' => 'stream-list-item'],
+        'itemOptions' => $itemOptions,
         'itemView' => '_collected',//子视图
         'viewParams' => ['type' => $type],
         'layout' => "{items}\n{pager}",
-        'options' => [
-            'tag' => 'div',
-            'class' => 'stream-list question-stream mt-10'
-        ]
+        'options' =>$options
     ]); ?>
 </div>
 

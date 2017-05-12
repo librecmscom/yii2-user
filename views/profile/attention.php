@@ -42,21 +42,34 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
             ['label' => Yii::t('user', 'Questions'), 'url' => ['/user/profile/attention', 'id' => $model->id, 'type' => 'questions'], 'visible' => Yii::$app->hasModule('question')],
             //用户
             ['label' => Yii::t('user', 'Broadcaster'), 'url' => ['/user/profile/attention', 'id' => $model->id, 'type' => 'users'],],
-                //用户
+            //用户
             ['label' => Yii::t('user', 'Lives'), 'url' => ['/user/profile/attention', 'id' => $model->id, 'type' => 'lives'], 'visible' => Yii::$app->hasModule('live')]
         ]
     ]); ?>
 
+    <?php if ($type == 'lives') {
+        $options = [
+            'tag' => 'div',
+            'class' => 'live-box'
+        ];
+        $itemOptions = ['tag' => 'div', 'class' => 'live'];
+    } else {
+
+        $options = [
+            'tag' => 'ul',
+            'class' => 'list-unstyled stream-following-list'
+        ];
+        $itemOptions = ['tag' => 'li'];
+    } ?>
+
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
-        'itemOptions' => ['tag' => 'li'],
+        'itemOptions' => $itemOptions,
         'itemView' => '_attention',//子视图
         'viewParams' => ['type' => $type],
         'layout' => "{items}\n{pager}",
-        'options' => [
-            'tag' => 'ul',
-            'class' => 'list-unstyled stream-following-list'
-        ]
+        'options' => $options
     ]); ?>
+
 </div>
 

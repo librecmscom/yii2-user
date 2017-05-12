@@ -184,7 +184,7 @@ class ProfileController extends Controller
      * @return string
      * @throws NotFoundHttpException
      */
-    public function actionAttention($id, $type)
+    public function actionAttention($id, $type = 'users')
     {
         $model = $this->findModel($id);
         if (!isset($this->attentionClassMaps[$type])) {
@@ -205,6 +205,7 @@ class ProfileController extends Controller
         'questions' => 'yuncms\question\models\Question',
         'articles' => 'yuncms\article\models\Article',
         'lives' => 'yuncms\live\models\Stream',
+        'notes' => 'yuncms\note\models\Note',
     ];
 
     /**
@@ -214,7 +215,7 @@ class ProfileController extends Controller
      * @return string
      * @throws NotFoundHttpException
      */
-    public function actionCollected($id, $type)
+    public function actionCollected($id, $type = 'notes')
     {
         $model = $this->findModel($id);
         if (!isset($this->collectionClassMaps[$type])) {

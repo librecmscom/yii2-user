@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
-
+/** * @var \yii\web\View $this */
 /** @var string $type */
 ?>
 <?php if ($type == 'questions'): ?>
@@ -57,9 +57,12 @@ use yii\helpers\Html;
             <?php endif; ?>
         </div>
     </div>
-<?php elseif ($type == 'streams'): ?>
-    <?php $attention = \yuncms\live\models\Stream::findOne($model->model_id) ?>
-    <div class="live">
+<?php elseif ($type == 'lives'): ?>
+    <?php
+    \yuncms\live\LiveAsset::register($this);
+    $attention = \yuncms\live\models\Stream::findOne($model->model_id);
+    ?>
+
         <a href="<?= Url::to(['/live/stream/view', 'uuid' => $attention->uuid]); ?>" target="_blank" style="display:block;">
             <div class="live-avatar pull-left">
                 <img class="img-rounded avatar-64" src="<?= $attention->user->getAvatar() ?>">
@@ -82,6 +85,6 @@ use yii\helpers\Html;
                 </div>
             </div>
         </a>
-    </div>
+
 <?php endif; ?>
 

@@ -155,6 +155,8 @@ return [
     'His Question' => '他的提问',
     'I\'m Following' => '我的关注',
     'Id Card' => '证件号码',
+    'Lives' => '直播',
+    'Notes' => '笔记',
     'Id Card Image' => '证件照片',
     'If you already registered, sign in and connect this account on settings page' => '如果您已经注册，登录并在设置页连接此帐户',
     'If you cannot click the link, please try pasting the text into your browser' => '如果不能直接打开，请将以上网址粘贴到到浏览器打开',
