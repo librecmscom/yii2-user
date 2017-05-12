@@ -54,13 +54,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <dd><?= Yii::$app->user->identity->authentication->id_card ?></dd>
                                 <dt><?= Yii::t('user', 'Id Card Image') ?></dt>
                                 <dd><img class="img-responsive"
-                                         src="<?= Yii::$app->user->identity->authentication->passport_cover ?>"/></dd>
+                                         src="<?= Yii::$app->user->identity->authentication->passport_cover ? base64_encode(file_get_contents(Yii::$app->user->identity->authentication->passport_cover)):'' ?>"/></dd>
                                 <dt><?= Yii::t('user', 'Id Card Image') ?></dt>
                                 <dd><img class="img-responsive"
-                                         src="<?= Yii::$app->user->identity->authentication->passport_person_page ?>"/></dd>
+                                         src="<?= Yii::$app->user->identity->authentication->passport_person_page ? base64_encode(file_get_contents(Yii::$app->user->identity->authentication->passport_person_page)):'' ?>"/></dd>
                                 <dt><?= Yii::t('user', 'Id Card Image') ?></dt>
                                 <dd><img class="img-responsive"
-                                         src="<?= Yii::$app->user->identity->authentication->passport_self_holding ?>"/></dd>
+                                         src="<?= Yii::$app->user->identity->authentication->passport_self_holding ? base64_encode(file_get_contents(Yii::$app->user->identity->authentication->passport_self_holding)):'' ?>"/></dd>
                                 <dd><a href="<?= Url::to(['/user/authentication/update']) ?>" class="btn btn-warning">修改认证资料</a>
                                 </dd>
                             </dl>

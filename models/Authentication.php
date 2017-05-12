@@ -116,7 +116,7 @@ class Authentication extends ActiveRecord
     public function rules()
     {
         return [
-            [['real_name', 'id_card', 'id_file','id_file1','id_file2', 'verifyCode'], 'required', 'on' => ['create', 'update']],
+            [['real_name', 'id_card', 'id_file', 'id_file1', 'id_file2', 'verifyCode'], 'required', 'on' => ['create', 'update']],
             [['real_name', 'id_card',], 'filter', 'filter' => 'trim'],
 
             ['id_type', 'in', 'range' => [self::TYPE_ID, self::TYPE_PASSPORT, self::TYPE_ARMYID, self::TYPE_TAIWANID, self::TYPE_HKMCID], 'on' => ['create', 'update']],
@@ -140,8 +140,8 @@ class Authentication extends ActiveRecord
             ['verifyCode', 'captcha', 'captchaAction' => '/user/authentication/captcha'],
 
             'registrationPolicyRequired' => ['registrationPolicy', 'required', 'skipOnEmpty' => false, 'requiredValue' => true,
-                'message'=>Yii::t('user','{attribute} must be selected.')
-                ],
+                'message' => Yii::t('user', '{attribute} must be selected.')
+            ],
         ];
     }
 
@@ -210,6 +210,33 @@ class Authentication extends ActiveRecord
             return $this->getModule()->getIdCardUrl($this->user_id);
         }
         return $this->getModule()->getIdCardUrl(Yii::$app->user->id);
+    }
+
+    public function getPassportCover64()
+    {
+        $idCardPath = $this->getIdCardPath();
+        if (file_exists($idCardPath . '_passport_cover_image.jpg')) {
+            $file = file_get_contents($idCardPath . '_passport_cover_image.jpg');
+            return 'data:image/jpg;base64,' . base64_encode($file);
+        }
+    }
+
+    public function getPassportPersonPage64()
+    {
+        $idCardPath = $this->getIdCardPath();
+        if (file_exists($idCardPath . '_passport_person_page_image.jpg')) {
+            $file = file_get_contents($idCardPath . '_passport_person_page_image.jpg');
+            return 'data:image/jpg;base64,' . base64_encode($file);
+        }
+    }
+
+    public function getPassportSelfHolding64()
+    {
+        $idCardPath = $this->getIdCardPath();
+        if (file_exists($idCardPath . '_passport_self_holding_image.jpg')) {
+            $file = file_get_contents($idCardPath . '_passport_self_holding_image.jpg');
+            return 'data:image/jpg;base64,' . base64_encode($file);
+        }
     }
 
     public function getIdCardPath()
