@@ -173,7 +173,8 @@ class ProfileController extends Controller
 
     public $attentionClassMaps = [
         'questions' => 'yuncms\question\models\Question',
-        'users' => 'yuncms\user\models\User'
+        'users' => 'yuncms\user\models\User',
+        'lives' => 'yuncms\live\models\Stream'
     ];
 
     /**
@@ -203,6 +204,7 @@ class ProfileController extends Controller
     public $collectionClassMaps = [
         'questions' => 'yuncms\question\models\Question',
         'articles' => 'yuncms\article\models\Article',
+        'lives' => 'yuncms\live\models\Stream',
     ];
 
     /**

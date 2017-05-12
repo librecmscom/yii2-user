@@ -35,7 +35,7 @@ use yii\helpers\Html;
             <div>
                 <a href="<?= Url::to(['/user/profile/view', 'id' => $attention->id]) ?>"><?= $attention->username; ?></a>
                 <div
-                    class="stream-following-followed"><?= $attention->userData->supports ?> <?= Yii::t('user', 'Support') ?>
+                        class="stream-following-followed"><?= $attention->userData->supports ?> <?= Yii::t('user', 'Support') ?>
                     / <?= $attention->userData->followers ?><?= Yii::t('user', 'Follower') ?>
                     <?php if (isset($attention->userData->answers)): ?>
                         / <?= $attention->userData->answers ?><?= Yii::t('user', 'Answer') ?>
@@ -56,6 +56,32 @@ use yii\helpers\Html;
                 </button>
             <?php endif; ?>
         </div>
+    </div>
+<?php elseif ($type == 'streams'): ?>
+    <?php $attention = \yuncms\live\models\Stream::findOne($model->model_id) ?>
+    <div class="live">
+        <a href="<?= Url::to(['/live/stream/view', 'uuid' => $attention->uuid]); ?>" target="_blank" style="display:block;">
+            <div class="live-avatar pull-left">
+                <img class="img-rounded avatar-64" src="<?= $attention->user->getAvatar() ?>">
+            </div>
+            <div class="live-content">
+                <h2 class="live-title">
+                    <?= Html::encode($attention->title) ?>
+                </h2>
+                <div class="live-info">
+                    <object><a href="<?= Url::to(['/user/profile/view', 'id' => $attention->user_id]) ?>"><span
+                                    class="program-info-name"><?= $attention->user->username; ?></span></a></object>
+                    ·
+                    <span class="live-info-number"><?= $attention->joins ?> 人参与</span>
+                </div>
+                <div class="live-state">
+                    <div class="will">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <span> <?= Yii::$app->formatter->asRelativeTime($attention->start_time); ?></span>
+                    </div>
+                </div>
+            </div>
+        </a>
     </div>
 <?php endif; ?>
 

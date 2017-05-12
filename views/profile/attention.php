@@ -41,7 +41,9 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
             //问答
             ['label' => Yii::t('user', 'Questions'), 'url' => ['/user/profile/attention', 'id' => $model->id, 'type' => 'questions'], 'visible' => Yii::$app->hasModule('question')],
             //用户
-            ['label' => Yii::t('user', 'Broadcaster'), 'url' => ['/user/profile/attention', 'id' => $model->id, 'type' => 'users'],]
+            ['label' => Yii::t('user', 'Broadcaster'), 'url' => ['/user/profile/attention', 'id' => $model->id, 'type' => 'users'],],
+                //用户
+            ['label' => Yii::t('user', 'Lives'), 'url' => ['/user/profile/attention', 'id' => $model->id, 'type' => 'lives'], 'visible' => Yii::$app->hasModule('live')]
         ]
     ]); ?>
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\controllers;
 
 use Yii;
@@ -69,6 +70,9 @@ class AttentionController extends Controller
             $subject = $source->title;
         } else if ($sourceType == 'article' && Yii::$app->hasModule('article')) {
             $source = \yuncms\article\models\Article::findOne($sourceId);
+            $subject = $source->title;
+        } else if ($sourceType == 'live' && Yii::$app->hasModule('live')) {
+            $source = \yuncms\live\models\Stream::findOne($sourceId);
             $subject = $source->title;
         }//etc..
 

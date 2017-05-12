@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\controllers;
 
 use Yii;
@@ -72,6 +73,9 @@ class CollectionController extends Controller
             $subject = $source->title;
         } else if ($model == 'article' && Yii::$app->hasModule('article')) {
             $source = \yuncms\article\models\Article::findOne($modelId);
+            $subject = $source->title;
+        } else if ($model == 'live' && Yii::$app->hasModule('live')) {
+            $source = \yuncms\live\models\Stream::findOne($modelId);
             $subject = $source->title;
         }
 
