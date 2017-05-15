@@ -647,8 +647,11 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $size
      * @return string
      */
-    public function getAvatar($size = 'big')
+    public function getAvatar($size = 'middle')
     {
+        if ($size == 'sm') {
+            $size = 'small';
+        }
         $size = in_array($size, ['big', 'middle', 'small']) ? $size : 'big';
         if ($this->getIsAvatar()) {
             $avatarFileName = "_avatar_$size.jpg";
