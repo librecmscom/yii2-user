@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\controllers;
 
 use Yii;
@@ -57,7 +58,10 @@ class SupportController extends Controller
         $source = null;
         if ($sourceType === 'answer' && Yii::$app->hasModule('question')) {
             $source = \yuncms\question\models\Answer::findOne($sourceId);
+        } else if ($sourceType == 'live') {
+            $source = \yuncms\live\models\Stream::findOne($sourceId);
         }
+        //etc..
 
         if (!$source) {
             throw new NotFoundHttpException ();
@@ -87,6 +91,8 @@ class SupportController extends Controller
             $source = \yuncms\question\models\Answer::findOne($sourceId);
         } else if ($sourceType == 'article' && Yii::$app->hasModule('article')) {
             $source = \yuncms\article\models\Article::findOne($sourceId);
+        } else if ($sourceType == 'live' && Yii::$app->hasModule('live')) {
+            $source = \yuncms\live\models\Stream::findOne($sourceId);
         }
         //etc..
 
