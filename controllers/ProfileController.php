@@ -51,7 +51,7 @@ class ProfileController extends Controller
     /**
      * Redirects to current user's profile.
      *
-     * @return \yii\web\Response
+     * @return string
      */
     public function actionIndex()
     {
@@ -66,8 +66,7 @@ class ProfileController extends Controller
     /**
      * Shows user's profile.
      * @param $username
-     * @return \yii\web\Response
-     * @throws \yii\web\NotFoundHttpException
+     * @return string
      */
     public function actionShow($username)
     {
@@ -93,9 +92,8 @@ class ProfileController extends Controller
     /**
      * Shows user's profile.
      *
-     * @param integer $id
-     * @return \yii\web\Response
-     * @throws \yii\web\NotFoundHttpException
+     * @param int $id
+     * @return string
      */
     public function actionView($id)
     {
