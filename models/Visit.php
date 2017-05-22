@@ -46,7 +46,7 @@ class Visit extends ActiveRecord
     public function rules()
     {
         return [
-            ['source_id', 'required'],
+            [['source_id'], 'required'],
         ];
     }
 

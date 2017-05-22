@@ -146,8 +146,8 @@ $asset = AppAsset::register($this);
                 //文章
                 ['label' => Yii::t('user', 'My Note'), 'url' => ['/note/manage/index'], 'visible' => Yii::$app->hasModule('article')],
 
+                ['label' => Yii::t('user', 'My Streams'), 'url' => ['/live/manage/index'], 'visible' => Yii::$app->hasModule('live')],
                 '<li role="separator" class="divider"></li>',
-
                 ['label' => Yii::t('user', 'My Coin'), 'url' => ['/user/profile/coin', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Credit'), 'url' => ['/user/profile/credit', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Follower'), 'url' => ['/user/profile/follower', 'id' => $user->id]],
@@ -164,6 +164,7 @@ $asset = AppAsset::register($this);
                 //文章
                 ['label' => Yii::t('user', 'His Note'), 'url' => ['/note/note/index', 'user_id' => $user->id], 'visible' => Yii::$app->hasModule('article')],
 
+                ['label' => Yii::t('user', 'His Stream'), 'url' => ['/live/live/index', 'user_id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
                 '<li role="separator" class="divider"></li>',
 
                 ['label' => Yii::t('user', 'His Coin'), 'url' => ['/user/profile/coin', 'id' => $user->id]],

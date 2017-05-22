@@ -77,7 +77,7 @@ class ProfileController extends Controller
                 $visit = new Visit(['user_id' => Yii::$app->user->id, 'source_id' => $model->id]);
                 $visit->save(false);
                 //更新访客计数
-                $model->user->userData->updateCounters(['views' => 1]);
+                $model->userData->updateCounters(['views' => 1]);
             } else {
                 $visit->updateAttributes(['updated_at' => time()]);
             }
@@ -104,7 +104,7 @@ class ProfileController extends Controller
                 $visit = new Visit(['user_id' => Yii::$app->user->id, 'source_id' => $id]);
                 $visit->save(false);
                 //更新访客计数
-                $model->user->userData->updateCounters(['views' => 1]);
+                $model->userData->updateCounters(['views' => 1]);
             } else {
                 $visit->updateAttributes(['updated_at' => time()]);
             }
@@ -256,9 +256,7 @@ class ProfileController extends Controller
      */
     protected function findModel($id)
     {
-        /** @var User $userClass */
-        $userClass = Yii::$app->user->identityClass;
-        if (($model = $userClass::findOne($id)) !== null) {
+        if (($model = User::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));
@@ -275,9 +273,7 @@ class ProfileController extends Controller
      */
     protected function findModelByUsername($username)
     {
-        /** @var User $userClass */
-        $userClass = Yii::$app->user->identityClass;
-        if (($model = $userClass::findByUsername($username)) !== null) {
+        if (($model = User::findByUsername($username)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));
