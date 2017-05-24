@@ -63,11 +63,11 @@ class Bootstrap implements BootstrapInterface
                     $event->identity->resetLoginData();
                 });
                 //设置用户所在时区
-                $app->on(\yii\web\Application::EVENT_BEFORE_REQUEST, function ($event) use ($app) {
-                    if (!$app->user->isGuest && $app->user->identity->profile->timezone) {
-                        $app->setTimeZone($app->user->identity->profile->timezone);
-                    }
-                });
+//                $app->on(\yii\web\Application::EVENT_BEFORE_REQUEST, function ($event) use ($app) {
+//                    if (!$app->user->isGuest && $app->user->identity->profile->timezone) {
+//                        $app->setTimeZone($app->user->identity->profile->timezone);
+//                    }
+//                });
 
                 //监听用户活动时间
                 /** @var \yii\web\UserEvent $event */
