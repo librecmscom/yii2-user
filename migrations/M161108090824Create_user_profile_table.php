@@ -28,7 +28,7 @@ class M161108090824Create_user_profile_table extends Migration
             'location' => $this->string(),
             'address' => $this->string(),
             'website' => $this->string(),
-            'timezone' => $this->string(100)->defaultValue('UTC'),//默认格林威治时间
+            'timezone' => $this->string(100),//默认格林威治时间
             'introduction' => $this->string(),
             'bio' => $this->text()
         ], $tableOptions);

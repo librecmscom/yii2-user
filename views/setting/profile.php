@@ -44,7 +44,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'template' => "{label}\n<div class=\"col-sm-9\">{input}</div>\n<div class=\"col-sm-offset-3 col-sm-9\">{error}\n{hint}</div>",
                 ]); ?>
 
-                <?= $form->field($model, 'country')->dropDownList(ArrayHelper::map(CountryHelper::getCountryAll(), 'identifier', 'name')); ?>
+                <?= $form->field($model, 'country')->dropDownList(ArrayHelper::map(CountryHelper::getCountryAll(), 'identifier', 'name'), [
+                    'prompt' => Yii::t('user', 'Please select')
+                ]); ?>
 
                 <?= $form->field($model, 'location') ?>
 
@@ -52,7 +54,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'website') ?>
 
-                <?= $form->field($model, 'timezone')->dropDownList(ArrayHelper::map(DateHelper::getTimeZoneAll(), 'identifier', 'name')); ?>
+                <?= $form->field($model, 'timezone')->dropDownList(ArrayHelper::map(DateHelper::getTimeZoneAll(), 'identifier', 'name'), [
+                    'prompt' => Yii::t('user', 'Please select')
+                ]); ?>
 
                 <?= $form->field($model, 'introduction')->textarea() ?>
 
