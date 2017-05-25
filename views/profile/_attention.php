@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
+
 /** * @var \yii\web\View $this */
 /** @var string $type */
 ?>
@@ -59,32 +60,31 @@ use yii\helpers\Html;
     </div>
 <?php elseif ($type == 'lives'): ?>
     <?php
-    \yuncms\live\LiveAsset::register($this);
+    \yuncms\live\assets\LiveAsset::register($this);
     $attention = \yuncms\live\models\Stream::findOne($model->model_id);
     ?>
-
-        <a href="<?= Url::to(['/live/stream/view', 'uuid' => $attention->uuid]); ?>" target="_blank" style="display:block;">
-            <div class="live-avatar pull-left">
-                <img class="img-rounded avatar-64" src="<?= $attention->user->getAvatar() ?>">
+    <a href="<?= Url::to(['/live/stream/view', 'uuid' => $attention->uuid]); ?>" target="_blank" style="display:block;">
+        <div class="live-avatar pull-left">
+            <img class="img-rounded avatar-64" src="<?= $attention->user->getAvatar() ?>">
+        </div>
+        <div class="live-content">
+            <h2 class="live-title">
+                <?= Html::encode($attention->title) ?>
+            </h2>
+            <div class="live-info">
+                <object><a href="<?= Url::to(['/user/profile/view', 'id' => $attention->user_id]) ?>"><span
+                                class="program-info-name"><?= $attention->user->username; ?></span></a></object>
+                ·
+                <span class="live-info-number"><?= $attention->applicants ?> 人参与</span>
             </div>
-            <div class="live-content">
-                <h2 class="live-title">
-                    <?= Html::encode($attention->title) ?>
-                </h2>
-                <div class="live-info">
-                    <object><a href="<?= Url::to(['/user/profile/view', 'id' => $attention->user_id]) ?>"><span
-                                    class="program-info-name"><?= $attention->user->username; ?></span></a></object>
-                    ·
-                    <span class="live-info-number"><?= $attention->joins ?> 人参与</span>
-                </div>
-                <div class="live-state">
-                    <div class="will">
-                        <i class="fa fa-clock-o" aria-hidden="true"></i>
-                        <span> <?= Yii::$app->formatter->asRelativeTime($attention->start_time); ?></span>
-                    </div>
+            <div class="live-state">
+                <div class="will">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    <span> <?= Yii::$app->formatter->asRelativeTime($attention->start_time); ?></span>
                 </div>
             </div>
-        </a>
+        </div>
+    </a>
 
 <?php endif; ?>
 
