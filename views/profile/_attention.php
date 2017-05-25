@@ -60,7 +60,6 @@ use yii\helpers\Html;
     </div>
 <?php elseif ($type == 'lives'): ?>
     <?php
-    \yuncms\live\assets\LiveAsset::register($this);
     $attention = \yuncms\live\models\Stream::findOne($model->model_id);
     ?>
     <a href="<?= Url::to(['/live/stream/view', 'uuid' => $attention->uuid]); ?>" target="_blank" style="display:block;">

@@ -53,6 +53,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
             'class' => 'live-box'
         ];
         $itemOptions = ['tag' => 'div', 'class' => 'live'];
+        \yuncms\live\assets\LiveAsset::register($this);
     } else {
 
         $options = [
