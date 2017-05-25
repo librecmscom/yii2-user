@@ -48,7 +48,10 @@ use yii\helpers\Html;
         </h2>
     </div>
 <?php elseif ($type == 'lives'): ?>
-    <?php $collection = \yuncms\live\models\Stream::findOne($model->model_id) ?>
+    <?php
+    \yuncms\live\assets\LiveAsset::register($this);
+    $collection = \yuncms\live\models\Stream::findOne($model->model_id);
+    ?>
     <a href="<?= Url::to(['/live/stream/view', 'uuid' => $collection->uuid]); ?>" target="_blank" style="display:block;">
         <div class="live-avatar pull-left">
             <img class="img-rounded avatar-64" src="<?= $collection->user->getAvatar() ?>">
