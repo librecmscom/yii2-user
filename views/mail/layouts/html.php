@@ -88,7 +88,7 @@ use yii\helpers\Html;
                         <td class="content-wrap"
                             style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 20px;"
                             valign="top">
-                            <meta itemprop="name" content="Confirm Email"
+                            <meta itemprop="name"
                                   style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"/>
                             <?= $content ?>
                         </td>
