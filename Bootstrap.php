@@ -46,6 +46,8 @@ class Bootstrap implements BootstrapInterface
                     'enableAutoLogin' => true,
                     'loginUrl' => ['/user/security/login'],
                     'identityClass' => 'yuncms\user\models\User',
+                    'identityCookie' => ['name' => '_identity_frontend', 'httpOnly' => true],
+                    'idParam'=>'_user',
                 ]);
                 $configUrlRule = [
                     'prefix' => $module->urlPrefix,
