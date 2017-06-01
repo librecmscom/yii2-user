@@ -29,10 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'enctype' => 'multipart/form-data',
                     ],
                 ]); ?>
-                <?= $form->field($model, 'x')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'y')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'width')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'height')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'x')->hiddenInput(['id'=>'x'])->label(false) ?>
+                <?= $form->field($model, 'y')->hiddenInput(['id'=>'y'])->label(false) ?>
+                <?= $form->field($model, 'width')->hiddenInput(['id'=>'width'])->label(false) ?>
+                <?= $form->field($model, 'height')->hiddenInput(['id'=>'height'])->label(false) ?>
                 <div class="docs-buttons">
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" data-method="reset"
