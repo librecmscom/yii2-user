@@ -82,13 +82,8 @@ class AvatarForm extends Model
             $bigAvatarName = substr($user->id, -2) . '_avatar_big.jpg';
             if ($width < 200 && $height < 200) {
                 file_put_contents($avatarPath . $bigAvatarName, file_get_contents($this->file->tempName));
-            } else {
-                //按提交剪切
-                if (!empty($this->x) && !empty($this->y)) {
-                    Image::crop($this->file->tempName, 200, 200, [$this->x, $this->y])->save($avatarPath . '_avatar_big.jpg', ['quality' => 100]);
-                } else {
-                    Image::crop($this->file->tempName, 200, 200)->save($avatarPath . '_avatar_big.jpg', ['quality' => 100]);
-                }
+            } else {//按提交剪切
+                Image::crop($this->file->tempName, 200, 200, [$this->x, $this->y])->save($avatarPath . '_avatar_big.jpg', ['quality' => 100]);
             }
             unlink($this->file->tempName);
             //缩放
