@@ -79,21 +79,9 @@ class AvatarForm extends Model
             $avatarPath = $this->getModule()->getAvatarPath($user->id);
             $originalImage = $avatarPath . '_avatar.jpg';
             //保存原图
-            $this->file->saveAs($originalImage);
-
-            list($width, $height, $type, $attr) = getimagesize($originalImage);
-
-            if ($width < 200 && $height < 200) {
-                Image::thumbnail($originalImage, 128, 128)->save($avatarPath . '_avatar_big.jpg', ['quality' => 100]);
-            } else {//按提交剪切
-                //先缩放
-                //Image::thumbnail($avatarPath . '_avatar_big.jpg', 128, 128)->save($avatarPath . '_avatar_middle.jpg', ['quality' => 100]);
-
-                //Image::crop($this->file->tempName, 200, 200, [$this->x, $this->y])->save($avatarPath . '_avatar_big.jpg', ['quality' => 100]);
-                //unlink($this->file->tempName);
-                $this->file->saveAs($avatarPath . '_avatar_big.jpg');
-            }
+            Image::crop($this->file->tempName, $this->width, $this->height, [$this->x, $this->y])->save($originalImage, ['quality' => 100]);
             //缩放
+            Image::thumbnail($originalImage, 200, 200)->save($avatarPath . '_avatar_big.jpg', ['quality' => 100]);
             Image::thumbnail($avatarPath . '_avatar_big.jpg', 128, 128)->save($avatarPath . '_avatar_middle.jpg', ['quality' => 100]);
             Image::thumbnail($avatarPath . '_avatar_big.jpg', 48, 48)->save($avatarPath . '_avatar_small.jpg', ['quality' => 100]);
             $user->avatar = true;
