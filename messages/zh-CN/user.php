@@ -309,7 +309,7 @@ return [
     'Your account has been created and a message with further instructions has been sent to your email' => '账号已创建，已向您的邮箱发送说明邮件',
     'Your account on {0} has been created.' => '您已在 {0} 上创建账号',
     'Your application is submitted successfully! We will be processed within three working days, the results will be processed by mail, station message to inform you, if in doubt please contact the official administrator.' => '您的申请提交成功！我们会在三个工作日内处理，处理结果会通过邮件、站内消息方式通知您，如有疑问请联系官方管理员。',
-    'Your avatar has been updated' => '你的头像以更新。',
+    'Your avatar has been updated' => '你的头像已更新。',
     'Your confirmation token is invalid or expired' => '您的确认连接无效或已过期。',
     'Your current coins are:' => '您当前的金币数为：',
     'Your current credits are:' => '您当前的积分数为：',
