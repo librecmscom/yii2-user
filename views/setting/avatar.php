@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use xutl\fontawesome\Asset;
 use yuncms\user\CropperAsset;
+
 /*
  * @var \yii\web\View $this
  * @var \yuncms\user\models\AvatarForm $model
@@ -29,11 +30,57 @@ $this->params['breadcrumbs'][] = $this->title;
                         'enctype' => 'multipart/form-data',
                     ],
                 ]); ?>
-                <?= $form->field($model, 'x')->hiddenInput(['id'=>'x'])->label(false) ?>
-                <?= $form->field($model, 'y')->hiddenInput(['id'=>'y'])->label(false) ?>
-                <?= $form->field($model, 'width')->hiddenInput(['id'=>'width'])->label(false) ?>
-                <?= $form->field($model, 'height')->hiddenInput(['id'=>'height'])->label(false) ?>
+                <?= $form->field($model, 'x')->hiddenInput(['id' => 'x'])->label(false) ?>
+                <?= $form->field($model, 'y')->hiddenInput(['id' => 'y'])->label(false) ?>
+                <?= $form->field($model, 'width')->hiddenInput(['id' => 'width'])->label(false) ?>
+                <?= $form->field($model, 'height')->hiddenInput(['id' => 'height'])->label(false) ?>
                 <div class="docs-buttons">
+
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1"
+                                title="<?= Yii::t('user', 'Enlarge') ?>" disabled="disabled">
+                    <span class="docs-tooltip" data-toggle="tooltip" title=""
+                          data-original-title="<?= Yii::t('user', 'Enlarge') ?>">
+                        <span class="fa fa-search-plus"></span>
+                    </span>
+                        </button>
+                        <button type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1"
+                                title="<?= Yii::t('user', 'Reduce') ?>" disabled="disabled">
+                    <span class="docs-tooltip" data-toggle="tooltip" title=""
+                          data-original-title="<?= Yii::t('user', 'Reduce') ?>">
+                        <span class="fa fa-search-minus"></span>
+                    </span>
+                        </button>
+                    </div>
+<!--
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" data-method="move" data-option="-10"
+                                data-second-option="0" title="<?= Yii::t('user', 'Move left') ?>" disabled="disabled">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="<?= Yii::t('user', 'Move left') ?>">
+                        <span class="fa fa-arrow-left"></span>
+                    </span>
+                        </button>
+                        <button type="button" class="btn btn-primary" data-method="move" data-option="10"
+                                data-second-option="0" title="<?= Yii::t('user', 'Move right') ?>" disabled="disabled">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="<?= Yii::t('user', 'Move right') ?>">
+                        <span class="fa fa-arrow-right"></span>
+                    </span>
+                        </button>
+                        <button type="button" class="btn btn-primary" data-method="move" data-option="0"
+                                data-second-option="-10" title="<?= Yii::t('user', 'Move up') ?>" disabled="disabled">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="<?= Yii::t('user', 'Move up') ?>">
+                        <span class="fa fa-arrow-up"></span>
+                    </span>
+                        </button>
+                        <button type="button" class="btn btn-primary" data-method="move" data-option="0"
+                                data-second-option="10" title="<?= Yii::t('user', 'Move Downward') ?>" disabled="disabled">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="<?= Yii::t('user', 'Move Downward') ?>">
+                        <span class="fa fa-arrow-down"></span>
+                    </span>
+                        </button>
+                    </div>
+-->
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" data-method="reset"
                                 title="<?= Yii::t('user', 'Reset'); ?>">
@@ -60,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </span>
                             <?= Yii::t('user', 'Select a File') ?>
                         </label>
-                        <?= Html::submitButton('<span class="fa fa-check"></span> '.Yii::t('user', 'Save'), ['class' => 'btn btn-primary']) ?>
+                        <?= Html::submitButton('<span class="fa fa-check"></span> ' . Yii::t('user', 'Save'), ['class' => 'btn btn-primary']) ?>
                     </div>
                 </div>
                 <?php ActiveForm::end(); ?>
