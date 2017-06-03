@@ -31,6 +31,7 @@ return [
     'Awesome, almost there. Now you need to input the confirmation code sent to your old mobile' => '',
     'HKMC ID' => '港澳居民通行证',
     'ID' => '',
+    'You are already logged in.'=>'您已经登录。',
     'File has to be smaller than 2MB'=>'文件最大是2M。',
     'ID Card' => '身份证',
     'Id Type' => '证件类型',

@@ -67,14 +67,17 @@ class SecurityController extends Controller
     }
 
     /**
-     * 显示登陆页面
-     *
-     * @return string|Response
+     * 登录
+     * @return array|string|Response
      */
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
+            Yii::$app->session->setFlash('danger', Yii::t('user', 'You are already logged in.'));
             return $this->goHome();
+        }
+        if (Yii::$app->request->isGet) {
+            Yii::$app->user->setReturnUrl(Yii::$app->request->getReferrer());
         }
 
         /**
@@ -86,10 +89,9 @@ class SecurityController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->goBack(Yii::$app->getHomeUrl());
         }
         if (Yii::$app->request->isAjax) {
-            Yii::$app->user->setReturnUrl(Yii::$app->request->getReferrer());
             return $this->renderAjax('login_modal', [
                 'model' => $model,
                 'module' => $this->module,
