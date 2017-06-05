@@ -45,6 +45,11 @@ class Profile extends ActiveRecord
         return '{{%user_profile}}';
     }
 
+    public static function find()
+    {
+        return new ProfileQuery(get_called_class());
+    }
+
     /**
      * @inheritdoc
      */
