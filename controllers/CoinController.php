@@ -7,10 +7,13 @@
 namespace yuncms\user\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use yuncms\user\models\Coin;
+use yuncms\user\models\Recharge;
+use yuncms\payment\models\Payment;
 
 /**
  * Class CoinController
@@ -27,7 +30,7 @@ class CoinController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index'],
+                        'actions' => ['index','recharge'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -52,4 +55,33 @@ class CoinController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+    /**
+     * 积分充值
+     * @return array|string
+     */
+    public function actionRecharge()
+    {
+        $model = new Recharge();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $payment = new Payment([
+                'currency' => $model->currency,
+                'money' => $model->money,
+                'name' => Yii::t('user', 'Coin Recharge'),
+                'gateway' => $model->gateway,
+                'pay_type' => Payment::TYPE_MWEB,
+                'model_id' => $model->id,
+                'model' => get_class($model),
+                'return_url' => Url::to(['/user/coin/index'], true),
+            ]);
+            if ($payment->save()) {
+                $model->link('payment', $payment);
+                return $this->redirect(['/payment/default/pay', 'id' => $payment->id]);
+            }
+        }
+        return $this->render('recharge', [
+            'model' => $model,
+        ]);
+    }
+
 }

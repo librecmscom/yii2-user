@@ -5,6 +5,7 @@ use yii\bootstrap\Modal;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
 use yuncms\payment\models\Payment;
+use yuncms\user\models\Recharge;
 
 /*
  * @var $this  yii\web\View
@@ -51,12 +52,12 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <?php
 if (Yii::$app->hasModule('payment')):
-    $payment = new Payment();
+    $recharge = new Recharge();
     $form = ActiveForm::begin([
-        'action' => \yii\helpers\Url::toRoute(['/payment/default/index']),
+        'action' => \yii\helpers\Url::toRoute(['/user/coin/recharge']),
     ]); ?>
-    <?= Html::activeInput('hidden', $payment, 'currency', ['value' => Yii::$app->language == 'zh-CN' ? 'CNY' : 'USD']) ?>
-    <?= Html::activeInput('hidden', $payment, 'pay_type', ['value' => Payment::TYPE_COIN]) ?>
+    <?= Html::activeInput('hidden', $recharge, 'currency', ['value' => Yii::$app->language == 'zh-CN' ? 'CNY' : 'USD']) ?>
+    <?= Html::activeInput('hidden', $recharge, 'trade_type', ['value' => Payment::TYPE_NATIVE]) ?>
     <!-- Modal
     ================================================== -->
     <?php Modal::begin([
@@ -64,8 +65,8 @@ if (Yii::$app->hasModule('payment')):
     'header' => Yii::t('user', 'Coin Recharge'),
     'footer' => Html::button(Yii::t('user', 'Clean'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) . Html::submitButton(Yii::t('user', 'Submit'), ['class' => 'btn btn-primary']),
 ]); ?>
-    <?= $form->field($payment, 'money')->hint('1元一个金币'); ?>
-    <?= $form->field($payment, 'gateway')->inline(true)->radioList(ArrayHelper::map(Yii::$app->getModule('payment')->gateways, 'id', 'title')); ?>
+    <?= $form->field($recharge, 'money')->hint('1元一个金币'); ?>
+    <?= $form->field($recharge, 'gateway')->inline(true)->radioList(ArrayHelper::map(Yii::$app->getModule('payment')->gateways, 'id', 'title')); ?>
     <?php
     Modal::end();
     ActiveForm::end();
