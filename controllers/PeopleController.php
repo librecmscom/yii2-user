@@ -85,7 +85,7 @@ class PeopleController extends Controller
     {
         Url::remember('', 'actions-redirect');
         if (($model = Tag::findOne(['name' => $tag])) !== null) {
-            $query = User::find()->anyTagValues($tag, 'name');
+            $query = User::find()->with('profile')->anyTagValues($tag, 'name');
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
             ]);
