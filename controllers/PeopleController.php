@@ -12,6 +12,9 @@ use yii\helpers\Url;
 use yii\web\Response;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
+use yii\web\NotFoundHttpException;
+use yuncms\tag\models\Tag;
+use yuncms\user\models\User;
 use yuncms\user\models\Profile;
 use yuncms\user\Module;
 
@@ -32,7 +35,7 @@ class PeopleController extends Controller
         //取Get参数
         $params = Yii::$app->request->get();
 
-        $query = Profile::find()->with('user');
+        $query = User::find()->with('profile');
 
         //搜索
         if (isset($params['q'])) {
@@ -53,13 +56,13 @@ class PeopleController extends Controller
         $sort->enableMultiSort = false;
 
         $sort->attributes['created_at'] = [
-            'asc' => ['user_id' => SORT_ASC],
-            'desc' => ['user_id' => SORT_DESC],
+            'asc' => ['created_at' => SORT_ASC],
+            'desc' => ['created_at' => SORT_DESC],
             'default' => SORT_DESC,
             'label' => 'Latest registration',
         ];
         $sort->attributes['updated_at'] = [
-            'asc' => ['created_at' => SORT_ASC],
+            'asc' => ['updated_at' => SORT_ASC],
             'desc' => ['updated_at' => SORT_DESC],
             'default' => SORT_DESC,
             'label' => 'Recently updated',
@@ -70,6 +73,29 @@ class PeopleController extends Controller
             'params' => $params,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    /**
+     * 标签
+     * @param string $tag
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionTag($tag)
+    {
+        Url::remember('', 'actions-redirect');
+        if (($model = Tag::findOne(['name' => $tag])) !== null) {
+            $query = User::find()->anyTagValues($tag, 'name');
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+            ]);
+            return $this->render('tag', [
+                'model' => $model,
+                'dataProvider' => $dataProvider
+            ]);
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     /**
