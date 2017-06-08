@@ -47,7 +47,7 @@ $this->title = Yii::t('user', 'People');
                 'itemView' => '_item',//子视图
                 'options' => ['class' => 'user-list'],
                 'itemOptions'=>['class'=>'media'],
-                
+
             ]);
             ?>
             <!-- /.stream-list -->
