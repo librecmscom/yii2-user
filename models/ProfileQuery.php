@@ -37,6 +37,6 @@ class ProfileQuery extends ActiveQuery
      */
     public function female()
     {
-        return $this->andWhere(['sex' => Profile::GENDER_FEMALE]);
+        return $this->andWhere(['gender' => Profile::GENDER_FEMALE]);
     }
 }

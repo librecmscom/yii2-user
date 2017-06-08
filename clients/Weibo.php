@@ -7,11 +7,23 @@
 
 namespace yuncms\user\clients;
 
+use Yii;
 use xutl\authclient\Weibo as BaseWeiBo;
 
-
+/**
+ * Class Weibo
+ * @package yuncms\user\clients
+ */
 class Weibo extends BaseWeiBo implements ClientInterface
 {
+    /**
+     * @inheritdoc
+     */
+    protected function defaultTitle()
+    {
+        return Yii::t('user', 'Weibo');
+    }
+
     /**
      * @inheritdoc
      */

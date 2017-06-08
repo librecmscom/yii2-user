@@ -7,6 +7,7 @@
 
 namespace yuncms\user\clients;
 
+use Yii;
 use yii\authclient\clients\LinkedIn as BaseLinkedIn;
 
 /*
@@ -14,6 +15,13 @@ use yii\authclient\clients\LinkedIn as BaseLinkedIn;
  */
 class LinkedIn extends BaseLinkedIn implements ClientInterface
 {
+    /**
+     * @inheritdoc
+     */
+    protected function defaultName() {
+        return Yii::t('user','LinkedIn');
+    }
+
     /**
      * @inheritdoc
      */

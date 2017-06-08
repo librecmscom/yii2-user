@@ -26,7 +26,7 @@ $gateways = Yii::$app->getModule('payment')->gateways;
                 <?= $form->field($model, 'gateway')->inline(true)->radioList(ArrayHelper::map($gateways, 'id', 'title')); ?>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-9">
-                        <?= Html::submitButton(Yii::t('payment', 'Payment'), ['class' => 'btn btn-success']) ?>
+                        <?= Html::submitButton(Yii::t('user', 'Payment'), ['class' => 'btn btn-success']) ?>
                         <br>
                     </div>
                 </div>

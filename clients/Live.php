@@ -6,10 +6,18 @@
  */
 namespace yuncms\user\clients;
 
+use Yii;
 use yii\authclient\clients\Live as BaseLive;
 
 class Live extends BaseLive implements ClientInterface
 {
+    /**
+     * @inheritdoc
+     */
+    protected function defaultName() {
+        return Yii::t('user','Live');
+    }
+
     /**
      * @inheritdoc
      */

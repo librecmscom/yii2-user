@@ -7,10 +7,18 @@
 
 namespace yuncms\user\clients;
 
+use Yii;
 use xutl\authclient\Qq as BaseQq;
 
 class Qq extends BaseQq implements ClientInterface
 {
+    /**
+     * @inheritdoc
+     */
+    protected function defaultTitle() {
+        return Yii::t('user','QQ');
+    }
+
     /**
      * @inheritdoc
      */

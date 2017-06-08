@@ -30,7 +30,8 @@ class PeopleController extends Controller
         $params = Yii::$app->request->get();
 
         $query = Profile::find()->with('user');
-        if (!Yii::$app->user->isGuest) {//过滤掉自己
+        //过滤掉自己
+        if (!Yii::$app->user->isGuest) {
             $query->andWhere(['<>', 'user_id', Yii::$app->user->id]);
         }
 
@@ -38,9 +39,31 @@ class PeopleController extends Controller
             $query->name(trim($params['q']));
         }
 
+        //只看妹子
+        if (isset($params['female'])) {
+            $query->female();
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        //开始排序
+        $sort = $dataProvider->getSort();
+        $sort->enableMultiSort = false;
+
+        $sort->attributes['created_at'] = [
+            'asc' => ['created_at' => SORT_ASC],
+            'desc' => ['created_at' => SORT_DESC],
+            'default' => SORT_DESC,
+            'label' => '最新加入',
+        ];
+        $sort->attributes['updated_at'] = [
+            'asc' => ['created_at' => SORT_ASC],
+            'desc' => ['updated_at' => SORT_DESC],
+            'default' => SORT_DESC,
+            'label' => '最近更新',
+        ];
 
         return $this->render('index', [
             'params' => $params,
