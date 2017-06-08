@@ -6,6 +6,8 @@ use yuncms\user\models\Profile;
 
 /** @var \yii\web\View $this */
 /** @var $model \yuncms\user\models\Profile * */
+
+
 ?>
 <a class="media-left"
    href="<?= \yii\helpers\Url::to(['/user/profile/view', 'id' => $model->user_id]) ?>" target="_blank">

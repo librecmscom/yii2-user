@@ -6,6 +6,7 @@ use yii\widgets\ListView;
 use yii\widgets\LinkSorter;
 
 /** @var \yii\web\View $this */
+/** @var int $total 用户总数 */
 /** @var \yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = Yii::t('user', 'People');
@@ -32,12 +33,15 @@ $this->title = Yii::t('user', 'People');
                     ]
                 ]); ?>
                 <div class="g-l-ico"><i class="fa fa-venus"></i>
-                    <a href="<?=Url::current(['female' => true]);?>" class="label only-girl"><?=Yii::t('user','Just look ladies')?></a>
+                    <a href="<?= Url::current(['female' => true]); ?>"
+                       class="label only-girl"><?= Yii::t('user', 'Just look ladies') ?></a>
                 </div>
                 <div class="g-l-ico">
                     <a class="label only-girl all-coder" href="<?= Url::to(['/user/people/index']); ?>"><span>All</span>
                         <i class="fa fa-mail-reply-all"></i></a></div>
-                <div class="totol-users"></div>
+                <div class="totol-users">
+                    <span>已有<em><?= $total ?></em>位用户，我也加入！</span>
+                </div>
             </div>
         </div>
     </div>
@@ -48,7 +52,7 @@ $this->title = Yii::t('user', 'People');
                 <?php
                 if (isset($params['province_id']) ||
                     isset($params['area_id']) ||
-                    isset($params['occupation_id'])  ||
+                    isset($params['occupation_id']) ||
                     isset($params['direction_id']) ||
                     isset($params['current'])
                 ) :
@@ -59,25 +63,29 @@ $this->title = Yii::t('user', 'People');
                             <?php if (isset($params['province_id'])) :
                                 ?>
                                 <li>
-                                    <a href="<?=Url::current(['province_id' => null]);?>"><?=Html::encode($province->name);?><span class="f-close"></span></a>
+                                    <a href="<?= Url::current(['province_id' => null]); ?>"><?= Html::encode($province->name); ?>
+                                        <span class="f-close"></span></a>
                                 </li>
                             <?php endif; ?>
                             <?php if (isset($params['area_id'])) :
                                 ?>
                                 <li>
-                                    <a href="<?=Url::current(['area_id' => null]);?>"><?=Html::encode($area->name);?><span class="f-close"></span></a>
+                                    <a href="<?= Url::current(['area_id' => null]); ?>"><?= Html::encode($area->name); ?>
+                                        <span class="f-close"></span></a>
                                 </li>
                             <?php endif; ?>
                             <?php if (isset($params['occupation_id'])) :
                                 ?>
                                 <li>
-                                    <a href="<?=Url::current(['occupation_id' => null]);?>"><?=Html::encode($occupation->name);?><span class="f-close"></span></a>
+                                    <a href="<?= Url::current(['occupation_id' => null]); ?>"><?= Html::encode($occupation->name); ?>
+                                        <span class="f-close"></span></a>
                                 </li>
                             <?php endif; ?>
                             <?php if (isset($params['direction_id'])) :
                                 ?>
                                 <li>
-                                    <a href="<?=Url::current(['direction_id' => null]);?>"><?=Html::encode($direction->name);?><span class="f-close"></span></a>
+                                    <a href="<?= Url::current(['direction_id' => null]); ?>"><?= Html::encode($direction->name); ?>
+                                        <span class="f-close"></span></a>
                                 </li>
                             <?php endif; ?>
                         </ul>
@@ -88,7 +96,7 @@ $this->title = Yii::t('user', 'People');
                     'dataProvider' => $dataProvider,
                     'itemView' => '_item',//子视图
                     'options' => ['class' => 'user-list'],
-                    'itemOptions'=>['class'=>'media'],
+                    'itemOptions' => ['class' => 'media'],
                     //'layout' => "{sorter}\n{items}\n{pager}",
                     //'layout' => "{items}\n{pager}",
                     'viewParams' => [

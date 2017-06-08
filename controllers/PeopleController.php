@@ -12,9 +12,11 @@ use yii\helpers\Url;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
 use yuncms\user\models\Profile;
+use yuncms\user\Module;
 
 /**
  * Class PeopleController
+ * @property Module $module
  * @package yuncms\user\controllers
  */
 class PeopleController extends Controller
@@ -30,11 +32,8 @@ class PeopleController extends Controller
         $params = Yii::$app->request->get();
 
         $query = Profile::find()->with('user');
-        //过滤掉自己
-        if (!Yii::$app->user->isGuest) {
-            $query->andWhere(['<>', 'user_id', Yii::$app->user->id]);
-        }
 
+        //搜索
         if (isset($params['q'])) {
             $query->name(trim($params['q']));
         }
@@ -53,19 +52,20 @@ class PeopleController extends Controller
         $sort->enableMultiSort = false;
 
         $sort->attributes['created_at'] = [
-            'asc' => ['created_at' => SORT_ASC],
-            'desc' => ['created_at' => SORT_DESC],
+            'asc' => ['user_id' => SORT_ASC],
+            'desc' => ['user_id' => SORT_DESC],
             'default' => SORT_DESC,
-            'label' => '最新加入',
+            'label' => 'Latest registration',
         ];
         $sort->attributes['updated_at'] = [
             'asc' => ['created_at' => SORT_ASC],
             'desc' => ['updated_at' => SORT_DESC],
             'default' => SORT_DESC,
-            'label' => '最近更新',
+            'label' => 'Recently updated',
         ];
 
         return $this->render('index', [
+            'total' => $this->module->getTotal(60),
             'params' => $params,
             'dataProvider' => $dataProvider,
         ]);
