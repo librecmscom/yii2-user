@@ -9,6 +9,7 @@ namespace yuncms\user\controllers;
 
 use Yii;
 use yii\helpers\Url;
+use yii\web\Response;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
 use yuncms\user\models\Profile;
@@ -70,4 +71,36 @@ class PeopleController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+    /**
+     * 获取用户总数
+     * @return array
+     */
+    public function actionTotal()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['total' => $this->module->getTotal(60)];
+    }
+
+    /**
+     * 获取今日注册总数
+     * @return array
+     */
+    public function actionTodayTotal()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['total' => $this->module->getTodayTotal(60)];
+    }
+
+    /**
+     * 获取获取今日活跃用户总数
+     * @return array
+     */
+    public function actionTodayActivityTotal()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['total' => $this->module->getTodayActivityTotal(60)];
+    }
+
+
 }
