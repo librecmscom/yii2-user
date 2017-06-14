@@ -24,12 +24,14 @@ class LoginForm extends Model
      * @var string User's email or username
      */
     public $login;
+
     /**
      * @var string User's plain password
      */
     public $password;
+
     /**
-     * @var string Whether to remember the user
+     * @var bool Whether to remember the user
      */
     public $rememberMe = false;
 
@@ -93,9 +95,9 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            $loginHistory = new LoginHistory(['ip' => Yii::$app->request->getUserIP()]);
+            $loginHistory = new LoginHistory(['ip' => Yii::$app->request->userIP]);
             $loginHistory->link('user', $this->user);
-            
+
             return Yii::$app->getUser()->login($this->user, $this->rememberMe ? $this->module->rememberFor : 0);
         } else {
             return false;

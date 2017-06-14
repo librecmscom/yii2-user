@@ -25,8 +25,13 @@ $this->title = Yii::t('user', 'Sign in');
 
     <?= $form->field($model, 'password', ['inputOptions' => ['autocomplete' => 'off', 'tabindex' => '2']])->passwordInput()->label(Yii::t('user', 'Password') . ($module->enablePasswordRecovery ? ' (' . Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request'], ['tabindex' => '5']) . ')' : '')) ?>
 
-    <?= $form->field($model, 'rememberMe',['options'=>['class'=>'form-group clearfix']])->checkbox([
-        'tabindex' => '4','template'=>"<div class=\"checkbox pull-left\">\n{beginLabel}\n{input}\n{labelTitle}\n{endLabel}\n{error}\n{hint}\n</div><button type=\"submit\" class=\"btn btn-primary pull-right\" tabindex=\"3\">".Yii::t('user', 'Sign in')."</button>"]) ?>
+    <?= $form->field($model, 'rememberMe', [
+        'options' => [
+            'class' => 'form-group clearfix'
+        ]
+    ])->checkbox([
+        'tabindex' => '4',
+        'template' => "<div class=\"checkbox pull-left\">\n{beginLabel}\n{input}\n{labelTitle}\n{endLabel}\n{error}\n{hint}\n</div><button type=\"submit\" class=\"btn btn-primary pull-right\" tabindex=\"3\">" . Yii::t('user', 'Sign in') . "</button>"]) ?>
 
     <?php ActiveForm::end(); ?>
     <hr>

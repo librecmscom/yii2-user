@@ -13,6 +13,8 @@ use yii\behaviors\TimestampBehavior;
 
 /**
  * Class LoginHistory
+ * @property string $ip
+ * @property int $created_at
  * @package yuncms\user\models
  */
 class LoginHistory extends ActiveRecord
