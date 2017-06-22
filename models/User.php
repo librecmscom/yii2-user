@@ -16,6 +16,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 use yii\base\NotSupportedException;
 use yii\web\Application as WebApplication;
+use yuncms\oauth2\OAuth2IdentityInterface;
 use yuncms\user\Module;
 use yuncms\user\ModuleTrait;
 use yuncms\user\UserAsset;
@@ -55,7 +56,7 @@ use yuncms\user\helpers\Password;
  * Dependencies:
  * @property-read Module $module
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInterface
 {
     use ModuleTrait;
 
@@ -765,6 +766,17 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null)
     {
         throw new NotSupportedException('Method "' . __CLASS__ . '::' . __METHOD__ . '" is not implemented.');
+    }
+
+    /**
+     * Finds user by username
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findIdentityByUsername($username)
+    {
+        return static::findOne(['username' => $username]);
     }
 
     /**

@@ -13,21 +13,16 @@ use yuncms\user\models\Social;
 use yuncms\user\models\Oauth2LoginForm;
 
 /**
- * Class Oauth2Controller
- * @package frontend\controllers
+ * Oauth2 登录控制器
+ * @package yuncms\user\controllers
  */
 class Oauth2Controller extends Controller
 {
     public function behaviors()
     {
         return [
-            /**
-             * Checks oauth2 credentions and try to perform OAuth2 authorization on logged user.
-             * AuthorizeFilter uses session to store incoming oauth2 request, so
-             * you can do additional steps, such as third party oauth authorization (Facebook, Google ...)
-             */
             'oauth2Auth' => [
-                'class' => 'yuncms\oauth2\AuthorizeFilter',
+                'class' => 'yuncms\oauth2\filters\Authorize',
                 'only' => ['authorize'],
             ],
         ];
@@ -39,8 +34,8 @@ class Oauth2Controller extends Controller
             /**
              * Returns an access token.
              */
-            'access-token' => [
-                'class' => 'yuncms\oauth2\TokenAction',
+            'token' => [
+                'class' => 'yuncms\oauth2\actions\Token',
             ],
             /**
              * OPTIONAL
