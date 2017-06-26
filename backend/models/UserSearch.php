@@ -60,7 +60,7 @@ class UserSearch extends Model
      */
     public function search($params)
     {
-        $query = User::find()->with('authentication');
+        $query = User::find()->with('authentication')->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
