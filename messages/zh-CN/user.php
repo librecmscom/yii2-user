@@ -20,6 +20,8 @@ return [
     'App ID' => '',
     'App Token' => '',
     'Apps' => '',
+    'RESTful Apps' => 'RESTful 应用',
+    'OAuth Apps'=>'OAuth 应用',
     'Please select' => '请选择',
     'Army ID' => '军官证',
     'Agree and accept Service Agreement and Privacy Policy' => '同意并接受 服务协议 和 隐私政策',
