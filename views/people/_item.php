@@ -10,12 +10,12 @@ use yuncms\user\models\Profile;
 
 ?>
 <a class="media-left"
-   href="<?= \yii\helpers\Url::to(['/user/profile/view', 'id' => $model->id]) ?>" target="_blank">
+   href="<?= \yii\helpers\Url::to(['/user/space/view', 'id' => $model->id]) ?>" target="_blank">
     <?= Html::img($model->getAvatar(), ['class' => 'media-object avatar-82']); ?>
 </a>
 <div class="media-body">
     <h2 class="media-heading">
-        <?= Html::a(empty($model->profile->nickname) ? Html::encode($model->profile->nickname): $model->username, ['/user/profile/view', 'id' => $model->id], ['target' => '_blank']); ?>
+        <?= Html::a(empty($model->profile->nickname) ? Html::encode($model->profile->nickname): $model->username, ['/user/space/view', 'id' => $model->id], ['target' => '_blank']); ?>
         <small>
             <!--显示性别图标-->
             <?php

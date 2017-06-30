@@ -21,7 +21,7 @@ $asset = AppAsset::register($this);
     <div class="container">
         <div class="row">
             <div class="col-md-2">
-                <?= Html::a(Html::img($user->getAvatar('big'), ['alt' => Yii::t('user', 'Avatar'), 'class' => 'img-responsive img-circle']), ['/user/profile/view', 'id' => $user->id]) ?>
+                <?= Html::a(Html::img($user->getAvatar('big'), ['alt' => Yii::t('user', 'Avatar'), 'class' => 'img-responsive img-circle']), ['/user/space/view', 'id' => $user->id]) ?>
             </div>
             <div class="col-md-7">
                 <div class="space-header-name h3">

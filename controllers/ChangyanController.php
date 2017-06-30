@@ -59,7 +59,7 @@ class ChangyanController extends Controller
                 'user' => [
                     'img_url' => Url::to(Yii::$app->user->identity->getAvatar(), true),
                     'nickname' => Yii::$app->user->identity->username,
-                    'profile_url' => Url::to(['/user/profile/view', 'id' => Yii::$app->user->id]),
+                    'profile_url' => Url::to(['/user/space/view', 'id' => Yii::$app->user->id]),
                     'user_id' => Yii::$app->user->id,
                     'sign' => md5(time()),
                 ],
