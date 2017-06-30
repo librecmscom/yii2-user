@@ -53,3 +53,24 @@
 .stream-following-list >li{padding:12px 0;border-bottom:1px solid #eee}
 .stream-following-followed{color:#999;line-height:20px}
 .stream-following-desc {font-size: 13px;color: #666;line-height: 21px;}
+
+/* profile-mine样式 */
+.profile-mine--tag-increase{display:inline-block;width:40px;text-align:right;margin-right:10px}
+.profile-mine__heading{margin:0;padding-bottom:20px;border-bottom:1px solid #eee}
+.profile-mine__heading small{margin-left:15px}
+.profile-mine__heading--filter span{font-size:14px;color:#999999;line-height:20px;font-weight:normal}
+.profile-mine__heading--filter .btn-group{margin-left:10px}
+.profile-mine__content{list-style:none;padding:0;border-top:none;margin-top:0}
+.profile-mine__content--type{display:inline-block;font-size:13px;color:#999999;line-height:26px;margin-right:10px}
+.profile-mine__content li{padding:10px 0;border-bottom:1px solid #eee;margin-top:0}
+.profile-mine__content li .badge{background-color:#FFF;border:1px solid;text-align:center;margin-right:10px;width:30px;height:18px;font-weight:normal;padding:0;line-height:18px}
+.profile-mine__content--text{color:#666}
+.profile-mine__content--date{font-size:14px;color:#999999;line-height:19px}
+.profile-mine__content--title{font-size:14px;color:#333333;line-height:26px}
+.profile-mine__content--title-warp{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.profile-mine__content--title-warp a:nth-child(2){font-size:13px;color:#999999;margin-left:18px}
+.profile-mine__content .label{display:inline-block;width:55px;line-height:26px;font-size:13px;padding:0;font-weight:500}
+.profile-mine__content .label-warning{background-color:#FCF8E3;color:#8A6D3B}
+.profile-mine__content .label-danger{background-color:rgba(235,138,136,0.32);color:#CA4C48}
+.profile-mine__content .label-success{background-color:#DFF0D8;color:#43894E}
+.profile-mine__content--VotesWord span{background:#FCF8E3;text-align:center;line-height:2;font-size:13px;display:inline-block;width:55px;border-radius:3px;color:#8A6D3B}

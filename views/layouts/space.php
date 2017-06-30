@@ -149,7 +149,7 @@ $asset = AppAsset::register($this);
                 //代码
                 ['label' => Yii::t('user', 'My Codes'), 'url' => ['/code/space/index'], 'visible' => Yii::$app->hasModule('code')],
                 //直播
-                ['label' => Yii::t('user', 'My Streams'), 'url' => ['/live/space/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
+                ['label' => Yii::t('user', 'My Streams'), 'url' => ['/live/space/join', 'id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
                 '<li role="separator" class="divider"></li>',
                 ['label' => Yii::t('user', 'My Coin'), 'url' => ['/user/space/coin', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Credit'), 'url' => ['/user/space/credit', 'id' => $user->id]],
@@ -171,7 +171,7 @@ $asset = AppAsset::register($this);
                 ['label' => Yii::t('user', 'His Codes'), 'url' => ['/code/space/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('code')],
 
                 //直播
-                ['label' => Yii::t('user', 'His Streams'), 'url' => ['/live/space/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
+                ['label' => Yii::t('user', 'His Streams'), 'url' => ['/live/space/join', 'id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
                 '<li role="separator" class="divider"></li>',
 
                 ['label' => Yii::t('user', 'His Coin'), 'url' => ['/user/space/coin', 'id' => $user->id]],
