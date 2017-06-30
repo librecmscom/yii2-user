@@ -141,11 +141,14 @@ $asset = AppAsset::register($this);
             $menuItems = [
                 ['label' => Yii::t('user', 'My Page'), 'url' => ['/user/space/index']],
                 //问答
-                ['label' => Yii::t('user', 'My Answer'), 'url' => ['/user/space/answer', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
-                ['label' => Yii::t('user', 'My Question'), 'url' => ['/user/space/question', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
+                ['label' => Yii::t('user', 'My Answers'), 'url' => ['/user/space/answer', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
+                ['label' => Yii::t('user', 'My Questions'), 'url' => ['/user/space/question', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
                 //文章
-                ['label' => Yii::t('user', 'My Note'), 'url' => ['/note/manage/index'], 'visible' => Yii::$app->hasModule('article')],
+                ['label' => Yii::t('user', 'My Notes'), 'url' => ['/note/manage/index'], 'visible' => Yii::$app->hasModule('article')],
 
+                //代码
+                ['label' => Yii::t('user', 'My Codes'), 'url' => ['/code/space/index'], 'visible' => Yii::$app->hasModule('code')],
+                //直播
                 ['label' => Yii::t('user', 'My Streams'), 'url' => ['/live/space/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
                 '<li role="separator" class="divider"></li>',
                 ['label' => Yii::t('user', 'My Coin'), 'url' => ['/user/space/coin', 'id' => $user->id]],
@@ -159,12 +162,16 @@ $asset = AppAsset::register($this);
                 ['label' => Yii::t('user', 'His Page'), 'url' => ['/user/space/view', 'id' => $user->id]],
                 //问答
                 ['label' => Yii::t('user', 'His Answer'), 'url' => ['/article/article/index'], 'visible' => Yii::$app->hasModule('question')],
-                ['label' => Yii::t('user', 'His Question'), 'url' => ['/question/question/index'], 'visible' => Yii::$app->hasModule('question')],
+                ['label' => Yii::t('user', 'His Questions'), 'url' => ['/question/question/index'], 'visible' => Yii::$app->hasModule('question')],
 
                 //文章
-                ['label' => Yii::t('user', 'His Note'), 'url' => ['/note/note/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('article')],
+                ['label' => Yii::t('user', 'His Notes'), 'url' => ['/note/note/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('article')],
 
-                ['label' => Yii::t('user', 'His Stream'), 'url' => ['/live/space/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
+                //代码
+                ['label' => Yii::t('user', 'His Codes'), 'url' => ['/code/space/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('code')],
+
+                //直播
+                ['label' => Yii::t('user', 'His Streams'), 'url' => ['/live/space/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
                 '<li role="separator" class="divider"></li>',
 
                 ['label' => Yii::t('user', 'His Coin'), 'url' => ['/user/space/coin', 'id' => $user->id]],
