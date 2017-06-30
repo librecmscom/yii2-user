@@ -77,6 +77,9 @@ class CollectionController extends Controller
         } else if ($model == 'live' && Yii::$app->hasModule('live')) {
             $source = \yuncms\live\models\Stream::findOne($modelId);
             $subject = $source->title;
+        } else if ($model == 'note' && Yii::$app->hasModule('note')) {
+            $source = \yuncms\note\models\Note::findOne($modelId);
+            $subject = $source->title;
         }
 
         if (!$source) {
