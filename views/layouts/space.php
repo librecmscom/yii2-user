@@ -143,10 +143,16 @@ $asset = AppAsset::register($this);
                 //问答
                 ['label' => Yii::t('user', 'My Answers'), 'url' => ['/user/space/answer', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
                 ['label' => Yii::t('user', 'My Questions'), 'url' => ['/user/space/question', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
-                //文章
+                //笔记
                 [
                     'label' => Yii::t('user', 'My Notes'),
-                    'url' => ['/note/manage/index'],
+                    'url' => ['/note/space/started', 'id' => $user->id],
+                    'visible' => Yii::$app->hasModule('note'),
+                    'active' => Yii::$app->controller->module->id == "note" ? true : false],
+                //文章
+                [
+                    'label' => Yii::t('user', 'My Articles'),
+                    'url' => ['/article/space/started', 'id' => $user->id],
                     'visible' => Yii::$app->hasModule('article'),
                     'active' => Yii::$app->controller->module->id == "article" ? true : false],
                 //代码
@@ -177,14 +183,20 @@ $asset = AppAsset::register($this);
                 ['label' => Yii::t('user', 'His Answer'), 'url' => ['/article/article/index'], 'visible' => Yii::$app->hasModule('question')],
                 ['label' => Yii::t('user', 'His Questions'), 'url' => ['/question/question/index'], 'visible' => Yii::$app->hasModule('question')],
 
-                //文章
+                //笔记
                 [
                     'label' => Yii::t('user', 'His Notes'),
-                    'url' => ['/note/note/index', 'id' => $user->id],
+                    'url' => ['/note/space/started', 'id' => $user->id],
+                    'visible' => Yii::$app->hasModule('note'),
+                    'active' => Yii::$app->controller->module->id == "note" ? true : false
+                ],
+                //文章
+                [
+                    'label' => Yii::t('user', 'His Articles'),
+                    'url' => ['/article/space/started', 'id' => $user->id],
                     'visible' => Yii::$app->hasModule('article'),
                     'active' => Yii::$app->controller->module->id == "article" ? true : false
                 ],
-
                 //代码
                 [
                     'label' => Yii::t('user', 'His Codes'),
