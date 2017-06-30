@@ -111,7 +111,7 @@ $asset = AppAsset::register($this);
                     </div>
                     <div class="col-md-4">
                             <span class="h3"><a
-                                    href="<?= Url::to(['/user/space/credit', 'id' => $user->id]) ?>"><?= $user->userData->credits; ?></a></span>
+                                        href="<?= Url::to(['/user/space/credit', 'id' => $user->id]) ?>"><?= $user->userData->credits; ?></a></span>
                         <span><?= Yii::t('user', 'Credits') ?></span>
                     </div>
                     <div class="col-md-4">
@@ -144,12 +144,25 @@ $asset = AppAsset::register($this);
                 ['label' => Yii::t('user', 'My Answers'), 'url' => ['/user/space/answer', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
                 ['label' => Yii::t('user', 'My Questions'), 'url' => ['/user/space/question', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
                 //文章
-                ['label' => Yii::t('user', 'My Notes'), 'url' => ['/note/manage/index'], 'visible' => Yii::$app->hasModule('article')],
-
+                [
+                    'label' => Yii::t('user', 'My Notes'),
+                    'url' => ['/note/manage/index'],
+                    'visible' => Yii::$app->hasModule('article'),
+                    'active' => Yii::$app->controller->module->id == "article" ? true : false],
                 //代码
-                ['label' => Yii::t('user', 'My Codes'), 'url' => ['/code/space/index'], 'visible' => Yii::$app->hasModule('code')],
+                [
+                    'label' => Yii::t('user', 'My Codes'),
+                    'url' => ['/code/space/index'],
+                    'visible' => Yii::$app->hasModule('code'),
+                    'active' => Yii::$app->controller->module->id == "code" ? true : false
+                ],
                 //直播
-                ['label' => Yii::t('user', 'My Streams'), 'url' => ['/live/space/join', 'id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
+                [
+                    'label' => Yii::t('user', 'My Streams'),
+                    'url' => ['/live/space/join', 'id' => $user->id],
+                    'visible' => Yii::$app->hasModule('live'),
+                    'active' => Yii::$app->controller->module->id == "live" ? true : false
+                ],
                 '<li role="separator" class="divider"></li>',
                 ['label' => Yii::t('user', 'My Coin'), 'url' => ['/user/space/coin', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Credit'), 'url' => ['/user/space/credit', 'id' => $user->id]],
@@ -165,13 +178,28 @@ $asset = AppAsset::register($this);
                 ['label' => Yii::t('user', 'His Questions'), 'url' => ['/question/question/index'], 'visible' => Yii::$app->hasModule('question')],
 
                 //文章
-                ['label' => Yii::t('user', 'His Notes'), 'url' => ['/note/note/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('article')],
+                [
+                    'label' => Yii::t('user', 'His Notes'),
+                    'url' => ['/note/note/index', 'id' => $user->id],
+                    'visible' => Yii::$app->hasModule('article'),
+                    'active' => Yii::$app->controller->module->id == "article" ? true : false
+                ],
 
                 //代码
-                ['label' => Yii::t('user', 'His Codes'), 'url' => ['/code/space/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('code')],
+                [
+                    'label' => Yii::t('user', 'His Codes'),
+                    'url' => ['/code/space/index', 'id' => $user->id],
+                    'visible' => Yii::$app->hasModule('code'),
+                    'active' => Yii::$app->controller->module->id == "code" ? true : false
+                ],
 
                 //直播
-                ['label' => Yii::t('user', 'His Streams'), 'url' => ['/live/space/join', 'id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
+                [
+                    'label' => Yii::t('user', 'His Streams'),
+                    'url' => ['/live/space/join', 'id' => $user->id],
+                    'visible' => Yii::$app->hasModule('live'),
+                    'active' => Yii::$app->controller->module->id == "live" ? true : false
+                ],
                 '<li role="separator" class="divider"></li>',
 
                 ['label' => Yii::t('user', 'His Coin'), 'url' => ['/user/space/coin', 'id' => $user->id]],
