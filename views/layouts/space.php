@@ -65,7 +65,7 @@ $asset = AppAsset::register($this);
                 </div>
 
                 <div class="space-header-social mt-15">
-                    <?= Url::to(['/user/profile/show', 'username' => $user->profile->user->username], true); ?>
+                    <?= Url::to(['/user/space/show', 'username' => $user->profile->user->username], true); ?>
                 </div>
             </div>
             <div class="col-md-3">
@@ -105,19 +105,19 @@ $asset = AppAsset::register($this);
                 <div class="space-header-info row mt-30">
                     <div class="col-md-4">
                             <span class="h3">
-                                <a href="<?= Url::to(['/user/profile/coin', 'id' => $user->id]) ?>"><?= $user->userData->coins; ?></a>
+                                <a href="<?= Url::to(['/user/space/coin', 'id' => $user->id]) ?>"><?= $user->userData->coins; ?></a>
                             </span>
                         <span><?= Yii::t('user', 'Coins') ?></span>
                     </div>
                     <div class="col-md-4">
                             <span class="h3"><a
-                                    href="<?= Url::to(['/user/profile/credit', 'id' => $user->id]) ?>"><?= $user->userData->credits; ?></a></span>
+                                    href="<?= Url::to(['/user/space/credit', 'id' => $user->id]) ?>"><?= $user->userData->credits; ?></a></span>
                         <span><?= Yii::t('user', 'Credits') ?></span>
                     </div>
                     <div class="col-md-4">
                             <span class="h3">
                                 <a id="follower-num"
-                                   href="<?= Url::to(['/user/profile/follower', 'id' => $user->id]) ?>"><?= $user->userData->followers; ?></a>
+                                   href="<?= Url::to(['/user/space/follower', 'id' => $user->id]) ?>"><?= $user->userData->followers; ?></a>
                             </span>
                         <span><?= Yii::t('user', 'Fans') ?></span>
                     </div>
@@ -139,39 +139,39 @@ $asset = AppAsset::register($this);
     <div class="col-md-2">
         <?php if (!Yii::$app->user->isGuest && Yii::$app->user->id == $user->id) {//Me
             $menuItems = [
-                ['label' => Yii::t('user', 'My Page'), 'url' => ['/user/profile/index']],
+                ['label' => Yii::t('user', 'My Page'), 'url' => ['/user/space/index']],
                 //问答
-                ['label' => Yii::t('user', 'My Answer'), 'url' => ['/user/profile/answer', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
-                ['label' => Yii::t('user', 'My Question'), 'url' => ['/user/profile/question', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
+                ['label' => Yii::t('user', 'My Answer'), 'url' => ['/user/space/answer', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
+                ['label' => Yii::t('user', 'My Question'), 'url' => ['/user/space/question', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
                 //文章
                 ['label' => Yii::t('user', 'My Note'), 'url' => ['/note/manage/index'], 'visible' => Yii::$app->hasModule('article')],
 
-                ['label' => Yii::t('user', 'My Streams'), 'url' => ['/live/manage/index'], 'visible' => Yii::$app->hasModule('live')],
+                ['label' => Yii::t('user', 'My Streams'), 'url' => ['/live/space/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
                 '<li role="separator" class="divider"></li>',
-                ['label' => Yii::t('user', 'My Coin'), 'url' => ['/user/profile/coin', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'My Credit'), 'url' => ['/user/profile/credit', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'My Follower'), 'url' => ['/user/profile/follower', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'I\'m Following'), 'url' => ['/user/profile/attention', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'My Favorites'), 'url' => ['/user/profile/collected', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'My Coin'), 'url' => ['/user/space/coin', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'My Credit'), 'url' => ['/user/space/credit', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'My Follower'), 'url' => ['/user/space/follower', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'I\'m Following'), 'url' => ['/user/space/attention', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'My Favorites'), 'url' => ['/user/space/collected', 'id' => $user->id]],
             ];
         } else {//he
             $menuItems = [
-                ['label' => Yii::t('user', 'His Page'), 'url' => ['/user/profile/view', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Page'), 'url' => ['/user/space/view', 'id' => $user->id]],
                 //问答
                 ['label' => Yii::t('user', 'His Answer'), 'url' => ['/article/article/index'], 'visible' => Yii::$app->hasModule('question')],
                 ['label' => Yii::t('user', 'His Question'), 'url' => ['/question/question/index'], 'visible' => Yii::$app->hasModule('question')],
 
                 //文章
-                ['label' => Yii::t('user', 'His Note'), 'url' => ['/note/note/index', 'user_id' => $user->id], 'visible' => Yii::$app->hasModule('article')],
+                ['label' => Yii::t('user', 'His Note'), 'url' => ['/note/note/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('article')],
 
-                ['label' => Yii::t('user', 'His Stream'), 'url' => ['/live/live/index', 'user_id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
+                ['label' => Yii::t('user', 'His Stream'), 'url' => ['/live/space/index', 'id' => $user->id], 'visible' => Yii::$app->hasModule('live')],
                 '<li role="separator" class="divider"></li>',
 
-                ['label' => Yii::t('user', 'His Coin'), 'url' => ['/user/profile/coin', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'His Credit'), 'url' => ['/user/profile/credit', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'His Follower'), 'url' => ['/user/profile/follower', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'His Followed'), 'url' => ['/user/profile/attention', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'His Collect'), 'url' => ['/user/profile/collected', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Coin'), 'url' => ['/user/space/coin', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Credit'), 'url' => ['/user/space/credit', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Follower'), 'url' => ['/user/space/follower', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Followed'), 'url' => ['/user/space/attention', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Collect'), 'url' => ['/user/space/collected', 'id' => $user->id]],
             ];
         } ?>
         <?= Nav::widget([

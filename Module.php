@@ -136,11 +136,11 @@ class Module extends \yii\base\Module
         'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
         'setting/<action:\w+>' => 'setting/<action>',
         'authentication' => 'authentication/index',
-        'profile/<id:\d+>/coins' => 'profile/coin',
-        'profile/<id:\d+>/credits' => 'profile/credit',
-        'profile/<id:\d+>/followers' => 'profile/follower',
-        'profile/<id:\d+>/followed/<type:\w+>' => 'profile/attention',
-        'profile/<id:\d+>/collected/<type:\w+>' => 'profile/collected',
+        'space/<id:\d+>/coins' => 'space/coin',
+        'space/<id:\d+>/credits' => 'space/credit',
+        'space/<id:\d+>/followers' => 'space/follower',
+        'space/<id:\d+>/followed/<type:\w+>' => 'space/attention',
+        'space/<id:\d+>/collected/<type:\w+>' => 'space/collected',
         //这个默认不启用
         //'<username:[-a-zA-Z0-9_\x7f-\xff\.@]+>' => 'profile/show',
     ];

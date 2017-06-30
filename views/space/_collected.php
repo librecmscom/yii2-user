@@ -18,7 +18,7 @@ use yii\helpers\Html;
     <div class="summary">
         <ul class="author list-inline">
             <li>
-                <a href="<?= Url::to(['/user/profile/view', 'id' => $collection->user_id]) ?>"><?= $collection->user->username ?></a>
+                <a href="<?= Url::to(['/user/space/view', 'id' => $collection->user_id]) ?>"><?= $collection->user->username ?></a>
                 <span class="split"></span>
                 <?= Yii::$app->formatter->asRelativeTime($collection->created_at); ?>
             </li>
@@ -38,7 +38,7 @@ use yii\helpers\Html;
     <div class="summary">
         <ul class="author list-inline">
             <li>
-                <a href="<?= Url::to(['/user/profile/view', 'id' => $collection->user_id]) ?>"><?= $collection->user->username ?></a>
+                <a href="<?= Url::to(['/user/space/view', 'id' => $collection->user_id]) ?>"><?= $collection->user->username ?></a>
                 <span class="split"></span>
                 <?= Yii::$app->formatter->asRelativeTime($collection->created_at); ?>
             </li>
@@ -60,7 +60,7 @@ use yii\helpers\Html;
                 <?= Html::encode($collection->title) ?>
             </h2>
             <div class="live-info">
-                <object><a href="<?= Url::to(['/user/profile/view', 'id' => $collection->user_id]) ?>"><span
+                <object><a href="<?= Url::to(['/user/space/view', 'id' => $collection->user_id]) ?>"><span
                                 class="program-info-name"><?= $collection->user->username; ?></span></a></object>
                 ·
                 <span class="live-info-number"><?= $collection->applicants ?> 人参与</span>

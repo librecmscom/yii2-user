@@ -14,7 +14,7 @@ use yii\helpers\Html;
             <?php elseif (in_array($model->action, ['create_article'])): ?>
                 <?= Html::a($model->subject, ['/article/article/view', 'id' => $model->model_id]); ?>
             <?php elseif (in_array($model->action, ['follow_user'])): ?>
-                <?= Html::a($model->subject, ['/user/profile/view', 'id' => $model->model_id]); ?>
+                <?= Html::a($model->subject, ['/user/space/view', 'id' => $model->model_id]); ?>
             <?php endif; ?>
         </h4>
     </div>

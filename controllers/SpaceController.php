@@ -24,7 +24,7 @@ use yuncms\user\models\Collection;
  *
  * @property \yuncms\user\Module $module
  */
-class ProfileController extends Controller
+class SpaceController extends Controller
 {
     /** @inheritdoc */
     public function behaviors()

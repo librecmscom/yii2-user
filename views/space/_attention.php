@@ -34,7 +34,7 @@ use yii\helpers\Html;
         <div class="col-md-10">
             <img class="avatar-32" src="<?= $attention->getAvatar('middle') ?>"/>
             <div>
-                <a href="<?= Url::to(['/user/profile/view', 'id' => $attention->id]) ?>"><?= $attention->username; ?></a>
+                <a href="<?= Url::to(['/user/space/view', 'id' => $attention->id]) ?>"><?= $attention->username; ?></a>
                 <div
                         class="stream-following-followed"><?= $attention->userData->supports ?> <?= Yii::t('user', 'Support') ?>
                     / <?= $attention->userData->followers ?><?= Yii::t('user', 'Follower') ?>
@@ -71,7 +71,7 @@ use yii\helpers\Html;
                 <?= Html::encode($attention->title) ?>
             </h2>
             <div class="live-info">
-                <object><a href="<?= Url::to(['/user/profile/view', 'id' => $attention->user_id]) ?>"><span
+                <object><a href="<?= Url::to(['/user/space/view', 'id' => $attention->user_id]) ?>"><span
                                 class="program-info-name"><?= $attention->user->username; ?></span></a></object>
                 ·
                 <span class="live-info-number"><?= $attention->applicants ?> 人参与</span>
