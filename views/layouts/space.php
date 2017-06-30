@@ -158,7 +158,7 @@ $asset = AppAsset::register($this);
                 //代码
                 [
                     'label' => Yii::t('user', 'My Codes'),
-                    'url' => ['/code/space/index'],
+                    'url' => ['/code/space/started'],
                     'visible' => Yii::$app->hasModule('code'),
                     'active' => Yii::$app->controller->module->id == "code" ? true : false
                 ],
@@ -200,7 +200,7 @@ $asset = AppAsset::register($this);
                 //代码
                 [
                     'label' => Yii::t('user', 'His Codes'),
-                    'url' => ['/code/space/index', 'id' => $user->id],
+                    'url' => ['/code/space/started', 'id' => $user->id],
                     'visible' => Yii::$app->hasModule('code'),
                     'active' => Yii::$app->controller->module->id == "code" ? true : false
                 ],
