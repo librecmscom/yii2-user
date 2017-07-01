@@ -62,6 +62,8 @@ class Doing extends ActiveRecord
         'append_reward' => '对问题追加悬赏',
         'answer_adopted' => '回答被采纳',
         'create_article' => '发表了文章',
+        'create_note' => '分享了笔记',
+        'create_live' => '发起了直播',
     ];
 
     /**
@@ -79,6 +81,18 @@ class Doing extends ActiveRecord
                 break;
             case 'follow_question':
                 return Yii::t('user', 'is concerned about the problem');
+                break;
+            case 'create_article':
+                return Yii::t('user', 'Share an article');
+                break;
+            case 'create_note':
+                return Yii::t('user', 'Share an note');
+                break;
+            case 'create_live':
+                return Yii::t('user', 'Create the stream');
+                break;
+            case 'join_live':
+                return Yii::t('user', 'join the live');
                 break;
             default:
                 return null;

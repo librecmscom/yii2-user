@@ -15,6 +15,10 @@ use yii\helpers\Html;
                 <?= Html::a($model->subject, ['/article/article/view', 'id' => $model->model_id]); ?>
             <?php elseif (in_array($model->action, ['follow_user'])): ?>
                 <?= Html::a($model->subject, ['/user/space/view', 'id' => $model->model_id]); ?>
+            <?php elseif (in_array($model->action, ['create_note'])): ?>
+                <?= Html::a($model->subject, ['/note/note/view', 'id' => $model->model_id]); ?>
+            <?php elseif (in_array($model->action, ['create_live'])): ?>
+                <?= Html::a($model->subject, ['/live/stream/view', 'id' => $model->model_id]); ?>
             <?php endif; ?>
         </h4>
     </div>
