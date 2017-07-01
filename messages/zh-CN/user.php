@@ -19,7 +19,7 @@
 return [
     'App ID' => '',
     'App Token' => '',
-    'Apps' => '',
+    'Apps' => '应用',
     'RESTful Apps' => 'RESTful 应用',
     'OAuth Apps' => 'OAuth 应用',
     'Please select' => '请选择',
@@ -275,6 +275,8 @@ return [
     'Douban' => '豆瓣',
     'LinkedIn' => '领英',
     'OSChina' => '开源中国',
+    'Blockade' => '锁定',
+    'Normal' => '正常',
     'Just look ladies' => '只看妹子',
     'Search for people you are interested in' => '搜索你感兴趣的用户',
     'Thank you for signing up on {0}' => '感谢您注册{0}',

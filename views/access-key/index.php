@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yuncms\user\models\Rest;
 /*
  * @var yii\web\View $this
  */
@@ -33,7 +33,17 @@ $this->params['breadcrumbs'][] = $this->title;
                         'token',
                         'rate_limit',
                         'rate_period',
-                        'status:boolean',
+                        [
+                            'header' => Yii::t('user', 'Status'),
+                            'value' => function ($model) {
+                                if ($model->status == Rest::STATUS_BLOCK) {
+                                    return Html::tag('span', Yii::t('user', 'Blockade'), ['class' => 'label label-danger']);
+                                } else {
+                                    return Html::tag('span', Yii::t('user', 'Normal'), ['class' => 'label label-success']);
+                                }
+                            },
+                            'format' => 'raw',
+                        ],
                         'created_at:datetime',
                         ['class' => 'yii\grid\ActionColumn', 'template' => '{delete}'],
                     ],
