@@ -109,8 +109,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     ) ?>
 
                     <div class="form-group">
-                        <?= Html::submitButton(Yii::t('user', 'Submit'), ['class' => 'btn btn-success']) ?>
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <?= Html::submitButton(Yii::t('user', 'Submit'), ['class' => 'btn btn-success']) ?>
+                        </div>
                     </div>
+
                     <?php ActiveForm::end(); ?>
                 <?php endif; ?>
             </div>

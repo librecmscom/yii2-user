@@ -16,7 +16,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $this->render('/_profile_menu') ?>
     </div>
     <div class="col-md-10">
-        <h2 class="h3 profile-title"><?= Yii::t('user', 'Careers') ?></h2>
+        <h2 class="h3 profile-title">
+            <?= Yii::t('user', 'Careers') ?>
+            <div class="pull-right">
+                <?= Html::a(Yii::t('user', 'Create'), ['create'], ['class' => 'btn btn-primary']) ?>
+            </div>
+        </h2>
         <div class="row">
             <div class="col-md-12">
                 <?php
@@ -33,13 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]);
                 ?>
-                <div class="form-group">
-                    <div class="edu-btn">
-                        <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-primary btn-block']) ?>
-                        <br>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>

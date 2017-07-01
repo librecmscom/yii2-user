@@ -22,9 +22,10 @@ use yii\jui\DatePicker;
 <?= $form->field($model, 'start_at')->widget(DatePicker::classname(), ['dateFormat' => 'yyyy-MM', 'options' => ['class' => 'form-control'], 'clientOptions' => ['changeMonth' => true, 'changeYear' => true]]) ?>
 <?= $form->field($model, 'end_at')->widget(DatePicker::classname(), ['dateFormat' => 'yyyy-MM', 'options' => ['class' => 'form-control'], 'clientOptions' => ['changeMonth' => true, 'changeYear' => true]]) ?>
 <?= $form->field($model, 'description')->textarea() ?>
-
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <div class="col-sm-offset-3 col-sm-9">
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
     </div>
 
 <?php ActiveForm::end(); ?>
