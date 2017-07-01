@@ -18,7 +18,7 @@ class OSChina extends BaseOSChina implements ClientInterface
     /**
      * @inheritdoc
      */
-    protected function defaultName() {
+    protected function defaultTitle() {
         return Yii::t('user','OSChina');
     }
 

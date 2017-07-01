@@ -7,10 +7,19 @@
 
 namespace yuncms\user\clients;
 
+use Yii;
 use yii\authclient\clients\Facebook as BaseFacebook;
 
 class Facebook extends BaseFacebook implements ClientInterface
 {
+    /**
+     * @inheritdoc
+     */
+    protected function defaultTitle()
+    {
+        return Yii::t('user', 'Facebook');
+    }
+
     /**
      * @inheritdoc
      */

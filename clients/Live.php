@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\clients;
 
 use Yii;
@@ -14,8 +15,9 @@ class Live extends BaseLive implements ClientInterface
     /**
      * @inheritdoc
      */
-    protected function defaultName() {
-        return Yii::t('user','Live');
+    protected function defaultTitle()
+    {
+        return Yii::t('user', 'Live');
     }
 
     /**

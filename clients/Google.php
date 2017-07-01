@@ -7,6 +7,7 @@
 
 namespace yuncms\user\clients;
 
+use Yii;
 use yii\authclient\clients\Google as BaseGoogle;
 
 /**
@@ -15,6 +16,14 @@ use yii\authclient\clients\Google as BaseGoogle;
  */
 class Google extends BaseGoogle implements ClientInterface
 {
+    /**
+     * @inheritdoc
+     */
+    protected function defaultTitle()
+    {
+        return Yii::t('user', 'Google');
+    }
+
     /**
      * @inheritdoc
      */
