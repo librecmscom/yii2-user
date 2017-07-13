@@ -32,6 +32,23 @@ class Bootstrap implements BootstrapInterface
                 $app->controllerMap['user'] = [
                     'class' => 'yuncms\user\console\UserController',
                 ];
+            } else if (class_exists('\xutl\wechat\Application') && $app instanceof \xutl\wechat\Application) {
+                //微信过来的用户
+                Yii::$container->set('yii\web\User', [
+                    'enableAutoLogin' => true,
+                    'loginUrl' => ['/user/security/login'],
+                    'identityClass' => 'yuncms\user\models\User',
+                    'identityCookie' => ['name' => '_identity_wechat', 'httpOnly' => true],
+                    'idParam' => '_user',
+                ]);
+                $configUrlRule = [
+                    'prefix' => $module->urlPrefix,
+                    'rules' => $module->urlRules,
+                ];
+                if ($module->urlPrefix != 'user') {
+                    $configUrlRule['routePrefix'] = 'user';
+                }
+                $app->urlManager->addRules([new GroupUrlRule($configUrlRule)], false);
             } else if (class_exists('\yuncms\admin\Application') && $app instanceof \yuncms\admin\Application) {
                 //监听用户活动时间
                 /** @var \yii\web\UserEvent $event */
@@ -47,7 +64,7 @@ class Bootstrap implements BootstrapInterface
                     'loginUrl' => ['/user/security/login'],
                     'identityClass' => 'yuncms\user\models\User',
                     'identityCookie' => ['name' => '_identity_frontend', 'httpOnly' => true],
-                    'idParam'=>'_user',
+                    'idParam' => '_user',
                 ]);
                 $configUrlRule = [
                     'prefix' => $module->urlPrefix,

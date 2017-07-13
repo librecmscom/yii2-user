@@ -39,43 +39,43 @@ class Module extends \yii\base\Module
     const STRATEGY_SECURE = 2;
 
     /**
-     * @var bool Whether to enable registration.
+     * @var bool 是否允许注册
      */
     public $enableRegistration = true;
 
     /**
-     * @var bool Whether to enable registration captcha.
+     * @var bool 是否启用注册验证码
      */
     public $enableRegistrationCaptcha = false;
 
     /**
-     * @var bool Whether to remove password field from registration form.
+     * @var bool 是否自动生成密码
      */
     public $enableGeneratingPassword = false;
 
     /**
-     * @var bool Whether user has to confirm his account.
+     * @var bool 是否启用账户激活
      */
     public $enableConfirmation = false;
 
     /**
-     * @var bool Whether to allow logging in without confirmation.
+     * @var bool 是否允许未激活账户登录
      */
     public $enableUnconfirmedLogin = false;
 
     /**
      *
-     * @var bool Whether to enable password recovery.
+     * @var bool 是否允许找回密码
      */
     public $enablePasswordRecovery = true;
 
     /**
-     * @var int Email changing strategy.
+     * @var int 邮件修改策略
      */
     public $emailChangeStrategy = self::STRATEGY_DEFAULT;
 
     /**
-     * @var int mobile changing strategy.
+     * @var int 手机修改策略
      */
     public $mobileChangeStrategy = self::STRATEGY_DEFAULT;
 
