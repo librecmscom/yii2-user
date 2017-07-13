@@ -68,7 +68,7 @@ class RegistrationController extends Controller
      * Displays the registration page.
      * After successful registration if enableConfirmation is enabled shows info message otherwise redirects to home page.
      *
-     * @return string
+     * @return string|array
      * @throws \yii\web\NotFoundHttpException
      */
     public function actionRegister()
@@ -153,7 +153,7 @@ class RegistrationController extends Controller
     /**
      * Displays page where user can request new confirmation token. If resending was successful, displays message.
      *
-     * @return string
+     * @return string|array
      * @throws \yii\web\HttpException
      */
     public function actionResend()

@@ -193,7 +193,12 @@ class Social extends ActiveRecord
         }
 
         /** @var \yuncms\user\models\User $user */
-        $user = Yii::createObject(['class' => User::className(), 'scenario' => 'connect', 'username' => $account->username, 'email' => $account->email]);
+        $user = Yii::createObject([
+            'class' => User::className(),
+            'scenario' => 'connect',
+            'username' => $account->username,
+            'email' => $account->email
+        ]);
 
         if (!$user->validate(['email'])) {
             $account->email = null;
