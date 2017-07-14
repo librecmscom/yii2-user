@@ -13,13 +13,12 @@ use yii\web\Response;
 use yii\web\Controller;
 use yii\widgets\ActiveForm;
 use yii\filters\AccessControl;
-use yii\authclient\AuthAction;
 use yii\authclient\ClientInterface;
 use yuncms\user\Module;
 use yuncms\user\models\User;
 use yuncms\user\models\Social;
 use yuncms\user\models\LoginForm;
-
+use xutl\wechat\oauth\AuthAction;
 
 /**
  * Controller that manages user authentication process.
@@ -58,29 +57,12 @@ class SecurityController extends Controller
     public function actions()
     {
         return [
-            'auth' => [
+            'login' => [
                 'class' => AuthAction::className(),
                 // 如果用户未登录，将尝试登录，否则将尝试连接到用户的社交账户。
                 'successCallback' => Yii::$app->user->getIsGuest() ? [$this, 'authenticate'] : [$this, 'connect']
             ]
         ];
-    }
-
-    /**
-     * 登录
-     * @return array|string|Response
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            Yii::$app->session->setFlash('danger', Yii::t('user', 'You are already logged in.'));
-            return $this->goHome();
-        }
-        if (Yii::$app->request->isGet) {
-            Yii::$app->user->setReturnUrl(Yii::$app->request->getReferrer());
-        }
-        //转到微信登录
-        return $this->redirect(['/user/security/auth', 'authclient' => 'wechat']);
     }
 
     /**
