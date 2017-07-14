@@ -163,7 +163,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     {
         return [
             // username rules
-            'usernameRequired' => ['username', 'required', 'on' => ['register', 'create', 'connect', 'update']],
+            'usernameRequired' => ['username', 'required', 'on' => ['register', 'create', 'connect', 'update', 'wechat_register']],
             'usernameMatch' => ['username', 'match', 'pattern' => static::$usernameRegexp],
             'usernameLength' => ['username', 'string', 'min' => 3, 'max' => 255],
             'usernameUnique' => ['username', 'unique', 'message' => Yii::t('user', 'This username has already been taken')],
@@ -184,7 +184,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             //'mobileTrim' => ['mobile', 'trim'],
 
             // password rules
-            'passwordRequired' => ['password', 'required', 'on' => ['register']],
+            'passwordRequired' => ['password', 'required', 'on' => ['register', 'mobile_register']],
             'passwordLength' => ['password', 'string', 'min' => 6, 'on' => ['register', 'create']],
 
             'tags' => ['tagValues', 'safe'],
