@@ -39,7 +39,7 @@ class Bootstrap implements BootstrapInterface
                     'loginUrl' => ['/user/security/login'],
                     'identityClass' => 'yuncms\user\models\User',
                     'identityCookie' => ['name' => '_identity_wechat', 'httpOnly' => true],
-                    'idParam' => '_user',
+                    'idParam' => '_wechat',
                 ]);
                 $configUrlRule = [
                     'prefix' => $module->urlPrefix,

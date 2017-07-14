@@ -73,25 +73,7 @@ class RegistrationController extends Controller
      */
     public function actionRegister()
     {
-        if (!Yii::$app->user->isGuest) {
-            Yii::$app->session->setFlash('danger', Yii::t('user', 'You have already registered.'));
-            return $this->goHome();
-        }
-        if (!$this->module->enableRegistration) {
-            Yii::$app->session->setFlash('danger', Yii::t('user', 'The system has closed the new user registration.'));
-            return $this->goHome();
-        }
-        /** @var RegistrationForm $model */
-        $model = new RegistrationForm();
-
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
-        }
-        if ($model->load(Yii::$app->request->post()) && $model->register()) {
-            return $this->redirect(['/user/setting/profile']);
-        }
-        return $this->render('register', ['model' => $model, 'module' => $this->module]);
+        return $this->redirect(['/user/security/auth', 'authclient' => 'wechat']);
     }
 
     /**

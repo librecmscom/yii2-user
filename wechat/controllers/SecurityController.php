@@ -44,7 +44,7 @@ class SecurityController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['login', 'auth', 'logout'],
+                        'actions' => ['login', 'auth'],
                         'roles' => ['@']
                     ]
                 ]
@@ -79,37 +79,8 @@ class SecurityController extends Controller
         if (Yii::$app->request->isGet) {
             Yii::$app->user->setReturnUrl(Yii::$app->request->getReferrer());
         }
-
-        /**
-         * @var LoginForm $model
-         */
-        $model = new LoginForm();
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
-        }
-        if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
-            return $this->goBack(Yii::$app->getHomeUrl());
-        }
-        if (Yii::$app->request->isAjax) {
-            return $this->renderAjax('login_modal', [
-                'model' => $model,
-                'module' => $this->module,
-            ]);
-        }
-        return $this->render('login', ['model' => $model, 'module' => $this->module]);
-    }
-
-    /**
-     * 退出用户后重定向到主页
-     *
-     * @return Response
-     */
-    public function actionLogout()
-    {
-        Yii::$app->getUser()->logout();
-        Yii::$app->user->setReturnUrl(Yii::$app->request->getReferrer());
-        return $this->goBack();
+        //转到微信登录
+        return $this->redirect(['/user/security/auth', 'authclient' => 'wechat']);
     }
 
     /**
