@@ -9,15 +9,12 @@ namespace yuncms\user\wechat\controllers;
 
 use Yii;
 use yii\helpers\Url;
-use yii\web\Response;
 use yii\web\Controller;
-use yii\widgets\ActiveForm;
 use yii\filters\AccessControl;
 use yii\authclient\ClientInterface;
 use yuncms\user\Module;
 use yuncms\user\models\User;
 use yuncms\user\models\Social;
-use yuncms\user\models\LoginForm;
 use xutl\wechat\oauth\AuthAction;
 
 /**
@@ -38,7 +35,7 @@ class SecurityController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['login', 'auth', 'blocked'],
+                        'actions' => ['login', 'blocked'],
                         'roles' => ['?']
                     ],
                     [

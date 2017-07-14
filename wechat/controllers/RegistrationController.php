@@ -65,18 +65,6 @@ class RegistrationController extends Controller
     }
 
     /**
-     * Displays the registration page.
-     * After successful registration if enableConfirmation is enabled shows info message otherwise redirects to home page.
-     *
-     * @return string
-     * @throws \yii\web\NotFoundHttpException
-     */
-    public function actionRegister()
-    {
-        return $this->redirect(['/user/security/auth', 'authclient' => 'wechat']);
-    }
-
-    /**
      * Displays page where user can create new account that will be connected to social account.
      *
      * @param string $code
