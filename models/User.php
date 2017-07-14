@@ -181,7 +181,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             'mobilePattern' => ['mobile', 'match', 'pattern' => static::$usernameRegexp],
             'mobileLength' => ['mobile', 'string', 'max' => 11],
             'mobileUnique' => ['mobile', 'unique', 'message' => Yii::t('user', 'This mobile address has already been taken')],
-            'mobileTrim' => ['mobile', 'trim'],
+            //'mobileTrim' => ['mobile', 'trim'],
 
             // password rules
             'passwordRequired' => ['password', 'required', 'on' => ['register']],
@@ -792,16 +792,18 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 通过用户名或者用户登陆邮箱获取用户
-     * @param $usernameOrEmail
+     * 通过用户名或者用户登陆邮箱或手机号获取用户
+     * @param string $usernameOrEmailOrMobile
      * @return User|null
      */
-    public static function findByUsernameOrEmail($usernameOrEmail)
+    public static function findByUsernameOrEmailOrMobile($usernameOrEmailOrMobile)
     {
-        if (filter_var($usernameOrEmail, FILTER_VALIDATE_EMAIL)) {
-            return static::findByEmail($usernameOrEmail);
+        if (filter_var($usernameOrEmailOrMobile, FILTER_VALIDATE_EMAIL)) {
+            return static::findByEmail($usernameOrEmailOrMobile);
+        } else if (preg_match(self::$mobileRegexp, $usernameOrEmailOrMobile)) {
+            return static::findByMobile($usernameOrEmailOrMobile);
         }
-        return static::findByUsername($usernameOrEmail);
+        return static::findByUsername($usernameOrEmailOrMobile);
     }
 
     /**
