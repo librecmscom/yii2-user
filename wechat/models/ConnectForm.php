@@ -5,7 +5,7 @@
  * @license http://www.tintsoft.com/license/
  */
 
-namespace yuncms\user\models;
+namespace yuncms\user\wechat\models;
 
 use Yii;
 use yii\base\Model;
@@ -13,10 +13,9 @@ use yuncms\user\helpers\Password;
 use yuncms\user\ModuleTrait;
 
 /**
- * LoginForm get user's login and password, validates them and logs the user in. If user has been blocked, it adds
- * an error to login form.
+ * 注册或绑定用户
  */
-class LoginForm extends Model
+class ConnectForm extends Model
 {
     use ModuleTrait;
 
@@ -31,15 +30,9 @@ class LoginForm extends Model
     public $password;
 
     /**
-     * @var bool Whether to remember the user
-     */
-    public $rememberMe;
-
-    /**
      * @var \yuncms\user\models\User
      */
     protected $user;
-
 
     /**
      * @inheritdoc
@@ -83,7 +76,6 @@ class LoginForm extends Model
                     }
                 }
             ],
-            'rememberMe' => ['rememberMe', 'boolean'],
         ];
     }
 
@@ -95,9 +87,6 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            $loginHistory = new LoginHistory(['ip' => Yii::$app->request->userIP]);
-            $loginHistory->link('user', $this->user);
-
             return Yii::$app->user->login($this->user, $this->rememberMe ? $this->module->rememberFor : 0);
         } else {
             return false;

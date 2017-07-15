@@ -12,9 +12,12 @@ use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\authclient\ClientInterface;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
+use yuncms\user\models\ConnectForm;
 use yuncms\user\Module;
 use yuncms\user\models\User;
-use yuncms\user\models\Social;
+use yuncms\user\models\Wechat;
 use xutl\wechat\oauth\AuthAction;
 
 /**
@@ -56,24 +59,21 @@ class SecurityController extends Controller
         return [
             'login' => [
                 'class' => AuthAction::className(),
-                // 如果用户未登录，将尝试登录，否则将尝试连接到用户的社交账户。
-                'successCallback' => Yii::$app->user->getIsGuest() ? [$this, 'authenticate'] : [$this, 'connect']
+                'successCallback' => [$this, 'authenticate']
             ]
         ];
     }
 
     /**
-     * Tries to authenticate user via social network. If user has already used
-     * this network's account, he will be logged in. Otherwise, it will try
-     * to create new user account.
+     * 通过微信登录，如果用户不存在，将创建或绑定用户
      *
      * @param ClientInterface $client
      */
     public function authenticate(ClientInterface $client)
     {
-        $account = Social::find()->byClient($client)->one();
+        $account = Wechat::find()->byClient($client)->one();
         if ($account === null) {
-            $account = Social::create($client);
+            $account = Wechat::create($client);
         }
         if ($account->user instanceof User) {
             if ($account->user->isBlocked) {
@@ -86,20 +86,5 @@ class SecurityController extends Controller
         } else {
             $this->action->successUrl = $account->getConnectUrl();
         }
-    }
-
-    /**
-     * 尝试将社交账号连接到用户
-     *
-     * @param ClientInterface $client
-     */
-    public function connect(ClientInterface $client)
-    {
-        /**
-         * @var Social $account
-         */
-        $account = new Social();
-        $account->connectWithUser($client);
-        $this->action->successUrl = Url::to(['/user/setting/networks']);
     }
 }

@@ -152,7 +152,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             'settings' => ['username', 'email', 'password'],
             'import' => ['username', 'email', 'password'],
             'mobile_register' => ['mobile', 'password'],
-            'wechat_register' => ['username'],
+            'wechat_connect' => ['username', 'email', 'password'],
         ]);
     }
 

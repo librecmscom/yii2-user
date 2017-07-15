@@ -9,6 +9,7 @@ namespace yuncms\user\wechat\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yuncms\user\helpers\Password;
 use yuncms\user\models\User;
 use yuncms\user\models\Social;
 use yii\filters\AccessControl;
@@ -16,6 +17,8 @@ use yuncms\user\models\ResendForm;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\web\NotFoundHttpException;
+use yuncms\user\models\Wechat;
+use yuncms\user\wechat\models\ConnectForm;
 use yuncms\user\wechat\models\RegistrationForm;
 
 /**
@@ -65,7 +68,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * Displays page where user can create new account that will be connected to social account.
+     * 将微信用户连接到系统内用户
      *
      * @param string $code
      *
@@ -74,7 +77,7 @@ class RegistrationController extends Controller
      */
     public function actionConnect($code)
     {
-        $account = Social::find()->byCode($code)->one();
+        $account = Wechat::find()->byCode($code)->one();
 
         if ($account === null || $account->getIsConnected()) {
             throw new NotFoundHttpException();
@@ -83,63 +86,27 @@ class RegistrationController extends Controller
         /** @var User $user */
         $user = Yii::createObject([
             'class' => User::className(),
-            'scenario' => 'connect',
-            'username' => $account->username,
-            'email' => $account->email,
+            'scenario' => 'wechat_register',
         ]);
 
-        if ($user->load(Yii::$app->request->post()) && $user->create()) {
-            $account->connect($user);
-            Yii::$app->user->login($user, $this->module->rememberFor);
-            return $this->goBack();
+        if ($user->load(Yii::$app->request->post())) {
+            /** @var User $connectUser */
+            $connectUser = User::find()->orWhere(['username' => $user->username, 'email' => $user->email])->one();
+            if ($connectUser !== null && Password::validate($user->password,$connectUser->password_hash)) {
+                $account->connect($connectUser);
+                Yii::$app->user->login($connectUser, $this->module->rememberFor);
+                return $this->goBack();
+            } else {
+                $user->create();
+                $account->connect($user);
+                Yii::$app->user->login($user, $this->module->rememberFor);
+                return $this->goBack();
+            }
         }
 
         return $this->render('connect', [
             'model' => $user,
             'account' => $account,
         ]);
-    }
-
-    /**
-     * Confirms user's account. If confirmation was successful logs the user and shows success message. Otherwise
-     * shows error message.
-     *
-     * @param integer $id
-     * @param string $code
-     *
-     * @return string
-     * @throws \yii\web\HttpException
-     */
-    public function actionConfirm($id, $code)
-    {
-        $user = User::findOne($id);
-        if ($user === null || $this->module->enableConfirmation == false) {
-            return $this->goBack();
-        }
-        $user->attemptConfirmation($code);
-        return $this->redirect(['/user/setting/profile']);
-    }
-
-    /**
-     * Displays page where user can request new confirmation token. If resending was successful, displays message.
-     *
-     * @return string
-     * @throws \yii\web\HttpException
-     */
-    public function actionResend()
-    {
-        if ($this->module->enableConfirmation == false) {
-            return $this->goBack();
-        }
-        /** @var ResendForm $model */
-        $model = new ResendForm();
-        if (Yii::$app->request->getIsAjax() && $model->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
-        }
-        if ($model->load(Yii::$app->request->post()) && $model->resend()) {
-            return $this->redirect(['/user/setting/profile']);
-        }
-        return $this->render('resend', ['model' => $model]);
     }
 }
