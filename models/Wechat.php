@@ -146,7 +146,7 @@ class Wechat extends \yii\db\ActiveRecord
     {
         $code = Yii::$app->security->generateRandomString();
         $this->updateAttributes(['code' => md5($code)]);
-        return Url::to(['/user/registration/connect', 'code' => $code]);
+        return Url::to(['/user/security/connect', 'code' => $code]);
     }
 
     /**

@@ -19,7 +19,6 @@ $this->title = Yii::t('user', 'Sign in');
     'layout' => 'horizontal',
 ]); ?>
 <?= $form->field($model, 'email') ?>
-<?= $form->field($model, 'username') ?>
 <?= $form->field($model, 'password', ['inputOptions' => ['autocomplete' => 'off']])->passwordInput() ?>
 <?= Html::submitButton(Yii::t('user', 'Register && Continue'), ['class' => 'btn btn-success btn-block']) ?>
 <?php ActiveForm::end(); ?>

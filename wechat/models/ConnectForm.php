@@ -10,6 +10,8 @@ namespace yuncms\user\wechat\models;
 use Yii;
 use yii\base\Model;
 use yuncms\user\helpers\Password;
+use yuncms\user\models\User;
+use yuncms\user\models\Wechat;
 use yuncms\user\ModuleTrait;
 
 /**
@@ -20,9 +22,9 @@ class ConnectForm extends Model
     use ModuleTrait;
 
     /**
-     * @var string User's email or username
+     * @var string User's email
      */
-    public $login;
+    public $email;
 
     /**
      * @var string User's plain password
@@ -33,6 +35,11 @@ class ConnectForm extends Model
      * @var \yuncms\user\models\User
      */
     protected $user;
+
+    /**
+     * @var Wechat 社交账户实例
+     */
+    public $wechat;
 
     /**
      * @inheritdoc
@@ -52,30 +59,14 @@ class ConnectForm extends Model
     public function rules()
     {
         return [
-            'requiredFields' => [['login', 'password'], 'required'],
-            'loginTrim' => ['login', 'trim'],
-            'passwordValidate' => [
-                'password',
-                function ($attribute) {
-                    if ($this->user === null || !Password::validate($this->password, $this->user->password_hash)) {
-                        $this->addError($attribute, Yii::t('user', 'Invalid login or password'));
-                    }
-                }
-            ],
-            'confirmationValidate' => [
-                'login',
-                function ($attribute) {
-                    if ($this->user !== null) {
-                        $confirmationRequired = $this->module->enableConfirmation && !$this->module->enableUnconfirmedLogin;
-                        if ($confirmationRequired && !$this->user->getIsConfirmed()) {
-                            $this->addError($attribute, Yii::t('user', 'You need to confirm your email address.'));
-                        }
-                        if ($this->user->getIsBlocked()) {
-                            $this->addError($attribute, Yii::t('user', 'Your account has been blocked.'));
-                        }
-                    }
-                }
-            ],
+            // email rules
+            'emailRequired' => ['email', 'required'],
+            'emailTrim' => ['email', 'filter', 'filter' => 'trim'],
+            'emailPattern' => ['email', 'email'],
+
+            'passwordRequired' => ['password', 'required'],
+            'passwordLength' => ['password', 'string', 'min' => 6],
+            'passwordTrim' => ['password', 'filter', 'filter' => 'trim'],
         ];
     }
 
@@ -84,33 +75,41 @@ class ConnectForm extends Model
      *
      * @return boolean whether the user is logged in successfully
      */
-    public function login()
+    public function connect()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->user, $this->rememberMe ? $this->module->rememberFor : 0);
+            $this->user = User::findByEmail($this->email);
+            if ($this->user === null) {
+                $this->user = Yii::createObject([
+                    'class' => User::className(),
+                    'scenario' => 'wechat_register',
+                    'email' => $this->email,
+                    'password' => $this->password
+                ]);
+                $this->user->generateUsername();//生成用户名
+                if (!$this->user->create()) {
+                    $this->addErrors($this->user->getErrors());
+                    return false;
+                }
+            } else {
+                if (!Password::validate($this->password, $this->user->password_hash)) {
+                    $this->addError('password', Yii::t('user', 'Invalid login or password'));
+                    return false;
+                }
+                if ($this->user->getIsBlocked()) {
+                    $this->addError('login', Yii::t('user', 'Your account has been blocked.'));
+                    return false;
+                }
+            }
+            $this->wechat->connect($this->user);
+            return Yii::$app->user->login($this->user, $this->module->rememberFor);
         } else {
             return false;
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function formName()
+    public function setWechat(Wechat $wechat)
     {
-        return 'login-form';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function beforeValidate()
-    {
-        if (parent::beforeValidate()) {
-            $this->user = User::findByUsernameOrEmailOrMobile($this->login);
-            return true;
-        } else {
-            return false;
-        }
+        $this->wechat = $wechat;
     }
 }
