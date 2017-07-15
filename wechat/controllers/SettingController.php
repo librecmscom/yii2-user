@@ -10,7 +10,6 @@ namespace yuncms\user\wechat\controllers;
 use Yii;
 use yii\web\Response;
 use yii\web\Controller;
-use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\widgets\ActiveForm;
@@ -32,7 +31,6 @@ class SettingController extends Controller
 {
     /** @inheritdoc */
     public $defaultAction = 'profile';
-
 
     /** @inheritdoc */
     public function behaviors()
@@ -60,7 +58,7 @@ class SettingController extends Controller
     /**
      * Shows profile settings form.
      *
-     * @return string|\yii\web\Response
+     * @return array|string|Response
      */
     public function actionProfile()
     {
@@ -96,7 +94,7 @@ class SettingController extends Controller
     /**
      * Displays page where user can update account settings (username, email or password).
      *
-     * @return string|\yii\web\Response
+     * @return string|array|\yii\web\Response
      */
     public function actionAccount()
     {
