@@ -69,7 +69,7 @@ class CoinController extends Controller
                 'money' => $model->money,
                 'name' => Yii::t('user', 'Coin Recharge'),
                 'gateway' => $model->gateway,
-                'pay_type' => Payment::TYPE_MWEB,
+                'trade_type' => Payment::TYPE_NATIVE,
                 'model_id' => $model->id,
                 'model' => get_class($model),
                 'return_url' => Url::to(['/user/coin/index'], true),
