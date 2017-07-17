@@ -264,6 +264,15 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
+     * 返回用户微信资料
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWechat()
+    {
+        return $this->hasOne(Wechat::className(), ['user_id' => 'id']);
+    }
+
+    /**
      * @param Profile $profile
      */
     public function setProfile(Profile $profile)
