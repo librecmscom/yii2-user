@@ -49,6 +49,13 @@ class Bootstrap implements BootstrapInterface
                     $configUrlRule['routePrefix'] = 'user';
                 }
                 $app->urlManager->addRules([new GroupUrlRule($configUrlRule)], false);
+
+                //监听用户登录事件
+                /** @var \yii\web\UserEvent $event */
+                $app->user->on(\yii\web\User::EVENT_AFTER_LOGIN, function ($event) {
+                    //记录最后登录时间记录最后登录IP记录登录次数
+                    $event->identity->resetLoginData();
+                });
             } else if (class_exists('\yuncms\admin\Application') && $app instanceof \yuncms\admin\Application) {
                 //监听用户活动时间
                 /** @var \yii\web\UserEvent $event */
