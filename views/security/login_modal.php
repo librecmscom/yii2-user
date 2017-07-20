@@ -6,6 +6,7 @@ use yuncms\user\widgets\Connect;
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'login-modal',
+    'options' => ['autocomplete' => 'off'],
     'enableAjaxValidation' => true,
     'enableClientValidation' => false,
     'validateOnBlur' => false,
@@ -22,7 +23,12 @@ use yuncms\user\widgets\Connect;
 <div class="modal-body">
     <div class="row">
         <div class="col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2">
-            <?= $form->field($model, 'login', ['inputOptions' => ['autofocus' => 'autofocus',]]) ?>
+            <?= $form->field($model, 'login', ['inputOptions' => [
+                'autocomplete' => 'off',
+                'disableautocomplete' => true,
+                'autofocus' => 'autofocus',
+                'placeholder' => '请输入账户/邮箱/手机号'
+            ]]) ?>
             <?= $form->field($model, 'password')->passwordInput() ?>
             <?= $form->field($model, 'rememberMe')->checkbox() ?>
             <?= $module->enablePasswordRecovery ? Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request']) : '' ?>

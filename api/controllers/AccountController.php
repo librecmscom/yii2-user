@@ -40,6 +40,28 @@ class AccountController extends Controller
     }
 
     /**
+     * Displays page where user can update account settings (username, email or password).
+     *
+     * @return string|\yii\web\Response
+     */
+    public function actionUpdate()
+    {
+        /** @var SettingsForm $model */
+        $model = new SettingsForm();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('user', 'Your account details have been updated.'));
+            return $this->refresh();
+        }
+        return $this->render('account', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
      * 获取用户 Profile 信息
      * @return \yuncms\user\models\Profile
      */

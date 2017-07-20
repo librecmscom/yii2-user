@@ -62,11 +62,10 @@ class Profile extends ActiveRecord
             ['gender', 'in', 'range' => [self::GENDER_MALE, self::GENDER_FEMALE, self::GENDER_UNCONFIRMED]],
             ['public_email', 'email'],
             ['website', 'url'],
-            ['address', 'string'],
-            ['introduction', 'string'],
-            ['bio', 'string'],
+            [['address', 'introduction', 'bio'], 'string'],
             [['public_email', 'nickname', 'timezone', 'country', 'location', 'website'], 'string', 'max' => 255],
 
+            ['qq', 'integer', 'min' => 10001, 'max' => 9999999999],
         ];
     }
 
