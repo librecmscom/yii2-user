@@ -6,7 +6,7 @@ use yuncms\user\CropperAsset;
 
 /*
  * @var \yii\web\View $this
- * @var \yuncms\user\models\AvatarForm $model
+ * @var \yuncms\user\frontend\models\AvatarForm $model
  */
 Asset::register($this);
 CropperAsset::register($this);
@@ -35,7 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'width')->hiddenInput(['id' => 'width'])->label(false) ?>
                 <?= $form->field($model, 'height')->hiddenInput(['id' => 'height'])->label(false) ?>
                 <div class="docs-buttons">
-
 
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1"

@@ -75,6 +75,10 @@ class Token extends ActiveRecord
             case self::TYPE_CONFIRM_OLD_EMAIL:
                 $route = '/user/setting/confirm';
                 break;
+            case self::TYPE_CONFIRM_NEW_MOBILE:
+            case self::TYPE_CONFIRM_OLD_MOBILE:
+                $route = '/user/setting/mobile';
+                break;
             default:
                 throw new \RuntimeException();
         }
@@ -91,6 +95,10 @@ class Token extends ActiveRecord
             case self::TYPE_CONFIRMATION:
             case self::TYPE_CONFIRM_NEW_EMAIL:
             case self::TYPE_CONFIRM_OLD_EMAIL:
+                $expirationTime = $this->module->confirmWithin;
+                break;
+            case self::TYPE_CONFIRM_NEW_MOBILE:
+            case self::TYPE_CONFIRM_OLD_MOBILE:
                 $expirationTime = $this->module->confirmWithin;
                 break;
             case self::TYPE_RECOVERY:
@@ -111,7 +119,11 @@ class Token extends ActiveRecord
         if ($insert) {
             static::deleteAll(['user_id' => $this->user_id, 'type' => $this->type]);
             $this->setAttribute('created_at', time());
-            $this->setAttribute('code', Yii::$app->security->generateRandomString());
+            if ($this->type == self::TYPE_CONFIRM_NEW_MOBILE || $this->type == self::TYPE_CONFIRM_OLD_MOBILE) {
+                $this->setAttribute('code', Yii::$app->security->generateSalt(6));
+            } else {
+                $this->setAttribute('code', Yii::$app->security->generateRandomString());
+            }
         }
         return parent::beforeSave($insert);
     }

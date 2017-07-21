@@ -15,10 +15,11 @@ class M161108090738Create_user_table extends Migration
         }
 
         $this->createTable('{{%user}}', [
-            'id' => $this->primaryKey(11),
-            'username' => $this->string()->notNull()->unique(),
-            'email' => $this->string()->notNull()->unique(),
-            'mobile' => $this->string(11)->unique(),
+            'id' => $this->primaryKey(11)->comment('用户id'),
+            'slug' => $this->string(50)->notNull()->unique()->comment('标识相当于用户名不能用来登录'),
+            'email' => $this->string()->notNull()->unique('邮箱'),
+            'mobile' => $this->string(11)->unique()->comment('手机号'),
+            'name' => $this->string()->notNull()->comment('名字昵称'),
             'auth_key' => $this->string()->notNull(),
             'password_hash' => $this->string()->notNull(),
             'avatar' => $this->boolean()->defaultValue(false),
@@ -36,8 +37,10 @@ class M161108090738Create_user_table extends Migration
         //添加默认超级管理员帐户 密码是 123456
         $this->insert('{{%user}}', [
             'id' => 1,
-            'username' => 'xcr',
+            'slug' => 'xcr',
+            'name' => '方圆百里找对手',
             'email' => 'xutongle@gmail.com',
+            'mobile' => '13800138000',
             'auth_key' => '0B8C1dRH1XxKhO15h_9JzaN0OAY9WprZ',
             'password_hash' => '$2y$13$BzPeMPVIFLkiZXwkjJ/HZu0o6Mk0EUQdePC0ufnpzJCzIb4sOrUKK',
             'confirmed_at' => time(),

@@ -5,7 +5,7 @@ use yii\bootstrap\ActiveForm;
 /*
  * @var $this  yii\web\View
  * @var $form  yii\widgets\ActiveForm
- * @var $model yuncms\user\models\SettingsForm
+ * @var $model yuncms\user\frontend\models\SettingsForm
  */
 $this->title = Yii::t('user', 'Security Setting');
 $this->params['breadcrumbs'][] = $this->title;
@@ -30,9 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'enableClientValidation' => false,
                 ]); ?>
 
-                <?= $form->field($model, 'email') ?>
-
                 <?= $form->field($model, 'name') ?>
+
+                <?= $form->field($model, 'slug') ?>
+
+                <?= $form->field($model, 'email') ?>
 
                 <?= $form->field($model, 'new_password')->passwordInput() ?>
 

@@ -17,18 +17,17 @@ class M161108090824Create_user_profile_table extends Migration
          * 创建用户资料表
          */
         $this->createTable('{{%user_profile}}', [
-            'user_id' => $this->integer()->notNull(),
-            'nickname' => $this->string(),
-            'gender' => $this->smallInteger(1)->notNull()->defaultValue(0),
-            'mobile' => $this->string(),
-            'public_email' => $this->string(),
+            'user_id' => $this->integer()->notNull()->comment('用户ID'),
+            'gender' => $this->smallInteger(1)->notNull()->defaultValue(0)->comment('性别'),
+            'mobile' => $this->string()->comment('公开手机'),
+            'email' => $this->string()->comment('公开Email'),
             'country' => $this->string()->comment('国家'),
             'province' => $this->string()->comment('省'),
             'city' => $this->string()->comment('城市'),
-            'location' => $this->string(),
-            'address' => $this->string(),
-            'website' => $this->string(),
-            'timezone' => $this->string(100),//默认格林威治时间
+            'location' => $this->string()->comment('位置'),
+            'address' => $this->string()->comment('地址'),
+            'website' => $this->string()->comment('个人网站'),
+            'timezone' => $this->string(100)->comment('时区'),//默认格林威治时间
             'introduction' => $this->string(),
             'bio' => $this->text()
         ], $tableOptions);
@@ -37,8 +36,13 @@ class M161108090824Create_user_profile_table extends Migration
 
         $this->insert('{{%user_profile}}', [
             'user_id' => 1,
-            'nickname' => '方圆百里找对手',
-            'website'=>'https://www.l68.net',
+            'gender' => 1,
+            'mobile' => '13800138000',
+            'email' => 'admin@qq.com',
+            'country' => 'CN',
+            'province' => 'Shandong',
+            'city' => 'Jinan',
+            'website' => 'https://www.l68.net',
         ]);
     }
 

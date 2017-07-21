@@ -15,7 +15,6 @@ use yuncms\user\ModuleTrait;
  * This is the model class for table "profile".
  *
  * @property int $user_id 用户ID
- * @property string $nickname 昵称
  * @property int $gender 性别
  * @property string $public_email 公开邮箱
  * @property string $location
@@ -60,10 +59,17 @@ class Profile extends ActiveRecord
             ['mobile', 'string', 'min' => 11, 'max' => 11],
             ['gender', 'default', 'value' => self::GENDER_UNCONFIRMED],
             ['gender', 'in', 'range' => [self::GENDER_MALE, self::GENDER_FEMALE, self::GENDER_UNCONFIRMED]],
-            ['public_email', 'email'],
+            ['email', 'email'],
             ['website', 'url'],
+<<<<<<< origin/master
             [['address', 'introduction', 'bio'], 'string'],
             [['public_email', 'nickname', 'timezone', 'country', 'location', 'website'], 'string', 'max' => 255],
+=======
+            ['address', 'string'],
+            ['introduction', 'string'],
+            ['bio', 'string'],
+            [['email', 'timezone', 'country', 'location', 'website'], 'string', 'max' => 255],
+>>>>>>> local
 
             ['qq', 'integer', 'min' => 10001, 'max' => 9999999999],
         ];
@@ -75,10 +81,9 @@ class Profile extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'nickname' => Yii::t('user', 'Nickname'),
             'gender' => Yii::t('user', 'Gender'),
             'mobile' => Yii::t('user', 'Mobile'),
-            'public_email' => Yii::t('user', 'Email (public)'),
+            'email' => Yii::t('user', 'Email (public)'),
             'country' => Yii::t('user', 'Country'),
             'location' => Yii::t('user', 'Location'),
             'address' => Yii::t('user', 'Address'),

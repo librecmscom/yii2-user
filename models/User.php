@@ -11,6 +11,7 @@ use Yii;
 use yii\db\Query;
 use yii\helpers\Url;
 use yii\db\ActiveQuery;
+use yii\helpers\Inflector;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
@@ -30,31 +31,34 @@ use yuncms\user\helpers\Password;
  * @property bool $isConfirmed
  *
  * Database fields:
- * @property integer $id
- * @property string $username
- * @property string $email
+ * @property integer $id ID 唯一
+ * @property string $slug 标识唯一
+ * @property string $name 名字不唯一
+ * @property string $email 邮箱
  * @property string $mobile 用户手机
- * @property string $unconfirmed_email
- * @property string $unconfirmed_mobile
- * @property string $password_hash
+ * @property string $password 密码
+ * @property string $unconfirmed_email 未确认的邮箱
+ * @property string $unconfirmed_mobile 未确认的手机
+ * @property string $password_hash 密码哈希
  * @property string $auth_key
  * @property bool $avatar
- * @property integer $registration_ip
- * @property integer $confirmed_at
- * @property integer $blocked_at
- * @property integer $created_at
- * @property integer $updated_at
- * @property integer $flags
- * @property integer $ver
+ * @property integer $registration_ip 注册IP
+ * @property integer $confirmed_at 激活时间
+ * @property integer $blocked_at 封杀时间
+ * @property integer $created_at 创建时间
+ * @property integer $updated_at 更新时间
+ * @property integer $flags 标记
+ * @property integer $ver 版本
  *
  * Defined relations:
- * @property Social[] $accounts
- * @property Profile $profile
- * @property Data $userData
- * @property Authentication $authentication
+ * @property Social[] $accounts 社交账号
+ * @property Profile $profile 个人资料
+ * @property Data $userData 用户数据
+ * @property Authentication $authentication 实名认证数据
  *
  * Dependencies:
  * @property-read Module $module
+ *
  */
 class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInterface
 {
@@ -84,9 +88,14 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     private $_userData;
 
     /**
+     * @var string Default slug regexp
+     */
+    public static $slugRegexp = '/^[-a-zA-Z0-9_]+$/u';
+
+    /**
      * @var string Default username regexp
      */
-    public static $usernameRegexp = '/^[-a-zA-Z0-9_\x{4e00}-\x{9fa5}\.@]+$/u';
+    public static $nameRegexp = '/^[-a-zA-Z0-9_\x{4e00}-\x{9fa5}\.@]+$/u';
 
     public static $mobileRegexp = '/^13[\d]{9}$|^15[\d]{9}$|^17[\d]{9}$|^18[\d]{9}$/';
 
@@ -128,7 +137,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function attributeLabels()
     {
         return [
-            'username' => Yii::t('user', 'Username'),
+            'name' => Yii::t('user', 'Name'),
             'email' => Yii::t('user', 'Email'),
             'registration_ip' => Yii::t('user', 'Registration ip'),
             'unconfirmed_email' => Yii::t('user', 'New email'),
@@ -145,14 +154,14 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     {
         $scenarios = parent::scenarios();
         return ArrayHelper::merge($scenarios, [
-            'register' => ['username', 'email', 'password'],
-            'connect' => ['username', 'email'],
-            'create' => ['username', 'email', 'password'],
-            'update' => ['username', 'email', 'password'],
-            'settings' => ['username', 'email', 'password'],
-            'import' => ['username', 'email', 'password'],
+            'register' => ['name', 'email', 'password'],
+            'connect' => ['name', 'email'],
+            'create' => ['name', 'email', 'password'],
+            'update' => ['name', 'email', 'password'],
+            'settings' => ['name', 'email', 'password'],
+            'import' => ['name', 'email', 'password'],
             'mobile_register' => ['mobile', 'password'],
-            'wechat_connect' => ['username', 'email', 'password'],
+            'wechat_connect' => ['name', 'email', 'password'],
         ]);
     }
 
@@ -162,12 +171,18 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function rules()
     {
         return [
-            // username rules
-            'usernameRequired' => ['username', 'required', 'on' => ['register', 'create', 'connect', 'update', 'wechat_register']],
-            'usernameMatch' => ['username', 'match', 'pattern' => static::$usernameRegexp],
-            'usernameLength' => ['username', 'string', 'min' => 3, 'max' => 255],
-            'usernameUnique' => ['username', 'unique', 'message' => Yii::t('user', 'This username has already been taken')],
-            'usernameTrim' => ['username', 'trim'],
+            // slug rules
+            'slugMatch' => ['slug', 'match', 'pattern' => static::$slugRegexp],
+            'slugLength' => ['slug', 'string', 'min' => 3, 'max' => 50],
+            'slugUnique' => ['slug', 'unique', 'message' => Yii::t('user', 'This slug has already been taken')],
+            'slugTrim' => ['slug', 'trim'],
+
+            // name rules
+            'nameRequired' => ['name', 'required', 'on' => ['register', 'create', 'connect', 'update', 'wechat_register']],
+            'nameMatch' => ['name', 'match', 'pattern' => static::$nameRegexp],
+            'nameLength' => ['name', 'string', 'min' => 3, 'max' => 255],
+            'nameUnique' => ['name', 'unique', 'message' => Yii::t('user', 'This username has already been taken')],
+            'nameTrim' => ['name', 'trim'],
 
             // email rules
             'emailRequired' => ['email', 'required', 'on' => ['register', 'connect', 'create', 'update']],
@@ -178,7 +193,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
 
             //mobile rules
             'mobileRequired' => ['mobile', 'required', 'on' => ['mobile_register']],
-            'mobilePattern' => ['mobile', 'match', 'pattern' => static::$usernameRegexp],
+            'mobilePattern' => ['mobile', 'match', 'pattern' => static::$mobileRegexp],
             'mobileLength' => ['mobile', 'string', 'max' => 11],
             'mobileUnique' => ['mobile', 'unique', 'message' => Yii::t('user', 'This mobile address has already been taken')],
             //'mobileTrim' => ['mobile', 'trim'],
@@ -208,7 +223,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 返回用户是否已经验证
+     * 返回用户是否已经激活
      * @return boolean Whether the user is confirmed or not.
      */
     public function getIsConfirmed()
@@ -404,16 +419,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 获取我的APP列表
-     * 一对多关系
-     * @return ActiveQuery
-     */
-    public function getRests()
-    {
-        return $this->hasMany(Rest::className(), ['user_id' => 'id']);
-    }
-
-    /**
      * 获取用户已经激活的钱包
      * @return null|ActiveQuery
      */
@@ -432,7 +437,17 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * Creates new user account. It generates password if it is not provided by user.
+     * 获取我的APP列表
+     * 一对多关系
+     * @return ActiveQuery
+     */
+    public function getRests()
+    {
+        return $this->hasMany(Rest::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * 创建新用户帐户。 如果用户不提供密码，则会生成密码。
      *
      * @return boolean
      */
@@ -443,6 +458,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         }
         $this->confirmed_at = time();
         $this->password = $this->password == null ? Password::generate(8) : $this->password;
+        $this->slug = $this->slug == null ? Inflector::slug($this->name, '-') : $this->slug;
         $this->trigger(self::BEFORE_CREATE);
         if (!$this->save()) {
             return false;
@@ -453,8 +469,8 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * This method is used to register new user account. If Module::enableConfirmation is set true, this method
-     * will generate new confirmation token and use mailer to send it to the user.
+     * 此方法用于注册新用户帐户。 如果Module :: enableConfirmation设置为true，则此方法
+     * 将生成新的确认令牌，并使用邮件发送给用户。
      *
      * @return boolean
      */
@@ -465,6 +481,8 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         }
         $this->confirmed_at = $this->module->enableConfirmation ? null : time();
         $this->password = $this->module->enableGeneratingPassword ? Password::generate(8) : $this->password;
+        $this->slug = $this->slug == null ? Inflector::slug($this->name, '-') : $this->slug;
+
         $this->trigger(self::BEFORE_REGISTER);
         if (!$this->save()) {
             return false;
@@ -637,23 +655,40 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 使用email地址生成一个新的用户名
+     * 使用email地址生成一个新的用户名字
      */
-    public function generateUsername()
+    public function generateName()
     {
         // try to use name part of email
-        $this->username = explode('@', $this->email)[0];
-        if ($this->validate(['username'])) {
-            return $this->username;
+        $this->name = explode('@', $this->email)[0];
+        if ($this->validate(['name'])) {
+            return $this->name;
         }
 
-        // generate username like "user1", "user2", etc...
-        while (!$this->validate(['username'])) {
+        // generate name like "user1", "user2", etc...
+        while (!$this->validate(['name'])) {
             $row = (new Query())->from('{{%user}}')->select('MAX(id) as id')->one();
-            $this->username = 'user' . ++$row['id'];
+            $this->name = 'user' . ++$row['id'];
         }
+        return $this->name;
+    }
 
-        return $this->username;
+    /**
+     * 使用email地址生成一个新的标识
+     */
+    public function generateSlug()
+    {
+        // try to use slug part of email
+        $this->slug = explode('@', $this->email)[0];
+        if ($this->validate(['slug'])) {
+            return $this->slug;
+        }
+        // generate slug like "user1", "user2", etc...
+        while (!$this->validate(['slug'])) {
+            $row = (new Query())->from('{{%user}}')->select('MAX(id) as id')->one();
+            $this->slug = 'slug' . ++$row['id'];
+        }
+        return $this->slug;
     }
 
     /**
@@ -761,7 +796,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         if ($insert) {
             if ($this->_profile == null) {
                 $this->_profile = new Profile();
-                $this->_profile->nickname = $this->username;
             }
             $this->_profile->link('user', $this);
 
@@ -790,29 +824,18 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findIdentityByUsername($username)
-    {
-        return static::findOne(['username' => $username]);
-    }
-
-    /**
      * 通过用户名或者用户登陆邮箱或手机号获取用户
-     * @param string $usernameOrEmailOrMobile
+     * @param string $emailOrMobile
      * @return User|null
      */
-    public static function findByUsernameOrEmailOrMobile($usernameOrEmailOrMobile)
+    public static function findByEmailOrMobile($emailOrMobile)
     {
-        if (filter_var($usernameOrEmailOrMobile, FILTER_VALIDATE_EMAIL)) {
-            return static::findByEmail($usernameOrEmailOrMobile);
-        } else if (preg_match(self::$mobileRegexp, $usernameOrEmailOrMobile)) {
-            return static::findByMobile($usernameOrEmailOrMobile);
+        if (filter_var($emailOrMobile, FILTER_VALIDATE_EMAIL)) {
+            return static::findByEmail($emailOrMobile);
+        } else if (preg_match(self::$mobileRegexp, $emailOrMobile)) {
+            return static::findByMobile($emailOrMobile);
         }
-        return static::findByUsername($usernameOrEmailOrMobile);
+        return null;
     }
 
     /**
@@ -836,12 +859,12 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 通过用户名获取用户
-     * @param string $username 用户名
+     * 通过Slug获取用户
+     * @param string $slug 用户标识
      * @return null|static
      */
-    public static function findByUsername($username)
+    public static function findBySlug($slug)
     {
-        return static::findOne(['username' => $username]);
+        return static::findOne(['slug' => $slug]);
     }
 }
