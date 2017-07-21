@@ -102,7 +102,7 @@ class Module extends \yii\base\Module
     /**
      * @var array Mailer configuration
      */
-    public $mailViewPath = '@yuncms/user/views/mail';
+    public $mailViewPath = '@yuncms/user/mail';
 
     /**
      * @var string|array Default: `Yii::$app->params['adminEmail']` OR `no-reply@example.com`
