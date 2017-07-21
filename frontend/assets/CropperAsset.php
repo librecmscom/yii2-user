@@ -4,7 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
-namespace yuncms\user;
+namespace yuncms\user\frontend\assets;
 
 use yii\web\AssetBundle;
 
@@ -13,20 +13,20 @@ use yii\web\AssetBundle;
  *
  * @author Alexander Kochetov <creocoder@gmail.com>
  */
-class UserAsset extends AssetBundle
+class CropperAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/yuncms/yii2-user/assets';
+    public $sourcePath = '@yuncms/user/frontend/views/assets';
 
     public $css = [
-        'css/user.css'
+        'css/cropper.css',
     ];
 
     public $js = [
-        'js/user.js',
+        'js/cropper.js',
     ];
 
     public $depends = [
-        'yii\web\JqueryAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'xutl\cropper\CropperAsset',
     ];
+
 }

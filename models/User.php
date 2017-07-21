@@ -20,7 +20,7 @@ use yii\web\Application as WebApplication;
 use yuncms\oauth2\OAuth2IdentityInterface;
 use yuncms\user\Module;
 use yuncms\user\ModuleTrait;
-use yuncms\user\UserAsset;
+use yuncms\user\frontend\assets\UserAsset;
 use yuncms\tag\models\Tag;
 use yuncms\user\helpers\Password;
 

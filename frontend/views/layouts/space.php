@@ -10,11 +10,11 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\Modal;
 use yuncms\user\models\Profile;
-use frontend\assets\AppAsset;
+
 
 $user = $this->params['user'];
 $appLayouts = Yii::$app->layout;
-$asset = AppAsset::register($this);
+
 ?>
 <?php $this->beginBlock('jumbotron'); ?>
 <header class="space-header">

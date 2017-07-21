@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use xutl\fontawesome\Asset;
-use yuncms\user\CropperAsset;
+use yuncms\user\frontend\assets\CropperAsset;
 
 /*
  * @var \yii\web\View $this
