@@ -712,9 +712,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
      */
     public function getAvatar($size = self::AVATAR_MIDDLE)
     {
-        if ($size == 'sm') {
-            $size = 'small';
-        }
         $size = in_array($size, ['big', 'middle', 'small']) ? $size : 'big';
         if ($this->getIsAvatar()) {
             $avatarFileName = "_avatar_$size.jpg";

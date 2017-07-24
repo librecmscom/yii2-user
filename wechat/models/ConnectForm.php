@@ -86,7 +86,7 @@ class ConnectForm extends Model
                     'email' => $this->email,
                     'password' => $this->password
                 ]);
-                $this->user->generateUsername();//生成用户名
+                $this->user->generateName();//生成用户名
                 if (!$this->user->create()) {
                     $this->addErrors($this->user->getErrors());
                     return false;
