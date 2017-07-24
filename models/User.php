@@ -73,6 +73,12 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     const NEW_EMAIL_CONFIRMED = 0b10;
     const OLD_MOBILE_CONFIRMED = 0b11;
     const NEW_MOBILE_CONFIRMED = 0b100;
+
+    const AVATAR_BIG = 'big';
+    const AVATAR_MIDDLE = 'middle';
+    const AVATAR_SMALL = 'small';
+
+
     /**
      * @var string Plain password. Used for model validation.
      */
@@ -704,7 +710,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
      * @param string $size
      * @return string
      */
-    public function getAvatar($size = 'middle')
+    public function getAvatar($size = self::AVATAR_MIDDLE)
     {
         if ($size == 'sm') {
             $size = 'small';
