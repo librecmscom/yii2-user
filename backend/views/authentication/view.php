@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'model' => $model,
                 'attributes' => [
                     'user_id',
-                    'user.username',
+                    'user.name',
                     'real_name',
                     'id_card',
                     'passport_cover:image',

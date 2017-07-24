@@ -10,7 +10,7 @@ use xutl\inspinia\ActiveForm;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
     <div class="hr-line-dashed"></div>
-    <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
     <div class="hr-line-dashed"></div>
     <?= $form->field($model, 'password')->passwordInput() ?>
     <div class="hr-line-dashed"></div>

@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $searchModel,
                 'columns' => [
                     'id',
-                    'username',
+                    'name',
                     'email:email',
                     //'userData.amount',
                     //'userData.point',

@@ -13,9 +13,7 @@ use yii\helpers\Html;
 
 <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 
-<?= $form->field($profile, 'nickname') ?>
-<div class="hr-line-dashed"></div>
-<?= $form->field($profile, 'public_email') ?>
+<?= $form->field($profile, 'email') ?>
 <div class="hr-line-dashed"></div>
 <?= $form->field($profile, 'website') ?>
 <div class="hr-line-dashed"></div>
