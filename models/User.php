@@ -730,12 +730,12 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
                 default:
                     $avatarUrl = '/img/no_avatar_big.gif';
             }
-            if (!file_exists(Yii::getAlias('@webroot/img/no_avatar_big.gif'))) {
+            if (Yii::getAlias('@webroot', false) && !file_exists(Yii::getAlias('@webroot/img/no_avatar_big.gif'))) {
                 $baseUrl = UserAsset::register(Yii::$app->view)->baseUrl;
+                return Url::to($baseUrl . $avatarUrl, true);
             } else {
-                $baseUrl = '';
+                return '';
             }
-            return Url::to($baseUrl . $avatarUrl, true);
         }
     }
 
@@ -815,7 +815,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
      */
 //    public function optimisticLock()
 //    {
-//        return 'ver';
+//        return 'version';
 //    }
 
     /**
