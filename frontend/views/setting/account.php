@@ -1,6 +1,8 @@
 <?php
+
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 
 /*
  * @var $this  yii\web\View
@@ -32,7 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'name') ?>
 
-                <?= $form->field($model, 'slug') ?>
+                <?= $form->field($model, 'slug', [
+                    'inputTemplate' => '<div class="input-group"><span class="input-group-addon">' . Url::home(true) . 'u/</span>{input}</div>',
+                ]) ?>
 
                 <?= $form->field($model, 'email') ?>
 
