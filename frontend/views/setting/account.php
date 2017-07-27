@@ -35,8 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'name') ?>
 
                 <?= $form->field($model, 'slug', [
-                    'inputTemplate' => '<div class="input-group"><span class="input-group-addon">' . Url::home(true) . 'u/</span>{input}</div>',
-                ])->label(Yii::t('user','Personality URL')) ?>
+                    'inputTemplate' => '<div class="input-group"><span class="input-group-addon">' . mb_substr(Url::to(['/user/space/show', 'slug' => $model->slug], true), 0, -mb_strlen($model->slug)) . '</span>{input}</div>',
+                ])->label(Yii::t('user', 'Personality URL')) ?>
 
                 <?= $form->field($model, 'email') ?>
 
