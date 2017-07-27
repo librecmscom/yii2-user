@@ -27,7 +27,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
     ]);
 } else {
     $this->title = Yii::t('user', '{who} collected {what}', [
-        'who' => empty($model->profile->name) ? Html::encode($model->username) : Html::encode($model->profile->name),
+        'who' => Html::encode($model->name),
         'what' => $what
     ]);
 }
@@ -56,7 +56,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
             'class' => 'live-box'
         ];
         $itemOptions = ['tag' => 'div', 'class' => 'live'];
-        \yuncms\live\assets\LiveAsset::register($this);
+        \yuncms\live\frontend\assets\LiveAsset::register($this);
     } else {
         $options = [
             'tag' => 'div',

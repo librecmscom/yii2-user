@@ -5,6 +5,7 @@
  * @var string $content
  * @var \yuncms\user\models\User $user
  */
+
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
@@ -48,9 +49,9 @@ $appLayouts = Yii::$app->layout;
                             <i class="fa fa-link"></i> <a href="<?= $user->profile->website ?>"
                                                           rel="nofollow"><?= Html::encode($user->profile->website) ?></a></span>
                     <?php endif; ?>
-                    <?php if (!empty($user->profile->public_email)): ?>
+                    <?php if (!empty($user->profile->email)): ?>
                         <span class="space-header-item">
-                            <i class="fa fa-envelope-o"></i> <?= Html::mailto(Html::encode($user->profile->public_email), Html::encode($user->profile->public_email)) ?>
+                            <i class="fa fa-envelope-o"></i> <?= Html::mailto(Html::encode($user->profile->email), Html::encode($user->profile->email)) ?>
                         </span>
                     <?php endif; ?>
                 </div>
@@ -137,8 +138,16 @@ $appLayouts = Yii::$app->layout;
             $menuItems = [
                 ['label' => Yii::t('user', 'My Page'), 'url' => ['/user/space/index']],
                 //问答
-                ['label' => Yii::t('user', 'My Answers'), 'url' => ['/user/space/answer', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
-                ['label' => Yii::t('user', 'My Questions'), 'url' => ['/user/space/question', 'id' => $user->id], 'visible' => Yii::$app->hasModule('question')],
+                [
+                    'label' => Yii::t('user', 'My Answers'),
+                    'url' => ['/user/space/answer', 'id' => $user->id],
+                    'visible' => Yii::$app->hasModule('question')
+                ],
+                [
+                    'label' => Yii::t('user', 'My Questions'),
+                    'url' => ['/user/space/question', 'id' => $user->id],
+                    'visible' => Yii::$app->hasModule('question')
+                ],
                 //笔记
                 [
                     'label' => Yii::t('user', 'My Notes'),
@@ -176,9 +185,16 @@ $appLayouts = Yii::$app->layout;
             $menuItems = [
                 ['label' => Yii::t('user', 'His Page'), 'url' => ['/user/space/view', 'id' => $user->id]],
                 //问答
-                ['label' => Yii::t('user', 'His Answer'), 'url' => ['/article/article/index'], 'visible' => Yii::$app->hasModule('question')],
-                ['label' => Yii::t('user', 'His Questions'), 'url' => ['/question/question/index'], 'visible' => Yii::$app->hasModule('question')],
-
+                [
+                    'label' => Yii::t('user', 'His Answer'),
+                    'url' => ['/article/article/index'],
+                    'visible' => Yii::$app->hasModule('question')
+                ],
+                [
+                    'label' => Yii::t('user', 'His Questions'),
+                    'url' => ['/question/question/index'],
+                    'visible' => Yii::$app->hasModule('question')
+                ],
                 //笔记
                 [
                     'label' => Yii::t('user', 'His Notes'),

@@ -12,7 +12,7 @@ use yuncms\user\models\User;
 if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
     $who = Yii::t('user', 'My');
 } else {
-    $who = (empty($model->profile->name) ? Html::encode($model->username) : Html::encode($model->profile->name));
+    $who = Html::encode($model->name);
 }
 $this->context->layout = 'space';
 $this->title = Yii::t('user', '{who} Page', [

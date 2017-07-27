@@ -15,7 +15,7 @@ use yuncms\user\models\Profile;
 </a>
 <div class="media-body">
     <h2 class="media-heading">
-        <?= Html::a(empty($model->profile->nickname) ? Html::encode($model->profile->nickname): $model->username, ['/user/space/view', 'id' => $model->id], ['target' => '_blank']); ?>
+        <?= Html::a(Html::encode($model->name), ['/user/space/view', 'id' => $model->id], ['target' => '_blank']); ?>
         <small>
             <!--显示性别图标-->
             <?php
@@ -25,7 +25,7 @@ use yuncms\user\models\Profile;
                 echo Html::tag('i', '', ['class' => 'fa fa-female', 'title' => '女']);
             }
             ?>
-            <?= $model->profile->public_email ? Html::tag('i', '', ['class' => 'fa fa-at', 'title' => '邮箱']) : '' ?>
+            <?= $model->profile->email ? Html::tag('i', '', ['class' => 'fa fa-at', 'title' => '邮箱']) : '' ?>
         </small>
     </h2>
     <p><?= HtmlPurifier::process(mb_substr($model->profile->bio, 0, 120, 'utf-8')) ?></p>
