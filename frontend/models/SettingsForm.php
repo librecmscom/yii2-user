@@ -67,7 +67,11 @@ class SettingsForm extends Model
      */
     public function __construct($config = [])
     {
-        $this->setAttributes(['name' => $this->user->name,'slug' => $this->user->slug, 'email' => $this->user->unconfirmed_email ?: $this->user->email], false);
+        $this->setAttributes([
+            'name' => $this->user->name,
+            'slug' => $this->user->slug,
+            'email' => $this->user->unconfirmed_email ?: $this->user->email
+        ], false);
         parent::__construct($config);
     }
 
