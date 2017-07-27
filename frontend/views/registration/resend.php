@@ -17,7 +17,7 @@ $this->title = Yii::t('user', 'Request new confirmation message');
         'enableAjaxValidation' => true,
         'enableClientValidation' => false,
     ]); ?>
-    <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'email', ['inputOptions' => ['autocomplete' => 'off','required' => true]])->textInput(['autofocus' => true]) ?>
 
     <?= Html::submitButton(Yii::t('user', 'Continue'), ['class' => 'btn btn-primary btn-block']) ?>
 

@@ -22,12 +22,12 @@ $this->title = Yii::t('user', 'Sign up');
         'enableClientValidation' => true,
     ]); ?>
 
-    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'name', ['inputOptions' => ['autocomplete' => 'off','required' => true]]) ?>
 
-    <?= $form->field($model, 'email', ['inputOptions' => ['autocomplete' => 'off', 'type' => 'email']]) ?>
+    <?= $form->field($model, 'email', ['inputOptions' => ['autocomplete' => 'off','required' => true, 'type' => 'email']]) ?>
 
     <?php if ($module->enableGeneratingPassword == false): ?>
-        <?= $form->field($model, 'password')->passwordInput() ?>
+        <?= $form->field($model, 'password', ['inputOptions' => ['autocomplete' => 'off','required' => true]])->passwordInput() ?>
     <?php endif ?>
 
     <?php if ($module->enableRegistrationCaptcha == true): ?>

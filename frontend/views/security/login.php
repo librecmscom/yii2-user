@@ -21,9 +21,15 @@ $this->title = Yii::t('user', 'Sign in');
         'enableAjaxValidation' => true,
         'enableClientValidation' => false,
     ]) ?>
-    <?= $form->field($model, 'login', ['inputOptions' => ['autocomplete' => 'off', 'autofocus' => 'autofocus', 'tabindex' => '1','placeholder'=>'请输入邮箱/手机号']]) ?>
+    <?= $form->field($model, 'login', ['inputOptions' => [
+        'autocomplete' => 'off',
+        'autofocus' => 'autofocus',
+        'tabindex' => '1',
+        'placeholder' => Yii::t('user','Please enter your email address / phone number.'),
+        'required' => true,
+    ]]) ?>
 
-    <?= $form->field($model, 'password', ['inputOptions' => ['autocomplete' => 'off', 'tabindex' => '2']])->passwordInput()->label(Yii::t('user', 'Password') . ($module->enablePasswordRecovery ? ' (' . Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request'], ['tabindex' => '5']) . ')' : '')) ?>
+    <?= $form->field($model, 'password', ['inputOptions' => ['autocomplete' => 'off','required' => true, 'tabindex' => '2']])->passwordInput()->label(Yii::t('user', 'Password') . ($module->enablePasswordRecovery ? ' (' . Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request'], ['tabindex' => '5']) . ')' : '')) ?>
 
     <?= $form->field($model, 'rememberMe', [
         'options' => [

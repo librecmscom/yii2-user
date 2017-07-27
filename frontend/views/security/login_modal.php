@@ -27,9 +27,12 @@ use yuncms\user\widgets\Connect;
                 'autocomplete' => 'off',
                 'disableautocomplete' => true,
                 'autofocus' => 'autofocus',
-                'placeholder' => '请输入账户/邮箱/手机号'
+                'placeholder' => Yii::t('user','Please enter your email address / phone number.'),
+                'required' => true,
             ]]) ?>
-            <?= $form->field($model, 'password')->passwordInput() ?>
+            <?= $form->field($model, 'password',['inputOptions' => [
+                'required' => true,
+            ]])->passwordInput() ?>
             <?= $form->field($model, 'rememberMe')->checkbox() ?>
             <?= $module->enablePasswordRecovery ? Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request']) : '' ?>
             <?= Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary btn-block  mt-10']) ?>

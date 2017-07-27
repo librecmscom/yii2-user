@@ -25,9 +25,9 @@ $this->title = Yii::t('user', 'Sign in');
         'options' => ['autocomplete' => 'off'],
     ]); ?>
 
-    <?= $form->field($model, 'email') ?>
+    <?= $form->field($model, 'email', ['inputOptions' => ['autocomplete' => 'off', 'required' => true, 'type' => 'email']]) ?>
 
-    <?= $form->field($model, 'username') ?>
+    <?= $form->field($model, 'username', ['inputOptions' => ['autocomplete' => 'off', 'required' => true]]) ?>
 
     <?= Html::submitButton(Yii::t('user', 'Continue'), ['class' => 'btn btn-success btn-block']) ?>
 
