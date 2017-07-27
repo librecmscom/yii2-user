@@ -21,6 +21,7 @@ return [
     'App Token' => '',
     'Apps' => '应用',
     'Name' => '名字',
+    'My Avatar'=>'我的头像',
     'Please enter your email address / phone number.' => '请输入邮箱或手机号',
     'Personality URL' => '个性网址',
     'RESTful Apps' => 'RESTful 应用',
