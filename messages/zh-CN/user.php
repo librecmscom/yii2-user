@@ -20,6 +20,8 @@ return [
     'App ID' => '',
     'App Token' => '',
     'Apps' => '应用',
+    'Name' => '名字',
+    'Personality URL' => '个性网址',
     'RESTful Apps' => 'RESTful 应用',
     'OAuth Apps' => 'OAuth 应用',
     'Please select' => '请选择',

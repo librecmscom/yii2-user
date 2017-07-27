@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'slug', [
                     'inputTemplate' => '<div class="input-group"><span class="input-group-addon">' . Url::home(true) . 'u/</span>{input}</div>',
-                ]) ?>
+                ])->label(Yii::t('user','Personality URL')) ?>
 
                 <?= $form->field($model, 'email') ?>
 
