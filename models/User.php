@@ -425,6 +425,17 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
+     * 定义IM 关系
+     * @return null|ActiveQuery
+     */
+    public function getIm(){
+        if (Yii::$app->hasModule('im')) {
+            return $this->hasMany(\yuncms\im\models\Account::className(), ['user_id' => 'id']);
+        } else {
+            return null;
+        }
+    }
+    /**
      * 获取用户已经激活的钱包
      * @return null|ActiveQuery
      */
