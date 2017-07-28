@@ -30,9 +30,21 @@ or add
 
 to the `require` section of your composer.json.
 
-````
-//命名空间
-    'migrationNamespaces' => [
-        'yuncms\user\migrations',
+
+### Step 2: Configuring your application
+
+Add following lines to your main configuration file:
+
+```
+'modules' => [
+    'user' => [
+        'class' => 'yuncms\user\frontend\Module',
     ],
-````
+],
+```
+
+###  Step 3: Updating database schema
+
+After you downloaded and configured Yii2-user, the last thing you need to do is updating your database schema by applying the migrations:
+
+    $ php yii migrate/up --migrationPath=@vendor/yuncms/yii2-user/migrations
