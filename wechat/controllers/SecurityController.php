@@ -44,7 +44,7 @@ class SecurityController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['login', 'connect'],
-                        'roles' => ['?']
+                        'roles' => ['?','@']
                     ],
                     [
                         'allow' => true,
@@ -83,8 +83,7 @@ class SecurityController extends Controller
 
     /**
      * 通过微信登录，如果用户不存在，将创建或绑定用户
-     *
-     * @param ClientInterface $client
+     * @param OAuth $client
      */
     public function authenticate(OAuth $client)
     {
@@ -114,6 +113,9 @@ class SecurityController extends Controller
      */
     public function actionConnect($code)
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $account = Wechat::find()->byCode($code)->one();
 
         if ($account === null || $account->getIsConnected()) {
