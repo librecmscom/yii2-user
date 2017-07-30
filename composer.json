@@ -9,7 +9,7 @@
   "type": "yii2-extension",
   "license": "MIT",
   "require": {
-    "yiisoft/yii2": "~2.0.0",
+    "yiisoft/yii2": "~2.0.6",
     "yiisoft/yii2-swiftmailer": "~2.0.0",
     "yiisoft/yii2-bootstrap": "~2.0.0",
     "xutl/yii2-cropper-asset": "~1.0",
