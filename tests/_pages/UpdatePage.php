@@ -20,12 +20,12 @@ class UpdatePage extends BasePage
      * @param $email
      * @param $password
      */
-    public function update($name,$slug, $email, $password = null)
+    public function update($name, $slug, $email, $password = null)
     {
         $this->actor->fillField('#user-slug', $slug);
         $this->actor->fillField('#user-name', $name);
         $this->actor->fillField('#user-email', $email);
         $this->actor->fillField('#user-password', $password);
-        $this->actor->click('Update');
+        $this->actor->click('Save');
     }
 }
