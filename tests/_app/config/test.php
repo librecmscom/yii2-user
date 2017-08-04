@@ -5,7 +5,7 @@ return [
     'basePath' => dirname(__DIR__),
     'language' => 'en-US',
     'aliases' => [
-        '@dektrium/user' => dirname(dirname(dirname(__DIR__))),
+        '@yuncms/user' => dirname(dirname(dirname(__DIR__))),
         '@tests' => dirname(dirname(__DIR__)),
         '@vendor' => VENDOR_DIR,
         '@bower' => VENDOR_DIR . '/bower-asset',
@@ -20,6 +20,9 @@ return [
         'db' => require __DIR__ . '/db.php',
         'mailer' => [
             'useFileTransport' => true,
+        ],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection'
         ],
         'urlManager' => [
             'showScriptName' => true,

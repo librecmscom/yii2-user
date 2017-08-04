@@ -19,8 +19,9 @@ class RegistrationCest
     public function _after(FunctionalTester $I)
     {
         \Yii::$container->set(Module::className(), [
-            'enableConfirmation'       => true,
+            'enableConfirmation' => true,
             'enableGeneratingPassword' => false,
+            'enableRegistrationCaptcha' => false,
         ]);
     }
 
@@ -31,15 +32,16 @@ class RegistrationCest
     public function testRegistration(FunctionalTester $I)
     {
         \Yii::$container->set(Module::className(), [
-            'enableConfirmation'       => false,
+            'enableConfirmation' => false,
             'enableGeneratingPassword' => false,
+            'enableRegistrationCaptcha' => false,
         ]);
 
         $page = RegistrationPage::openBy($I);
 
         $I->amGoingTo('try to register with empty credentials');
         $page->register('', '', '');
-        $I->see('Username cannot be blank');
+        $I->see('Name cannot be blank');
         $I->see('Email cannot be blank');
         $I->see('Password cannot be blank');
 
@@ -68,11 +70,12 @@ class RegistrationCest
     {
         \Yii::$container->set(Module::className(), [
             'enableConfirmation' => true,
+            'enableRegistrationCaptcha' => false,
         ]);
         $page = RegistrationPage::openBy($I);
         $page->register('tester@example.com', 'tester', 'tester');
         $I->see('Your account has been created and a message with further instructions has been sent to your email');
-        $user  = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
+        $user = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
         $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_CONFIRMATION]);
         /** @var yii\swiftmailer\Message $message */
         $message = $I->grabLastSentEmail();
@@ -88,14 +91,15 @@ class RegistrationCest
     public function testRegistrationWithoutPassword(FunctionalTester $I)
     {
         \Yii::$container->set(Module::className(), [
-            'enableConfirmation'       => false,
+            'enableConfirmation' => false,
             'enableGeneratingPassword' => true,
+            'enableRegistrationCaptcha' => false,
         ]);
         $page = RegistrationPage::openBy($I);
         $page->register('tester@example.com', 'tester');
         $I->see('Your account has been created and a message with further instructions has been sent to your email');
         $user = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
-        $I->assertEquals('tester', $user->username);
+        $I->assertEquals('tester', $user->name);
         /** @var yii\swiftmailer\Message $message */
         $message = $I->grabLastSentEmail();
         $I->assertArrayHasKey($user->email, $message->getTo());

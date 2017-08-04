@@ -43,6 +43,16 @@ class LoginHistory extends ActiveRecord
     }
 
     /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['ip'], 'required'],
+        ];
+    }
+
+    /**
      * 返回主键
      */
     public function getId()

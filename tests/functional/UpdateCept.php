@@ -18,7 +18,7 @@ $loginPage->login($user->email, 'qwerty');
 
 $page = UpdatePage::openBy($I, ['id' => $user->id]);
 
-$page->update('user', 'updated_user@example.com', 'new_pass');
+$page->update('user', 'user', 'updated_user@example.com', 'new_pass');
 $I->see('Account details have been updated');
 
 Yii::$app->user->logout();

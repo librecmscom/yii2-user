@@ -20,7 +20,7 @@ class SettingsPage extends BasePage
      * @param null $password
      * @param $currentPassword
      */
-    public function update($email, $username, $currentPassword, $password = null)
+    public function update($email, $slug, $currentPassword, $password = null)
     {
         $this->actor->fillField('#settings-form-email', $email);
         $this->actor->fillField('#settings-form-username', $username);
