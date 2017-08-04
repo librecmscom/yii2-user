@@ -1,9 +1,9 @@
 <?php
 
 
-use dektrium\user\models\Token;
-use dektrium\user\models\User;
-use dektrium\user\Module;
+use yuncms\user\models\Token;
+use yuncms\user\models\User;
+use yuncms\user\Module;
 use tests\_fixtures\UserFixture;
 use tests\_pages\LoginPage;
 use tests\_pages\RegistrationPage;
@@ -46,7 +46,7 @@ class RegistrationCest
         $I->amGoingTo('try to register with already used email and username');
         $user = $I->grabFixture('user', 'user');
 
-        $page->register($user->email, $user->username, 'qwerty');
+        $page->register($user->email, $user->name, 'qwerty');
         $I->see(Html::encode('This username has already been taken'));
         $I->see(Html::encode('This email address has already been taken'));
 

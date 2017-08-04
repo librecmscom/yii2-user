@@ -4,8 +4,8 @@
  * @var Codeception\Scenario $scenario
  */
 
-use dektrium\user\models\Token;
-use dektrium\user\models\User;
+use yuncms\user\models\Token;
+use yuncms\user\models\User;
 use tests\_fixtures\ProfileFixture;
 use tests\_fixtures\UserFixture;
 use tests\_pages\LoginPage;
