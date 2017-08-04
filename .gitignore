@@ -17,7 +17,6 @@ Thumbs.db
 
 # composer itself is not needed
 /composer.phar
-/composer.lock
 
 # Mac DS_Store Files
 .DS_Store
@@ -26,3 +25,7 @@ Thumbs.db
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+
+tests/_app/config/db.local.php
+tests/_support/_generated
+tests/_output/*
