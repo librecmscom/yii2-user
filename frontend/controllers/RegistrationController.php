@@ -19,6 +19,7 @@ use yii\web\NotFoundHttpException;
 
 use yuncms\user\frontend\models\ResendForm;
 use yuncms\user\frontend\models\RegistrationForm;
+use yuncms\user\frontend\models\MobileRegistrationForm;
 
 /**
  * RegistrationController is responsible for all registration process, which includes registration of a new account,
@@ -41,6 +42,12 @@ class RegistrationController extends Controller
                 'maxLength' => 5,
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+            'sms-captcha' => [
+                'class' => 'xutl\sms\captcha\CaptchaAction',
+                'minLength' => 4,
+                'maxLength' => 6,
+                'fixedVerifyCode' => YII_ENV_TEST ? '12345' : null,
+            ],
         ];
     }
 
@@ -53,12 +60,12 @@ class RegistrationController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['register', 'connect', 'captcha'],
+                        'actions' => ['register', 'mobile', 'sms-captcha', 'connect', 'captcha'],
                         'roles' => ['?']
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['register', 'confirm', 'resend'],
+                        'actions' => ['register', 'mobile', 'sms-captcha', 'confirm', 'resend'],
                         'roles' => ['?', '@']
                     ]
                 ]
@@ -94,6 +101,36 @@ class RegistrationController extends Controller
             return $this->redirect(['/user/setting/profile']);
         }
         return $this->render('register', ['model' => $model, 'module' => $this->module]);
+    }
+
+    /**
+     * Displays the registration page.
+     * After successful registration if enableConfirmation is enabled shows info message otherwise redirects to home page.
+     *
+     * @return string|array
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionMobile()
+    {
+        if (!Yii::$app->user->isGuest) {
+            Yii::$app->session->setFlash('danger', Yii::t('user', 'You have already registered.'));
+            return $this->goHome();
+        }
+        if (!$this->module->enableRegistration) {
+            Yii::$app->session->setFlash('danger', Yii::t('user', 'The system has closed the new user registration.'));
+            return $this->goHome();
+        }
+        /** @var MobileRegistrationForm $model */
+        $model = new MobileRegistrationForm();
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+        if ($model->load(Yii::$app->request->post()) && $model->register()) {
+            return $this->redirect(['/user/setting/profile']);
+        }
+        return $this->render('mobile', ['model' => $model, 'module' => $this->module]);
     }
 
     /**
