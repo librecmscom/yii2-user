@@ -97,7 +97,7 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            $loginHistory = new LoginHistory(['ip' => Yii::$app->request->userIP]);
+            $loginHistory = new LoginHistory(['ip' => YII_ENV_TEST ? '127.0.0.1' : Yii::$app->request->userIP]);
             $loginHistory->link('user', $this->user);
 
             return Yii::$app->user->login($this->user, $this->rememberMe ? $this->module->rememberFor : 0);

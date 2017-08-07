@@ -15,15 +15,17 @@ class UpdatePage extends BasePage
     public $route = '/user/admin/update';
 
     /**
-     * @param $username
+     * @param $name
+     * @param $slug
      * @param $email
      * @param $password
      */
-    public function update($username, $email, $password = null)
+    public function update($name, $slug, $email, $password = null)
     {
-        $this->actor->fillField('#user-username', $username);
+        $this->actor->fillField('#user-slug', $slug);
+        $this->actor->fillField('#user-name', $name);
         $this->actor->fillField('#user-email', $email);
         $this->actor->fillField('#user-password', $password);
-        $this->actor->click('Update');
+        $this->actor->click('Save');
     }
 }

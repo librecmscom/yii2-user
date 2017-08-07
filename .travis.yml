@@ -27,7 +27,7 @@ install:
 
 before_script:
   - mysql -e 'create database yuncms_test;'
-  - php tests/_app/yii.php migrate --migrationPath=@yuncms/user/migrations --interactive=0
+  - php tests/_app/yii.php migrate --interactive=0
   - ~/.composer/vendor/bin/codecept build
 
 script: ~/.composer/vendor/bin/codecept run

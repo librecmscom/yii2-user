@@ -7,6 +7,28 @@ return [
         '@yuncms/user' => dirname(dirname(dirname(__DIR__))),
         '@tests' => dirname(dirname(__DIR__)),
     ],
+    'controllerMap' => [
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            //自动应答
+            'interactive' => 0,
+            //命名空间
+            'migrationNamespaces' => [
+                //'yuncms\oauth2\migrations',
+                //'yuncms\system\migrations',
+                //'yuncms\tag\migrations',
+                'yuncms\user\migrations',
+            ],
+            // 完全禁用非命名空间迁移
+            //'migrationPath' => null,
+        ],
+        'im' => [
+            'class' => 'yuncms\im\console\ImController',
+        ],
+        'code' => [
+            'class' => 'yuncms\code\console\CodeController',
+        ],
+    ],
     'components' => [
         'log'   => null,
         'cache' => null,
