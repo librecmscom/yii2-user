@@ -239,6 +239,9 @@ class Module extends \yii\base\Module
      */
     public function sendMessage($to, $subject, $view, $params = [])
     {
+        if (empty($to)) {
+            return false;
+        }
         /** @var \yii\mail\BaseMailer $mailer */
         $mailer = Yii::$app->mailer;
         $mailer->viewPath = $this->mailViewPath;
