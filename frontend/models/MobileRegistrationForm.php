@@ -76,6 +76,7 @@ class MobileRegistrationForm extends Model
         return [
             'mobile' => Yii::t('user', 'Mobile'),
             'verifyCode' => Yii::t('user', 'Verification Code'),
+            'password' => Yii::t('user', 'Password'),
             'registrationPolicy' => Yii::t('user', 'Agree and accept Service Agreement and Privacy Policy'),
         ];
     }

@@ -11,7 +11,7 @@ use Yii;
 use yii\base\Model;
 use yuncms\user\models\User;
 use yuncms\user\ModuleTrait;
-
+use yuncms\user\models\Token;
 /**
  * ResendForm gets user email address and validates if user has already confirmed his account. If so, it shows error
  * message, otherwise it generates and sends new confirmation token to user.
