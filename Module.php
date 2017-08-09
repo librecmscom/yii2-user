@@ -292,7 +292,7 @@ class Module extends \yii\base\Module
     }
 
     /**
-     * 修改用户经验值
+     * 修改用户积分
      * @param int $user_id 用户id
      * @param string $action 执行动作：提问、回答、发起文章
      * @param int $sourceId 源：问题id、回答id、文章id等
