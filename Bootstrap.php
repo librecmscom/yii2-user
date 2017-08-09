@@ -65,7 +65,7 @@ class Bootstrap implements BootstrapInterface
                         $app->user->identity->userData->updateAttributes(['last_visit' => time()]);
                     }
                 });
-            } elseif ($module instanceof Module) {//前台判断放最后
+            } elseif ($module instanceof \yuncms\user\frontend\Module) {//前台判断放最后
                 Yii::$container->set('yii\web\User', [
                     'enableAutoLogin' => true,
                     'loginUrl' => ['/user/security/login'],

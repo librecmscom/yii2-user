@@ -42,10 +42,8 @@ class RecoveryController extends Controller
     }
 
     /**
-     * Shows page where user can request password recovery.
-     *
-     * @return string
-     * @throws \yii\web\NotFoundHttpException
+     * 显示找回密码页面
+     * @return array|string|Response
      */
     public function actionRequest()
     {
@@ -65,13 +63,10 @@ class RecoveryController extends Controller
     }
 
     /**
-     * Displays page where user can reset password.
-     *
-     * @param integer $id
+     * 显示重置密码页面
+     * @param int $id
      * @param string $code
-     *
-     * @return string
-     * @throws \yii\web\NotFoundHttpException
+     * @return array|string|Response
      */
     public function actionReset($id, $code)
     {
