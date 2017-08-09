@@ -4,7 +4,7 @@ namespace yuncms\user\widgets;
 
 use Yii;
 use yii\base\Widget;
-use yuncms\user\models\LoginForm;
+use yuncms\user\frontend\models\LoginForm;
 
 class Login extends Widget
 {

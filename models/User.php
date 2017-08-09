@@ -428,13 +428,15 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
      * 定义IM 关系
      * @return null|ActiveQuery
      */
-    public function getIm(){
+    public function getIm()
+    {
         if (Yii::$app->hasModule('im')) {
             return $this->hasMany(\yuncms\im\models\Account::className(), ['user_id' => 'id']);
         } else {
             return null;
         }
     }
+
     /**
      * 获取用户已经激活的钱包
      * @return null|ActiveQuery
@@ -496,6 +498,9 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         if ($this->getIsNewRecord() == false) {
             throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
         }
+        if ($this->scenario == 'mobile_register') {
+            $this->name = $this->mobile;
+        }
         $this->confirmed_at = $this->module->enableConfirmation ? null : time();
         $this->password = $this->module->enableGeneratingPassword ? Password::generate(8) : $this->password;
         $this->slug = $this->slug == null ? Inflector::slug($this->name, '-') : $this->slug;
@@ -511,7 +516,9 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         } else {
             Yii::$app->user->login($this, $this->module->rememberFor);
         }
-        $this->module->sendMessage($this->email, Yii::t('user', 'Welcome to {0}', Yii::$app->name), 'welcome', ['user' => $this, 'token' => isset($token) ? $token : null, 'module' => $this->module, 'showPassword' => false]);
+        if ($this->email) {
+            $this->module->sendMessage($this->email, Yii::t('user', 'Welcome to {0}', Yii::$app->name), 'welcome', ['user' => $this, 'token' => isset($token) ? $token : null, 'module' => $this->module, 'showPassword' => false]);
+        }
         $this->trigger(self::AFTER_REGISTER);
         return true;
     }

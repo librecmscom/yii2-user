@@ -9,6 +9,10 @@ use yii\authclient\ClientInterface;
 use xutl\authclient\widgets\AuthChoice;
 use xutl\authclient\widgets\AuthChoiceAsset;
 
+/**
+ * Class Connect
+ * @package yuncms\user\widgets
+ */
 class Connect extends AuthChoice
 {
     /**

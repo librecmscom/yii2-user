@@ -18,8 +18,8 @@ $this->title = Yii::t('user', 'Sign up');
     <h1 class="h4 text-center text-muted"><?= Html::encode($this->title) ?></h1>
     <?php $form = ActiveForm::begin([
         'options' => ['autocomplete' => 'off'],
-        'enableAjaxValidation' => false,
-        'enableClientValidation' => true,
+        //'enableAjaxValidation' => false,
+        //'enableClientValidation' => true,
     ]); ?>
 
     <?= $form->field($model, 'mobile')->input('number', [
@@ -28,10 +28,14 @@ $this->title = Yii::t('user', 'Sign up');
     ]) ?>
 
     <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-            'mobileField' => 'newMobile',
+            'mobileField' => 'mobile',
             'captchaAction' => '/user/registration/sms-captcha',
             'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-3">{button}</div></div>']
     ); ?>
+
+    <?php if ($module->enableGeneratingPassword == false): ?>
+        <?= $form->field($model, 'password', ['inputOptions' => ['autocomplete' => 'off','required' => true]])->passwordInput() ?>
+    <?php endif ?>
 
     <?= $form->field($model, 'registrationPolicy')->checkbox()->label(
         Yii::t('user', 'Agree and accept {serviceAgreement} and {privacyPolicy}', [

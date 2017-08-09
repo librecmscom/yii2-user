@@ -28,6 +28,11 @@ class MobileRegistrationForm extends Model
     public $mobile;
 
     /**
+     * @var string Password
+     */
+    public $password;
+
+    /**
      * @var bool 是否同意注册协议
      */
     public $registrationPolicy;
@@ -53,6 +58,10 @@ class MobileRegistrationForm extends Model
             ['verifyCode', 'integer'],
             ['verifyCode', 'string', 'min' => 4, 'max' => 6],
             ['verifyCode', CaptchaValidator::className(), 'captchaAction' => '/user/registration/sms-captcha', 'skipOnEmpty' => false, 'message' => Yii::t('user', 'Phone verification code input error.')],
+
+            // password rules
+            'passwordRequired' => ['password', 'required', 'skipOnEmpty' => $this->module->enableGeneratingPassword],
+            'passwordLength' => ['password', 'string', 'min' => 6],
 
             'registrationPolicyRequired' => ['registrationPolicy', 'required', 'skipOnEmpty' => false, 'requiredValue' => true,
                 'message' => Yii::t('user', 'By registering you confirm that you accept the Service Agreement and Privacy Policy.'),],
@@ -111,7 +120,7 @@ class MobileRegistrationForm extends Model
 
         /** @var User $user */
         $user = new User();
-        $user->setScenario('register');
+        $user->setScenario('mobile_register');
         $this->loadAttributes($user);
         if (!$user->register()) {
             return false;

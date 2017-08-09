@@ -13,6 +13,7 @@ use yuncms\user\Module;
 use yuncms\user\helpers\Password;
 use yuncms\user\models\User;
 use yuncms\user\ModuleTrait;
+use yuncms\user\models\Token;
 
 /**
  * SettingsForm gets user's username, email and password and changes them.

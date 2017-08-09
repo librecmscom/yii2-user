@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 /**
  * @var yii\web\View $this
  * @var yii\widgets\ActiveForm $form
- * @var yuncms\user\models\LoginForm $model
+ * @var yuncms\user\frontend\models\LoginForm $model
  * @var string $action
  */
 ?>
