@@ -1,11 +1,14 @@
 <?php
 
-namespace yuncms\user\widgets;
+namespace yuncms\user\frontend\widgets;
 
 use yii\base\Widget;
 use yuncms\user\models\User;
 
-
+/**
+ * Class Popular
+ * @package yuncms\user\frontend\widgets
+ */
 class Popular extends Widget
 {
     public $limit = 10;

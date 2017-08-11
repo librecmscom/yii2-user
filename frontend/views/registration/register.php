@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\captcha\Captcha;
 use yii\bootstrap\ActiveForm;
-use yuncms\user\widgets\Connect;
+use yuncms\user\frontend\widgets\Connect;
 
 /**
  * @var yii\web\View $this

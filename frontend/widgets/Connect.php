@@ -1,6 +1,6 @@
 <?php
 
-namespace yuncms\user\widgets;
+namespace yuncms\user\frontend\widgets;
 
 use Yii;
 use yii\helpers\Url;
@@ -11,7 +11,7 @@ use xutl\authclient\widgets\AuthChoiceAsset;
 
 /**
  * Class Connect
- * @package yuncms\user\widgets
+ * @package yuncms\user
  */
 class Connect extends AuthChoice
 {

@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yuncms\user\widgets\Connect;
+use yuncms\user\frontend\widgets\Connect;
 
 ?>
 <?php $form = ActiveForm::begin([

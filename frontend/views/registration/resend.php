@@ -1,12 +1,13 @@
 <?php
+
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yuncms\user\frontend\models\ResendForm;
 
 /*
- * @var yii\web\View                    $this
- * @var yuncms\user\models\ResendForm $model
+ * @var yii\web\View $this
+ * @var ResendForm $model
  */
-
 $this->title = Yii::t('user', 'Request new confirmation message');
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -17,7 +18,7 @@ $this->title = Yii::t('user', 'Request new confirmation message');
         'enableAjaxValidation' => true,
         'enableClientValidation' => false,
     ]); ?>
-    <?= $form->field($model, 'email', ['inputOptions' => ['autocomplete' => 'off','required' => true]])->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'email', ['inputOptions' => ['autocomplete' => 'off', 'required' => true]])->textInput(['autofocus' => true]) ?>
 
     <?= Html::submitButton(Yii::t('user', 'Continue'), ['class' => 'btn btn-primary btn-block']) ?>
 
