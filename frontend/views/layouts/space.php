@@ -140,12 +140,12 @@ $appLayouts = Yii::$app->layout;
                 //问答
                 [
                     'label' => Yii::t('user', 'My Answers'),
-                    'url' => ['/user/space/answer', 'id' => $user->id],
+                    'url' => ['/question/space/answer', 'id' => $user->id],
                     'visible' => Yii::$app->hasModule('question')
                 ],
                 [
                     'label' => Yii::t('user', 'My Questions'),
-                    'url' => ['/user/space/question', 'id' => $user->id],
+                    'url' => ['/question/space/question', 'id' => $user->id],
                     'visible' => Yii::$app->hasModule('question')
                 ],
                 //笔记
@@ -187,13 +187,14 @@ $appLayouts = Yii::$app->layout;
                 //问答
                 [
                     'label' => Yii::t('user', 'His Answer'),
-                    'url' => ['/article/article/index'],
+                    'url' => ['/question/space/answer', 'id' => $user->id],
                     'visible' => Yii::$app->hasModule('question')
                 ],
                 [
                     'label' => Yii::t('user', 'His Questions'),
-                    'url' => ['/question/question/index'],
-                    'visible' => Yii::$app->hasModule('question')
+                    'url' => ['/question/space/question', 'id' => $user->id],
+                    'visible' => Yii::$app->hasModule('question'),
+                    'active' => Yii::$app->controller->action->id == "question" || Yii::$app->controller->action->id == "collected" ? true : false
                 ],
                 //笔记
                 [
