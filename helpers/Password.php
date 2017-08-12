@@ -23,7 +23,7 @@ class Password
      */
     public static function hash($password)
     {
-        return Yii::$app->security->generatePasswordHash($password, Yii::$app->getModule('user')->cost);
+        return Yii::$app->security->generatePasswordHash($password, Yii::$app->hasModule('user') ? Yii::$app->getModule('user')->cost : 10);
     }
 
     /**
@@ -51,7 +51,7 @@ class Password
      */
     public static function generate($length)
     {
-        $sets = ['abcdefghjkmnpqrstuvwxyz','ABCDEFGHJKMNPQRSTUVWXYZ','23456789'];
+        $sets = ['abcdefghjkmnpqrstuvwxyz', 'ABCDEFGHJKMNPQRSTUVWXYZ', '23456789'];
         $all = '';
         $password = '';
         foreach ($sets as $set) {
@@ -60,7 +60,7 @@ class Password
         }
 
         $all = str_split($all);
-        for ($i = 0; $i < $length - count($sets); $i ++) {
+        for ($i = 0; $i < $length - count($sets); $i++) {
             $password .= $all[array_rand($all)];
         }
 

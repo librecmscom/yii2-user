@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\models;
 
 use Yii;
@@ -43,7 +44,7 @@ class Data extends ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -54,6 +55,6 @@ class Data extends ActiveRecord
      */
     public static function top($type, $limit)
     {
-        return static::find()->with('user')->orderBy([$type => SORT_DESC,'last_visit'=> SORT_DESC])->limit($limit)->all();
+        return static::find()->with('user')->orderBy([$type => SORT_DESC, 'last_visit' => SORT_DESC])->limit($limit)->all();
     }
 }
