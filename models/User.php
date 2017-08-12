@@ -591,7 +591,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 该方法将更新用户的手机，如果`unconfirmed_mobile`字段为空将返回false,如果该邮件已经有人使用了将返回false; 否则返回true
+     * 该方法将更新用户的手机，如果`unconfirmed_mobile`字段为空将返回false,如果该手机已经有人使用了将返回false; 否则返回true
      *
      * @param string $code
      *
@@ -601,7 +601,10 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function attemptMobileChange($code)
     {
         /** @var Token $token */
-        $token = Token::find()->where(['user_id' => $this->id, 'code' => $code])->andWhere(['in', 'type', [Token::TYPE_CONFIRM_NEW_MOBILE, Token::TYPE_CONFIRM_OLD_MOBILE]])->one();
+        $token = Token::find()->where([
+            'user_id' => $this->id,
+            'code' => $code
+        ])->andWhere(['in', 'type', [Token::TYPE_CONFIRM_NEW_MOBILE, Token::TYPE_CONFIRM_OLD_MOBILE]])->one();
         if (empty($this->unconfirmed_mobile) || $token === null || $token->isExpired) {
             Yii::$app->session->setFlash('danger', Yii::t('user', 'Your confirmation token is invalid or expired'));
         } else {
@@ -759,24 +762,24 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
 
     /**
      * 是否已经收藏过Source和ID
-     * @param string $sourceType
-     * @param int $sourceId
+     * @param string $model
+     * @param int $modelId
      * @return bool
      */
-    public function isCollected($sourceType, $sourceId)
+    public function isCollected($model, $modelId)
     {
-        return $this->getCollections()->andWhere(['model' => $sourceType, 'model_id' => $sourceId])->exists();
+        return $this->getCollections()->andWhere(['model' => $model, 'model_id' => $modelId])->exists();
     }
 
     /**
      * 是否已关注指定的Source和ID
-     * @param string $sourceType
-     * @param int $sourceId
+     * @param string $model
+     * @param int $modelId
      * @return mixed
      */
-    public function isFollowed($sourceType, $sourceId)
+    public function isFollowed($model, $modelId)
     {
-        return $this->getAttentions()->andWhere(['model' => $sourceType, 'model_id' => $sourceId])->exists();
+        return $this->getAttentions()->andWhere(['model' => $model, 'model_id' => $modelId])->exists();
     }
 
     /**
