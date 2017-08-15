@@ -23,7 +23,7 @@ class Password
      */
     public static function hash($password)
     {
-        return Yii::$app->security->generatePasswordHash($password, Yii::$app->hasModule('user') ? Yii::$app->getModule('user')->cost : 10);
+        return Yii::$app->security->generatePasswordHash($password, Yii::$app->settings->get('cost', 'user', 10));
     }
 
     /**
