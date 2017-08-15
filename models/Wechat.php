@@ -3,6 +3,7 @@
 namespace yuncms\user\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 use yii\authclient\ClientInterface;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Json;
@@ -33,7 +34,7 @@ use yii\helpers\Url;
  *
  * @property User $user
  */
-class Wechat extends \yii\db\ActiveRecord
+class Wechat extends ActiveRecord
 {
     /**
      * @var
