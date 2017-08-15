@@ -27,26 +27,28 @@ use yuncms\user\helpers\Password;
 /**
  * User ActiveRecord model.
  *
- * @property bool $isBlocked
- * @property bool $isConfirmed
+ * @property bool $isBlocked 是否已经锁定
+ * @property bool $isConfirmed 是否已经邮箱激活
+ * @property bool $isAvatar 是否有头像
  *
  * Database fields:
  * @property integer $id ID 唯一
- * @property string $slug 标识唯一
- * @property string $name 名字不唯一
- * @property string $email 邮箱
- * @property string $mobile 用户手机
+ * @property string $username 用户名唯一
+ * @property string $email 邮箱唯一
+ * @property string $mobile 用户手机唯一
+ * @property string $nickname 昵称不唯一
  * @property string $password 密码
  * @property string $unconfirmed_email 未确认的邮箱
  * @property string $unconfirmed_mobile 未确认的手机
  * @property string $password_hash 密码哈希
- * @property string $auth_key
- * @property bool $avatar
+ * @property string $auth_key 认证码
+ * @property bool $avatar 是否有头像
  * @property integer $registration_ip 注册IP
- * @property integer $confirmed_at 激活时间
- * @property integer $blocked_at 封杀时间
- * @property integer $created_at 创建时间
- * @property integer $updated_at 更新时间
+ * @property integer $email_confirmed_at 邮件激活时间
+ * @property integer $mobile_confirmed_at 手机激活时间
+ * @property integer $blocked_at 账户封杀时间
+ * @property integer $created_at 账户创建时间
+ * @property integer $updated_at 账户更新时间
  * @property integer $flags 标记
  * @property integer $ver 版本
  *
@@ -68,9 +70,12 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     const AFTER_CREATE = 'afterCreate';
     const BEFORE_REGISTER = 'beforeRegister';
     const AFTER_REGISTER = 'afterRegister';
+
     // following constants are used on secured email changing process
     const OLD_EMAIL_CONFIRMED = 0b1;
     const NEW_EMAIL_CONFIRMED = 0b10;
+
+    // following constants are used on secured mobile changing process
     const OLD_MOBILE_CONFIRMED = 0b11;
     const NEW_MOBILE_CONFIRMED = 0b100;
 
@@ -78,11 +83,11 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     const AVATAR_MIDDLE = 'middle';
     const AVATAR_SMALL = 'small';
 
-
     /**
      * @var string Plain password. Used for model validation.
      */
     public $password;
+
     /**
      * @var Profile|null
      */
@@ -325,6 +330,14 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function setUserData(Data $data)
     {
         $this->_userData = $data;
+    }
+
+    /**
+     * 定义延伸资料关系
+     * @return ActiveQuery
+     */
+    public function getExtend(){
+        return $this->hasOne(Extend::className(), ['user_id' => 'id']);
     }
 
     /**

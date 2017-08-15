@@ -68,7 +68,7 @@ class Social extends ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -151,7 +151,7 @@ class Social extends ActiveRecord
         $account = static::fetchAccount($client);
 
         if ($account->user === null) {
-            $account->link('user', Yii::$app->user->getIdentity());
+            $account->link('user', Yii::$app->user->identity);
             Yii::$app->session->setFlash('success', Yii::t('user', 'Your account has been connected'));
         } else {
             Yii::$app->session->setFlash('danger', Yii::t('user', 'This account has already been connected to another user'));
@@ -196,7 +196,7 @@ class Social extends ActiveRecord
         $user = Yii::createObject([
             'class' => User::className(),
             'scenario' => 'connect',
-            'username' => $account->username,
+            'name' => $account->username,
             'email' => $account->email
         ]);
 
