@@ -18,7 +18,7 @@
     "xutl/yii2-authclient": "~1.0",
     "xutl/yii2-fontawesome-asset": "~2.0",
     "xutl/yii2-bootstrap-filestyle-asset": "~1.0",
-    "yuncms/yii2-system": "~2.0.0",
+    "yuncms/yii2-system": "~2.1.0",
     "yuncms/yii2-tag": "~1.0",
     "yuncms/yii2-oauth2": "~2.0.0"
   },
