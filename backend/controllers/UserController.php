@@ -36,7 +36,7 @@ class UserController extends Controller
         ];
     }
 
-    function actions()
+    public function actions()
     {
         return [
             //....

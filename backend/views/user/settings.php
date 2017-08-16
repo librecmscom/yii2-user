@@ -11,6 +11,8 @@ use yuncms\user\backend\models\Settings;
 /* @var $model yuncms\user\backend\models\Settings */
 
 $this->title = Yii::t('user', 'Settings');
+$this->params['breadcrumbs'][] = Yii::t('user', 'Manage Users');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
