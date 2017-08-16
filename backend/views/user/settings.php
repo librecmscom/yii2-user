@@ -5,6 +5,7 @@ use yii\bootstrap\ActiveForm;
 use xutl\inspinia\Box;
 use xutl\inspinia\Toolbar;
 use xutl\inspinia\Alert;
+
 //use xutl\inspinia\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -47,24 +48,17 @@ $this->title = Yii::t('user', 'Settings');
                 'layout' => 'horizontal'
             ]); ?>
 
-            <?= $form->field($model, 'enableRegistration')->inline(true)
-                ->radioList(['1' => Yii::t('yii', 'Yes'), '0' => Yii::t('yii', 'No')]); ?>
-            <?= $form->field($model, 'enableRegistrationCaptcha')->inline(true)
-                ->radioList(['1' => Yii::t('yii', 'Yes'), '0' => Yii::t('yii', 'No')]) ?>
-            <?= $form->field($model, 'enableGeneratingPassword')->inline(true)
-                ->radioList(['1' => Yii::t('yii', 'Yes'), '0' => Yii::t('yii', 'No')]) ?>
-            <?= $form->field($model, 'enableConfirmation')->inline(true)
-                ->radioList(['1' => Yii::t('yii', 'Yes'), '0' => Yii::t('yii', 'No')]) ?>
-            <?= $form->field($model, 'enableUnconfirmedLogin')->inline(true)
-                ->radioList(['1' => Yii::t('yii', 'Yes'), '0' => Yii::t('yii', 'No')]) ?>
-            <?= $form->field($model, 'enablePasswordRecovery')->inline(true)
-                ->radioList(['1' => Yii::t('yii', 'Yes'), '0' => Yii::t('yii', 'No')]) ?>
+            <?= $form->field($model, 'enableRegistration')->inline()->checkbox([], false); ?>
+            <?= $form->field($model, 'enableRegistrationCaptcha')->inline()->checkbox([], false) ?>
+            <?= $form->field($model, 'enableGeneratingPassword')->inline()->checkbox([], false) ?>
+            <?= $form->field($model, 'enableConfirmation')->inline()->checkbox([], false) ?>
+            <?= $form->field($model, 'enableUnconfirmedLogin')->inline()->checkbox([], false) ?>
+            <?= $form->field($model, 'enablePasswordRecovery')->inline()->checkbox([], false) ?>
 
             <?= $form->field($model, 'rememberFor')->input('number') ?>
             <?= $form->field($model, 'confirmWithin')->input('number') ?>
             <?= $form->field($model, 'recoverWithin')->input('number') ?>
             <?= $form->field($model, 'cost')->input('number') ?>
-
 
             <?= Html::submitButton(Yii::t('user', 'Settings'), ['class' => 'btn btn-primary']) ?>
 
