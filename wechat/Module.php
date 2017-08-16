@@ -27,21 +27,6 @@ class Module extends \yuncms\user\Module
 
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
-        '<id:\d+>' => 'profile/view',
-        '<action:(login|logout)>' => 'security/<action>',
-        '<action:(register|resend|mobile)>' => 'registration/<action>',
-        'confirm/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'registration/confirm',
-        'forgot' => 'recovery/request',
-        'notice' => 'notification/index',
-        'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
         'setting/<action:\w+>' => 'setting/<action>',
-        'authentication' => 'authentication/index',
-        'space/<id:\d+>/coins' => 'space/coin',
-        'space/<id:\d+>/credits' => 'space/credit',
-        'space/<id:\d+>/followers' => 'space/follower',
-        'space/<id:\d+>/followed/<type:\w+>' => 'space/attention',
-        'space/<id:\d+>/collected/<type:\w+>' => 'space/collected',
-        //这个默认不启用
-        //'<slug:[-a-zA-Z0-9_]+>' => 'profile/show',
     ];
 }
