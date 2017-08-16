@@ -24,82 +24,6 @@ use yuncms\system\helpers\DateHelper;
 class Module extends \yii\base\Module
 {
     /**
-     * Email is changed right after user enter's new email address.
-     */
-    const STRATEGY_INSECURE = 0;
-
-    /**
-     * Email is changed after user clicks confirmation link sent to his new email address.
-     */
-    const STRATEGY_DEFAULT = 1;
-
-    /**
-     * Email is changed after user clicks both confirmation links sent to his old and new email addresses.
-     */
-    const STRATEGY_SECURE = 2;
-
-    /**
-     * @var bool 是否允许注册
-     */
-    public $enableRegistration = true;
-
-    /**
-     * @var bool 是否启用注册验证码
-     */
-    public $enableRegistrationCaptcha = false;
-
-    /**
-     * @var bool 是否自动生成密码
-     */
-    public $enableGeneratingPassword = false;
-
-    /**
-     * @var bool 是否启用账户激活
-     */
-    public $enableConfirmation = false;
-
-    /**
-     * @var bool 是否允许未激活账户登录
-     */
-    public $enableUnconfirmedLogin = false;
-
-    /**
-     *
-     * @var bool 是否允许找回密码
-     */
-    public $enablePasswordRecovery = true;
-
-    /**
-     * @var int 邮件修改策略
-     */
-    public $emailChangeStrategy = self::STRATEGY_DEFAULT;
-
-    /**
-     * @var int 手机修改策略
-     */
-    public $mobileChangeStrategy = self::STRATEGY_DEFAULT;
-
-    /**
-     * @var int The time you want the user will be remembered without asking for credentials.
-     */
-    public $rememberFor = 1209600; // two weeks
-
-    /**
-     * @var int The time before a confirmation token becomes invalid.
-     */
-    public $confirmWithin = 86400; // 24 hours
-
-    /**
-     * @var int The time before a recovery token becomes invalid.
-     */
-    public $recoverWithin = 21600; // 6 hours
-
-    /**
-     * @var int Cost parameter used by the Blowfish hash algorithm.
-     */
-    public $cost = 10;
-
-    /**
      * @var array Mailer configuration
      */
     public $mailViewPath = '@yuncms/user/mail';
@@ -116,14 +40,6 @@ class Module extends \yii\base\Module
     public $idCardUrl = '@web/uploads/id_card';
 
     public $idCardPath = '@root/uploads/id_card';
-
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        parent::init();
-    }
 
     /**
      * 获取用户总数
@@ -401,18 +317,5 @@ class Module extends \yii\base\Module
         } catch (\Exception $e) {
             return false;
         }
-    }
-
-    /**
-     * 翻译语言
-     * @param string $category
-     * @param string $message
-     * @param array $params
-     * @param null $language
-     * @return string
-     */
-    public static function t($category, $message, $params = [], $language = null)
-    {
-        return Yii::t('modules/user/' . $category, $message, $params, $language);
     }
 }

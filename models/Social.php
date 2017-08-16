@@ -204,8 +204,8 @@ class Social extends ActiveRecord
             $account->email = null;
         }
 
-        if (!$user->validate(['username'])) {
-            $account->username = null;
+        if (!$user->validate(['name'])) {
+            $account->name = null;
         }
 
         return $user->create() ? $user : false;

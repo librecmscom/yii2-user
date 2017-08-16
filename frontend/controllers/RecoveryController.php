@@ -24,6 +24,8 @@ use yuncms\user\frontend\models\RecoveryForm;
  */
 class RecoveryController extends Controller
 {
+    protected $enablePasswordRecovery;
+
     /** @inheritdoc */
     public function behaviors()
     {
@@ -41,13 +43,19 @@ class RecoveryController extends Controller
         ];
     }
 
+    public function init()
+    {
+        parent::init();
+        $this->enablePasswordRecovery = Yii::$app->settings->get('enablePasswordRecovery', 'user');
+    }
+
     /**
      * 显示找回密码页面
      * @return array|string|Response
      */
     public function actionRequest()
     {
-        if (!$this->module->enablePasswordRecovery) {
+        if (!$this->enablePasswordRecovery) {
             return $this->redirect(['/user/security/login']);
         }
         /** @var RecoveryForm $model */
@@ -70,7 +78,7 @@ class RecoveryController extends Controller
      */
     public function actionReset($id, $code)
     {
-        if (!$this->module->enablePasswordRecovery) {
+        if (!$this->enablePasswordRecovery) {
             return $this->redirect(['/user/security/login']);
         }
         /** @var Token $token */

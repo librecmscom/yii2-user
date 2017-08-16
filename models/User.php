@@ -33,7 +33,7 @@ use yuncms\user\helpers\Password;
  *
  * Database fields:
  * @property integer $id ID 唯一
- * @property string $username 用户名唯一
+ * @property string $name 用户名唯一
  * @property string $email 邮箱唯一
  * @property string $mobile 用户手机唯一
  * @property string $nickname 昵称不唯一

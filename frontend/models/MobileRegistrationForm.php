@@ -42,6 +42,15 @@ class MobileRegistrationForm extends Model
      */
     public $verifyCode;
 
+    protected $rememberFor;
+    protected $enableGeneratingPassword;
+
+    public function init()
+    {
+        parent::init();
+        $this->enableGeneratingPassword = Yii::$app->settings->get('enableGeneratingPassword', 'user');
+        $this->rememberFor = Yii::$app->settings->get('rememberFor', 'user');
+    }
 
     /**
      * @inheritdoc
@@ -60,7 +69,7 @@ class MobileRegistrationForm extends Model
             ['verifyCode', CaptchaValidator::className(), 'captchaAction' => '/user/registration/sms-captcha', 'skipOnEmpty' => false, 'message' => Yii::t('user', 'Phone verification code input error.')],
 
             // password rules
-            'passwordRequired' => ['password', 'required', 'skipOnEmpty' => $this->module->enableGeneratingPassword],
+            'passwordRequired' => ['password', 'required', 'skipOnEmpty' => $this->enableGeneratingPassword],
             'passwordLength' => ['password', 'string', 'min' => 6],
 
             'registrationPolicyRequired' => ['registrationPolicy', 'required', 'skipOnEmpty' => false, 'requiredValue' => true,
@@ -127,7 +136,7 @@ class MobileRegistrationForm extends Model
             return false;
         }
         Yii::$app->session->setFlash('info', Yii::t('user', 'Your account has been created and a message with further instructions has been sent to your email'));
-        return Yii::$app->getUser()->login($user, $this->module->rememberFor);
+        return Yii::$app->getUser()->login($user, $this->rememberFor);
     }
 
     /**

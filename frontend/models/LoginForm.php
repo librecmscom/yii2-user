@@ -42,6 +42,20 @@ class LoginForm extends Model
      */
     protected $user;
 
+    protected $enableConfirmation;
+    protected $enableUnconfirmedLogin;
+    protected $rememberFor;
+
+    /**
+     * 初始化
+     */
+    public function init()
+    {
+        parent::init();
+        $this->enableConfirmation = Yii::$app->settings->get('enableConfirmation', 'user');
+        $this->enableUnconfirmedLogin = Yii::$app->settings->get('enableUnconfirmedLogin', 'user');
+        $this->rememberFor = Yii::$app->settings->get('rememberFor', 'user');
+    }
 
     /**
      * @inheritdoc
@@ -75,7 +89,7 @@ class LoginForm extends Model
                 'login',
                 function ($attribute) {
                     if ($this->user !== null) {
-                        $confirmationRequired = $this->module->enableConfirmation && !$this->module->enableUnconfirmedLogin;
+                        $confirmationRequired = $this->enableConfirmation && !$this->enableUnconfirmedLogin;
                         if ($confirmationRequired && !$this->user->getIsConfirmed()) {
                             $this->addError($attribute, Yii::t('user', 'You need to confirm your email address.'));
                         }
@@ -97,21 +111,12 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            $loginHistory = new LoginHistory(['ip' => YII_ENV_TEST ? '127.0.0.1' : Yii::$app->request->userIP]);
+            $loginHistory = new LoginHistory(['ip' => Yii::$app->request->userIP ?: '127.0.0.1']);
             $loginHistory->link('user', $this->user);
-
-            return Yii::$app->user->login($this->user, $this->rememberMe ? $this->module->rememberFor : 0);
+            return Yii::$app->user->login($this->user, $this->rememberMe ? $this->rememberFor : 0);
         } else {
             return false;
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function formName()
-    {
-        return 'login-form';
     }
 
     /**

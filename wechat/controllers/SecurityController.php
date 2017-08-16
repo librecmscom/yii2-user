@@ -32,6 +32,13 @@ use yuncms\user\wechat\models\ConnectForm;
  */
 class SecurityController extends Controller
 {
+    protected $rememberFor;
+    public function init()
+    {
+        parent::init();
+        $this->rememberFor = Yii::$app->settings->get('rememberFor', 'user');
+    }
+
     /**
      * @inheritdoc
      */
@@ -96,7 +103,7 @@ class SecurityController extends Controller
                 Yii::$app->session->setFlash('danger', Yii::t('user', 'Your account has been blocked.'));
                 $this->action->successUrl = Url::to(['/user/security/login']);
             } else {
-                Yii::$app->user->login($account->user, $this->module->rememberFor);
+                Yii::$app->user->login($account->user, $this->rememberFor);
                 $this->action->successUrl = Yii::$app->getUser()->getReturnUrl();
             }
         } else {

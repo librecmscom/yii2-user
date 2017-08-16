@@ -108,7 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             }
                         },
                         'format' => 'raw',
-                        'visible' => Yii::$app->getModule('user')->enableConfirmation,
+                        'visible' => Yii::$app->settings->get('enableConfirmation', 'user'),
                     ],
                     [
                         'header' => Yii::t('user', 'Block status'),

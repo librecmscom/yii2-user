@@ -9,6 +9,7 @@ namespace yuncms\user\frontend\models;
 
 use Yii;
 use yii\base\Model;
+use yuncms\user\backend\models\Settings;
 use yuncms\user\Module;
 use yuncms\user\helpers\Password;
 use yuncms\user\models\User;
@@ -51,6 +52,12 @@ class SettingsForm extends Model
      */
     private $_user;
 
+    protected $emailChangeStrategy;
+
+    public function init(){
+        parent::init();
+        $this->emailChangeStrategy = Yii::$app->settings->get('emailChangeStrategy', 'user');
+    }
 
     /**
      * @return User
@@ -141,14 +148,14 @@ class SettingsForm extends Model
             if ($this->email == $this->user->email && $this->user->unconfirmed_email != null) {
                 $this->user->unconfirmed_email = null;
             } elseif ($this->email != $this->user->email) {
-                switch ($this->module->emailChangeStrategy) {
-                    case Module::STRATEGY_INSECURE:
+                switch ($this->emailChangeStrategy) {
+                    case Settings::STRATEGY_INSECURE:
                         $this->insecureEmailChange();
                         break;
-                    case Module::STRATEGY_DEFAULT:
+                    case Settings::STRATEGY_DEFAULT:
                         $this->defaultEmailChange();
                         break;
-                    case Module::STRATEGY_SECURE:
+                    case Settings::STRATEGY_SECURE:
                         $this->secureEmailChange();
                         break;
                     default:

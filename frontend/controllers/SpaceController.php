@@ -65,7 +65,7 @@ class SpaceController extends Controller
 
     /**
      * Shows user's profile.
-     * @param $username
+     * @param $slug
      * @return string
      */
     public function actionShow($slug)

@@ -17,6 +17,7 @@ use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 
+use yuncms\user\backend\models\Settings;
 use yuncms\user\Module;
 use yuncms\user\models\User;
 use yuncms\user\models\Profile;
@@ -34,6 +35,7 @@ class SettingController extends Controller
     /** @inheritdoc */
     public $defaultAction = 'profile';
 
+    protected $emailChangeStrategy;
 
     /** @inheritdoc */
     public function behaviors()
@@ -58,10 +60,14 @@ class SettingController extends Controller
         ];
     }
 
+    public function init(){
+        parent::init();
+        $this->emailChangeStrategy = Yii::$app->settings->get('emailChangeStrategy', 'user');
+    }
+
     /**
      * Shows profile settings form.
-     *
-     * @return string|\yii\web\Response
+     * @return array|string|Response
      */
     public function actionProfile()
     {
@@ -96,8 +102,7 @@ class SettingController extends Controller
 
     /**
      * Displays page where user can update account settings (username, email or password).
-     *
-     * @return string|\yii\web\Response
+     * @return array|string|Response
      */
     public function actionAccount()
     {
@@ -128,7 +133,7 @@ class SettingController extends Controller
     public function actionConfirm($id, $code)
     {
         $user = User::findOne($id);
-        if ($user === null || $this->module->emailChangeStrategy == Module::STRATEGY_INSECURE) {
+        if ($user === null || $this->emailChangeStrategy == Settings::STRATEGY_INSECURE) {
             throw new NotFoundHttpException();
         }
         $user->attemptEmailChange($code);

@@ -11,8 +11,8 @@ use Yii;
 use yii\base\Model;
 use yii\imagine\Image;
 use yii\web\UploadedFile;
-use yii\helpers\FileHelper;
 use yuncms\user\ModuleTrait;
+use yuncms\user\models\User;
 
 /**
  * Class PortraitForm
@@ -91,7 +91,9 @@ class AvatarForm extends Model
         return false;
     }
 
-    /** @return User */
+    /*
+     * @return User
+     */
     public function getUser()
     {
         if ($this->_user == null) {

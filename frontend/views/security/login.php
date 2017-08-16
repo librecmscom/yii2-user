@@ -29,7 +29,7 @@ $this->title = Yii::t('user', 'Sign in');
         'required' => true,
     ]]) ?>
 
-    <?= $form->field($model, 'password', ['inputOptions' => ['autocomplete' => 'off','required' => true, 'tabindex' => '2']])->passwordInput()->label(Yii::t('user', 'Password') . ($module->enablePasswordRecovery ? ' (' . Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request'], ['tabindex' => '5']) . ')' : '')) ?>
+    <?= $form->field($model, 'password', ['inputOptions' => ['autocomplete' => 'off','required' => true, 'tabindex' => '2']])->passwordInput()->label(Yii::t('user', 'Password') . (Yii::$app->settings->get('enablePasswordRecovery', 'user') ? ' (' . Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request'], ['tabindex' => '5']) . ')' : '')) ?>
 
     <?= $form->field($model, 'rememberMe', [
         'options' => [
@@ -42,12 +42,12 @@ $this->title = Yii::t('user', 'Sign in');
     <?php ActiveForm::end(); ?>
     <hr>
     <div class="widget-login pt-30">
-        <?php if ($module->enableConfirmation): ?>
+        <?php if (Yii::$app->settings->get('enableConfirmation', 'user')): ?>
             <p class="text-center">
                 <?= Html::a(Yii::t('user', 'Didn\'t receive confirmation message?'), ['/user/registration/resend']) ?>
             </p>
         <?php endif ?>
-        <?php if ($module->enableRegistration): ?>
+        <?php if (Yii::$app->settings->get('enableRegistration', 'user')): ?>
             <p class="text-center">
                 <?= Html::a(Yii::t('user', 'Don\'t have an account? Sign up!'), ['/user/registration/register']) ?>
             </p>

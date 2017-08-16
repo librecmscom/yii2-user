@@ -26,11 +26,11 @@ $this->title = Yii::t('user', 'Sign up');
 
     <?= $form->field($model, 'email', ['inputOptions' => ['autocomplete' => 'off','required' => true, 'type' => 'email']]) ?>
 
-    <?php if ($module->enableGeneratingPassword == false): ?>
+    <?php if (Yii::$app->settings->get('enableGeneratingPassword', 'user') == false): ?>
         <?= $form->field($model, 'password', ['inputOptions' => ['autocomplete' => 'off','required' => true]])->passwordInput() ?>
     <?php endif ?>
 
-    <?php if ($module->enableRegistrationCaptcha == true): ?>
+    <?php if (Yii::$app->settings->get('enableRegistrationCaptcha', 'user') == true): ?>
         <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                 'captchaAction' => '/user/registration/captcha',
                 'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-3">{image}</div></div>']

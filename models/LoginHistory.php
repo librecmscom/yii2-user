@@ -48,16 +48,10 @@ class LoginHistory extends ActiveRecord
     public function rules()
     {
         return [
-            [['ip'], 'required'],
+            ['ip','required'],
+            ['ip', 'string'],
+            ['ip', 'default', 'value' => Yii::$app->request->userIP ?: '127.0.0.1'],
         ];
-    }
-
-    /**
-     * 返回主键
-     */
-    public function getId()
-    {
-        return $this->getPrimaryKey();
     }
 
     /**
@@ -67,11 +61,5 @@ class LoginHistory extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    public static function create($attribute)
-    {
-        $model = new static ($attribute);
-        return $model->save();
     }
 }

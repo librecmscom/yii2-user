@@ -131,7 +131,7 @@ class SecurityController extends Controller
                 Yii::$app->session->setFlash('danger', Yii::t('user', 'Your account has been blocked.'));
                 $this->action->successUrl = Url::to(['/user/security/login']);
             } else {
-                Yii::$app->user->login($account->user, $this->module->rememberFor);
+                Yii::$app->user->login($account->user, Yii::$app->settings->get('rememberFor', 'user'));
                 $this->action->successUrl = Yii::$app->getUser()->getReturnUrl();
             }
         } else {

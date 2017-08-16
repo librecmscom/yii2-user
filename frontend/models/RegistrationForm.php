@@ -9,7 +9,6 @@ namespace yuncms\user\frontend\models;
 
 use Yii;
 use yii\base\Model;
-use yii\helpers\Html;
 use yuncms\user\models\User;
 use yuncms\user\ModuleTrait;
 
@@ -43,6 +42,24 @@ class RegistrationForm extends Model
      */
     public $verifyCode;
 
+    /**
+     * @var integer
+     */
+    protected $rememberFor;
+
+    protected $enableGeneratingPassword;
+    protected $enableRegistrationCaptcha;
+
+    /**
+     * 初始化
+     */
+    public function init()
+    {
+        parent::init();
+        $this->rememberFor = Yii::$app->settings->get('rememberFor', 'user');
+        $this->enableGeneratingPassword = Yii::$app->settings->get('enableGeneratingPassword', 'user');
+        $this->enableRegistrationCaptcha = Yii::$app->settings->get('enableRegistrationCaptcha', 'user');
+    }
 
     /**
      * @inheritdoc
@@ -63,12 +80,12 @@ class RegistrationForm extends Model
             'emailUnique' => ['email', 'unique', 'targetClass' => User::className(), 'message' => Yii::t('user', 'This email address has already been taken')],
 
             // password rules
-            'passwordRequired' => ['password', 'required', 'skipOnEmpty' => $this->module->enableGeneratingPassword],
+            'passwordRequired' => ['password', 'required', 'skipOnEmpty' => $this->enableGeneratingPassword],
             'passwordLength' => ['password', 'string', 'min' => 6],
 
             // verifyCode needs to be entered correctly
-            'verifyCodeRequired' => ['verifyCode', 'required', 'skipOnEmpty' => !$this->module->enableRegistrationCaptcha],
-            'verifyCode' => ['verifyCode', 'captcha', 'captchaAction' => '/user/registration/captcha', 'skipOnEmpty' => !$this->module->enableRegistrationCaptcha],
+            'verifyCodeRequired' => ['verifyCode', 'required', 'skipOnEmpty' => !$this->enableRegistrationCaptcha],
+            'verifyCode' => ['verifyCode', 'captcha', 'captchaAction' => '/user/registration/captcha', 'skipOnEmpty' => !$this->enableRegistrationCaptcha],
 
             'registrationPolicyRequired' => ['registrationPolicy', 'required', 'skipOnEmpty' => false, 'requiredValue' => true,
                 'message' => Yii::t('user', 'By registering you confirm that you accept the Service Agreement and Privacy Policy.'),],
@@ -116,7 +133,7 @@ class RegistrationForm extends Model
             return false;
         }
         Yii::$app->session->setFlash('info', Yii::t('user', 'Your account has been created and a message with further instructions has been sent to your email'));
-        return Yii::$app->getUser()->login($user, $this->module->rememberFor);
+        return Yii::$app->getUser()->login($user, $this->rememberFor);
     }
 
     /**

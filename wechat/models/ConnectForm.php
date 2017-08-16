@@ -41,6 +41,14 @@ class ConnectForm extends Model
      */
     public $wechat;
 
+    protected $rememberFor;
+
+    public function init()
+    {
+        parent::init();
+        $this->rememberFor = Yii::$app->settings->get('rememberFor', 'user');
+    }
+
     /**
      * @inheritdoc
      */
@@ -102,7 +110,7 @@ class ConnectForm extends Model
                 }
             }
             $this->wechat->connect($this->user);
-            return Yii::$app->user->login($this->user, $this->module->rememberFor);
+            return Yii::$app->user->login($this->user, $this->rememberFor);
         } else {
             return false;
         }

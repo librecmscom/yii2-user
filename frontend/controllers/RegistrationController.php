@@ -30,6 +30,8 @@ use yuncms\user\frontend\models\MobileRegistrationForm;
  */
 class RegistrationController extends Controller
 {
+    public $enableRegistration;
+
     /**
      * @inheritdoc
      */
@@ -73,6 +75,12 @@ class RegistrationController extends Controller
         ];
     }
 
+    public function init()
+    {
+        parent::init();
+        $this->enableRegistration = Yii::$app->settings->get('enableRegistration', 'user');
+    }
+
     /**
      * Displays the registration page.
      * After successful registration if enableConfirmation is enabled shows info message otherwise redirects to home page.
@@ -86,7 +94,7 @@ class RegistrationController extends Controller
             Yii::$app->session->setFlash('danger', Yii::t('user', 'You have already registered.'));
             return $this->goHome();
         }
-        if (!$this->module->enableRegistration) {
+        if (!$this->enableRegistration) {
             Yii::$app->session->setFlash('danger', Yii::t('user', 'The system has closed the new user registration.'));
             return $this->goHome();
         }
@@ -116,7 +124,7 @@ class RegistrationController extends Controller
             Yii::$app->session->setFlash('danger', Yii::t('user', 'You have already registered.'));
             return $this->goHome();
         }
-        if (!$this->module->enableRegistration) {
+        if (!$this->enableRegistration) {
             Yii::$app->session->setFlash('danger', Yii::t('user', 'The system has closed the new user registration.'));
             return $this->goHome();
         }
@@ -159,7 +167,7 @@ class RegistrationController extends Controller
 
         if ($user->load(Yii::$app->request->post()) && $user->create()) {
             $account->connect($user);
-            Yii::$app->user->login($user, $this->module->rememberFor);
+            Yii::$app->user->login($user, Yii::$app->settings->get('rememberFor', 'user'));
             return $this->goBack();
         }
 
