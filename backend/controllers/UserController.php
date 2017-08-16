@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\user\backend\controllers;
 
 use Yii;
@@ -32,6 +33,21 @@ class UserController extends Controller
                     'block' => ['post'],
                 ],
             ]
+        ];
+    }
+
+    function actions()
+    {
+        return [
+            //....
+            'settings' => [
+                'class' => 'yuncms\system\actions\SettingsAction',
+                'modelClass' => 'yuncms\user\backend\models\Settings',
+                //'scenario' => 'user',
+                //'scenario' => 'site', // Change if you want to re-use the model for multiple setting form.
+                'viewName' => 'settings'    // The form we need to render
+            ],
+            //....
         ];
     }
 

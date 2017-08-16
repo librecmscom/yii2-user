@@ -36,6 +36,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => Yii::t('user', 'Create User'),
                             'url' => ['/user/user/create'],
                         ],
+                        [
+                            'label' => Yii::t('user', 'Settings'),
+                            'url' => ['/user/user/settings'],
+                        ],
                     ]]); ?>
                 </div>
                 <div class="col-sm-8 m-b-xs">
