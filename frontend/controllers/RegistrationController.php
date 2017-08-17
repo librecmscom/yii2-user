@@ -31,6 +31,7 @@ use yuncms\user\frontend\models\MobileRegistrationForm;
 class RegistrationController extends Controller
 {
     public $enableRegistration;
+    public $enableConfirmation;
 
     /**
      * @inheritdoc
@@ -75,10 +76,14 @@ class RegistrationController extends Controller
         ];
     }
 
+    /**
+     * 初始化
+     */
     public function init()
     {
         parent::init();
         $this->enableRegistration = Yii::$app->settings->get('enableRegistration', 'user');
+        $this->enableConfirmation = Yii::$app->settings->get('enableConfirmation', 'user');
     }
 
     /**
@@ -190,7 +195,7 @@ class RegistrationController extends Controller
     public function actionConfirm($id, $code)
     {
         $user = User::findOne($id);
-        if ($user === null || $this->module->enableConfirmation == false) {
+        if ($user === null || $this->enableConfirmation == false) {
             return $this->goBack();
         }
         $user->attemptConfirmation($code);
@@ -205,7 +210,7 @@ class RegistrationController extends Controller
      */
     public function actionResend()
     {
-        if ($this->module->enableConfirmation == false) {
+        if ($this->enableConfirmation == false) {
             return $this->goBack();
         }
         /** @var ResendForm $model */
