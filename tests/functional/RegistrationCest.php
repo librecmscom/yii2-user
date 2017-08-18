@@ -48,7 +48,7 @@ class RegistrationCest
         $I->amGoingTo('try to register with already used email and username');
         $user = $I->grabFixture('user', 'user');
 
-        $page->register($user->email, $user->name, 'qwerty');
+        $page->register($user->email, $user->username, 'qwerty');
         $I->see(Html::encode('This username has already been taken'));
         $I->see(Html::encode('This email address has already been taken'));
 
@@ -99,7 +99,7 @@ class RegistrationCest
         $page->register('tester@example.com', 'tester');
         $I->see('Your account has been created and a message with further instructions has been sent to your email');
         $user = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
-        $I->assertEquals('tester', $user->name);
+        $I->assertEquals('tester', $user->username);
         /** @var yii\swiftmailer\Message $message */
         $message = $I->grabLastSentEmail();
         $I->assertArrayHasKey($user->email, $message->getTo());

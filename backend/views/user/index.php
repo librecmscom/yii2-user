@@ -54,8 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'id',
                     'username',
                     'email:email',
-                    //'userData.amount',
-                    //'userData.point',
+                    //'extend.amount',
+                    //'extend.point',
                     [
                         'header' => Yii::t('user', 'Authentication'),
                         'value' => function ($model) {

@@ -18,16 +18,16 @@ $I->haveFixtures(['user' => UserFixture::className(), 'profile' => ProfileFixtur
 
 $page = LoginPage::openBy($I);
 $user = $I->grabFixture('user', 'user');
-$page->login($user->name, 'qwerty');
+$page->login($user->username, 'qwerty');
 
 $page = SettingsPage::openBy($I);
 
 $I->amGoingTo('check that current password is required and must be valid');
-$page->update($user->email, $user->name, 'wrong');
+$page->update($user->email, $user->username, 'wrong');
 $I->see('Current password is not valid');
 
 $I->amGoingTo('check that email is changing properly');
-$page->update('new_user@example.com', $user->name, 'qwerty');
+$page->update('new_user@example.com', $user->username, 'qwerty');
 $I->seeRecord(User::className(), ['email' => $user->email, 'unconfirmed_email' => 'new_user@example.com']);
 $I->see('A confirmation message has been sent to your new email address');
 $user = $I->grabRecord(User::className(), ['id' => $user->id]);
@@ -56,14 +56,14 @@ $I->seeRecord(User::className(), [
 
 $I->amGoingTo('reset email changing process');
 $page = SettingsPage::openBy($I);
-$page->update('user@example.com', $user->name, 'qwerty');
+$page->update('user@example.com', $user->username, 'qwerty');
 $I->see('A confirmation message has been sent to your new email address');
 $I->seeRecord(User::className(), [
     'id' => 1,
     'email' => 'new_user@example.com',
     'unconfirmed_email' => 'user@example.com',
 ]);
-$page->update('new_user@example.com', $user->name, 'qwerty');
+$page->update('new_user@example.com', $user->username, 'qwerty');
 $I->see('Your account details have been updated');
 $I->seeRecord(User::className(), [
     'id' => 1,

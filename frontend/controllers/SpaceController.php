@@ -77,7 +77,7 @@ class SpaceController extends Controller
                 $visit = new Visit(['user_id' => Yii::$app->user->id, 'source_id' => $model->id]);
                 $visit->save(false);
                 //更新访客计数
-                $model->userData->updateCounters(['views' => 1]);
+                $model->extend->updateCounters(['views' => 1]);
             } else {
                 $visit->updateAttributes(['updated_at' => time()]);
             }
@@ -104,7 +104,7 @@ class SpaceController extends Controller
                 $visit = new Visit(['user_id' => Yii::$app->user->id, 'source_id' => $id]);
                 $visit->save(false);
                 //更新访客计数
-                $model->userData->updateCounters(['views' => 1]);
+                $model->extend->updateCounters(['views' => 1]);
             } else {
                 $visit->updateAttributes(['updated_at' => time()]);
             }

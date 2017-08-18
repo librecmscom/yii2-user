@@ -57,7 +57,6 @@ use yuncms\user\helpers\Password;
  * @property Social[] $accounts 社交账号
  * @property Profile $profile 个人资料
  * @property Extend $extend 延伸资料
- * @property Data $userData 用户数据
  * @property Authentication $authentication 实名认证数据
  *
  * Dependencies:

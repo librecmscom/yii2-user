@@ -75,8 +75,8 @@ class Module extends \yii\base\Module
     public function getTodayActivityTotal($duration = null)
     {
         $total = User::getDb()->cache(function ($db) {
-            return User::find()->joinWith(['userData' => function (ActiveQuery $query) {
-                $query->where(['between', '{{%user_data}}.login_at', DateHelper::todayFirstSecond(), DateHelper::todayLastSecond()]);
+            return User::find()->joinWith(['extend' => function (ActiveQuery $query) {
+                $query->where(['between', '{{%user_extend}}.login_at', DateHelper::todayFirstSecond(), DateHelper::todayLastSecond()]);
             }])->count();
         }, $duration);
         return $total;
@@ -181,16 +181,16 @@ class Module extends \yii\base\Module
      */
     public function coin($user_id, $action, $coins = 0, $sourceId = 0, $sourceSubject = null)
     {
-        $userData = Data::findOne($user_id);
-        if ($userData) {
+        $extend = Data::findOne($user_id);
+        if ($extend) {
             $transaction = Data::getDb()->beginTransaction();
             try {
-                $value = $userData->coins + $coins;
+                $value = $extend->coins + $coins;
                 if ($coins < 0 && $value < 0) {
                     return false;
                 }
                 //更新用户钱包
-                $userData->updateAttributes(['coins' => $value]);
+                $extend->updateAttributes(['coins' => $value]);
                 /*记录详情数据*/
                 Coin::create([
                     'user_id' => $user_id,
@@ -221,12 +221,12 @@ class Module extends \yii\base\Module
      */
     public function credit($user_id, $action, $credits = 0, $sourceId = 0, $sourceSubject = null)
     {
-        $userData = Data::findOne($user_id);
-        if ($userData) {
+        $extend = Data::findOne($user_id);
+        if ($extend) {
             $transaction = Data::getDb()->beginTransaction();
             try {
                 /*修改用户账户信息*/
-                $userData->updateCounters(['credits' => $credits]);
+                $extend->updateCounters(['credits' => $credits]);
                 Credit::create([
                     'user_id' => $user_id,
                     'action' => $action,
