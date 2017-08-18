@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $searchModel,
                 'columns' => [
                     'id',
-                    'name',
+                    'username',
                     'email:email',
                     //'userData.amount',
                     //'userData.point',
@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'header' => Yii::t('user', 'Confirmation'),
                         'value' => function ($model) {
-                            if ($model->isConfirmed) {
+                            if ($model->isEmailConfirmed) {
                                 return '<div class="text-center"><span class="text-success">' . Yii::t('user', 'Confirmed') . '</span></div>';
                             } else {
                                 return Html::a(Yii::t('user', 'Confirm'), ['confirm', 'id' => $model->id], [

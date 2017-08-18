@@ -26,7 +26,7 @@ class RegistrationForm extends Model
     /**
      * @var string name
      */
-    public $name;
+    public $username;
     /**
      * @var string Password
      */
@@ -68,10 +68,10 @@ class RegistrationForm extends Model
     {
         return [
             // username rules
-            'nameLength' => ['name', 'string', 'min' => 3, 'max' => 255],
-            'nameTrim' => ['name', 'filter', 'filter' => 'trim'],
-            'namePattern' => ['name', 'match', 'pattern' => User::$nameRegexp],
-            'nameRequired' => ['name', 'required'],
+            'usernameLength' => ['username', 'string', 'min' => 3, 'max' => 255],
+            'usernameTrim' => ['username', 'filter', 'filter' => 'trim'],
+            'usernamePattern' => ['username', 'match', 'pattern' => User::$usernameRegexp],
+            'usernameRequired' => ['username', 'required'],
 
             // email rules
             'emailTrim' => ['email', 'filter', 'filter' => 'trim'],

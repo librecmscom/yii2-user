@@ -26,7 +26,7 @@ $appLayouts = Yii::$app->layout;
             </div>
             <div class="col-md-7">
                 <div class="space-header-name h3">
-                    <?= $user->name; ?>
+                    <?= $user->username; ?>
                 </div>
                 <hr>
                 <div class="space-header-social">
@@ -86,7 +86,7 @@ $appLayouts = Yii::$app->layout;
                     <?php
                     if (!Yii::$app->user->isGuest && Yii::$app->hasModule('message')) {
                         Modal::begin([
-                            'header' => Yii::t('user', 'Send message to') . '  ' . $user->name,
+                            'header' => Yii::t('user', 'Send message to') . '  ' . $user->username,
                             'toggleButton' => [
                                 'tag' => 'button',
                                 'class' => 'btn btn-default btnMessageTo',
@@ -94,7 +94,7 @@ $appLayouts = Yii::$app->layout;
                             ],
                         ]);
                         ?>
-                        <?= \yuncms\message\widgets\SendMessage::widget(['name' => $user->name]); ?>
+                        <?= \yuncms\message\widgets\SendMessage::widget(['name' => $user->username]); ?>
                         <?php Modal::end();
                     } ?>
 
@@ -102,25 +102,25 @@ $appLayouts = Yii::$app->layout;
                 <div class="space-header-info row mt-30">
                     <div class="col-md-4">
                             <span class="h3">
-                                <a href="<?= Url::to(['/user/space/coin', 'id' => $user->id]) ?>"><?= $user->userData->coins; ?></a>
+                                <a href="<?= Url::to(['/user/space/coin', 'id' => $user->id]) ?>"><?= $user->extend->coins; ?></a>
                             </span>
                         <span><?= Yii::t('user', 'Coins') ?></span>
                     </div>
                     <div class="col-md-4">
                             <span class="h3"><a
-                                        href="<?= Url::to(['/user/space/credit', 'id' => $user->id]) ?>"><?= $user->userData->credits; ?></a></span>
+                                        href="<?= Url::to(['/user/space/credit', 'id' => $user->id]) ?>"><?= $user->extend->credits; ?></a></span>
                         <span><?= Yii::t('user', 'Credits') ?></span>
                     </div>
                     <div class="col-md-4">
                             <span class="h3">
                                 <a id="follower-num"
-                                   href="<?= Url::to(['/user/space/follower', 'id' => $user->id]) ?>"><?= $user->userData->followers; ?></a>
+                                   href="<?= Url::to(['/user/space/follower', 'id' => $user->id]) ?>"><?= $user->extend->followers; ?></a>
                             </span>
                         <span><?= Yii::t('user', 'Fans') ?></span>
                     </div>
                 </div>
                 <div class="mt-10 border-top" style="color:#999;padding-top:10px; ">
-                    <i class="fa fa-paw"></i> <?= Yii::t('user', '{n, plural, =0{No visitors} =1{One visitor} other{# visitors}}', ['n' => $user->userData->views]); ?>
+                    <i class="fa fa-paw"></i> <?= Yii::t('user', '{n, plural, =0{No visitors} =1{One visitor} other{# visitors}}', ['n' => $user->extend->views]); ?>
                 </div>
                 <div class="mt-10 border-top" style="color:#999;">
                     <i class="fa fa-clock-o"></i> <?= Yii::t('user', 'Joined on {0, date}', $user->created_at) ?>

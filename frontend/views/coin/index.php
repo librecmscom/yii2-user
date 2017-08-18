@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-md-12">
                 <p class="mb-20">
                     <?= Yii::t('user', 'Your current coins are:') ?><strong
-                        class="text-gold"><?= Yii::$app->user->identity->userData->coins ?></strong>
+                        class="text-gold"><?= Yii::$app->user->identity->extend->coins ?></strong>
                     <?php
                     if (Yii::$app->hasModule('payment')):
                         ?>

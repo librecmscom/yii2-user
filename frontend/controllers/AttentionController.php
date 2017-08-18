@@ -61,9 +61,7 @@ class AttentionController extends Controller
         /** @var null|\yii\db\ActiveRecord $source */
         $source = null;
         if ($sourceType == 'user') {
-            /** @var \yii\db\ActiveRecord $userClass */
-            $userClass = Yii::$app->user->identityClass;
-            $source = $userClass::findOne($sourceId);
+            $source = User::findOne($sourceId);
             $subject = $source->username;
         } else if ($sourceType == 'question' && Yii::$app->hasModule('question')) {
             $source = \yuncms\question\models\Question::findOne($sourceId);
@@ -85,7 +83,7 @@ class AttentionController extends Controller
         if ($attention) {
             $attention->delete();
             if ($sourceType == 'user') {
-                $source->userData->updateCounters(['followers' => -1]);
+                $source->extend->updateCounters(['followers' => -1]);
             } else {
                 $source->updateCounters(['followers' => -1]);
             }
@@ -108,7 +106,7 @@ class AttentionController extends Controller
                     $source->updateCounters(['followers' => 1]);
                     break;
                 case 'user':
-                    $source->userData->updateCounters(['followers' => 1]);
+                    $source->extend->updateCounters(['followers' => 1]);
                     $this->module->notify(Yii::$app->user->id, $sourceId, 'follow_user');
                     break;
                 default:

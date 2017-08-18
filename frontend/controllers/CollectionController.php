@@ -65,8 +65,7 @@ class CollectionController extends Controller
         $source = null;
 
         if ($model == 'user') {
-            $userClass = Yii::$app->user->identityClass;
-            $source = $userClass::find()->with('userData')->where(['id' => $modelId])->one();
+            $source = User::find()->with('extend')->where(['id' => $modelId])->one();
             $subject = $source->username;
         } else if ($model == 'question' && Yii::$app->hasModule('question')) {
             $source = \yuncms\question\models\Question::findOne($modelId);
@@ -91,7 +90,7 @@ class CollectionController extends Controller
         if ($userCollect) {
             $userCollect->delete();
             if ($model == 'user') {
-                $source->userData->updateCounters(['collections' => -1]);
+                $source->extend->updateCounters(['collections' => -1]);
             } else {
                 $source->updateCounters(['collections' => -1]);
             }
@@ -109,7 +108,7 @@ class CollectionController extends Controller
         $collect = Collection::create($data);
         if ($collect) {
             if ($model == 'user') {
-                $source->userData->updateCounters(['collections' => 1]);
+                $source->extend->updateCounters(['collections' => 1]);
             } else {
                 $source->updateCounters(['collections' => 1]);
             }

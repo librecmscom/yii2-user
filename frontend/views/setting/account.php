@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'enableClientValidation' => false,
                 ]); ?>
 
-                <?= $form->field($model, 'name') ?>
+                <?= $form->field($model, 'username') ?>
 
                 <?= $form->field($model, 'slug', [
                     'inputTemplate' => '<div class="input-group"><span class="input-group-addon">' . mb_substr(Url::to(['/user/space/show', 'slug' => $model->slug], true), 0, -mb_strlen($model->slug)) . '</span>{input}</div>',

@@ -10,12 +10,12 @@ use yii\helpers\Html;
     <div class="col-md-10">
         <img class="avatar-32" src="<?= $model->user->getAvatar($model->user_id) ?>"/>
         <div>
-            <a href="<?= Url::to(['/user/space/view', 'id' => $model->user_id]) ?>"><?= $model->user->name ?></a>
+            <a href="<?= Url::to(['/user/space/view', 'id' => $model->user_id]) ?>"><?= $model->user->username ?></a>
             <div
-                class="stream-following-followed"><?= $model->user->userData->supports ?><?= Yii::t('user', 'Support') ?>
-                / <?= $model->user->userData->followers ?><?= Yii::t('user', 'Follower') ?>
-                <?php if (isset($model->user->userData->answers)): ?>
-                    / <?= $model->user->userData->answers ?><?= Yii::t('user', 'Answer') ?>
+                class="stream-following-followed"><?= $model->user->extend->supports ?><?= Yii::t('user', 'Support') ?>
+                / <?= $model->user->extend->followers ?><?= Yii::t('user', 'Follower') ?>
+                <?php if (isset($model->user->extend->answers)): ?>
+                    / <?= $model->user->extend->answers ?><?= Yii::t('user', 'Answer') ?>
                 <?php endif; ?>
             </div>
         </div>

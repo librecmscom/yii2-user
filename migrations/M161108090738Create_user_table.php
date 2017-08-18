@@ -6,7 +6,7 @@ use yii\db\Migration;
 
 class M161108090738Create_user_table extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -19,7 +19,7 @@ class M161108090738Create_user_table extends Migration
             'slug' => $this->string(50)->notNull()->unique()->comment('标识相当于用户名不能用来登录'),
             'email' => $this->string()->notNull()->unique()->comment('邮箱'),
             'mobile' => $this->string(11)->unique()->comment('手机号'),
-            'name' => $this->string()->notNull()->comment('名字昵称'),
+            'username' => $this->string()->notNull()->comment('名字昵称'),
             'auth_key' => $this->string()->notNull(),
             'password_hash' => $this->string()->notNull(),
             'avatar' => $this->boolean()->defaultValue(false),
@@ -39,7 +39,7 @@ class M161108090738Create_user_table extends Migration
         $this->insert('{{%user}}', [
             'id' => 1,
             'slug' => 'xcr',
-            'name' => '方圆百里找对手',
+            'username' => '方圆百里找对手',
             'email' => 'xutongle@gmail.com',
             'mobile' => '13800138000',
             'auth_key' => '0B8C1dRH1XxKhO15h_9JzaN0OAY9WprZ',
@@ -51,19 +51,8 @@ class M161108090738Create_user_table extends Migration
 
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%user}}');
     }
-
-    /*
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
-    */
 }

@@ -8,6 +8,7 @@ use yuncms\user\frontend\widgets\Connect;
 /**
  * @var yii\web\View $this
  * @var yuncms\user\models\User $user
+ * @var yuncms\user\frontend\models\RegistrationForm $model
  * @var yuncms\user\Module $module
  */
 
@@ -22,7 +23,7 @@ $this->title = Yii::t('user', 'Sign up');
         'enableClientValidation' => true,
     ]); ?>
 
-    <?= $form->field($model, 'name', ['inputOptions' => ['autocomplete' => 'off','required' => true]]) ?>
+    <?= $form->field($model, 'username', ['inputOptions' => ['autocomplete' => 'off','required' => true]]) ?>
 
     <?= $form->field($model, 'email', ['inputOptions' => ['autocomplete' => 'off','required' => true, 'type' => 'email']]) ?>
 

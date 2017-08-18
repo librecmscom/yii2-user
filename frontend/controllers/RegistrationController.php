@@ -32,6 +32,7 @@ class RegistrationController extends Controller
 {
     public $enableRegistration;
     public $enableConfirmation;
+    public $rememberFor;
 
     /**
      * @inheritdoc
@@ -84,6 +85,7 @@ class RegistrationController extends Controller
         parent::init();
         $this->enableRegistration = Yii::$app->settings->get('enableRegistration', 'user');
         $this->enableConfirmation = Yii::$app->settings->get('enableConfirmation', 'user');
+        $this->rememberFor = Yii::$app->settings->get('rememberFor', 'user');
     }
 
     /**
@@ -166,13 +168,13 @@ class RegistrationController extends Controller
         $user = Yii::createObject([
             'class' => User::className(),
             'scenario' => 'connect',
-            'name' => $account->name,
+            'username' => $account->username,
             'email' => $account->email,
         ]);
 
         if ($user->load(Yii::$app->request->post()) && $user->create()) {
             $account->connect($user);
-            Yii::$app->user->login($user, Yii::$app->settings->get('rememberFor', 'user'));
+            Yii::$app->user->login($user, $this->rememberFor);
             return $this->goBack();
         }
 

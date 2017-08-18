@@ -56,7 +56,7 @@ use yuncms\user\helpers\Password;
  * Defined relations:
  * @property Social[] $accounts 社交账号
  * @property Profile $profile 个人资料
- * @property Extend $extent 延伸资料
+ * @property Extend $extend 延伸资料
  * @property Data $userData 用户数据
  * @property Authentication $authentication 实名认证数据
  *
@@ -97,11 +97,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
 
     /** @var  Extend|null */
     private $_extend;
-
-    /**
-     * @var Data|null
-     */
-    private $_userData;
 
     protected $enableConfirmation;
     protected $enableGeneratingPassword;
@@ -596,24 +591,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
                 return '';
             }
         }
-    }
-
-
-    /**
-     * 返回用户附加资料
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserData()
-    {
-        return $this->hasOne(Data::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @param Data $data
-     */
-    public function setUserData(Data $data)
-    {
-        $this->_userData = $data;
     }
 
     /**

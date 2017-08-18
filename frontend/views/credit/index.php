@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-md-12">
                 <p class="mb-20">
-                    <?= Yii::t('user', 'Your current credits are:') ?> <strong class="text-gold"><?= Yii::$app->user->identity->userData->credits ?></strong>
+                    <?= Yii::t('user', 'Your current credits are:') ?> <strong class="text-gold"><?= Yii::$app->user->identity->extend->credits ?></strong>
                 </p>
 
                 <?=GridView::widget([

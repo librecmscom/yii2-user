@@ -4,7 +4,7 @@ namespace yuncms\user\migrations;
 
 use yii\db\Migration;
 
-class M161111023247Create_user_data_table extends Migration
+class M161111023247Create_user_extend_table extends Migration
 {
     public function safeUp()
     {
@@ -16,7 +16,7 @@ class M161111023247Create_user_data_table extends Migration
         /**
          * 创建用户附表
          */
-        $this->createTable('{{%user_data}}', [
+        $this->createTable('{{%user_extend}}', [
             'user_id' => $this->integer()->notNull(),
             'coins' => $this->integer()->unsigned()->defaultValue(0)->comment('金币'),
             'credits' => $this->integer()->unsigned()->defaultValue(0)->comment('积分'),
@@ -28,16 +28,16 @@ class M161111023247Create_user_data_table extends Migration
             'followers' => $this->integer()->unsigned()->defaultValue(0)->comment('关注数'),
             'last_visit' => $this->integer()->unsigned()->comment('最后活动'),
         ], $tableOptions);
-        $this->addPrimaryKey('{{%user_data}}','{{%user_data}}','user_id');
-        $this->addForeignKey('{{%user_data_ibfk_1}}', '{{%user_data}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
+        $this->addPrimaryKey('{{%user_extend}}','{{%user_extend}}','user_id');
+        $this->addForeignKey('{{%user_extend_ibfk_1}}', '{{%user_extend}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
 
-        $this->insert('{{%user_data}}', [
+        $this->insert('{{%user_extend}}', [
             'user_id' => 1,
         ]);
     }
 
     public function safeDown()
     {
-        $this->dropTable('{{%user_data}}');
+        $this->dropTable('{{%user_extend}}');
     }
 }
