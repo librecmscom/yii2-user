@@ -46,7 +46,7 @@ class Visit extends ActiveRecord
     public function rules()
     {
         return [
-            [['source_id'], 'required'],
+            [['model_id'], 'required'],
         ];
     }
 
@@ -56,11 +56,5 @@ class Visit extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    public static function create($attribute)
-    {
-        $model = new static ($attribute);
-        return $model->save();
     }
 }

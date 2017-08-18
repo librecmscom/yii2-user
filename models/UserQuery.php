@@ -29,22 +29,6 @@ class UserQuery extends ActiveQuery
     }
 
     /**
-     * Gets entities by any tags.
-     * @param string|string[] $value
-     * @return ActiveQuery the owner
-     */
-    public function name($value)
-    {
-        $model = new User();
-        $this->innerJoinWith('profile', false)
-            ->andWhere(Profile::tableName() . ".`nickname` like '%{$value}%'")
-            ->addGroupBy(array_map(function ($pk) use ($model) {
-                return User::tableName() . '.' . $pk;
-            }, $model->primaryKey()));
-        return $this;
-    }
-
-    /**
      * 只看妹子
      * @return $this
      */

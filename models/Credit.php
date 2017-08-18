@@ -16,6 +16,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $id
  * @property integer $user_id
  * @property string $type
+ * @property string $action
  * @property double $amount
  * @property integer $created_at
  */

@@ -40,7 +40,9 @@ class Token extends ActiveRecord
     {
         parent::init();
         $this->confirmWithin = Yii::$app->settings->get('confirmWithin', 'user');
+
     }
+
     /**
      * @inheritdoc
      */
@@ -58,11 +60,12 @@ class Token extends ActiveRecord
     }
 
     /**
+     * 定义用户关系
      * @return \yii\db\ActiveQuery
      */
     public function getUser()
     {
-        return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -101,14 +104,14 @@ class Token extends ActiveRecord
             case self::TYPE_CONFIRMATION:
             case self::TYPE_CONFIRM_NEW_EMAIL:
             case self::TYPE_CONFIRM_OLD_EMAIL:
-                $expirationTime = $this->module->confirmWithin;
+                $expirationTime = $this->confirmWithin;
                 break;
             case self::TYPE_CONFIRM_NEW_MOBILE:
             case self::TYPE_CONFIRM_OLD_MOBILE:
-                $expirationTime = $this->module->confirmWithin;
+                $expirationTime = $this->confirmWithin;
                 break;
             case self::TYPE_RECOVERY:
-                $expirationTime = $this->module->recoverWithin;
+                $expirationTime = $this->recoverWithin;
                 break;
             default:
                 throw new \RuntimeException();

@@ -23,6 +23,7 @@ use yii\db\ActiveRecord;
  * @property string $login_ip 登录IP
  * @property int $login_at 登录时间
  * @property int $login_num 登录次数
+ *
  * @property User $user 用户模型实例
  */
 class Extend extends ActiveRecord

@@ -64,6 +64,7 @@ class Social extends ActiveRecord
     }
 
     /**
+     * 定义用户关系
      * @return \yii\db\ActiveQuery
      */
     public function getUser()
@@ -144,7 +145,6 @@ class Social extends ActiveRecord
     {
         if (Yii::$app->user->isGuest) {
             Yii::$app->session->setFlash('danger', Yii::t('user', 'Something went wrong'));
-
             return;
         }
 
@@ -196,7 +196,7 @@ class Social extends ActiveRecord
         $user = Yii::createObject([
             'class' => User::className(),
             'scenario' => 'connect',
-            'name' => $account->username,
+            'username' => $account->username,
             'email' => $account->email
         ]);
 
@@ -205,7 +205,7 @@ class Social extends ActiveRecord
         }
 
         if (!$user->validate(['name'])) {
-            $account->name = null;
+            $account->username = null;
         }
 
         return $user->create() ? $user : false;

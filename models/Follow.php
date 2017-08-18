@@ -28,6 +28,6 @@ class Follow extends Attention
      */
     public function getUser()
     {
-        return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'model_id']);
+        return $this->hasOne(User::className(), ['id' => 'model_id']);
     }
 }

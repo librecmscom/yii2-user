@@ -54,15 +54,6 @@ class Support extends ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
-    }
-
-    public static function create($attribute)
-    {
-        $model = new static ($attribute);
-        if ($model->save()) {
-            return $model;
-        }
-        return false;
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

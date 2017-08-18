@@ -19,6 +19,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $type
  * @property double $amount
  * @property integer $created_at
+ * @property string $action
  */
 class Coin extends ActiveRecord
 {

@@ -28,18 +28,19 @@ use yuncms\user\helpers\Password;
  * User ActiveRecord model.
  *
  * @property bool $isBlocked 是否已经锁定
- * @property bool $isConfirmed 是否已经邮箱激活
+ * @property bool $isMobileConfirmed 是否已经手机激活
+ * @property bool $isEmailConfirmed 是否已经邮箱激活
  * @property bool $isAvatar 是否有头像
  *
  * Database fields:
  * @property integer $id ID 唯一
- * @property string $name 用户名唯一
+ * @property string $slug 用户标识唯一
  * @property string $email 邮箱唯一
  * @property string $mobile 用户手机唯一
- * @property string $nickname 昵称不唯一
+ * @property string $username 用户用户昵称不唯一
  * @property string $password 密码
- * @property string $unconfirmed_email 未确认的邮箱
- * @property string $unconfirmed_mobile 未确认的手机
+ * @property string $unconfirmed_email 未验证激活的邮箱
+ * @property string $unconfirmed_mobile 未验证激活的手机
  * @property string $password_hash 密码哈希
  * @property string $auth_key 认证码
  * @property bool $avatar 是否有头像
@@ -55,6 +56,7 @@ use yuncms\user\helpers\Password;
  * Defined relations:
  * @property Social[] $accounts 社交账号
  * @property Profile $profile 个人资料
+ * @property Extend $extent 延伸资料
  * @property Data $userData 用户数据
  * @property Authentication $authentication 实名认证数据
  *
@@ -93,10 +95,17 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
      */
     private $_profile;
 
+    /** @var  Extend|null */
+    private $_extend;
+
     /**
      * @var Data|null
      */
     private $_userData;
+
+    protected $enableConfirmation;
+    protected $enableGeneratingPassword;
+    protected $rememberFor;
 
     /**
      * @var string Default slug regexp
@@ -106,9 +115,20 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     /**
      * @var string Default username regexp
      */
-    public static $nameRegexp = '/^[-a-zA-Z0-9_\x{4e00}-\x{9fa5}\.@]+$/u';
+    public static $usernameRegexp = '/^[-a-zA-Z0-9_\x{4e00}-\x{9fa5}\.@]+$/u';
 
     public static $mobileRegexp = '/^13[\d]{9}$|^15[\d]{9}$|^17[\d]{9}$|^18[\d]{9}$/';
+
+    /**
+     * 初始化
+     */
+    public function init()
+    {
+        parent::init();
+        $this->rememberFor = Yii::$app->settings->get('rememberFor','user');
+        $this->enableConfirmation = Yii::$app->settings->get('enableConfirmation', 'user');
+        $this->enableGeneratingPassword = Yii::$app->settings->get('enableGeneratingPassword', 'user');
+    }
 
     /**
      * @inheritdoc
@@ -148,7 +168,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function attributeLabels()
     {
         return [
-            'name' => Yii::t('user', 'Name'),
+            'username' => Yii::t('user', 'Name'),
             'email' => Yii::t('user', 'Email'),
             'registration_ip' => Yii::t('user', 'Registration ip'),
             'unconfirmed_email' => Yii::t('user', 'New email'),
@@ -165,14 +185,14 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     {
         $scenarios = parent::scenarios();
         return ArrayHelper::merge($scenarios, [
-            'register' => ['name', 'email', 'password'],
-            'connect' => ['name', 'email'],
-            'create' => ['name', 'email', 'password'],
-            'update' => ['name', 'email', 'password'],
-            'settings' => ['name', 'email', 'password'],
-            'import' => ['name', 'email', 'password'],
+            'register' => ['username', 'email', 'password'],
+            'connect' => ['username', 'email'],
+            'create' => ['username', 'email', 'password'],
+            'update' => ['username', 'email', 'password'],
+            'settings' => ['username', 'email', 'password'],
+            'import' => ['username', 'email', 'password'],
             'mobile_register' => ['mobile', 'password'],
-            'wechat_connect' => ['name', 'email', 'password'],
+            'wechat_connect' => ['username', 'email', 'password'],
         ]);
     }
 
@@ -188,12 +208,11 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             'slugUnique' => ['slug', 'unique', 'message' => Yii::t('user', 'This slug has already been taken')],
             'slugTrim' => ['slug', 'trim'],
 
-            // name rules
-            'nameRequired' => ['name', 'required', 'on' => ['register', 'create', 'connect', 'update', 'wechat_register']],
-            'nameMatch' => ['name', 'match', 'pattern' => static::$nameRegexp],
-            'nameLength' => ['name', 'string', 'min' => 3, 'max' => 255],
-            'nameUnique' => ['name', 'unique', 'message' => Yii::t('user', 'This username has already been taken')],
-            'nameTrim' => ['name', 'trim'],
+            // username rules
+            'usernameRequired' => ['username', 'required', 'on' => ['register', 'create', 'connect', 'update', 'wechat_register']],
+            'usernameMatch' => ['username', 'match', 'pattern' => static::$usernameRegexp],
+            'usernameLength' => ['username', 'string', 'min' => 3, 'max' => 255],
+            'usernameTrim' => ['username', 'trim'],
 
             // email rules
             'emailRequired' => ['email', 'required', 'on' => ['register', 'connect', 'create', 'update']],
@@ -234,33 +253,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 返回用户是否已经激活
-     * @return boolean Whether the user is confirmed or not.
-     */
-    public function getIsConfirmed()
-    {
-        return $this->confirmed_at != null;
-    }
-
-    /**
-     * 返回用户是否已经锁定
-     * @return boolean Whether the user is blocked or not.
-     */
-    public function getIsBlocked()
-    {
-        return $this->blocked_at != null;
-    }
-
-    /**
-     * 返回用户是否有头像
-     * @return boolean Whether the user is blocked or not.
-     */
-    public function getIsAvatar()
-    {
-        return $this->avatar != 0;
-    }
-
-    /**
      * 获取auth_key
      * @inheritdoc
      */
@@ -280,8 +272,70 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
+    /** @inheritdoc */
+    public function validateAuthKey($authKey)
+    {
+        return $this->getAuthKey() === $authKey;
+    }
+
     /**
-     * 返回用户详细资料
+     * 创建 "记住我" 身份验证Key
+     */
+    public function generateAuthKey()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * 返回用户邮箱是否已经激活
+     * @return boolean Whether the user is confirmed or not.
+     */
+    public function getIsEmailConfirmed()
+    {
+        return $this->email_confirmed_at != null;
+    }
+
+    /**
+     * 返回用户手机是否已经激活
+     * @return boolean Whether the user is confirmed or not.
+     */
+    public function getIsMobileConfirmed()
+    {
+        return $this->mobile_confirmed_at != null;
+    }
+
+    /**
+     * 返回用户是否已经锁定
+     * @return boolean Whether the user is blocked or not.
+     */
+    public function getIsBlocked()
+    {
+        return $this->blocked_at != null;
+    }
+
+    /**
+     * 是否实名认证
+     * @return bool
+     */
+    public function isAuthentication()
+    {
+        if ($this->authentication && $this->authentication->status == Authentication::STATUS_AUTHENTICATED) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 返回用户是否有头像
+     * @return boolean Whether the user is blocked or not.
+     */
+    public function getIsAvatar()
+    {
+        return $this->avatar != 0;
+    }
+
+    /**
+     * 定义用户详细资料关系
      * @return \yii\db\ActiveQuery
      */
     public function getProfile()
@@ -290,15 +344,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 返回用户微信资料
-     * @return \yii\db\ActiveQuery
-     */
-    public function getWechat()
-    {
-        return $this->hasOne(Wechat::className(), ['user_id' => 'id']);
-    }
-
-    /**
+     * 设置用户资料
      * @param Profile $profile
      */
     public function setProfile(Profile $profile)
@@ -307,16 +353,34 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 返回用户附加资料
-     * @return \yii\db\ActiveQuery
+     * 定义延伸资料关系
+     * @return ActiveQuery
      */
-    public function getUserData()
+    public function getExtend()
     {
-        return $this->hasOne(Data::className(), ['user_id' => 'id']);
+        return $this->hasOne(Extend::className(), ['user_id' => 'id']);
     }
 
     /**
-     * 返回用户用户认证信息
+     * 设置用户延伸资料
+     * @param Extend $extend
+     */
+    public function setExtend($extend)
+    {
+        $this->_extend = $extend;
+    }
+
+    /**
+     * 定义微信端关系
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWechat()
+    {
+        return $this->hasOne(Wechat::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * 定义用户实名认证关系
      * @return \yii\db\ActiveQuery
      */
     public function getAuthentication()
@@ -325,23 +389,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * @param Data $data
-     */
-    public function setUserData(Data $data)
-    {
-        $this->_userData = $data;
-    }
-
-    /**
-     * 定义延伸资料关系
-     * @return ActiveQuery
-     */
-    public function getExtend(){
-        return $this->hasOne(Extend::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * 获取用户关注的Tag
+     * 定义用户Tag关系
      */
     public function getTags()
     {
@@ -349,26 +397,8 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 返回所有已经连接的社交媒体账户
-     * @return Social[] Connected accounts ($provider => $account)
-     */
-    public function getAccounts()
-    {
-        $connected = [];
-        $accounts = $this->hasMany(Social::className(), ['user_id' => 'id'])->all();
-
-        /**
-         * @var Social $account
-         */
-        foreach ($accounts as $account) {
-            $connected[$account->provider] = $account;
-        }
-
-        return $connected;
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery 返回所有已添加的教育经历
+     * 定义用户学历关系
+     * @return \yii\db\ActiveQuery
      */
     public function getEducations()
     {
@@ -376,7 +406,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 返回所有已添加的工作经历
+     * 定义工作经历关系
      * @return \yii\db\ActiveQuery
      */
     public function getCareers()
@@ -385,7 +415,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 获取登陆历史
+     * 定义登录历史关系
      * @return \yii\db\ActiveQuery
      */
     public function getLoginHistories()
@@ -438,221 +468,21 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 定义IM 关系
-     * @return null|ActiveQuery
+     * 返回所有已经连接的社交媒体账户
+     * @return Social[] Connected accounts ($provider => $account)
      */
-    public function getIm()
+    public function getAccounts()
     {
-        if (Yii::$app->hasModule('im')) {
-            return $this->hasMany(\yuncms\im\models\Account::className(), ['user_id' => 'id']);
-        } else {
-            return null;
+        $connected = [];
+        $accounts = $this->hasMany(Social::className(), ['user_id' => 'id'])->all();
+        /**
+         * @var Social $account
+         */
+        foreach ($accounts as $account) {
+            $connected[$account->provider] = $account;
         }
-    }
 
-    /**
-     * 获取用户已经激活的钱包
-     * @return null|ActiveQuery
-     */
-    public function getWallets()
-    {
-        if (Yii::$app->hasModule('wallet')) {
-            return $this->hasMany(\yuncms\wallet\models\Wallet::className(), ['user_id' => 'id']);
-        }
-        return null;
-    }
-
-    /** @inheritdoc */
-    public function validateAuthKey($authKey)
-    {
-        return $this->getAuthKey() === $authKey;
-    }
-
-    /**
-     * 获取我的APP列表
-     * 一对多关系
-     * @return ActiveQuery
-     */
-    public function getRests()
-    {
-        return $this->hasMany(Rest::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * 创建新用户帐户。 如果用户不提供密码，则会生成密码。
-     *
-     * @return boolean
-     */
-    public function create()
-    {
-        if ($this->getIsNewRecord() == false) {
-            throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
-        }
-        $this->confirmed_at = time();
-        $this->password = $this->password == null ? Password::generate(8) : $this->password;
-        $this->slug = $this->slug == null ? Inflector::slug($this->name, '-') : $this->slug;
-        $this->trigger(self::BEFORE_CREATE);
-        if (!$this->save()) {
-            return false;
-        }
-        $this->module->sendMessage($this->email, Yii::t('user', 'Welcome to {0}', Yii::$app->name), 'welcome', ['user' => $this, 'token' => null, 'module' => $this->module, 'showPassword' => true]);
-        $this->trigger(self::AFTER_CREATE);
-        return true;
-    }
-
-    /**
-     * 此方法用于注册新用户帐户。 如果Module :: enableConfirmation设置为true，则此方法
-     * 将生成新的确认令牌，并使用邮件发送给用户。
-     *
-     * @return boolean
-     */
-    public function register()
-    {
-        if ($this->getIsNewRecord() == false) {
-            throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
-        }
-        if ($this->scenario == 'mobile_register') {
-            $this->name = $this->mobile;
-        }
-        $this->confirmed_at = $this->module->enableConfirmation ? null : time();
-        $this->password = $this->module->enableGeneratingPassword ? Password::generate(8) : $this->password;
-        $this->slug = $this->slug == null ? Inflector::slug($this->name, '-') : $this->slug;
-
-        $this->trigger(self::BEFORE_REGISTER);
-        if (!$this->save()) {
-            return false;
-        }
-        if ($this->module->enableConfirmation) {
-            /** @var Token $token */
-            $token = new Token(['type' => Token::TYPE_CONFIRMATION]);
-            $token->link('user', $this);
-        } else {
-            Yii::$app->user->login($this, $this->module->rememberFor);
-        }
-        if ($this->email) {
-            $this->module->sendMessage($this->email, Yii::t('user', 'Welcome to {0}', Yii::$app->name), 'welcome', ['user' => $this, 'token' => isset($token) ? $token : null, 'module' => $this->module, 'showPassword' => false]);
-        }
-        $this->trigger(self::AFTER_REGISTER);
-        return true;
-    }
-
-    /**
-     * 电子邮件确认
-     *
-     * @param string $code Confirmation code.
-     *
-     * @return boolean
-     */
-    public function attemptConfirmation($code)
-    {
-        $token = Token::findOne(['user_id' => $this->id, 'code' => $code, 'type' => Token::TYPE_CONFIRMATION]);
-        if ($token instanceof Token && !$token->isExpired) {
-            $token->delete();
-            if (($success = $this->confirm())) {
-                Yii::$app->user->login($this, $this->module->rememberFor);
-                $message = Yii::t('user', 'Thank you, registration is now complete.');
-            } else {
-                $message = Yii::t('user', 'Something went wrong and your account has not been confirmed.');
-            }
-        } else {
-            $success = false;
-            $message = Yii::t('user', 'The confirmation link is invalid or expired. Please try requesting a new one.');
-        }
-        Yii::$app->session->setFlash($success ? 'success' : 'danger', $message);
-        return $success;
-    }
-
-    /**
-     * 该方法将更新用户的电子邮件，如果`unconfirmed_email`字段为空将返回false,如果该邮件已经有人使用了将返回false; 否则返回true
-     *
-     * @param string $code
-     *
-     * @return boolean
-     * @throws \Exception
-     */
-    public function attemptEmailChange($code)
-    {
-        /** @var Token $token */
-        $token = Token::find()->where(['user_id' => $this->id, 'code' => $code])->andWhere(['in', 'type', [Token::TYPE_CONFIRM_NEW_EMAIL, Token::TYPE_CONFIRM_OLD_EMAIL]])->one();
-        if (empty($this->unconfirmed_email) || $token === null || $token->isExpired) {
-            Yii::$app->session->setFlash('danger', Yii::t('user', 'Your confirmation token is invalid or expired'));
-        } else {
-            $token->delete();
-            if (empty($this->unconfirmed_email)) {
-                Yii::$app->session->setFlash('danger', Yii::t('user', 'An error occurred processing your request'));
-            } elseif (static::find()->where(['email' => $this->unconfirmed_email])->exists() == false) {
-                if ($this->module->emailChangeStrategy == Module::STRATEGY_SECURE) {
-                    switch ($token->type) {
-                        case Token::TYPE_CONFIRM_NEW_EMAIL:
-                            $this->flags |= self::NEW_EMAIL_CONFIRMED;
-                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your old email address'));
-                            break;
-                        case Token::TYPE_CONFIRM_OLD_EMAIL:
-                            $this->flags |= self::OLD_EMAIL_CONFIRMED;
-                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your new email address'));
-                            break;
-                    }
-                }
-                if ($this->module->emailChangeStrategy == Module::STRATEGY_DEFAULT || ($this->flags & self::NEW_EMAIL_CONFIRMED && $this->flags & self::OLD_EMAIL_CONFIRMED)) {
-                    $this->email = $this->unconfirmed_email;
-                    $this->unconfirmed_email = null;
-                    Yii::$app->session->setFlash('success', Yii::t('user', 'Your email address has been changed'));
-                }
-                $this->save(false);
-            }
-        }
-    }
-
-    /**
-     * 该方法将更新用户的手机，如果`unconfirmed_mobile`字段为空将返回false,如果该手机已经有人使用了将返回false; 否则返回true
-     *
-     * @param string $code
-     *
-     * @return boolean
-     * @throws \Exception
-     */
-    public function attemptMobileChange($code)
-    {
-        /** @var Token $token */
-        $token = Token::find()->where([
-            'user_id' => $this->id,
-            'code' => $code
-        ])->andWhere(['in', 'type', [Token::TYPE_CONFIRM_NEW_MOBILE, Token::TYPE_CONFIRM_OLD_MOBILE]])->one();
-        if (empty($this->unconfirmed_mobile) || $token === null || $token->isExpired) {
-            Yii::$app->session->setFlash('danger', Yii::t('user', 'Your confirmation token is invalid or expired'));
-        } else {
-            $token->delete();
-            if (empty($this->unconfirmed_mobile)) {
-                Yii::$app->session->setFlash('danger', Yii::t('user', 'An error occurred processing your request'));
-            } elseif (static::find()->where(['mobile' => $this->unconfirmed_mobile])->exists() == false) {
-                if ($this->module->mobileChangeStrategy == Module::STRATEGY_SECURE) {
-                    switch ($token->type) {
-                        case Token::TYPE_CONFIRM_NEW_MOBILE:
-                            $this->flags |= self::NEW_MOBILE_CONFIRMED;
-                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to input the confirmation code sent to your old mobile'));
-                            break;
-                        case Token::TYPE_CONFIRM_OLD_MOBILE:
-                            $this->flags |= self::OLD_MOBILE_CONFIRMED;
-                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to input the confirmation code sent to your new mobile'));
-                            break;
-                    }
-                }
-                if ($this->module->mobileChangeStrategy == Module::STRATEGY_DEFAULT || ($this->flags & self::NEW_MOBILE_CONFIRMED && $this->flags & self::OLD_MOBILE_CONFIRMED)) {
-                    $this->mobile = $this->unconfirmed_mobile;
-                    $this->unconfirmed_mobile = null;
-                    Yii::$app->session->setFlash('success', Yii::t('user', 'Your mobile address has been changed'));
-                }
-                $this->save(false);
-            }
-        }
-    }
-
-    /**
-     * 设置用户已经验证
-     */
-    public function confirm()
-    {
-        return (bool)$this->updateAttributes(['confirmed_at' => time()]);
+        return $connected;
     }
 
     /**
@@ -661,9 +491,9 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
      */
     public function resetLoginData()
     {
-        $this->userData->updateAttributes(['login_at' => time()]);
-        $this->userData->updateAttributes(['login_ip' => Yii::$app->request->userIP]);
-        $this->userData->updateCounters(['login_num' => 1]);
+        $this->extend->updateAttributes(['login_at' => time()]);
+        $this->extend->updateAttributes(['login_ip' => Yii::$app->request->userIP]);
+        $this->extend->updateCounters(['login_num' => 1]);
     }
 
     /**
@@ -695,48 +525,43 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 使用email地址生成一个新的用户名字
+     * 设置Email已经验证
+     * @return bool
      */
-    public function generateName()
+    public function setEmailConfirm()
     {
-        // try to use name part of email
-        $this->name = explode('@', $this->email)[0];
-        if ($this->validate(['name'])) {
-            return $this->name;
-        }
-
-        // generate name like "user1", "user2", etc...
-        while (!$this->validate(['name'])) {
-            $row = (new Query())->from('{{%user}}')->select('MAX(id) as id')->one();
-            $this->name = 'user' . ++$row['id'];
-        }
-        return $this->name;
+        return (bool)$this->updateAttributes(['email_confirmed_at' => time()]);
     }
 
     /**
-     * 使用email地址生成一个新的标识
+     * 设置手机号已经验证
+     * @return bool
      */
-    public function generateSlug()
+    public function setMobileConfirm()
     {
-        // try to use slug part of email
-        $this->slug = explode('@', $this->email)[0];
-        if ($this->validate(['slug'])) {
-            return $this->slug;
-        }
-        // generate slug like "user1", "user2", etc...
-        while (!$this->validate(['slug'])) {
-            $row = (new Query())->from('{{%user}}')->select('MAX(id) as id')->one();
-            $this->slug = 'slug' . ++$row['id'];
-        }
-        return $this->slug;
+        return (bool)$this->updateAttributes(['mobile_confirmed_at' => time()]);
     }
 
     /**
-     * 创建 "记住我" 身份验证Key
+     * 是否已经收藏过Source和ID
+     * @param string $model
+     * @param int $modelId
+     * @return bool
      */
-    public function generateAuthKey()
+    public function isCollected($model, $modelId)
     {
-        $this->auth_key = Yii::$app->security->generateRandomString();
+        return $this->getCollections()->andWhere(['model' => $model, 'model_id' => $modelId])->exists();
+    }
+
+    /**
+     * 是否已关注指定的Source和ID
+     * @param string $model
+     * @param int $modelId
+     * @return mixed
+     */
+    public function isFollowed($model, $modelId)
+    {
+        return $this->getAttentions()->andWhere(['model' => $model, 'model_id' => $modelId])->exists();
     }
 
     /**
@@ -764,7 +589,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
                 default:
                     $avatarUrl = '/img/no_avatar_big.gif';
             }
-            if (Yii::getAlias('@webroot', false) && !file_exists(Yii::getAlias('@webroot/img/no_avatar_big.gif'))) {
+            if (Yii::getAlias('@webroot', false)) {
                 $baseUrl = UserAsset::register(Yii::$app->view)->baseUrl;
                 return Url::to($baseUrl . $avatarUrl, true);
             } else {
@@ -773,42 +598,268 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         }
     }
 
+
     /**
-     * 是否已经收藏过Source和ID
-     * @param string $model
-     * @param int $modelId
-     * @return bool
+     * 返回用户附加资料
+     * @return \yii\db\ActiveQuery
      */
-    public function isCollected($model, $modelId)
+    public function getUserData()
     {
-        return $this->getCollections()->andWhere(['model' => $model, 'model_id' => $modelId])->exists();
+        return $this->hasOne(Data::className(), ['user_id' => 'id']);
     }
 
     /**
-     * 是否已关注指定的Source和ID
-     * @param string $model
-     * @param int $modelId
-     * @return mixed
+     * @param Data $data
      */
-    public function isFollowed($model, $modelId)
+    public function setUserData(Data $data)
     {
-        return $this->getAttentions()->andWhere(['model' => $model, 'model_id' => $modelId])->exists();
+        $this->_userData = $data;
     }
 
     /**
-     * 是否实名认证
-     * @return bool
+     * 定义IM 关系
+     * @return null|ActiveQuery
      */
-    public function isAuthentication()
+    public function getIm()
     {
-        if ($this->authentication && $this->authentication->status == Authentication::STATUS_AUTHENTICATED) {
-            return true;
+        if (Yii::$app->hasModule('im')) {
+            return $this->hasMany(\yuncms\im\models\Account::className(), ['user_id' => 'id']);
+        } else {
+            return null;
         }
-        return false;
     }
 
     /**
-     * @inheritdoc
+     * 获取用户已经激活的钱包
+     * @return null|ActiveQuery
+     */
+    public function getWallets()
+    {
+        if (Yii::$app->hasModule('wallet')) {
+            return $this->hasMany(\yuncms\wallet\models\Wallet::className(), ['user_id' => 'id']);
+        }
+        return null;
+    }
+
+    /**
+     * 获取我的APP列表
+     * 一对多关系
+     * @return ActiveQuery
+     */
+    public function getRests()
+    {
+        return $this->hasMany(Rest::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * 创建新用户帐户。 如果用户不提供密码，则会生成密码。
+     *
+     * @return boolean
+     */
+    public function create()
+    {
+        if ($this->getIsNewRecord() == false) {
+            throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
+        }
+        $this->email_confirmed_at = time();
+        $this->password = $this->password == null ? Password::generate(8) : $this->password;
+        $this->slug = $this->slug == null ? Inflector::slug($this->username, '-') : $this->slug;
+        $this->trigger(self::BEFORE_CREATE);
+        if (!$this->save()) {
+            return false;
+        }
+        $this->module->sendMessage($this->email, Yii::t('user', 'Welcome to {0}', Yii::$app->name), 'welcome', ['user' => $this, 'token' => null, 'module' => $this->module, 'showPassword' => true]);
+        $this->trigger(self::AFTER_CREATE);
+        return true;
+    }
+
+    /**
+     * 此方法用于注册新用户帐户。 如果Module :: enableConfirmation设置为true，则此方法
+     * 将生成新的确认令牌，并使用邮件发送给用户。
+     *
+     * @return boolean
+     */
+    public function register()
+    {
+        if ($this->getIsNewRecord() == false) {
+            throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
+        }
+        if ($this->scenario == 'mobile_register') {
+            $this->username = $this->mobile;
+        }
+        $this->email_confirmed_at = $this->enableConfirmation ? null : time();
+        $this->password = $this->enableGeneratingPassword ? Password::generate(8) : $this->password;
+        $this->slug = $this->slug == null ? Inflector::slug($this->username, '-') : $this->slug;
+
+        $this->trigger(self::BEFORE_REGISTER);
+        if (!$this->save()) {
+            return false;
+        }
+        if ($this->enableConfirmation && !empty($this->email)) {
+            /** @var Token $token */
+            $token = new Token(['type' => Token::TYPE_CONFIRMATION]);
+            $token->link('user', $this);
+            $this->module->sendMessage($this->email, Yii::t('user', 'Welcome to {0}', Yii::$app->name), 'welcome', ['user' => $this, 'token' => isset($token) ? $token : null, 'module' => $this->module, 'showPassword' => false]);
+        } else {
+            Yii::$app->user->login($this, $this->rememberFor);
+        }
+
+        $this->trigger(self::AFTER_REGISTER);
+        return true;
+    }
+
+    /**
+     * 电子邮件确认
+     *
+     * @param string $code Confirmation code.
+     *
+     * @return boolean
+     */
+    public function attemptConfirmation($code)
+    {
+        $token = Token::findOne(['user_id' => $this->id, 'code' => $code, 'type' => Token::TYPE_CONFIRMATION]);
+        if ($token instanceof Token && !$token->isExpired) {
+            $token->delete();
+            if (($success = $this->setEmailConfirm())) {
+                Yii::$app->user->login($this, Yii::$app->settings->get('rememberFor', 'user'));
+                $message = Yii::t('user', 'Thank you, registration is now complete.');
+            } else {
+                $message = Yii::t('user', 'Something went wrong and your account has not been confirmed.');
+            }
+        } else {
+            $success = false;
+            $message = Yii::t('user', 'The confirmation link is invalid or expired. Please try requesting a new one.');
+        }
+        Yii::$app->session->setFlash($success ? 'success' : 'danger', $message);
+        return $success;
+    }
+
+    /**
+     * 该方法将更新用户的电子邮件，如果`unconfirmed_email`字段为空将返回false,如果该邮件已经有人使用了将返回false; 否则返回true
+     *
+     * @param string $code
+     *
+     * @return boolean
+     * @throws \Exception
+     */
+    public function attemptEmailChange($code)
+    {
+        /** @var Token $token */
+        $token = Token::find()->where(['user_id' => $this->id, 'code' => $code])->andWhere(['in', 'type', [Token::TYPE_CONFIRM_NEW_EMAIL, Token::TYPE_CONFIRM_OLD_EMAIL]])->one();
+        if (empty($this->unconfirmed_email) || $token === null || $token->isExpired) {
+            Yii::$app->session->setFlash('danger', Yii::t('user', 'Your confirmation token is invalid or expired'));
+        } else {
+            $token->delete();
+            if (empty($this->unconfirmed_email)) {
+                Yii::$app->session->setFlash('danger', Yii::t('user', 'An error occurred processing your request'));
+            } elseif (static::find()->where(['email' => $this->unconfirmed_email])->exists() == false) {
+                if (Yii::$app->settings->get('emailChangeStrategy', 'user') == Module::STRATEGY_SECURE) {
+                    switch ($token->type) {
+                        case Token::TYPE_CONFIRM_NEW_EMAIL:
+                            $this->flags |= self::NEW_EMAIL_CONFIRMED;
+                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your old email address'));
+                            break;
+                        case Token::TYPE_CONFIRM_OLD_EMAIL:
+                            $this->flags |= self::OLD_EMAIL_CONFIRMED;
+                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to click the confirmation link sent to your new email address'));
+                            break;
+                    }
+                }
+                if (Yii::$app->settings->get('emailChangeStrategy', 'user') == Module::STRATEGY_DEFAULT || ($this->flags & self::NEW_EMAIL_CONFIRMED && $this->flags & self::OLD_EMAIL_CONFIRMED)) {
+                    $this->email = $this->unconfirmed_email;
+                    $this->unconfirmed_email = null;
+                    Yii::$app->session->setFlash('success', Yii::t('user', 'Your email address has been changed'));
+                }
+                $this->save(false);
+            }
+        }
+    }
+
+    /**
+     * 该方法将更新用户的手机，如果`unconfirmed_mobile`字段为空将返回false,如果该手机已经有人使用了将返回false; 否则返回true
+     *
+     * @param string $code
+     *
+     * @return boolean
+     * @throws \Exception
+     */
+    public function attemptMobileChange($code)
+    {
+        /** @var Token $token */
+        $token = Token::find()->where([
+            'user_id' => $this->id,
+            'code' => $code
+        ])->andWhere(['in', 'type', [Token::TYPE_CONFIRM_NEW_MOBILE, Token::TYPE_CONFIRM_OLD_MOBILE]])->one();
+        if (empty($this->unconfirmed_mobile) || $token === null || $token->isExpired) {
+            Yii::$app->session->setFlash('danger', Yii::t('user', 'Your confirmation token is invalid or expired'));
+        } else {
+            $token->delete();
+            if (empty($this->unconfirmed_mobile)) {
+                Yii::$app->session->setFlash('danger', Yii::t('user', 'An error occurred processing your request'));
+            } elseif (static::find()->where(['mobile' => $this->unconfirmed_mobile])->exists() == false) {
+                if (Yii::$app->settings->get('mobileChangeStrategy', 'user') == Module::STRATEGY_SECURE) {
+                    switch ($token->type) {
+                        case Token::TYPE_CONFIRM_NEW_MOBILE:
+                            $this->flags |= self::NEW_MOBILE_CONFIRMED;
+                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to input the confirmation code sent to your old mobile'));
+                            break;
+                        case Token::TYPE_CONFIRM_OLD_MOBILE:
+                            $this->flags |= self::OLD_MOBILE_CONFIRMED;
+                            Yii::$app->session->setFlash('success', Yii::t('user', 'Awesome, almost there. Now you need to input the confirmation code sent to your new mobile'));
+                            break;
+                    }
+                }
+                if (Yii::$app->settings->get('mobileChangeStrategy', 'user') == Module::STRATEGY_DEFAULT || ($this->flags & self::NEW_MOBILE_CONFIRMED && $this->flags & self::OLD_MOBILE_CONFIRMED)) {
+                    $this->mobile = $this->unconfirmed_mobile;
+                    $this->unconfirmed_mobile = null;
+                    Yii::$app->session->setFlash('success', Yii::t('user', 'Your mobile address has been changed'));
+                }
+                $this->save(false);
+            }
+        }
+    }
+
+    /**
+     * 使用email地址生成一个新的用户昵称
+     */
+    public function generateUsername()
+    {
+        // try to use username part of email
+        $this->username = explode('@', $this->email)[0];
+        if ($this->validate(['username'])) {
+            return $this->username;
+        }
+
+        // generate name like "user1", "user2", etc...
+        while (!$this->validate(['username'])) {
+            $row = (new Query())->from('{{%user}}')->select('MAX(id) as id')->one();
+            $this->username = 'user' . ++$row['id'];
+        }
+        return $this->username;
+    }
+
+    /**
+     * 使用email地址生成一个新的标识
+     */
+    public function generateSlug()
+    {
+        // try to use slug part of email
+        $this->slug = explode('@', $this->email)[0];
+        if ($this->validate(['slug'])) {
+            return $this->slug;
+        }
+        // generate slug like "user1", "user2", etc...
+        while (!$this->validate(['slug'])) {
+            $row = (new Query())->from('{{%user}}')->select('MAX(id) as id')->one();
+            $this->slug = 'slug' . ++$row['id'];
+        }
+        return $this->slug;
+    }
+
+    /**
+     * 保存前执行
+     * @param bool $insert 是否是插入操作
+     * @return bool
      */
     public function beforeSave($insert)
     {
@@ -825,7 +876,9 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * @inheritdoc
+     * 保存后执行
+     * @param bool $insert 是否是插入操作
+     * @param array $changedAttributes 更改的属性
      */
     public function afterSave($insert, $changedAttributes)
     {
@@ -836,21 +889,12 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             }
             $this->_profile->link('user', $this);
 
-            if ($this->_userData == null) {
-                $this->_userData = new Data();
+            if ($this->_extend == null) {
+                $this->_extend = new Extend();
             }
-            $this->_userData->link('user', $this);
+            $this->_extend->link('user', $this);
         }
     }
-
-    /**
-     * 定义乐观锁
-     * @return string
-     */
-//    public function optimisticLock()
-//    {
-//        return 'version';
-//    }
 
     /**
      * @inheritdoc
@@ -861,7 +905,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 通过用户名或者用户登陆邮箱或手机号获取用户
+     * 通过登陆邮箱或手机号获取用户
      * @param string $emailOrMobile
      * @return User|null
      */

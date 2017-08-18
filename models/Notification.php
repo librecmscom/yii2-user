@@ -23,6 +23,10 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $status 状态
  * @property integer $created_at 创建时间
  * @property integer $updated_at 更新时间
+ *
+ * @property User $user
+ * @property User $toUser
+ * @property string $typeText
  */
 class Notification extends ActiveRecord
 {
@@ -67,7 +71,8 @@ class Notification extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQueryInterface 发送者用户实例
+     * 发送者用户实例
+     * @return \yii\db\ActiveQueryInterface
      */
     public function getUser()
     {
@@ -75,7 +80,8 @@ class Notification extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery 接受者用户实例
+     * 接受者用户实例
+     * @return \yii\db\ActiveQuery
      */
     public function getToUser()
     {
