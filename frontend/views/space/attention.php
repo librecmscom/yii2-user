@@ -28,7 +28,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->id == $model->id) {//Me
     ]);
 } else {
     $this->title = Yii::t('user', '{who} followed {what}', [
-        'who' => Html::encode($model->name),
+        'who' => Html::encode($model->username),
         'what' => $what
     ]);
 }
