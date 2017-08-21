@@ -61,15 +61,19 @@ class AttentionController extends Controller
         /** @var null|\yii\db\ActiveRecord $source */
         $source = null;
         if ($sourceType == 'user') {
+            /** @var null|\yuncms\user\models\User $source */
             $source = User::findOne($sourceId);
             $subject = $source->username;
         } else if ($sourceType == 'question' && Yii::$app->hasModule('question')) {
             $source = \yuncms\question\models\Question::findOne($sourceId);
+            /** @var null|\yuncms\question\models\Question $source */
             $subject = $source->title;
         } else if ($sourceType == 'article' && Yii::$app->hasModule('article')) {
+            /** @var null|\yuncms\article\models\Article $source */
             $source = \yuncms\article\models\Article::findOne($sourceId);
             $subject = $source->title;
         } else if ($sourceType == 'live' && Yii::$app->hasModule('live')) {
+            /** @var null|\yuncms\live\models\Stream $source */
             $source = \yuncms\live\models\Stream::findOne($sourceId);
             $subject = $source->title;
         }//etc..
@@ -117,6 +121,11 @@ class AttentionController extends Controller
         return ['status' => 'followed'];
     }
 
+    /**
+     * 关注某tag
+     * @return array
+     * @throws NotFoundHttpException
+     */
     public function actionTag()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -125,6 +134,7 @@ class AttentionController extends Controller
         if (!$source) {
             throw new NotFoundHttpException ();
         }
+        /** @var \yuncms\user\models\User $user */
         $user = Yii::$app->user->identity;
         if ($user->hasTagValues($source->id)) {
             $user->removeTagValues($source->id);

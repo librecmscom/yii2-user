@@ -30,7 +30,7 @@ use yuncms\user\frontend\models\SettingsForm;
  *
  * @property \yuncms\user\Module $module
  */
-class SettingController extends Controller
+class SettingsController extends Controller
 {
     /** @inheritdoc */
     public $defaultAction = 'profile';
@@ -60,6 +60,9 @@ class SettingController extends Controller
         ];
     }
 
+    /**
+     * 初始化
+     */
     public function init(){
         parent::init();
         $this->emailChangeStrategy = Yii::$app->settings->get('emailChangeStrategy', 'user');

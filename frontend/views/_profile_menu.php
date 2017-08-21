@@ -8,17 +8,17 @@ $networksVisible = count(Yii::$app->authClientCollection->clients) > 0;
 $items = [
     [
         'label' => Yii::t('user', 'Profile Setting'),
-        'url' => ['/user/setting/profile'],
+        'url' => ['/user/settings/profile'],
         'icon' => 'glyphicon glyphicon-user',
     ],
     [
         'label' => Yii::t('user', 'Security Setting'),
-        'url' => ['/user/setting/account'],
+        'url' => ['/user/settings/account'],
         'icon' => 'glyphicon glyphicon-cog'
     ],
     [
         'label' => Yii::t('user', 'Avatar Setting'),
-        'url' => ['/user/setting/avatar'],
+        'url' => ['/user/settings/avatar'],
         'icon' => 'glyphicon glyphicon-picture'
     ],
     [
@@ -71,7 +71,7 @@ $items = [
     ],
     [
         'label' => Yii::t('user', 'Social Networks'),
-        'url' => ['/user/setting/networks'],
+        'url' => ['/user/settings/networks'],
         'icon' => 'glyphicon glyphicon-retweet',
         'visible' => $networksVisible
     ],

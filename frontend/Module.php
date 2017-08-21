@@ -35,7 +35,7 @@ class Module extends \yuncms\user\Module
         'forgot' => 'recovery/request',
         'notice' => 'notification/index',
         'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
-        'setting/<action:\w+>' => 'setting/<action>',
+        'settings/<action:\w+>' => 'settings/<action>',
         'authentication' => 'authentication/index',
         'space/<id:\d+>/coins' => 'space/coin',
         'space/<id:\d+>/credits' => 'space/credit',

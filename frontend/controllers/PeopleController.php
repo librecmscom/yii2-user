@@ -38,9 +38,9 @@ class PeopleController extends Controller
         $query = User::find()->with('profile');
 
         //搜索
-        if (isset($params['q'])) {
-            $query->name(trim($params['q']));
-        }
+//        if (isset($params['q'])) {
+//            $query->name(trim($params['q']));
+//        }
 
         //只看妹子
         if (isset($params['female'])) {
