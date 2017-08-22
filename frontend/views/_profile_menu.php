@@ -50,8 +50,9 @@ $items = [
     ],
     [
         'label' => Yii::t('user', 'My Credit'),
-        'url' => ['/user/credit/index'],
-        'icon' => 'fa fa-credit-card'
+        'url' => ['/credit/credit/index'],
+        'icon' => 'fa fa-credit-card',
+        'visible' => Yii::$app->hasModule('credit')
     ],
     [
         'label' => Yii::t('user', 'Careers'),
