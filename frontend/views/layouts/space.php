@@ -108,7 +108,7 @@ $appLayouts = Yii::$app->layout;
                     </div>
                     <div class="col-md-4">
                             <span class="h3"><a
-                                        href="<?= Url::to(['/user/space/credit', 'id' => $user->id]) ?>"><?= $user->extend->credits; ?></a></span>
+                                        href="<?= Url::to(['/credit/space/index', 'id' => $user->id]) ?>"><?= $user->extend->credits; ?></a></span>
                         <span><?= Yii::t('user', 'Credits') ?></span>
                     </div>
                     <div class="col-md-4">
