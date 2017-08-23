@@ -135,22 +135,7 @@ class SpaceController extends Controller
         ]);
     }
 
-    /**
-     * 我的经验
-     * @param int $id
-     * @return string
-     */
-    public function actionCredit($id)
-    {
-        $model = $this->findModel($id);
-        $dataProvider = new ActiveDataProvider([
-            'query' => Credit::find()->where(['user_id' => $model->id])->orderBy(['created_at' => SORT_DESC]),
-        ]);
-        return $this->render('credit', [
-            'model' => $model,
-            'dataProvider' => $dataProvider
-        ]);
-    }
+
 
     /**
      * 我的粉丝

@@ -176,7 +176,7 @@ $appLayouts = Yii::$app->layout;
                 ],
                 '<li role="separator" class="divider"></li>',
                 ['label' => Yii::t('user', 'My Coin'), 'url' => ['/user/space/coin', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'My Credit'), 'url' => ['/user/space/credit', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'My Credit'), 'url' => ['/credit/space/index', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Follower'), 'url' => ['/user/space/follower', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'I\'m Following'), 'url' => ['/user/space/attention', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Favorites'), 'url' => ['/user/space/collected', 'id' => $user->id]],
@@ -228,7 +228,7 @@ $appLayouts = Yii::$app->layout;
                 '<li role="separator" class="divider"></li>',
 
                 ['label' => Yii::t('user', 'His Coin'), 'url' => ['/user/space/coin', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'His Credit'), 'url' => ['/user/space/credit', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Credit'), 'url' => ['/credit/space/index', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'His Follower'), 'url' => ['/user/space/follower', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'His Followed'), 'url' => ['/user/space/attention', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'His Collect'), 'url' => ['/user/space/collected', 'id' => $user->id]],

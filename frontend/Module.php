@@ -38,7 +38,6 @@ class Module extends \yuncms\user\Module
         'settings/<action:\w+>' => 'settings/<action>',
         'authentication' => 'authentication/index',
         'space/<id:\d+>/coins' => 'space/coin',
-        'space/<id:\d+>/credits' => 'space/credit',
         'space/<id:\d+>/followers' => 'space/follower',
         'space/<id:\d+>/followed/<type:\w+>' => 'space/attention',
         'space/<id:\d+>/collected/<type:\w+>' => 'space/collected',
