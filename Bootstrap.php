@@ -25,14 +25,13 @@ class Bootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        /** @var Module $module */
-        /** @var \yii\db\ActiveRecord $modelName */
-        if ($app->hasModule('user') && ($module = $app->getModule('user')) instanceof Module) {
-            if ($app instanceof \yii\console\Application) {
-                $app->controllerMap['user'] = [
-                    'class' => 'yuncms\user\console\UserController',
-                ];
-            } else if (class_exists('\xutl\wechat\Application') && $app instanceof \xutl\wechat\Application) {
+        if ($app instanceof \yii\console\Application) {
+            $app->controllerMap['user'] = [
+                'class' => 'yuncms\user\console\UserController',
+            ];
+        }
+        else if ($app->hasModule('user') && ($module = $app->getModule('user')) instanceof Module) {
+             if (class_exists('\xutl\wechat\Application') && $app instanceof \xutl\wechat\Application) {
                 //微信过来的用户
                 Yii::$container->set('yii\web\User', [
                     'enableAutoLogin' => true,
