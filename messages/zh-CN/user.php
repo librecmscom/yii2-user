@@ -394,6 +394,7 @@ return [
     'Your profile has been updated' => '你的个人资料已经更新。',
     'accepted your answer' => '采纳了你的答案',
     'answer is adopted' => '答案被采纳',
+    'Username'=>'用户名',
     'answered the question' => '回答了问题',
     'commented on the question' => '评论了问题',
     'enable Confirmation' => '启用邮件激活',

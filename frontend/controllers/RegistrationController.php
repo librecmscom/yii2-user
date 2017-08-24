@@ -113,7 +113,7 @@ class RegistrationController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->register()) {
-            return $this->redirect(['/user/setting/profile']);
+            return $this->redirect(['/user/settings/profile']);
         }
         return $this->render('register', ['model' => $model, 'module' => $this->module]);
     }
@@ -143,7 +143,7 @@ class RegistrationController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->register()) {
-            return $this->redirect(['/user/setting/profile']);
+            return $this->redirect(['/user/settings/profile']);
         }
         return $this->render('mobile', ['model' => $model, 'module' => $this->module]);
     }
@@ -201,7 +201,7 @@ class RegistrationController extends Controller
             return $this->goBack();
         }
         $user->attemptConfirmation($code);
-        return $this->redirect(['/user/setting/profile']);
+        return $this->redirect(['/user/settings/profile']);
     }
 
     /**
@@ -222,7 +222,7 @@ class RegistrationController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->resend()) {
-            return $this->redirect(['/user/setting/profile']);
+            return $this->redirect(['/user/settings/profile']);
         }
         return $this->render('resend', ['model' => $model]);
     }

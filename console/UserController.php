@@ -45,11 +45,11 @@ class UserController extends Controller
      */
     public function actionConfirm($search)
     {
-        $user = User::findByUsernameOrEmail($search);
+        $user = User::findByEmailOrMobile($search);
         if ($user === null) {
             $this->stdout(Yii::t('user', 'User is not found') . "\n", Console::FG_RED);
         } else {
-            if ($user->confirm()) {
+            if ($user->setEmailConfirm()) {
                 $this->stdout(Yii::t('user', 'User has been confirmed') . "\n", Console::FG_GREEN);
             } else {
                 $this->stdout(Yii::t('user', 'Error occurred while confirming user') . "\n", Console::FG_RED);
@@ -65,7 +65,7 @@ class UserController extends Controller
      */
     public function actionPassword($search, $password)
     {
-        $user = User::findByUsernameOrEmail($search);
+        $user = User::findByEmailOrMobile($search);
         if ($user === null) {
             $this->stdout(Yii::t('user', 'User is not found') . "\n", Console::FG_RED);
         } else {
@@ -85,7 +85,7 @@ class UserController extends Controller
     public function actionDelete($search)
     {
         if ($this->confirm(Yii::t('user', 'Are you sure? Deleted user can not be restored'))) {
-            $user = User::findByUsernameOrEmail($search);
+            $user = User::findByEmailOrMobile($search);
             if ($user === null) {
                 $this->stdout(Yii::t('user', 'User is not found') . "\n", Console::FG_RED);
             } else {

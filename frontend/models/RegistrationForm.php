@@ -99,7 +99,7 @@ class RegistrationForm extends Model
     {
         return [
             'email' => Yii::t('user', 'Email'),
-            'name' => Yii::t('user', 'Name'),
+            'username' => Yii::t('user', 'Name'),
             'password' => Yii::t('user', 'Password'),
             'verifyCode' => Yii::t('user', 'Verification Code'),
             'registrationPolicy' => Yii::t('user', 'Agree and accept Service Agreement and Privacy Policy'),
