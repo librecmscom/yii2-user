@@ -12,9 +12,11 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
+use yii\web\Response;
 use yuncms\doing\models\Doing;
 use yuncms\user\models\User;
 use yuncms\user\models\Visit;
+use yuncms\tag\models\Tag;
 
 /**
  * ProfileController shows users profiles.
@@ -113,6 +115,32 @@ class SpaceController extends Controller
             'model' => $model,
             'dataProvider' => $dataProvider
         ]);
+    }
+
+    /**
+     * 关注某tag
+     * @return array
+     * @throws NotFoundHttpException
+     */
+    public function actionTag()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $sourceId = Yii::$app->request->post('sourceId', null);
+        $source = Tag::findOne($sourceId);
+        if (!$source) {
+            throw new NotFoundHttpException ();
+        }
+        /** @var \yuncms\user\models\User $user */
+        $user = Yii::$app->user->identity;
+        if ($user->hasTagValues($source->id)) {
+            $user->removeTagValues($source->id);
+            $user->save();
+            return ['status' => 'unfollowed'];
+        } else {
+            $user->addTagValues($source->id);
+            $user->save();
+            return ['status' => 'followed'];
+        }
     }
 
     /**
