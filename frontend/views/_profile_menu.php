@@ -60,11 +60,6 @@ $items = [
         'icon' => 'glyphicon glyphicon-list-alt'
     ],
     [
-        'label' => Yii::t('user', 'RESTful Apps'),
-        'url' => ['/user/access-key/index'],
-        'icon' => 'glyphicon glyphicon-paperclip'
-    ],
-    [
         'label' => Yii::t('user', 'OAuth Apps'),
         'url' => ['/oauth2/client/index'],
         'icon' => 'glyphicon glyphicon-paperclip',
