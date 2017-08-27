@@ -40,7 +40,7 @@ class SpaceController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['view', 'show', 'collected', 'attention', 'follower', 'credit', 'coin'],
+                        'actions' => ['view', 'show', 'collected', 'attention', 'follower'],
                         'roles' => ['?', '@']
                     ]
                 ]
@@ -117,25 +117,6 @@ class SpaceController extends Controller
             'dataProvider' => $dataProvider
         ]);
     }
-
-    /**
-     * 我的金币
-     * @param int $id
-     * @return string
-     */
-    public function actionCoin($id)
-    {
-        $model = $this->findModel($id);
-        $dataProvider = new ActiveDataProvider([
-            'query' => Coin::find()->where(['user_id' => $model->id])->orderBy(['created_at' => SORT_DESC]),
-        ]);
-        return $this->render('coin', [
-            'model' => $model,
-            'dataProvider' => $dataProvider
-        ]);
-    }
-
-
 
     /**
      * 我的粉丝

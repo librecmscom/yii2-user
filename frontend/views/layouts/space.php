@@ -102,7 +102,7 @@ $appLayouts = Yii::$app->layout;
                 <div class="space-header-info row mt-30">
                     <div class="col-md-4">
                             <span class="h3">
-                                <a href="<?= Url::to(['/user/space/coin', 'id' => $user->id]) ?>"><?= $user->extend->coins; ?></a>
+                                <a href="<?= Url::to(['/coin/space/index', 'id' => $user->id]) ?>"><?= $user->extend->coins; ?></a>
                             </span>
                         <span><?= Yii::t('user', 'Coins') ?></span>
                     </div>
@@ -175,7 +175,7 @@ $appLayouts = Yii::$app->layout;
                     'active' => Yii::$app->controller->module->id == "live" ? true : false
                 ],
                 '<li role="separator" class="divider"></li>',
-                ['label' => Yii::t('user', 'My Coin'), 'url' => ['/user/space/coin', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'My Coin'), 'url' => ['/coin/space/index', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Credit'), 'url' => ['/credit/space/index', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Follower'), 'url' => ['/user/space/follower', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'I\'m Following'), 'url' => ['/user/space/attention', 'id' => $user->id]],
@@ -217,7 +217,6 @@ $appLayouts = Yii::$app->layout;
                     'visible' => Yii::$app->hasModule('code'),
                     'active' => Yii::$app->controller->module->id == "code" ? true : false
                 ],
-
                 //直播
                 [
                     'label' => Yii::t('user', 'His Streams'),
@@ -227,7 +226,7 @@ $appLayouts = Yii::$app->layout;
                 ],
                 '<li role="separator" class="divider"></li>',
 
-                ['label' => Yii::t('user', 'His Coin'), 'url' => ['/user/space/coin', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Coin'), 'url' => ['/coin/space/index', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'His Credit'), 'url' => ['/credit/space/index', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'His Follower'), 'url' => ['/user/space/follower', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'His Followed'), 'url' => ['/user/space/attention', 'id' => $user->id]],
