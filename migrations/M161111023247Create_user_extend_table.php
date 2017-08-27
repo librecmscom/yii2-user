@@ -18,7 +18,6 @@ class M161111023247Create_user_extend_table extends Migration
          */
         $this->createTable('{{%user_extend}}', [
             'user_id' => $this->integer()->notNull(),
-            'coins' => $this->integer()->unsigned()->defaultValue(0)->comment('金币'),
             'login_ip' => $this->string()->comment('登录IP'),
             'login_at' => $this->integer()->unsigned()->comment('登录时间'),
             'login_num' => $this->integer()->unsigned()->defaultValue(0)->comment('登录次数'),
