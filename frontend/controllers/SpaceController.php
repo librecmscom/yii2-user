@@ -12,7 +12,7 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
-use yuncms\user\models\Doing;
+use yuncms\doing\models\Doing;
 use yuncms\user\models\User;
 use yuncms\user\models\Visit;
 
