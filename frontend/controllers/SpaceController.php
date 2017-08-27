@@ -34,7 +34,7 @@ class SpaceController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index'],
+                        'actions' => ['index','tag'],
                         'roles' => ['@']
                     ],
                     [
