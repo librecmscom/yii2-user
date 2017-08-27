@@ -34,7 +34,7 @@ use yuncms\user\frontend\widgets\Connect;
                 'required' => true,
             ]])->passwordInput() ?>
             <?= $form->field($model, 'rememberMe')->checkbox() ?>
-            <?= $module->enablePasswordRecovery ? Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request']) : '' ?>
+            <?= Yii::$app->settings->get('enablePasswordRecovery', 'user') ? Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request']) : '' ?>
             <?= Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary btn-block  mt-10']) ?>
         </div>
         <div class="col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 mt-10">
