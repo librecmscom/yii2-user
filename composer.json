@@ -28,9 +28,6 @@
     "codeception/verify": "^0.3.1"
   },
   "autoload": {
-    "files": [
-      "helpers.php"
-    ],
     "psr-4": {
       "yuncms\\user\\": ""
     }

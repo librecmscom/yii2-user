@@ -423,7 +423,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
      */
     public function getCollections()
     {
-        return $this->hasMany(Collection::className(), ['user_id' => 'id']);
+        return $this->hasMany(\yuncms\collection\models\Collection::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -431,7 +431,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
      */
     public function getAttentions()
     {
-        return $this->hasMany(Attention::className(), ['user_id' => 'id']);
+        return $this->hasMany(\yuncms\attention\models\Attention::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -440,7 +440,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
      */
     public function getFollowers()
     {
-        return $this->hasMany(Follow::className(), ['user_id' => 'id'])->andOnCondition(['model' => get_class($this)]);
+        return $this->hasMany(\yuncms\attention\models\Follow::className(), ['user_id' => 'id'])->andOnCondition(['model' => get_class($this)]);
     }
 
     /**
@@ -449,7 +449,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
      */
     public function getFans()
     {
-        return $this->hasMany(Attention::className(), ['model_id' => 'id'])->andOnCondition(['model' => get_class($this)]);
+        return $this->hasMany(\yuncms\attention\models\Attention::className(), ['model_id' => 'id'])->andOnCondition(['model' => get_class($this)]);
     }
 
     /**
@@ -615,16 +615,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             return $this->hasMany(\yuncms\wallet\models\Wallet::className(), ['user_id' => 'id']);
         }
         return null;
-    }
-
-    /**
-     * 获取我的APP列表
-     * 一对多关系
-     * @return ActiveQuery
-     */
-    public function getRests()
-    {
-        return $this->hasMany(Rest::className(), ['user_id' => 'id']);
     }
 
     /**

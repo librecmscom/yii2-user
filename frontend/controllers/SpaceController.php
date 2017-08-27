@@ -14,10 +14,7 @@ use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use yuncms\user\models\Doing;
 use yuncms\user\models\User;
-use yuncms\user\models\Coin;
-use yuncms\user\models\Credit;
 use yuncms\user\models\Visit;
-use yuncms\user\models\Collection;
 
 /**
  * ProfileController shows users profiles.
@@ -40,7 +37,7 @@ class SpaceController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['view', 'show', 'collected', 'attention', 'follower'],
+                        'actions' => ['view', 'show'],
                         'roles' => ['?', '@']
                     ]
                 ]
@@ -114,84 +111,6 @@ class SpaceController extends Controller
 
         return $this->render('view', [
             'model' => $model,
-            'dataProvider' => $dataProvider
-        ]);
-    }
-
-    /**
-     * 我的粉丝
-     * @param int $id
-     * @return string
-     */
-    public function actionFollower($id)
-    {
-        $model = $this->findModel($id);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $model->getFans()->orderBy(['created_at' => SORT_DESC]),
-        ]);
-        return $this->render('follower', [
-            'model' => $model,
-            'dataProvider' => $dataProvider
-        ]);
-    }
-
-    public $attentionClassMaps = [
-        'questions' => 'yuncms\question\models\Question',
-        'users' => 'yuncms\user\models\User',
-        'lives' => 'yuncms\live\models\Stream'
-    ];
-
-    /**
-     * 我的关注
-     * @param int $id
-     * @param string $type
-     * @return string
-     * @throws NotFoundHttpException
-     */
-    public function actionAttention($id, $type = 'users')
-    {
-        $model = $this->findModel($id);
-        if (!isset($this->attentionClassMaps[$type])) {
-            throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));
-        }
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $model->getAttentions()->andWhere(['model' => $this->attentionClassMaps[$type]])->orderBy(['created_at' => SORT_DESC]),
-        ]);
-        return $this->render('attention', [
-            'model' => $model,
-            'type' => $type,
-            'dataProvider' => $dataProvider
-        ]);
-    }
-
-    public $collectionClassMaps = [
-        'questions' => 'yuncms\question\models\Question',
-        'articles' => 'yuncms\article\models\Article',
-        'lives' => 'yuncms\live\models\Stream',
-        'notes' => 'yuncms\note\models\Note',
-    ];
-
-    /**
-     * 查看收藏
-     * @param int $id
-     * @param string $type 类别
-     * @return string
-     * @throws NotFoundHttpException
-     */
-    public function actionCollected($id, $type = 'notes')
-    {
-        $model = $this->findModel($id);
-        if (!isset($this->collectionClassMaps[$type])) {
-            throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));
-        }
-        $query = $model->getCollections()->andWhere(['model' => $this->collectionClassMaps[$type]])->orderBy(['created_at' => SORT_DESC]);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-        return $this->render('collected', [
-            'model' => $model,
-            'type' => $type,
             'dataProvider' => $dataProvider
         ]);
     }

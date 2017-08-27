@@ -33,14 +33,9 @@ class Module extends \yuncms\user\Module
         '<action:(register|resend|mobile)>' => 'registration/<action>',
         'confirm/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'registration/confirm',
         'forgot' => 'recovery/request',
-        'notice' => 'notification/index',
         'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
         'settings/<action:\w+>' => 'settings/<action>',
         'authentication' => 'authentication/index',
-        'space/<id:\d+>/coins' => 'space/coin',
-        'space/<id:\d+>/followers' => 'space/follower',
-        'space/<id:\d+>/followed/<type:\w+>' => 'space/attention',
-        'space/<id:\d+>/collected/<type:\w+>' => 'space/collected',
         //这个默认不启用
         //'<slug:[-a-zA-Z0-9_]+>' => 'profile/show',
     ];

@@ -177,9 +177,9 @@ $appLayouts = Yii::$app->layout;
                 '<li role="separator" class="divider"></li>',
                 ['label' => Yii::t('user', 'My Coin'), 'url' => ['/coin/space/index', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'My Credit'), 'url' => ['/credit/space/index', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'My Follower'), 'url' => ['/user/space/follower', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'I\'m Following'), 'url' => ['/user/space/attention', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'My Favorites'), 'url' => ['/user/space/collected', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'My Follower'), 'url' => ['/attention/space/follower', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'I\'m Following'), 'url' => ['/attention/space/index', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'My Favorites'), 'url' => ['/collection/space/index', 'id' => $user->id]],
             ];
         } else {//he
             $menuItems = [
@@ -228,9 +228,9 @@ $appLayouts = Yii::$app->layout;
 
                 ['label' => Yii::t('user', 'His Coin'), 'url' => ['/coin/space/index', 'id' => $user->id]],
                 ['label' => Yii::t('user', 'His Credit'), 'url' => ['/credit/space/index', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'His Follower'), 'url' => ['/user/space/follower', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'His Followed'), 'url' => ['/user/space/attention', 'id' => $user->id]],
-                ['label' => Yii::t('user', 'His Collect'), 'url' => ['/user/space/collected', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Follower'), 'url' => ['/attention/space/follower', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Followed'), 'url' => ['/attention/space/index', 'id' => $user->id]],
+                ['label' => Yii::t('user', 'His Collect'), 'url' => ['/collection/space/index', 'id' => $user->id]],
             ];
         } ?>
         <?= Nav::widget([

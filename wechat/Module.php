@@ -27,6 +27,6 @@ class Module extends \yuncms\user\Module
 
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
-        'setting/<action:\w+>' => 'setting/<action>',
+        'settings/<action:\w+>' => 'settings/<action>',
     ];
 }
