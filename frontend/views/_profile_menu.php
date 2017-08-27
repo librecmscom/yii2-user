@@ -45,7 +45,7 @@ $items = [
     ],
     [
         'label' => Yii::t('user', 'My Coin'),
-        'url' => ['/user/coin/index'],
+        'url' => ['/coin/coin/index'],
         'icon' => 'fa fa-gift'
     ],
     [
