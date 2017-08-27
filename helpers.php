@@ -4,27 +4,6 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
-if (!function_exists('coin')) {
-    /**
-     * 金币变动
-     * @param int $user_id
-     * @param string $action
-     * @param int $coins 金币数量
-     * @param int $sourceId 源ID
-     * @param null $sourceSubject 源标题
-     * @return bool
-     * @throws \yii\db\Exception
-     */
-    function coin($user_id, $action, $coins = 0, $sourceId = 0, $sourceSubject = null)
-    {
-        /** @var \yuncms\user\Module $user */
-        $user = Yii::$app->getModule('user');
-        return $user->coin($user_id, $action, $coins, $sourceId, $sourceSubject);
-    }
-}
-
-
-
 if (!function_exists('notify')) {
     /**
      * 发送用户通知
