@@ -57,7 +57,7 @@ class AuthenticationController extends Controller
      */
     public function actionIndex()
     {
-        /** @var \yuncms\user\models\Attention $model */
+        /** @var \yuncms\user\models\Authentication $model */
         if (($model = Yii::$app->user->identity->authentication) == null) {
             /** @var Authentication $model */
             $model = Yii::createObject([
@@ -86,7 +86,7 @@ class AuthenticationController extends Controller
      */
     public function actionUpdate()
     {
-        /** @var \yuncms\user\models\Attention $model */
+        /** @var \yuncms\user\models\Authentication $model */
         if (($model = Yii::$app->user->identity->authentication) == null) {
             return $this->redirect(['index']);
         }
