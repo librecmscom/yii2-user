@@ -60,7 +60,6 @@ return [
     'Army ID' => '军官证',
     'Assignment' => '权限',
     'Authenticated' => '已认证',
-    'Authentication' => '实名认证',
     'Avatar' => '头像',
     'Avatar Setting' => '头像设置',
     'Awesome, almost there. Now you need to click the confirmation link sent to your new email address' => '祝贺，快完成了， 现在您需要单击发送到新邮箱的确认链接',

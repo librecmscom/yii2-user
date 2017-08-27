@@ -57,7 +57,6 @@ use yuncms\user\helpers\Password;
  * @property Social[] $accounts 社交账号
  * @property Profile $profile 个人资料
  * @property Extend $extend 延伸资料
- * @property Authentication $authentication 实名认证数据
  *
  * Dependencies:
  * @property-read Module $module
@@ -308,18 +307,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 是否实名认证
-     * @return bool
-     */
-    public function isAuthentication()
-    {
-        if ($this->authentication && $this->authentication->status == Authentication::STATUS_AUTHENTICATED) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * 返回用户是否有头像
      * @return boolean Whether the user is blocked or not.
      */
@@ -371,15 +358,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function getWechat()
     {
         return $this->hasOne(Wechat::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * 定义用户实名认证关系
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAuthentication()
-    {
-        return $this->hasOne(Authentication::className(), ['user_id' => 'id']);
     }
 
     /**

@@ -35,7 +35,6 @@ class Module extends \yuncms\user\Module
         'forgot' => 'recovery/request',
         'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
         'settings/<action:\w+>' => 'settings/<action>',
-        'authentication' => 'authentication/index',
         //这个默认不启用
         //'<slug:[-a-zA-Z0-9_]+>' => 'profile/show',
     ];

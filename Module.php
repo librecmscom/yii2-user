@@ -37,9 +37,7 @@ class Module extends \yii\base\Module
 
     public $avatarPath = '@root/uploads/avatar';
 
-    public $idCardUrl = '@web/uploads/id_card';
 
-    public $idCardPath = '@root/uploads/id_card';
 
     /**
      * 获取用户总数
@@ -82,29 +80,7 @@ class Module extends \yii\base\Module
         return $total;
     }
 
-    /**
-     * 获取身份证的存储路径
-     * @param int $userId
-     * @return string
-     */
-    public function getIdCardPath($userId)
-    {
-        $avatarPath = Yii::getAlias($this->idCardPath) . '/' . $this->getAvatarHome($userId);
-        if (!is_dir($avatarPath)) {
-            FileHelper::createDirectory($avatarPath);
-        }
-        return $avatarPath . substr($userId, -2);
-    }
 
-    /**
-     * 获取身份证访问Url
-     * @param int $userId 用户ID
-     * @return string
-     */
-    public function getIdCardUrl($userId)
-    {
-        return Yii::getAlias($this->idCardUrl) . '/' . $this->getAvatarHome($userId) . substr($userId, -2);
-    }
 
     /**
      * 获取头像的存储路径

@@ -23,7 +23,7 @@ $items = [
     ],
     [
         'label' => Yii::t('user', 'Authentication'),
-        'url' => ['/user/authentication/index'],
+        'url' => ['/authentication/authentication/index'],
         'icon' => 'glyphicon glyphicon-education'
     ],
     [
