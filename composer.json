@@ -39,7 +39,10 @@
     "yuncms/yii2-im": "Allows you to use message"
   },
   "extra": {
-    "bootstrap": "yuncms\\user\\Bootstrap"
+    "bootstrap": "yuncms\\user\\Bootstrap",
+    "branch-alias": {
+      "dev-master": "2.0-dev"
+    }
   },
   "repositories": [
     {
