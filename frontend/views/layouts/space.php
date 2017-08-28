@@ -114,7 +114,7 @@ $appLayouts = Yii::$app->layout;
                     <div class="col-md-4">
                             <span class="h3">
                                 <a id="follower-num"
-                                   href="<?= Url::to(['/user/space/follower', 'id' => $user->id]) ?>"><?= $user->extend->followers; ?></a>
+                                   href="<?= Url::to(['/attention/space/follower', 'id' => $user->id]) ?>"><?= $user->extend->followers; ?></a>
                             </span>
                         <span><?= Yii::t('user', 'Fans') ?></span>
                     </div>
