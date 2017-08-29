@@ -72,6 +72,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'prompt' => Yii::t('user', 'Please select')
             ]) ?>
 
+            <?= $form->field($model, 'avatarPath') ?>
+            <?= $form->field($model, 'avatarUrl') ?>
+
 
             <?= $form->field($model, 'rememberFor', [
                 'inputTemplate' => '<div class="input-group">{input}<span class="input-group-addon">' . Yii::t('user', 'Second') . '</span></div>',

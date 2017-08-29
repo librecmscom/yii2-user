@@ -54,24 +54,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     'id',
                     'username',
                     'email:email',
+                    'mobile',
                     //'extend.amount',
                     //'extend.point',
-                    [
-                        'header' => Yii::t('user', 'Authentication'),
-                        'value' => function ($model) {
-                            if ($model->authentication) {
-                                if ($model->authentication->status == Authentication::STATUS_PENDING) {
-                                    return Yii::t('user', 'Pending review');
-                                } elseif ($model->authentication->status == Authentication::STATUS_REJECTED) {
-                                    return Yii::t('user', 'Rejected');
-                                } elseif ($model->authentication->status == Authentication::STATUS_AUTHENTICATED) {
-                                    return Yii::t('user', 'Authenticated');
-                                }
-                            }
-                            return Yii::t('user', 'UnSubmitted');
-                        },
-                        'format' => 'raw',
-                    ],
+//                    [
+//                        'header' => Yii::t('user', 'Authentication'),
+//                        'value' => function ($model) {
+//                            if (\yuncms\authentication\models\Authentication::isAuthentication($model->id)) {
+//                                if ($model->authentication->status == \yuncms\authentication\models\Authentication::STATUS_PENDING) {
+//                                    return Yii::t('user', 'Pending review');
+//                                } elseif ($model->authentication->status == \yuncms\authentication\models\Authentication::STATUS_REJECTED) {
+//                                    return Yii::t('user', 'Rejected');
+//                                } elseif ($model->authentication->status == \yuncms\authentication\models\Authentication::STATUS_AUTHENTICATED) {
+//                                    return Yii::t('user', 'Authenticated');
+//                                }
+//                            }
+//                            return Yii::t('user', 'UnSubmitted');
+//                        },
+//                        'format' => 'raw',
+//                    ],
                     [
                         'attribute' => 'registration_ip',
                         'value' => function ($model) {

@@ -96,6 +96,9 @@ class Settings extends Model
      */
     const STRATEGY_SECURE = 2;
 
+    public $avatarPath;
+    public $avatarUrl;
+
     /**
      * 定义字段类型
      * @return array
@@ -117,6 +120,8 @@ class Settings extends Model
             'confirmWithin' => 'integer',
             'recoverWithin' => 'integer',
             'cost' => 'integer',
+            'avatarPath' => 'string',
+            'avatarUrl' => 'string',
         ];
     }
 
@@ -157,49 +162,12 @@ class Settings extends Model
             ['confirmWithin', 'default', 'value' => 86400],
             ['recoverWithin', 'default', 'value' => 21600],
             ['cost', 'default', 'value' => 10],
-            //[['siteName', 'siteDescription'], 'string'],
-        ];
-    }
 
-    public function fields()
-    {
-        return [
-            'enableRegistration',
-            'enableMobileRegistration',
-            'enableRegistrationCaptcha',
-            'enableGeneratingPassword',
-            'enableConfirmation',
-            'enableUnconfirmedLogin',
-            'enablePasswordRecovery',
+            [['avatarPath', 'avatarUrl'], 'string'],
 
-            'emailChangeStrategy',
-            'mobileChangeStrategy',
+            ['avatarPath', 'default', 'value' => '@root/uploads/avatar'],
+            ['avatarUrl', 'default', 'value' => '@web/uploads/avatar'],
 
-            'rememberFor',
-            'confirmWithin',
-            'recoverWithin',
-            'cost',
-        ];
-    }
-
-    public function attributes()
-    {
-        return [
-            'enableRegistration',
-            'enableMobileRegistration',
-            'enableRegistrationCaptcha',
-            'enableGeneratingPassword',
-            'enableConfirmation',
-            'enableUnconfirmedLogin',
-            'enablePasswordRecovery',
-
-            'emailChangeStrategy',
-            'mobileChangeStrategy',
-
-            'rememberFor',
-            'confirmWithin',
-            'recoverWithin',
-            'cost',
         ];
     }
 
@@ -222,6 +190,9 @@ class Settings extends Model
             'confirmWithin' => Yii::t('user', 'Confirm Within'),
             'recoverWithin' => Yii::t('user', 'Recover Within'),
             'cost' => Yii::t('user', 'Cost'),
+
+            'avatarPath' => Yii::t('user', 'Avatar Path'),
+            'avatarUrl' => Yii::t('user', 'Avatar Url'),
         ];
     }
 

@@ -80,8 +80,6 @@ class Module extends \yii\base\Module
         return $total;
     }
 
-
-
     /**
      * 获取头像的存储路径
      * @param int $userId
