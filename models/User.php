@@ -18,6 +18,7 @@ use yii\web\IdentityInterface;
 use yii\base\NotSupportedException;
 use yii\web\Application as WebApplication;
 use yuncms\oauth2\OAuth2IdentityInterface;
+use yuncms\user\backend\models\Settings;
 use yuncms\user\Module;
 use yuncms\user\ModuleTrait;
 use yuncms\user\frontend\assets\UserAsset;
@@ -653,7 +654,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 电子邮件确认
+     * 电子邮件激活
      *
      * @param string $code Confirmation code.
      *
@@ -697,7 +698,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             if (empty($this->unconfirmed_email)) {
                 Yii::$app->session->setFlash('danger', Yii::t('user', 'An error occurred processing your request'));
             } elseif (static::find()->where(['email' => $this->unconfirmed_email])->exists() == false) {
-                if (Yii::$app->settings->get('emailChangeStrategy', 'user') == Module::STRATEGY_SECURE) {
+                if (Yii::$app->settings->get('emailChangeStrategy', 'user') == Settings::STRATEGY_SECURE) {
                     switch ($token->type) {
                         case Token::TYPE_CONFIRM_NEW_EMAIL:
                             $this->flags |= self::NEW_EMAIL_CONFIRMED;
@@ -709,7 +710,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
                             break;
                     }
                 }
-                if (Yii::$app->settings->get('emailChangeStrategy', 'user') == Module::STRATEGY_DEFAULT || ($this->flags & self::NEW_EMAIL_CONFIRMED && $this->flags & self::OLD_EMAIL_CONFIRMED)) {
+                if (Yii::$app->settings->get('emailChangeStrategy', 'user') == Settings::STRATEGY_DEFAULT || ($this->flags & self::NEW_EMAIL_CONFIRMED && $this->flags & self::OLD_EMAIL_CONFIRMED)) {
                     $this->email = $this->unconfirmed_email;
                     $this->unconfirmed_email = null;
                     Yii::$app->session->setFlash('success', Yii::t('user', 'Your email address has been changed'));
@@ -741,7 +742,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             if (empty($this->unconfirmed_mobile)) {
                 Yii::$app->session->setFlash('danger', Yii::t('user', 'An error occurred processing your request'));
             } elseif (static::find()->where(['mobile' => $this->unconfirmed_mobile])->exists() == false) {
-                if (Yii::$app->settings->get('mobileChangeStrategy', 'user') == Module::STRATEGY_SECURE) {
+                if (Yii::$app->settings->get('mobileChangeStrategy', 'user') == Settings::STRATEGY_SECURE) {
                     switch ($token->type) {
                         case Token::TYPE_CONFIRM_NEW_MOBILE:
                             $this->flags |= self::NEW_MOBILE_CONFIRMED;
@@ -753,7 +754,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
                             break;
                     }
                 }
-                if (Yii::$app->settings->get('mobileChangeStrategy', 'user') == Module::STRATEGY_DEFAULT || ($this->flags & self::NEW_MOBILE_CONFIRMED && $this->flags & self::OLD_MOBILE_CONFIRMED)) {
+                if (Yii::$app->settings->get('mobileChangeStrategy', 'user') == Settings::STRATEGY_DEFAULT || ($this->flags & self::NEW_MOBILE_CONFIRMED && $this->flags & self::OLD_MOBILE_CONFIRMED)) {
                     $this->mobile = $this->unconfirmed_mobile;
                     $this->unconfirmed_mobile = null;
                     Yii::$app->session->setFlash('success', Yii::t('user', 'Your mobile address has been changed'));
