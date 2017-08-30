@@ -25,7 +25,7 @@ The latest version includes following features:
 
 ## Installation
 
-Next steps will guide you through the process of installing yii2-admin using [composer](http://getcomposer.org/download/). Installation is a quick and easy three-step process.
+Next steps will guide you through the process of installing yii2-user using [composer](http://getcomposer.org/download/). Installation is a quick and easy three-step process.
 
 ### Step 1: Install component via composer
 
