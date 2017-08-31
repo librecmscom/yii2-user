@@ -19,9 +19,17 @@
         </tr>
     <?php endif ?>
     <tr>
-        <td><strong><?= Yii::t('user', 'Confirmation status') ?>:</strong></td>
-        <?php if ($model->isConfirmed): ?>
-            <td class="text-success"><?= Yii::t('user', 'Confirmed at {0, date, MMMM dd, YYYY HH:mm}', [$model->confirmed_at]) ?></td>
+        <td><strong><?= Yii::t('user', 'Email Confirmation status') ?>:</strong></td>
+        <?php if ($model->isEmailConfirmed): ?>
+            <td class="text-success"><?= Yii::t('user', 'Confirmed at {0, date, MMMM dd, YYYY HH:mm}', [$model->email_confirmed_at]) ?></td>
+        <?php else: ?>
+            <td class="text-danger"><?= Yii::t('user', 'Unconfirmed') ?></td>
+        <?php endif ?>
+    </tr>
+    <tr>
+        <td><strong><?= Yii::t('user', 'Mobile Confirmation status') ?>:</strong></td>
+        <?php if ($model->isMobileConfirmed): ?>
+            <td class="text-success"><?= Yii::t('user', 'Confirmed at {0, date, MMMM dd, YYYY HH:mm}', [$model->mobile_confirmed_at]) ?></td>
         <?php else: ?>
             <td class="text-danger"><?= Yii::t('user', 'Unconfirmed') ?></td>
         <?php endif ?>

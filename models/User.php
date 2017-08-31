@@ -162,8 +162,10 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function attributeLabels()
     {
         return [
-            'username' => Yii::t('user', 'Name'),
+            'slug' => Yii::t('user', 'Slug'),
+            'username' => Yii::t('user', 'Username'),
             'email' => Yii::t('user', 'Email'),
+            'mobile' => Yii::t('user', 'Mobile'),
             'registration_ip' => Yii::t('user', 'Registration ip'),
             'unconfirmed_email' => Yii::t('user', 'New email'),
             'password' => Yii::t('user', 'Password'),

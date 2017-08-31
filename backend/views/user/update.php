@@ -46,9 +46,19 @@ if (!isset($this->params['noPadding'])) {
                         ['label' => Yii::t('user', 'Education'), 'url' => ['/user/user/education', 'id' => $model->id]],
                         ['label' => Yii::t('user', 'Career'), 'url' => ['/user/user/career', 'id' => $model->id]],
                         [
-                            'label' => Yii::t('user', 'Confirm'),
+                            'label' => Yii::t('user', 'Email Confirm'),
                             'url' => ['/user/user/confirm', 'id' => $model->id],
-                            'visible' => !$model->isConfirmed,
+                            'visible' => !$model->isEmailConfirmed,
+                            'options' => [
+                                'class'=>'btn btn-sm',
+                                'data-method' => 'post',
+                                'data-confirm' => Yii::t('user', 'Are you sure you want to confirm this user?'),
+                            ],
+                        ],
+                        [
+                            'label' => Yii::t('user', 'Mobile Confirm'),
+                            'url' => ['/user/user/confirm', 'id' => $model->id],
+                            'visible' => !$model->isMobileConfirmed,
                             'options' => [
                                 'class'=>'btn btn-sm',
                                 'data-method' => 'post',
