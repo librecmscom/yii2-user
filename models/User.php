@@ -208,6 +208,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             'usernameRequired' => ['username', 'required', 'on' => ['register', 'create', 'connect', 'update', 'wechat_register']],
             'usernameMatch' => ['username', 'match', 'pattern' => static::$usernameRegexp],
             'usernameLength' => ['username', 'string', 'min' => 3, 'max' => 255],
+            'usernameUnique' => ['username', 'unique', 'message' => Yii::t('user', 'This username has already been taken')],
             'usernameTrim' => ['username', 'trim'],
 
             // email rules
