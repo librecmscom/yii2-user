@@ -35,12 +35,13 @@ class Token extends ActiveRecord
     const TYPE_CONFIRM_OLD_MOBILE = 5;
 
     protected $confirmWithin;
+    protected $recoverWithin;
 
     public function init()
     {
         parent::init();
         $this->confirmWithin = Yii::$app->settings->get('confirmWithin', 'user');
-
+        $this->recoverWithin =  Yii::$app->settings->get('recoverWithin', 'user');
     }
 
     /**

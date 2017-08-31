@@ -77,7 +77,7 @@ class RecoveryForm extends Model
             'emailExist' => ['email', 'exist', 'targetClass' => User::className(), 'message' => Yii::t('user', 'There is no user with this email address')],
             'emailUnconfirmed' => ['email', function ($attribute) {
                 $this->user = User::findByEmail($this->email);
-                if ($this->user !== null && $this->enableConfirmation && !$this->user->getIsConfirmed()) {
+                if ($this->user !== null && $this->enableConfirmation && !$this->user->getIsEmailConfirmed()) {
                     $this->addError($attribute, Yii::t('user', 'You need to confirm your email address.'));
                 }
             }],
