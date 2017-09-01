@@ -67,24 +67,24 @@ $appLayouts = Yii::$app->layout;
             </div>
             <div class="col-md-3">
                 <div class="mt-10">
-                    <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isFollowed(get_class($user), $user->id)): ?>
-                        <button type="button" class="btn mr-10 btn-success active" data-target="follow-button"
-                                data-source_type="user"
-                                data-source_id="<?= $user->id; ?>" data-show_num="true"
-                                data-toggle="tooltip" data-placement="right" title=""
-                                data-original-title="<?= Yii::t('user', 'Follow will be updated to remind') ?>"><?= Yii::t('user', 'Followed') ?>
-                        </button>
-                    <?php else: ?>
-                        <button type="button" class="btn mr-10 btn-success" data-target="follow-button"
-                                data-source_type="user"
-                                data-source_id="<?= $user->id; ?>" data-show_num="true"
-                                data-toggle="tooltip" data-placement="right" title=""
-                                data-original-title="<?= Yii::t('user', 'Follow will be updated to remind') ?>"><?= Yii::t('user', 'Follower') ?>
-                        </button>
+                    <?php if (Yii::$app->hasModule('attention')): ?>
+                        <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isFollowed(get_class($user), $user->id)): ?>
+                            <button type="button" class="btn mr-10 btn-success active" data-target="follow-button"
+                                    data-source_type="user"
+                                    data-source_id="<?= $user->id; ?>" data-show_num="true"
+                                    data-toggle="tooltip" data-placement="right" title=""
+                                    data-original-title="<?= Yii::t('user', 'Follow will be updated to remind') ?>"><?= Yii::t('user', 'Followed') ?>
+                            </button>
+                        <?php else: ?>
+                            <button type="button" class="btn mr-10 btn-success" data-target="follow-button"
+                                    data-source_type="user"
+                                    data-source_id="<?= $user->id; ?>" data-show_num="true"
+                                    data-toggle="tooltip" data-placement="right" title=""
+                                    data-original-title="<?= Yii::t('user', 'Follow will be updated to remind') ?>"><?= Yii::t('user', 'Follower') ?>
+                            </button>
+                        <?php endif; ?>
                     <?php endif; ?>
-
-                    <?php
-                    if (!Yii::$app->user->isGuest && Yii::$app->hasModule('message')) {
+                    <?php if (!Yii::$app->user->isGuest && Yii::$app->hasModule('message')) {
                         Modal::begin([
                             'header' => Yii::t('user', 'Send message to') . '  ' . $user->username,
                             'toggleButton' => [
@@ -100,24 +100,30 @@ $appLayouts = Yii::$app->layout;
 
                 </div>
                 <div class="space-header-info row mt-30">
-                    <div class="col-md-4">
+                    <?php if (Yii::$app->hasModule('coin')): ?>
+                        <div class="col-md-4">
                             <span class="h3">
                                 <a href="<?= Url::to(['/coin/space/index', 'id' => $user->id]) ?>"><?= $user->extend->coins; ?></a>
                             </span>
-                        <span><?= Yii::t('user', 'Coins') ?></span>
-                    </div>
-                    <div class="col-md-4">
+                            <span><?= Yii::t('user', 'Coins') ?></span>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (Yii::$app->hasModule('credit')): ?>
+                        <div class="col-md-4">
                             <span class="h3"><a
                                         href="<?= Url::to(['/credit/space/index', 'id' => $user->id]) ?>"><?= $user->extend->credits; ?></a></span>
-                        <span><?= Yii::t('user', 'Credits') ?></span>
-                    </div>
-                    <div class="col-md-4">
+                            <span><?= Yii::t('user', 'Credits') ?></span>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (Yii::$app->hasModule('attention')): ?>
+                        <div class="col-md-4">
                             <span class="h3">
                                 <a id="follower-num"
                                    href="<?= Url::to(['/attention/space/follower', 'id' => $user->id]) ?>"><?= $user->extend->followers; ?></a>
                             </span>
-                        <span><?= Yii::t('user', 'Fans') ?></span>
-                    </div>
+                            <span><?= Yii::t('user', 'Fans') ?></span>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <div class="mt-10 border-top" style="color:#999;padding-top:10px; ">
                     <i class="fa fa-paw"></i> <?= Yii::t('user', '{n, plural, =0{No visitors} =1{One visitor} other{# visitors}}', ['n' => $user->extend->views]); ?>
