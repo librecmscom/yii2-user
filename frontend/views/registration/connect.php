@@ -33,7 +33,7 @@ $this->title = Yii::t('user', 'Sign in');
 
     <?php ActiveForm::end(); ?>
     <p class="text-center">
-        <?= Html::a(Yii::t('user', 'If you already registered, sign in and connect this account on settings page'), ['/user/setting/networks']) ?>
+        <?= Html::a(Yii::t('user', 'If you already registered, sign in and connect this account on settings page'), ['/user/settings/networks']) ?>
         .
     </p>
 </div>
