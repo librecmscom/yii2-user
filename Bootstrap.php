@@ -11,6 +11,7 @@ use Yii;
 use yii\web\GroupUrlRule;
 use yii\i18n\PhpMessageSource;
 use yii\base\BootstrapInterface;
+use yuncms\user\jobs\LastVisitJob;
 
 /**
  * Class Bootstrap
@@ -59,9 +60,8 @@ class Bootstrap implements BootstrapInterface
                 //监听用户活动时间
                 /** @var \yii\web\UserEvent $event */
                 $app->on(\yii\web\Application::EVENT_AFTER_REQUEST, function ($event) use ($app) {
-                    if (!$app->user->isGuest) {
-                        //记录最后活动时间
-                        $app->user->identity->extend->updateAttributes(['last_visit' => time()]);
+                    if (!$app->user->isGuest && Yii::$app->has('queue')) {
+                        Yii::$app->queue->push(new LastVisitJob(['user_id' => $app->user->identity->id,'time'=>time()]));
                     }
                 });
             } elseif ($module instanceof \yuncms\user\frontend\Module) {//前台判断放最后
@@ -97,9 +97,9 @@ class Bootstrap implements BootstrapInterface
                 //监听用户活动时间
                 /** @var \yii\web\UserEvent $event */
                 $app->on(\yii\web\Application::EVENT_AFTER_REQUEST, function ($event) use ($app) {
-                    if (!$app->user->isGuest) {
+                    if (!$app->user->isGuest && Yii::$app->has('queue')) {
                         //记录最后活动时间
-                        $app->user->identity->extend->updateAttributes(['last_visit' => time()]);
+                        Yii::$app->queue->push(new LastVisitJob(['user_id' => $app->user->identity->id,'time'=>time()]));
                     }
                 });
             }
