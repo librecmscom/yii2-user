@@ -14,6 +14,7 @@ use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use yii\web\Response;
 use yuncms\doing\models\Doing;
+use yuncms\user\jobs\VisitJob;
 use yuncms\user\models\User;
 use yuncms\user\models\Visit;
 use yuncms\tag\models\Tag;
@@ -34,7 +35,7 @@ class SpaceController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','tag'],
+                        'actions' => ['index', 'tag'],
                         'roles' => ['@']
                     ],
                     [
@@ -70,16 +71,11 @@ class SpaceController extends Controller
     public function actionShow($slug)
     {
         $model = $this->findModelBySlug($slug);
-        if (!Yii::$app->user->isGuest && Yii::$app->user->id != $model->id) {
-            //记录访客
-            if (($visit = Visit::findOne(['user_id' => Yii::$app->user->id, 'source_id' => $model->id])) == null) {
-                $visit = new Visit(['user_id' => Yii::$app->user->id, 'source_id' => $model->id]);
-                $visit->save(false);
-                //更新访客计数
-                $model->extend->updateCounters(['views' => 1]);
-            } else {
-                $visit->updateAttributes(['updated_at' => time()]);
-            }
+        if (!Yii::$app->user->isGuest && Yii::$app->has('queue')) {
+            Yii::$app->queue->push(new VisitJob([
+                'user_id' => Yii::$app->user->id,
+                'source_id' => $model->id
+            ]));
         }
         $dataProvider = $this->getDoingDataProvider($model->id);
         return $this->render('view', [
@@ -97,16 +93,11 @@ class SpaceController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        if (!Yii::$app->user->isGuest && Yii::$app->user->id != $id) {
-            //记录访客
-            if (($visit = Visit::findOne(['user_id' => Yii::$app->user->id, 'source_id' => $id])) == null) {
-                $visit = new Visit(['user_id' => Yii::$app->user->id, 'source_id' => $id]);
-                $visit->save(false);
-                //更新访客计数
-                $model->extend->updateCounters(['views' => 1]);
-            } else {
-                $visit->updateAttributes(['updated_at' => time()]);
-            }
+        if (!Yii::$app->user->isGuest && Yii::$app->has('queue')) {
+            Yii::$app->queue->push(new VisitJob([
+                'user_id' => Yii::$app->user->id,
+                'source_id' => $model->id
+            ]));
         }
 
         $dataProvider = $this->getDoingDataProvider($model->id);

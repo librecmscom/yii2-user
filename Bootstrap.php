@@ -30,10 +30,8 @@ class Bootstrap implements BootstrapInterface
             $app->controllerMap['user'] = [
                 'class' => 'yuncms\user\console\UserController',
             ];
-        }
-        else if ($app->hasModule('user') && ($module = $app->getModule('user')) instanceof Module) {
-             if (class_exists('\xutl\wechat\Application') && $app instanceof \xutl\wechat\Application) {
-                //微信过来的用户
+        } else if ($app->hasModule('user') && ($module = $app->getModule('user')) instanceof Module) {
+            if (class_exists('\xutl\wechat\Application') && $app instanceof \xutl\wechat\Application) {//微信过来的用户
                 Yii::$container->set('yii\web\User', [
                     'enableAutoLogin' => true,
                     'loginUrl' => ['/user/security/login'],
@@ -61,7 +59,7 @@ class Bootstrap implements BootstrapInterface
                 /** @var \yii\web\UserEvent $event */
                 $app->on(\yii\web\Application::EVENT_AFTER_REQUEST, function ($event) use ($app) {
                     if (!$app->user->isGuest && Yii::$app->has('queue')) {
-                        Yii::$app->queue->push(new LastVisitJob(['user_id' => $app->user->identity->id,'time'=>time()]));
+                        Yii::$app->queue->push(new LastVisitJob(['user_id' => $app->user->identity->id, 'time' => time()]));
                     }
                 });
             } elseif ($module instanceof \yuncms\user\frontend\Module) {//前台判断放最后
@@ -99,7 +97,7 @@ class Bootstrap implements BootstrapInterface
                 $app->on(\yii\web\Application::EVENT_AFTER_REQUEST, function ($event) use ($app) {
                     if (!$app->user->isGuest && Yii::$app->has('queue')) {
                         //记录最后活动时间
-                        Yii::$app->queue->push(new LastVisitJob(['user_id' => $app->user->identity->id,'time'=>time()]));
+                        Yii::$app->queue->push(new LastVisitJob(['user_id' => $app->user->identity->id, 'time' => time()]));
                     }
                 });
             }
