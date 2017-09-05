@@ -17,7 +17,7 @@ class M161108090738Create_user_table extends Migration
         $this->createTable('{{%user}}', [
             'id' => $this->primaryKey(11)->comment('用户id'),
             'slug' => $this->string(50)->notNull()->unique()->comment('标识相当于用户名不能用来登录'),
-            'email' => $this->string()->notNull()->unique()->comment('邮箱'),
+            'email' => $this->string()->unique()->comment('邮箱'),
             'mobile' => $this->string(11)->unique()->comment('手机号'),
             'username' => $this->string()->notNull()->comment('名字昵称'),
             'auth_key' => $this->string()->notNull(),
