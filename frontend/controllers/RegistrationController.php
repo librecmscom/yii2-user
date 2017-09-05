@@ -58,12 +58,12 @@ class RegistrationController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['register','connect', 'captcha'],
+                        'actions' => ['register', 'captcha'],
                         'roles' => ['?']
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['register','confirm', 'resend'],
+                        'actions' => ['register', 'confirm', 'connect', 'resend'],
                         'roles' => ['?', '@']
                     ]
                 ]
@@ -122,6 +122,10 @@ class RegistrationController extends Controller
      */
     public function actionConnect($code)
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect(['/user/settings/networks']);
+        }
+
         $account = Social::find()->byCode($code)->one();
 
         if ($account === null || $account->getIsConnected()) {

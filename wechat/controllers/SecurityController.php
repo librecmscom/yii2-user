@@ -121,7 +121,7 @@ class SecurityController extends Controller
     public function actionConnect($code)
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->goBack();
         }
         $account = Wechat::find()->byCode($code)->one();
 

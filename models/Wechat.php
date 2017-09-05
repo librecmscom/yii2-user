@@ -185,4 +185,17 @@ class Wechat extends ActiveRecord
     {
         return $this->updateAttributes(['code' => null, 'user_id' => $user->id]);
     }
+
+    /**
+     * 保存后执行
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert) {
+
+        }
+    }
 }
