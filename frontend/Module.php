@@ -29,10 +29,28 @@ class Module extends \yuncms\user\Module
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
         '<id:\d+>' => 'profile/view',
-        '<action:(login|logout)>' => 'security/<action>',
-        '<action:(register|resend|mobile)>' => 'registration/<action>',
+        [
+            'class' => 'yii\web\UrlRule',
+            'suffix' => '.html',
+            'pattern' => '<action:(login|logout)>',
+            'route' => 'security/<action>',
+        ],
+        [
+            'class' => 'yii\web\UrlRule',
+            'suffix' => '.html',
+            'pattern' => '<action:(register|resend)>',
+            'route' => 'registration/<action>',
+        ],
+        [
+            'class' => 'yii\web\UrlRule',
+            'suffix' => '.html',
+            'pattern' => 'forgot',
+            'route' => 'recovery/request',
+        ],
+        //'<action:(login|logout)>' => 'security/<action>',
+        //'<action:(register|resend)>' => 'registration/<action>',
         'confirm/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'registration/confirm',
-        'forgot' => 'recovery/request',
+        //'forgot' => 'recovery/request',
         'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
         'settings/<action:\w+>' => 'settings/<action>',
         //这个默认不启用
