@@ -205,7 +205,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             'slugTrim' => ['slug', 'trim'],
 
             // username rules
-            'usernameRequired' => ['username', 'required', 'on' => ['register', 'create', 'connect', 'update', 'wechat_register']],
+            'usernameRequired' => ['username', 'required', 'on' => ['register', 'create', 'connect', 'update', 'mobile_register', 'wechat_register']],
             'usernameMatch' => ['username', 'match', 'pattern' => static::$usernameRegexp],
             'usernameLength' => ['username', 'string', 'min' => 3, 'max' => 255],
             'usernameUnique' => ['username', 'unique', 'message' => Yii::t('user', 'This username has already been taken')],
@@ -217,13 +217,14 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             'emailLength' => ['email', 'string', 'max' => 255],
             'emailUnique' => ['email', 'unique', 'message' => Yii::t('user', 'This email address has already been taken')],
             'emailTrim' => ['email', 'trim'],
+            'emailDefault' => ['email', 'default', 'value' => null, 'on' => ['mobile_register']],
 
             //mobile rules
             'mobileRequired' => ['mobile', 'required', 'on' => ['mobile_register']],
             'mobilePattern' => ['mobile', 'match', 'pattern' => static::$mobileRegexp],
             'mobileLength' => ['mobile', 'string', 'max' => 11],
             'mobileUnique' => ['mobile', 'unique', 'message' => Yii::t('user', 'This mobile address has already been taken')],
-            //'mobileTrim' => ['mobile', 'trim'],
+            'mobileDefault' => ['email', 'default', 'value' => null, 'on' => ['register', 'create']],
 
             // password rules
             'passwordRequired' => ['password', 'required', 'on' => ['register', 'mobile_register']],
