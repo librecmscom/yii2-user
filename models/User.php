@@ -119,7 +119,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function init()
     {
         parent::init();
-        $this->rememberFor = Yii::$app->settings->get('rememberFor','user');
+        $this->rememberFor = Yii::$app->settings->get('rememberFor', 'user');
         $this->enableConfirmation = Yii::$app->settings->get('enableConfirmation', 'user');
         $this->enableGeneratingPassword = Yii::$app->settings->get('enableGeneratingPassword', 'user');
     }
@@ -187,7 +187,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             'update' => ['username', 'email', 'password'],
             'settings' => ['username', 'email', 'password'],
             'import' => ['username', 'email', 'password'],
-            'mobile_register' => ['mobile', 'password'],
+            'mobile_register' => ['mobile', 'username', 'password'],
             'wechat_connect' => ['username', 'email', 'password'],
         ]);
     }
@@ -631,9 +631,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     {
         if ($this->getIsNewRecord() == false) {
             throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
-        }
-        if ($this->scenario == 'mobile_register') {
-            $this->username = $this->mobile;
         }
         $this->email_confirmed_at = $this->enableConfirmation ? null : time();
         $this->password = $this->enableGeneratingPassword ? Password::generate(8) : $this->password;
