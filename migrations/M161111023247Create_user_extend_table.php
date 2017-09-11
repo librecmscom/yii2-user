@@ -28,10 +28,6 @@ class M161111023247Create_user_extend_table extends Migration
         ], $tableOptions);
         $this->addPrimaryKey('{{%user_extend}}','{{%user_extend}}','user_id');
         $this->addForeignKey('{{%user_extend_ibfk_1}}', '{{%user_extend}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
-
-        $this->insert('{{%user_extend}}', [
-            'user_id' => 1,
-        ]);
     }
 
     public function safeDown()
