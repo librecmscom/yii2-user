@@ -34,6 +34,8 @@ class M170916081721Add_defailt_settings extends Migration
             ['string', 'user', 'avatarPath', '@root/uploads/avatar', 1, date('Y-m-d H:i:s'), date('Y-m-d H:i:s')],
             ['string', 'user', 'avatarUrl', '@web/uploads/avatar', 1, date('Y-m-d H:i:s'), date('Y-m-d H:i:s')],
         ]);
+
+        Yii::$app->settings->clearCache();
     }
 
     /**
