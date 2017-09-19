@@ -11,7 +11,7 @@ use Yii;
 use yii\web\GroupUrlRule;
 use yii\i18n\PhpMessageSource;
 use yii\base\BootstrapInterface;
-use yuncms\user\jobs\LastVisitJob;
+use yuncms\jobs\LastVisitJob;
 
 /**
  * Class Bootstrap
