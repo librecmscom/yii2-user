@@ -14,7 +14,7 @@ use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use yii\web\Response;
 use yuncms\doing\models\Doing;
-use yuncms\jobs\VisitJob;
+use yuncms\user\jobs\VisitJob;
 use yuncms\user\models\User;
 use yuncms\user\models\Visit;
 use yuncms\tag\models\Tag;
