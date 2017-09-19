@@ -1,6 +1,6 @@
 <?php
 
-namespace yuncms\user\jobs;
+namespace yuncms\jobs;
 
 use yii\base\Object;
 use yii\queue\RetryableJob;

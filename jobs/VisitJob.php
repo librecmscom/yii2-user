@@ -1,6 +1,6 @@
 <?php
 
-namespace yuncms\user\jobs;
+namespace yuncms\jobs;
 
 use Yii;
 use yii\base\Object;

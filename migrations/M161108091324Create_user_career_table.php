@@ -1,6 +1,6 @@
 <?php
 
-namespace yuncms\user\migrations;
+namespace yuncms\migrations;
 
 use yii\db\Migration;
 
