@@ -28,15 +28,15 @@
   },
   "autoload": {
     "psr-4": {
-      "yuncms\\user\\": "src",
-      "yuncms\\migrations\\": "migrations"
+      "yuncms\\user\\": ""
     }
   },
   "suggest": {
     "yuncms/yii2-vote": "Allows you to use vote",
     "yuncms/yii2-tag": "Allows you to use tag",
     "yuncms/yii2-message": "Allows you to use message",
-    "yuncms/yii2-wallet": "Allows you to use message"
+    "yuncms/yii2-wallet": "Allows you to use message",
+    "yuncms/yii2-im": "Allows you to use message"
   },
   "extra": {
     "bootstrap": "yuncms\\user\\Bootstrap",
