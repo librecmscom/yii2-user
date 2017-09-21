@@ -13,21 +13,16 @@ you can use Yii2-user which is a flexible user management module for Yii2 that
 handles common tasks such as registration, authentication and password retrieval.
 The latest version includes following features:
 
-* Registration with an optional confirmation per mail
-* Registration via social networks
-* Password recovery
-* Account and profile management
-* Console commands
-* User management interface
-* Ability to impersonate as another user given admin access is available
-
-> **NOTE:** Module is in initial development. Anything may change at any time.
+* 注册使用邮箱激活账号
+* 使用社交账户注册
+* 密码找回
+* 账号和个人资料管理
+* 控制台命令
+* 用户管理接口
 
 ## Installation
 
-Next steps will guide you through the process of installing yii2-user using [composer](http://getcomposer.org/download/). Installation is a quick and easy three-step process.
-
-### Step 1: Install component via composer
+The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
 Either run
 
@@ -44,7 +39,7 @@ or add
 to the `require` section of your composer.json.
 
 
-### Step 2: Configuring your application
+## Configuring your application
 
 Add following lines to your main configuration file:
 
@@ -56,7 +51,7 @@ Add following lines to your main configuration file:
 ],
 ```
 
-###  Step 3: Updating database schema
+## Updating database schema
 
 After you downloaded and configured Yii2-user, the last thing you need to do is updating your database schema by applying the migrations:
 
@@ -69,5 +64,5 @@ After you downloaded and configured Yii2-user, the last thing you need to do is 
 
 ## License
 
-Yii2-user is released under the MIT License. See the bundled [LICENSE.md](LICENSE.md)
+This is released under the MIT License. See the bundled [LICENSE.md](LICENSE.md)
 for details.

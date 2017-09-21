@@ -22,12 +22,6 @@ return [
             // 完全禁用非命名空间迁移
             //'migrationPath' => null,
         ],
-        'im' => [
-            'class' => 'yuncms\im\console\ImController',
-        ],
-        'code' => [
-            'class' => 'yuncms\code\console\CodeController',
-        ],
     ],
     'components' => [
         'log'   => null,
