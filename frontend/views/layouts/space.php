@@ -26,7 +26,7 @@ $appLayouts = Yii::$app->layout;
             </div>
             <div class="col-md-7">
                 <div class="space-header-name h3">
-                    <?= $user->username; ?>
+                    <?= $user->nickname; ?>
                 </div>
                 <hr>
                 <div class="space-header-social">
@@ -62,7 +62,7 @@ $appLayouts = Yii::$app->layout;
                 </div>
 
                 <div class="space-header-social mt-15">
-                    <?= Url::to(['/user/space/show', 'slug' => $user->profile->user->slug], true); ?>
+                    <?= Url::to(['/user/space/show', 'username' => $user->profile->user->username], true); ?>
                 </div>
             </div>
             <div class="col-md-3">
@@ -86,7 +86,7 @@ $appLayouts = Yii::$app->layout;
                     <?php endif; ?>
                     <?php if (!Yii::$app->user->isGuest && Yii::$app->hasModule('message')) {
                         Modal::begin([
-                            'header' => Yii::t('user', 'Send message to') . '  ' . $user->username,
+                            'header' => Yii::t('user', 'Send message to') . '  ' . $user->nickname,
                             'toggleButton' => [
                                 'tag' => 'button',
                                 'class' => 'btn btn-default btnMessageTo',

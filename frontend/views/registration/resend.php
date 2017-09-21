@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yuncms\user\frontend\models\ResendForm;
 
-/*
- * @var yii\web\View $this
- * @var ResendForm $model
- */
+/* @var yii\web\View $this */
+/* @var yuncms\user\frontend\models\ResendForm $model */
+/* @var yii\widgets\ActiveForm $form */
+
 $this->title = Yii::t('user', 'Request new confirmation message');
 //$this->params['breadcrumbs'][] = $this->title;
 ?>

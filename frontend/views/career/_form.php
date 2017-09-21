@@ -1,11 +1,12 @@
 <?php
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-use yii\jui\DatePicker;
 
-/* @var $this yii\web\View */
-/* @var $model backend\models\AdminForm */
-/* @var $form yii\widgets\ActiveForm */
+use yii\helpers\Html;
+use yii\jui\DatePicker;
+use yii\bootstrap\ActiveForm;
+
+/* @var yii\web\View $this */
+/* @var yuncms\user\models\Career $model */
+/* @var yii\widgets\ActiveForm $form */
 ?>
 
 
@@ -19,8 +20,16 @@ use yii\jui\DatePicker;
 <?= $form->field($model, 'name') ?>
 <?= $form->field($model, 'position') ?>
 <?= $form->field($model, 'city'); ?>
-<?= $form->field($model, 'start_at')->widget(DatePicker::classname(), ['dateFormat' => 'yyyy-MM', 'options' => ['class' => 'form-control'], 'clientOptions' => ['changeMonth' => true, 'changeYear' => true]]) ?>
-<?= $form->field($model, 'end_at')->widget(DatePicker::classname(), ['dateFormat' => 'yyyy-MM', 'options' => ['class' => 'form-control'], 'clientOptions' => ['changeMonth' => true, 'changeYear' => true]]) ?>
+<?= $form->field($model, 'start_at')->widget(DatePicker::classname(), [
+    'dateFormat' => 'yyyy-MM',
+    'options' => ['class' => 'form-control'],
+    'clientOptions' => ['changeMonth' => true, 'changeYear' => true]
+]) ?>
+<?= $form->field($model, 'end_at')->widget(DatePicker::classname(), [
+    'dateFormat' => 'yyyy-MM',
+    'options' => ['class' => 'form-control'],
+    'clientOptions' => ['changeMonth' => true, 'changeYear' => true]
+]) ?>
 <?= $form->field($model, 'description')->textarea() ?>
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">

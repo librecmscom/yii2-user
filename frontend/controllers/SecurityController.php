@@ -20,6 +20,7 @@ use yuncms\user\Module;
 use yuncms\user\models\User;
 use yuncms\user\models\Social;
 use yuncms\user\frontend\models\LoginForm;
+use yuncms\user\UserTrait;
 
 
 /**
@@ -29,6 +30,7 @@ use yuncms\user\frontend\models\LoginForm;
  */
 class SecurityController extends Controller
 {
+    use UserTrait;
     /**
      * @inheritdoc
      */
@@ -131,7 +133,7 @@ class SecurityController extends Controller
                 Yii::$app->session->setFlash('danger', Yii::t('user', 'Your account has been blocked.'));
                 $this->action->successUrl = Url::to(['/user/security/login']);
             } else {
-                Yii::$app->user->login($account->user, Yii::$app->settings->get('rememberFor', 'user'));
+                Yii::$app->user->login($account->user, $this->getSetting('rememberFor'));
                 $this->action->successUrl = Yii::$app->getUser()->getReturnUrl();
             }
         } else {

@@ -1,10 +1,10 @@
-$(function () {
+jQuery(function () {
     'use strict';
-    var $image = $('#image');
-    var $dataX = $('#x');
-    var $dataY = $('#y');
-    var $dataHeight = $('#height');
-    var $dataWidth = $('#width');
+    var $image = jQuery('#image');
+    var $dataX = jQuery('#x');
+    var $dataY = jQuery('#y');
+    var $dataHeight = jQuery('#height');
+    var $dataWidth = jQuery('#width');
     var options = {
         viewMode: 1,
         dragMode: 'move',
@@ -20,10 +20,10 @@ $(function () {
             $dataY.val(Math.round(e.y));
             $dataHeight.val(Math.round(e.height));
             $dataWidth.val(Math.round(e.width));
-            if(!$('#inputImage').val()) {
-                $('.btn-group button').attr('disabled', true);
-                $('.cropper-view-box').hide();
-                $('.cropper-wrap-box').hide();
+            if(!jQuery('#inputImage').val()) {
+                jQuery('.btn-group button').attr('disabled', true);
+                jQuery('.cropper-view-box').hide();
+                jQuery('.cropper-wrap-box').hide();
             }
         }
     };
@@ -32,8 +32,8 @@ $(function () {
     $image.cropper(options);
 
     // Methods
-    $('.docs-buttons').on('click', '[data-method]', function () {
-        var $this = $(this);
+    jQuery('.docs-buttons').on('click', '[data-method]', function () {
+        var $this = jQuery(this);
         var data = $this.data();
         var $target;
         var result;
@@ -43,9 +43,9 @@ $(function () {
         }
 
         if ($image.data('cropper') && data.method) {
-            data = $.extend({}, data); // Clone a new one
+            data = jQuery.extend({}, data); // Clone a new one
             if (typeof data.target !== 'undefined') {
-                $target = $(data.target);
+                $target = jQuery(data.target);
                 if (typeof data.option === 'undefined') {
                     try {
                         data.option = JSON.parse($target.val());
@@ -68,7 +68,7 @@ $(function () {
 
 
     // Keyboard
-    $(document.body).on('keydown', function (e) {
+    jQuery(document.body).on('keydown', function (e) {
         if (!$image.data('cropper') || this.scrollTop > 300) {
             return;
         }
@@ -98,7 +98,7 @@ $(function () {
 
 
     // Import image
-    var $inputImage = $('#inputImage');
+    var $inputImage = jQuery('#inputImage');
     var URL = window.URL || window.webkitURL;
     var blobURL;
 
@@ -121,7 +121,7 @@ $(function () {
                     window.alert('Please choose an image file.');
                 }
             }
-            $('.btn-group button').removeAttr('disabled');
+            jQuery('.btn-group button').removeAttr('disabled');
         });
     } else {
         $inputImage.prop('disabled', true).parent().addClass('disabled');

@@ -3,9 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-/*
- * @var yii\web\View $this
- */
+/* @var yii\web\View $this */
+/* @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = Yii::t('user', 'Education Background');
 $this->params['breadcrumbs'][] = $this->title;

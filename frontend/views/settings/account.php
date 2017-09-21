@@ -1,13 +1,13 @@
 <?php
 
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\helpers\Url;
 
 /*
- * @var $this  yii\web\View
- * @var $form  yii\widgets\ActiveForm
- * @var $model yuncms\user\frontend\models\SettingsForm
+ * @var yii\web\View $this
+ * @var yii\widgets\ActiveForm $form
+ * @var yuncms\user\frontend\models\SettingsForm $model
  */
 $this->title = Yii::t('user', 'Security Setting');
 $this->params['breadcrumbs'][] = $this->title;
@@ -32,10 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'enableClientValidation' => false,
                 ]); ?>
 
-                <?= $form->field($model, 'username') ?>
+                <?= $form->field($model, 'nickname') ?>
 
-                <?= $form->field($model, 'slug', [
-                    'inputTemplate' => '<div class="input-group"><span class="input-group-addon">' . mb_substr(Url::to(['/user/space/show', 'slug' => $model->slug], true), 0, -mb_strlen($model->slug)) . '</span>{input}</div>',
+                <?= $form->field($model, 'username', [
+                    'inputTemplate' => '<div class="input-group"><span class="input-group-addon">' . mb_substr(Url::to(['/user/space/show', 'username' => $model->username], true), 0, -mb_strlen($model->username)) . '</span>{input}</div>',
                 ])->label(Yii::t('user', 'Personality URL')) ?>
 
                 <?= $form->field($model, 'email') ?>

@@ -3,9 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/*
- * @var yii\web\View $this
- */
+/* @var yii\web\View $this */
+/* @var yuncms\user\models\Education $model */
+
 $this->title = Yii::t('user', 'Show Education: ') . ' ' . $model->id;
 $this->params['breadcrumbs'][] = [
     'label' => Yii::t('user', 'Educations'),

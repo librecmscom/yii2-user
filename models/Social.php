@@ -13,7 +13,6 @@ use yii\helpers\Json;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\authclient\ClientInterface as BaseClientInterface;
-use yuncms\user\ModuleTrait;
 use yuncms\user\clients\ClientInterface;
 
 /**
@@ -32,8 +31,6 @@ use yuncms\user\clients\ClientInterface;
  */
 class Social extends ActiveRecord
 {
-    use ModuleTrait;
-
     /**
      * @var
      */

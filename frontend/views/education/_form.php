@@ -1,10 +1,11 @@
 <?php
+
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model backend\models\AdminForm */
-/* @var $form yii\widgets\ActiveForm */
+/* @var yii\web\View $this */
+/* @var yuncms\user\models\Education $model */
+/* @var yii\widgets\ActiveForm $form */
 ?>
 
 

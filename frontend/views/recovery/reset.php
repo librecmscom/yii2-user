@@ -2,11 +2,9 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-/**
- * @var yii\web\View $this
- * @var yii\widgets\ActiveForm $form
- * @var yuncms\user\frontend\models\RecoveryForm $model
- */
+/* @var yii\web\View $this */
+/* @var yuncms\user\frontend\models\RecoveryForm $model */
+/* @var yii\widgets\ActiveForm $form */
 
 $this->title = Yii::t('user', 'Reset your password');
 //$this->params['breadcrumbs'][] = $this->title;

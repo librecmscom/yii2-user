@@ -7,7 +7,7 @@ use yuncms\user\frontend\widgets\Connect;
 
 /**
  * @var yii\web\View $this
- * @var yuncms\user\models\LoginForm $model
+ * @var yuncms\user\frontend\models\LoginForm $model
  * @var yuncms\user\Module $module
  */
 

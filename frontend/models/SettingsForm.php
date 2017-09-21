@@ -9,12 +9,11 @@ namespace yuncms\user\frontend\models;
 
 use Yii;
 use yii\base\Model;
-use yuncms\user\backend\models\Settings;
-use yuncms\user\Module;
-use yuncms\user\helpers\Password;
+use yuncms\user\UserTrait;
 use yuncms\user\models\User;
-use yuncms\user\ModuleTrait;
 use yuncms\user\models\Token;
+use yuncms\user\models\Settings;
+use yuncms\user\helpers\Password;
 
 /**
  * SettingsForm gets user's username, email and password and changes them.
@@ -23,12 +22,12 @@ use yuncms\user\models\Token;
  */
 class SettingsForm extends Model
 {
-    use ModuleTrait;
+    use UserTrait;
 
     /**
      * @var string
      */
-    public $username;
+    public $nickname;
 
     /**
      * @var string
@@ -38,7 +37,7 @@ class SettingsForm extends Model
     /**
      * @var string
      */
-    public $slug;
+    public $username;
 
     /**
      * @var string
@@ -54,13 +53,6 @@ class SettingsForm extends Model
      * @var User
      */
     private $_user;
-
-    protected $emailChangeStrategy;
-
-    public function init(){
-        parent::init();
-        $this->emailChangeStrategy = Yii::$app->settings->get('emailChangeStrategy', 'user');
-    }
 
     /**
      * @return User
@@ -79,8 +71,8 @@ class SettingsForm extends Model
     public function __construct($config = [])
     {
         $this->setAttributes([
+            'nickname' => $this->user->nickname,
             'username' => $this->user->username,
-            'slug' => $this->user->slug,
             'email' => $this->user->unconfirmed_email ?: $this->user->email
         ], false);
         parent::__construct($config);
@@ -92,14 +84,14 @@ class SettingsForm extends Model
     public function rules()
     {
         return [
-            'slugRequired' => ['slug', 'required'],
-            'slugTrim' => ['slug', 'filter', 'filter' => 'trim'],
-            'slugLength' => ['slug', 'string', 'min' => 3, 'max' => 50],
-            'slugPattern' => ['slug', 'match', 'pattern' => User::$slugRegexp],
             'usernameRequired' => ['username', 'required'],
             'usernameTrim' => ['username', 'filter', 'filter' => 'trim'],
-            'usernameLength' => ['username', 'string', 'min' => 3, 'max' => 255],
+            'usernameLength' => ['username', 'string', 'min' => 3, 'max' => 50],
             'usernamePattern' => ['username', 'match', 'pattern' => User::$usernameRegexp],
+            'nicknameRequired' => ['nickname', 'required'],
+            'nicknameTrim' => ['nickname', 'filter', 'filter' => 'trim'],
+            'nicknameLength' => ['nickname', 'string', 'min' => 3, 'max' => 255],
+            'nicknamePattern' => ['nickname', 'match', 'pattern' => User::$nicknameRegexp],
             'emailRequired' => ['email', 'required'],
             'emailTrim' => ['email', 'filter', 'filter' => 'trim'],
             'emailPattern' => ['email', 'email'],
@@ -121,9 +113,9 @@ class SettingsForm extends Model
     public function attributeLabels()
     {
         return [
-            'slug' => Yii::t('user', 'Slug'),
-            'email' => Yii::t('user', 'Email'),
             'username' => Yii::t('user', 'Username'),
+            'email' => Yii::t('user', 'Email'),
+            'nickname' => Yii::t('user', 'Nickname'),
             'new_password' => Yii::t('user', 'New password'),
             'current_password' => Yii::t('user', 'Current password')];
     }
@@ -145,13 +137,13 @@ class SettingsForm extends Model
     {
         if ($this->validate()) {
             $this->user->scenario = 'settings';
-            $this->user->slug = $this->slug;
             $this->user->username = $this->username;
+            $this->user->nickname = $this->nickname;
             $this->user->password = $this->new_password;
             if ($this->email == $this->user->email && $this->user->unconfirmed_email != null) {
                 $this->user->unconfirmed_email = null;
             } elseif ($this->email != $this->user->email) {
-                switch ($this->emailChangeStrategy) {
+                switch ($this->getSetting('emailChangeStrategy')) {
                     case Settings::STRATEGY_INSECURE:
                         $this->insecureEmailChange();
                         break;

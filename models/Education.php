@@ -10,13 +10,13 @@ namespace yuncms\user\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
-use yuncms\user\ModuleTrait;
 
 /**
  * This is the model class for table "education".
  *
- * @property integer $user_id
- * @property string $school
+ * @property integer $id
+ * @property integer $user_id 用户ID
+ * @property string $school 学校
  * @property string $department
  * @property string $date
  * @property string $degree
@@ -27,8 +27,6 @@ use yuncms\user\ModuleTrait;
  */
 class Education extends ActiveRecord
 {
-    use ModuleTrait;
-
 
     /**
      * @inheritdoc

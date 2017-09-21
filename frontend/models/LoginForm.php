@@ -11,8 +11,8 @@ use Yii;
 use yii\base\Model;
 use yuncms\user\models\User;
 use yuncms\user\helpers\Password;
-use yuncms\user\ModuleTrait;
 use yuncms\user\models\LoginHistory;
+use yuncms\user\UserTrait;
 
 /**
  * LoginForm get user's login and password, validates them and logs the user in. If user has been blocked, it adds
@@ -20,7 +20,7 @@ use yuncms\user\models\LoginHistory;
  */
 class LoginForm extends Model
 {
-    use ModuleTrait;
+    use UserTrait;
 
     /**
      * @var string User's email or username
@@ -35,16 +35,12 @@ class LoginForm extends Model
     /**
      * @var bool Whether to remember the user
      */
-    public $rememberMe;
+    public $rememberMe = true;
 
     /**
      * @var \yuncms\user\models\User
      */
     protected $user;
-
-    protected $enableConfirmation;
-    protected $enableUnconfirmedLogin;
-    protected $rememberFor;
 
     /**
      * 初始化
@@ -52,9 +48,6 @@ class LoginForm extends Model
     public function init()
     {
         parent::init();
-        $this->enableConfirmation = Yii::$app->settings->get('enableConfirmation', 'user');
-        $this->enableUnconfirmedLogin = Yii::$app->settings->get('enableUnconfirmedLogin', 'user');
-        $this->rememberFor = Yii::$app->settings->get('rememberFor', 'user');
     }
 
     /**
@@ -89,8 +82,8 @@ class LoginForm extends Model
                 'login',
                 function ($attribute) {
                     if ($this->user !== null) {
-                        $confirmationRequired = $this->enableConfirmation && !$this->enableUnconfirmedLogin;
-                        if ($confirmationRequired && !$this->user->getIsConfirmed()) {
+                        $confirmationRequired = $this->getSetting('enableConfirmation') && !$this->getSetting('enableUnconfirmedLogin');
+                        if ($confirmationRequired && !$this->user->getIsEmailConfirmed()) {
                             $this->addError($attribute, Yii::t('user', 'You need to confirm your email address.'));
                         }
                         if ($this->user->getIsBlocked()) {
@@ -113,7 +106,7 @@ class LoginForm extends Model
         if ($this->validate()) {
             $loginHistory = new LoginHistory(['ip' => Yii::$app->request->userIP ?: '127.0.0.1']);
             $loginHistory->link('user', $this->user);
-            return Yii::$app->user->login($this->user, $this->rememberMe ? $this->rememberFor : 0);
+            return Yii::$app->user->login($this->user, $this->rememberMe ? $this->getSetting('rememberFor') : 0);
         } else {
             return false;
         }

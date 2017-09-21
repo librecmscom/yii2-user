@@ -10,7 +10,6 @@ namespace yuncms\user\models;
 use Yii;
 use yii\helpers\Url;
 use yii\db\ActiveRecord;
-use yuncms\user\ModuleTrait;
 
 /**
  * Token Active Record model.
@@ -25,8 +24,6 @@ use yuncms\user\ModuleTrait;
  */
 class Token extends ActiveRecord
 {
-    use ModuleTrait;
-
     const TYPE_CONFIRMATION = 0;
     const TYPE_RECOVERY = 1;
     const TYPE_CONFIRM_NEW_EMAIL = 2;

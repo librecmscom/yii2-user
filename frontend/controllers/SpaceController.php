@@ -65,12 +65,12 @@ class SpaceController extends Controller
 
     /**
      * Shows user's profile.
-     * @param $slug
+     * @param string $username
      * @return string
      */
-    public function actionShow($slug)
+    public function actionShow($username)
     {
-        $model = $this->findModelBySlug($slug);
+        $model = $this->findModelByUsername($username);
         if (!Yii::$app->user->isGuest && Yii::$app->has('queue')) {
             Yii::$app->queue->push(new VisitJob([
                 'user_id' => Yii::$app->user->id,
@@ -171,13 +171,13 @@ class SpaceController extends Controller
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param integer $slug
+     * @param string $username
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModelBySlug($slug)
+    protected function findModelByUsername($username)
     {
-        if (($model = User::findBySlug($slug)) !== null) {
+        if (($model = User::findModelByUsername($username)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));

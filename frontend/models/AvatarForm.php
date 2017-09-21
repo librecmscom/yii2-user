@@ -11,8 +11,8 @@ use Yii;
 use yii\base\Model;
 use yii\imagine\Image;
 use yii\web\UploadedFile;
-use yuncms\user\ModuleTrait;
 use yuncms\user\models\User;
+use yuncms\user\UserTrait;
 
 /**
  * Class PortraitForm
@@ -20,7 +20,7 @@ use yuncms\user\models\User;
  */
 class AvatarForm extends Model
 {
-    use ModuleTrait;
+    use UserTrait;
 
     /**
      * @var \yii\web\UploadedFile 头像上传字段
@@ -76,7 +76,7 @@ class AvatarForm extends Model
         if ($this->validate()) {
             $user = $this->getUser();
 
-            $avatarPath = $this->getModule()->getAvatarPath($user->id);
+            $avatarPath = $this->getAvatarPath($user->id);
             $originalImage = $avatarPath . '_avatar.jpg';
             //保存原图
             Image::crop($this->file->tempName, $this->width, $this->height, [$this->x, $this->y])->save($originalImage, ['quality' => 100]);

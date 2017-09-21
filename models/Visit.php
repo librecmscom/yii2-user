@@ -9,15 +9,15 @@ namespace yuncms\user\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "user_visit".
  *
  * @property integer $user_id 我自己的ID
- * @property integer $visit_id 访客ID
+ * @property integer $source_id 访客ID
  * @property integer $created_at 创建时间
  * @property integer $updated_at 更新时间
+ *
  * @property User $user
  */
 class Visit extends ActiveRecord
@@ -36,7 +36,12 @@ class Visit extends ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                ],
+            ]
         ];
     }
 
@@ -46,7 +51,10 @@ class Visit extends ActiveRecord
     public function rules()
     {
         return [
-            [['model_id'], 'required'],
+            [['user_id', 'source_id'], 'required'],
+            [['user_id', 'source_id'], 'integer'],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['source_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['source_id' => 'id']],
         ];
     }
 

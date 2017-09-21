@@ -17,8 +17,7 @@ use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 
-use yuncms\user\backend\models\Settings;
-use yuncms\user\Module;
+use yuncms\user\models\Settings;
 use yuncms\user\models\User;
 use yuncms\user\models\Profile;
 use yuncms\user\models\Social;

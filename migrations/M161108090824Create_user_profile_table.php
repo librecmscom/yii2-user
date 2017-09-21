@@ -11,7 +11,7 @@ class M161108090824Create_user_profile_table extends Migration
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $tableOptions = 'CHARACTER SET utf8mb4 COLLATE  utf8mb4_general_ci ENGINE=InnoDB';
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
         /**
          * 创建用户资料表
@@ -28,8 +28,8 @@ class M161108090824Create_user_profile_table extends Migration
             'address' => $this->string()->comment('地址'),
             'website' => $this->string()->comment('个人网站'),
             'timezone' => $this->string(100)->comment('时区'),//默认格林威治时间
-            'introduction' => $this->string(),
-            'bio' => $this->text()
+            'introduction' => $this->string()->comment('个人说明'),
+            'bio' => $this->text()->comment('个性签名'),
         ], $tableOptions);
         $this->addPrimaryKey('{{%user_profile}}', '{{%user_profile}}', 'user_id');
         $this->addForeignKey('{{%user_profile_ibfk_1}}', '{{%user_profile}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');

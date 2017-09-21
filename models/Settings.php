@@ -5,7 +5,7 @@
  * @license http://www.tintsoft.com/license/
  */
 
-namespace yuncms\user\backend\models;
+namespace yuncms\user\models;
 
 use Yii;
 use yii\base\Model;

@@ -3,9 +3,9 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-/*
- * @var yii\web\View $this
- */
+/* @var yii\web\View $this */
+/* @var yuncms\user\models\Career $model */
+/* @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = Yii::t('user', 'Careers');
 $this->params['breadcrumbs'][] = $this->title;

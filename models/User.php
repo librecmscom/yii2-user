@@ -18,7 +18,7 @@ use yii\web\IdentityInterface;
 use yii\base\NotSupportedException;
 use yii\web\Application as WebApplication;
 use yuncms\oauth2\OAuth2IdentityInterface;
-use yuncms\user\backend\models\Settings;
+use yuncms\user\models\Settings;
 use yuncms\user\Module;
 use yuncms\user\UserTrait;
 use yuncms\user\frontend\assets\UserAsset;
@@ -35,10 +35,10 @@ use yuncms\user\helpers\Password;
  *
  * Database fields:
  * @property integer $id ID 唯一
- * @property string $slug 用户标识唯一
+ * @property string $username 用户标识唯一
  * @property string $email 邮箱唯一
  * @property string $mobile 用户手机唯一
- * @property string $username 用户用户昵称不唯一
+ * @property string $nickname 用户用户昵称不唯一
  * @property string $password 密码
  * @property string $unconfirmed_email 未验证激活的邮箱
  * @property string $unconfirmed_mobile 未验证激活的手机
@@ -104,12 +104,12 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     /**
      * @var string Default slug regexp
      */
-    public static $slugRegexp = '/^[-a-zA-Z0-9_]+$/u';
+    public static $usernameRegexp = '/^[-a-zA-Z0-9_]+$/u';
 
     /**
      * @var string Default username regexp
      */
-    public static $usernameRegexp = '/^[-a-zA-Z0-9_\x{4e00}-\x{9fa5}\.@]+$/u';
+    public static $nicknameRegexp = '/^[-a-zA-Z0-9_\x{4e00}-\x{9fa5}\.@]+$/u';
 
     public static $mobileRegexp = '/^13[\d]{9}$|^15[\d]{9}$|^17[\d]{9}$|^18[\d]{9}$/';
 
@@ -198,18 +198,18 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function rules()
     {
         return [
-            // slug rules
-            'slugMatch' => ['slug', 'match', 'pattern' => static::$slugRegexp],
-            'slugLength' => ['slug', 'string', 'min' => 3, 'max' => 50],
-            'slugUnique' => ['slug', 'unique', 'message' => Yii::t('user', 'This slug has already been taken')],
-            'slugTrim' => ['slug', 'trim'],
-
             // username rules
-            'usernameRequired' => ['username', 'required', 'on' => ['register', 'create', 'connect', 'update', 'mobile_register', 'wechat_register']],
             'usernameMatch' => ['username', 'match', 'pattern' => static::$usernameRegexp],
-            'usernameLength' => ['username', 'string', 'min' => 3, 'max' => 255],
-            'usernameUnique' => ['username', 'unique', 'message' => Yii::t('user', 'This username has already been taken')],
+            'usernameLength' => ['username', 'string', 'min' => 3, 'max' => 50],
+            'usernameUnique' => ['username', 'unique', 'message' => Yii::t('user', 'This slug has already been taken')],
             'usernameTrim' => ['username', 'trim'],
+
+            // nickname rules
+            'nicknameRequired' => ['nickname', 'required', 'on' => ['register', 'create', 'connect', 'update', 'mobile_register', 'wechat_register']],
+            'nicknameMatch' => ['nickname', 'match', 'pattern' => static::$nicknameRegexp],
+            'nicknameLength' => ['nickname', 'string', 'min' => 3, 'max' => 255],
+            'nicknameUnique' => ['nickname', 'unique', 'message' => Yii::t('user', 'This username has already been taken')],
+            'nicknameTrim' => ['nickname', 'trim'],
 
             // email rules
             'emailRequired' => ['email', 'required', 'on' => ['register', 'connect', 'create', 'update']],
@@ -260,7 +260,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * Validates password
+     * 验证密码
      *
      * @param string $password password to validate
      * @return boolean if password provided is valid for current user
@@ -270,7 +270,11 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
-    /** @inheritdoc */
+    /**
+     * 验证AuthKey
+     * @param string $authKey
+     * @return boolean
+     */
     public function validateAuthKey($authKey)
     {
         return $this->getAuthKey() === $authKey;
@@ -278,6 +282,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
 
     /**
      * 创建 "记住我" 身份验证Key
+     * @return void
      */
     public function generateAuthKey()
     {
@@ -367,6 +372,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
 
     /**
      * 定义用户Tag关系
+     * @return \yii\db\ActiveQuery
      */
     public function getTags()
     {
@@ -374,7 +380,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 定义用户学历关系
+     * 定义用户教育经历关系
      * @return \yii\db\ActiveQuery
      */
     public function getEducations()
@@ -398,6 +404,34 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function getLoginHistories()
     {
         return $this->hasMany(LoginHistory::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * 获取我的访客
+     * 一对多关系
+     */
+    public function getVisits()
+    {
+        return $this->hasMany(Visit::className(), ['source_id' => 'id']);
+    }
+
+    /**
+     * 返回所有已经连接的社交媒体账户
+     * @return Social[] Connected accounts ($provider => $account)
+     */
+    public function getAccounts()
+    {
+        $connected = [];
+        /** @var Social[] $accounts */
+        $accounts = $this->hasMany(Social::className(), ['user_id' => 'id'])->all();
+        /**
+         * @var Social $account
+         */
+        foreach ($accounts as $account) {
+            $connected[$account->provider] = $account;
+        }
+
+        return $connected;
     }
 
     /**
@@ -435,32 +469,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         return $this->hasMany(\yuncms\attention\models\Attention::className(), ['model_id' => 'id'])->andOnCondition(['model' => get_class($this)]);
     }
 
-    /**
-     * 获取我的访客
-     * 一对多关系
-     */
-    public function getVisits()
-    {
-        return $this->hasMany(Visit::className(), ['source_id' => 'id']);
-    }
-
-    /**
-     * 返回所有已经连接的社交媒体账户
-     * @return Social[] Connected accounts ($provider => $account)
-     */
-    public function getAccounts()
-    {
-        $connected = [];
-        $accounts = $this->hasMany(Social::className(), ['user_id' => 'id'])->all();
-        /**
-         * @var Social $account
-         */
-        foreach ($accounts as $account) {
-            $connected[$account->provider] = $account;
-        }
-
-        return $connected;
-    }
 
     /**
      * 设置最后登录时间
@@ -487,6 +495,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
 
     /**
      * 锁定用户
+     * @return boolean
      */
     public function block()
     {
@@ -495,6 +504,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
 
     /**
      * 解除用户锁定
+     * @return boolean
      */
     public function unblock()
     {
@@ -881,12 +891,12 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 通过Slug获取用户
-     * @param string $slug 用户标识
+     * 通过用户名获取用户
+     * @param string $username 用户标识
      * @return null|static
      */
-    public static function findBySlug($slug)
+    public static function findModelByUsername($username)
     {
-        return static::findOne(['slug' => $slug]);
+        return static::findOne(['username' => $username]);
     }
 }

@@ -42,7 +42,7 @@ class UserController extends Controller
             //....
             'settings' => [
                 'class' => 'yuncms\system\actions\SettingsAction',
-                'modelClass' => 'yuncms\user\backend\models\Settings',
+                'modelClass' => 'yuncms\user\models\Settings',
                 //'scenario' => 'user',
                 //'scenario' => 'site', // Change if you want to re-use the model for multiple setting form.
                 'viewName' => 'settings'    // The form we need to render

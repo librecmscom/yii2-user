@@ -1,8 +1,8 @@
 <?php
 
-/*
- * @var yii\web\View $this
- */
+/* @var yii\web\View $this */
+/* @var yuncms\user\models\Career $model */
+
 $this->title = Yii::t('user', 'Update Career: ') . ' ' . $model->name;
 $this->params['breadcrumbs'][] = [
     'label' => Yii::t('user', 'Careers'),

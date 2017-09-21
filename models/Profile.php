@@ -9,7 +9,6 @@ namespace yuncms\user\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use yuncms\user\ModuleTrait;
 
 /**
  * This is the model class for table "profile".
@@ -25,8 +24,6 @@ use yuncms\user\ModuleTrait;
  */
 class Profile extends ActiveRecord
 {
-    use ModuleTrait;
-
     // 未选择
     const GENDER_UNCONFIRMED = 0;
     // 男
