@@ -20,7 +20,7 @@ use yii\web\Application as WebApplication;
 use yuncms\oauth2\OAuth2IdentityInterface;
 use yuncms\user\backend\models\Settings;
 use yuncms\user\Module;
-use yuncms\user\ModuleTrait;
+use yuncms\user\UserTrait;
 use yuncms\user\frontend\assets\UserAsset;
 use yuncms\tag\models\Tag;
 use yuncms\user\helpers\Password;
@@ -65,7 +65,7 @@ use yuncms\user\helpers\Password;
  */
 class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInterface
 {
-    use ModuleTrait;
+    use UserTrait;
 
     const BEFORE_CREATE = 'beforeCreate';
     const AFTER_CREATE = 'afterCreate';
@@ -119,9 +119,9 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function init()
     {
         parent::init();
-        $this->rememberFor = Yii::$app->settings->get('rememberFor', 'user');
-        $this->enableConfirmation = Yii::$app->settings->get('enableConfirmation', 'user');
-        $this->enableGeneratingPassword = Yii::$app->settings->get('enableGeneratingPassword', 'user');
+        $this->rememberFor = $this->getSetting('rememberFor');
+        $this->enableConfirmation = $this->getSetting('enableConfirmation');
+        $this->enableGeneratingPassword = $this->getSetting('enableGeneratingPassword');
     }
 
     /**
@@ -551,7 +551,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         $size = in_array($size, ['big', 'middle', 'small']) ? $size : 'big';
         if ($this->getIsAvatar()) {
             $avatarFileName = "_avatar_$size.jpg";
-            return $this->getModule()->getAvatarUrl($this->id) . $avatarFileName;
+            return $this->getAvatarUrl($this->id) . $avatarFileName;
         } else {
             switch ($size) {
                 case 'big':
@@ -576,19 +576,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 定义IM 关系
-     * @return null|ActiveQuery
-     */
-    public function getIm()
-    {
-        if (Yii::$app->hasModule('im')) {
-            return $this->hasMany(\yuncms\im\models\Account::className(), ['user_id' => 'id']);
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * 获取用户已经激活的钱包
      * @return null|ActiveQuery
      */
@@ -598,6 +585,14 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             return $this->hasMany(\yuncms\wallet\models\Wallet::className(), ['user_id' => 'id']);
         }
         return null;
+    }
+
+    /**
+     * @return Module
+     */
+    public function getModule()
+    {
+        return Yii::$app->getModule('user');
     }
 
     /**
