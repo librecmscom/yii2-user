@@ -12,6 +12,7 @@
   "require": {
     "yiisoft/yii2": "~2.0.6",
     "yiisoft/yii2-swiftmailer": "~2.0",
+    "yiisoft/yii2-queue": "~2.0",
     "yiisoft/yii2-bootstrap": "~2.0",
     "yiisoft/yii2-imagine": "~2.1",
     "xutl/yii2-cropper-asset": "~1.0",
