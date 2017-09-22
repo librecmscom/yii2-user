@@ -23,7 +23,7 @@ $this->title = Yii::t('user', 'Sign up');
         'enableClientValidation' => true,
     ]); ?>
 
-    <?= $form->field($model, 'username', ['inputOptions' => ['autocomplete' => 'off','required' => true]]) ?>
+    <?= $form->field($model, 'nickname', ['inputOptions' => ['autocomplete' => 'off','required' => true]]) ?>
 
     <?= $form->field($model, 'email', ['inputOptions' => ['autocomplete' => 'off','required' => true, 'type' => 'email']]) ?>
 

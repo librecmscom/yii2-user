@@ -23,7 +23,7 @@ class LoginForm extends Model
     use UserTrait;
 
     /**
-     * @var string User's email or username
+     * @var string User's email or mobile
      */
     public $login;
 

@@ -102,12 +102,12 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     protected $rememberFor;
 
     /**
-     * @var string Default slug regexp
+     * @var string Default username regexp
      */
     public static $usernameRegexp = '/^[-a-zA-Z0-9_]+$/u';
 
     /**
-     * @var string Default username regexp
+     * @var string Default nickname regexp
      */
     public static $nicknameRegexp = '/^[-a-zA-Z0-9_\x{4e00}-\x{9fa5}\.@]+$/u';
 
@@ -162,7 +162,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function attributeLabels()
     {
         return [
-            'slug' => Yii::t('user', 'Slug'),
+            'nickname' => Yii::t('user', 'Nickname'),
             'username' => Yii::t('user', 'Username'),
             'email' => Yii::t('user', 'Email'),
             'mobile' => Yii::t('user', 'Mobile'),
@@ -201,14 +201,14 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             // username rules
             'usernameMatch' => ['username', 'match', 'pattern' => static::$usernameRegexp],
             'usernameLength' => ['username', 'string', 'min' => 3, 'max' => 50],
-            'usernameUnique' => ['username', 'unique', 'message' => Yii::t('user', 'This slug has already been taken')],
+            'usernameUnique' => ['username', 'unique', 'message' => Yii::t('user', 'This username has already been taken')],
             'usernameTrim' => ['username', 'trim'],
 
             // nickname rules
             'nicknameRequired' => ['nickname', 'required', 'on' => ['register', 'create', 'connect', 'update', 'mobile_register', 'wechat_register']],
             'nicknameMatch' => ['nickname', 'match', 'pattern' => static::$nicknameRegexp],
             'nicknameLength' => ['nickname', 'string', 'min' => 3, 'max' => 255],
-            'nicknameUnique' => ['nickname', 'unique', 'message' => Yii::t('user', 'This username has already been taken')],
+            'nicknameUnique' => ['nickname', 'unique', 'message' => Yii::t('user', 'This nickname has already been taken')],
             'nicknameTrim' => ['nickname', 'trim'],
 
             // email rules
@@ -617,7 +617,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         }
         $this->email_confirmed_at = time();
         $this->password = $this->password == null ? Password::generate(8) : $this->password;
-        $this->slug = $this->slug == null ? Inflector::slug($this->username, '-') : $this->slug;
+        $this->username = $this->username == null ? Inflector::slug($this->nickname, '-') : $this->username;
         $this->trigger(self::BEFORE_CREATE);
         if (!$this->save()) {
             return false;
@@ -640,7 +640,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         }
         $this->email_confirmed_at = $this->enableConfirmation ? null : time();
         $this->password = $this->enableGeneratingPassword ? Password::generate(8) : $this->password;
-        $this->slug = $this->slug == null ? Inflector::slug($this->username, '-') : $this->slug;
+        $this->username = $this->username == null ? Inflector::slug($this->nickname, '-') : $this->username;
 
         $this->trigger(self::BEFORE_REGISTER);
         if (!$this->save()) {
@@ -787,24 +787,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             $this->username = 'user' . ++$row['id'];
         }
         return $this->username;
-    }
-
-    /**
-     * 使用email地址生成一个新的标识
-     */
-    public function generateSlug()
-    {
-        // try to use slug part of email
-        $this->slug = explode('@', $this->email)[0];
-        if ($this->validate(['slug'])) {
-            return $this->slug;
-        }
-        // generate slug like "user1", "user2", etc...
-        while (!$this->validate(['slug'])) {
-            $row = (new Query())->from('{{%user}}')->select('MAX(id) as id')->one();
-            $this->slug = 'slug' . ++$row['id'];
-        }
-        return $this->slug;
     }
 
     /**

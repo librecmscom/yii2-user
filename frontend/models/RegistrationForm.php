@@ -26,7 +26,7 @@ class RegistrationForm extends Model
     /**
      * @var string name
      */
-    public $username;
+    public $nickname;
     /**
      * @var string Password
      */
@@ -68,10 +68,10 @@ class RegistrationForm extends Model
     {
         return [
             // username rules
-            'usernameLength' => ['username', 'string', 'min' => 3, 'max' => 255],
-            'usernameTrim' => ['username', 'filter', 'filter' => 'trim'],
-            'usernamePattern' => ['username', 'match', 'pattern' => User::$usernameRegexp],
-            'usernameRequired' => ['username', 'required'],
+            'nicknameLength' => ['nickname', 'string', 'min' => 3, 'max' => 255],
+            'nicknameTrim' => ['nickname', 'filter', 'filter' => 'trim'],
+            'nicknamePattern' => ['nickname', 'match', 'pattern' => User::$nicknameRegexp],
+            'nicknameRequired' => ['nickname', 'required'],
 
             // email rules
             'emailTrim' => ['email', 'filter', 'filter' => 'trim'],
@@ -99,7 +99,7 @@ class RegistrationForm extends Model
     {
         return [
             'email' => Yii::t('user', 'Email'),
-            'username' => Yii::t('user', 'Name'),
+            'nickname' => Yii::t('user', 'Nickname'),
             'password' => Yii::t('user', 'Password'),
             'verifyCode' => Yii::t('user', 'Verification Code'),
             'registrationPolicy' => Yii::t('user', 'Agree and accept Service Agreement and Privacy Policy'),
