@@ -5,10 +5,10 @@ use xutl\inspinia\Box;
 use xutl\inspinia\Toolbar;
 use xutl\inspinia\Alert;
 use xutl\inspinia\ActiveForm;
-use yuncms\user\backend\models\Settings;
+use yuncms\user\models\Settings;
 
 /* @var $this yii\web\View */
-/* @var $model yuncms\user\backend\models\Settings */
+/* @var $model yuncms\user\models\Settings */
 
 $this->title = Yii::t('user', 'Settings');
 $this->params['breadcrumbs'][] = Yii::t('user', 'Manage Users');
