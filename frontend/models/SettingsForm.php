@@ -95,7 +95,7 @@ class SettingsForm extends Model
             'emailRequired' => ['email', 'required'],
             'emailTrim' => ['email', 'filter', 'filter' => 'trim'],
             'emailPattern' => ['email', 'email'],
-            'emailUsernameUnique' => [['email', 'slug'], 'unique', 'when' => function ($model, $attribute) {
+            'emailUsernameUnique' => [['email', 'username'], 'unique', 'when' => function ($model, $attribute) {
                 return $this->user->$attribute != $model->$attribute;
             }, 'targetClass' => User::className()],
             'newPasswordLength' => ['new_password', 'string', 'min' => 6],

@@ -10,7 +10,7 @@ use xutl\inspinia\ActiveForm;
 ?>
 <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 
-<?= $form->field($model, 'slug')->textInput(['maxlength' => 255]) ?>
+<?= $form->field($model, 'nickname')->textInput(['maxlength' => 255]) ?>
 <div class="hr-line-dashed"></div>
 <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
 <div class="hr-line-dashed"></div>
