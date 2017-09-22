@@ -17,13 +17,13 @@ class M170916081721Add_defailt_settings extends Migration
     {
         $date = date('Y-m-d H:i:s');
         $this->batchInsert('{{%settings}}', ['type', 'section', 'key', 'value', 'active', 'created', 'modified'], [
-            ['boolean', 'user', 'enableRegistration', '0', 1, $date, $date],
+            ['boolean', 'user', 'enableRegistration', '1', 1, $date, $date],
             ['boolean', 'user', 'enableMobileRegistration', '0', 1, $date, $date],
             ['boolean', 'user', 'enableRegistrationCaptcha', '0', 1, $date, $date],
             ['boolean', 'user', 'enableGeneratingPassword', '0', 1, $date, $date],
             ['boolean', 'user', 'enableConfirmation', '0', 1, $date, $date],
             ['boolean', 'user', 'enableUnconfirmedLogin', '0', 1,$date, $date],
-            ['boolean', 'user', 'enablePasswordRecovery', '0', 1, $date, $date],
+            ['boolean', 'user', 'enablePasswordRecovery', '1', 1, $date, $date],
             ['integer', 'user', 'emailChangeStrategy', '1', 1, $date, $date],
             ['integer', 'user', 'mobileChangeStrategy', '1', 1, $date, $date],
             ['integer', 'user', 'rememberFor', '1209600', 1, $date, $date],
