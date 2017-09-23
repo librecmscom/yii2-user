@@ -40,6 +40,20 @@
     "yuncms/yii2-wallet": "Allows you to use message"
   },
   "extra": {
+    "yuncms": {
+      "name": "user",
+      "i18n": {
+        "class": "yii\\i18n\\PhpMessageSource",
+        "basePath": "@yuncms/user/message"
+      },
+      "migrationNamespace": "@yuncms/user/migrations",
+      "backend": {
+        "class": "yuncms\\user\\backend\\Module"
+      },
+      "frontend": {
+        "class": "yuncms\\user\\frontend\\Module"
+      }
+    },
     "bootstrap": "yuncms\\user\\Bootstrap",
     "branch-alias": {
       "dev-master": "2.0.x-dev"
