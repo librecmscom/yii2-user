@@ -44,6 +44,7 @@
       "name": "user",
       "i18n": {
         "class": "yii\\i18n\\PhpMessageSource",
+        "sourceLanguage": "en-US",
         "basePath": "@yuncms/user/message"
       },
       "migrationNamespace": "yuncms\\user\\migrations",
