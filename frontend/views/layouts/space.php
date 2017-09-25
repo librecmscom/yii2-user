@@ -94,7 +94,7 @@ $appLayouts = Yii::$app->layout;
                             ],
                         ]);
                         ?>
-                        <?= \yuncms\message\widgets\SendMessage::widget(['username' => $user->username]); ?>
+                        <?= \yuncms\message\widgets\SendMessage::widget(['nickname' => $user->nickname]); ?>
                         <?php Modal::end();
                     } ?>
 
