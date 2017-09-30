@@ -125,6 +125,22 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
+     * @return string
+     * @deprecated
+     */
+    public function getSlug(){
+        return $this->username;
+    }
+
+    /**
+     * @param $slug
+     * @deprecated
+     */
+    public function setSlug($slug){
+        $this->username = $slug;
+    }
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
