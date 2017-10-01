@@ -51,7 +51,7 @@ class SettingsController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['profile', 'account','avatar', 'confirm', 'networks', 'disconnect'],
+                        'actions' => ['profile', 'account', 'privacy', 'avatar', 'confirm', 'networks', 'disconnect'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -62,7 +62,8 @@ class SettingsController extends Controller
     /**
      * 初始化
      */
-    public function init(){
+    public function init()
+    {
         parent::init();
         $this->emailChangeStrategy = Yii::$app->settings->get('emailChangeStrategy', 'user');
     }
@@ -119,6 +120,27 @@ class SettingsController extends Controller
             return $this->refresh();
         }
         return $this->render('account', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays page where user can update account privacy.
+     * @return array|string|Response
+     */
+    public function actionPrivacy()
+    {
+        /** @var PrivacyForm $model */
+        $model = new PrivacyForm();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('user', 'Your privacy details have been updated.'));
+            return $this->refresh();
+        }
+        return $this->render('privacy', [
             'model' => $model,
         ]);
     }
