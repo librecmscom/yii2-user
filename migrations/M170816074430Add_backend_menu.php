@@ -14,6 +14,9 @@ class M170816074430Add_backend_menu extends Migration
      */
     public function safeUp()
     {
+        $this->batchInsert('{{%admin_menu}}', [ 'name', 'parent', 'route', 'icon', 'sort', 'data'], [
+            ['用户管理', 5, '/user/user/index', 'fa-user', 2, NULL],
+        ]);
         $id = (new \yii\db\Query())->select(['id'])->from('{{%admin_menu}}')->where(['name' => '用户管理', 'parent' => 5])->scalar($this->getDb());
 
         $this->batchInsert('{{%admin_menu}}', ['name', 'parent', 'route', 'visible', 'sort'], [
