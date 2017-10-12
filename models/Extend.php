@@ -46,12 +46,12 @@ class Extend extends ActiveRecord
 
     /**
      * 获取指定字段排行榜
-     * @param string $type 类别
+     * @param string $field 字段
      * @param int $limit
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function top($type, $limit)
+    public static function top($field, $limit)
     {
-        return static::find()->with('user')->orderBy([$type => SORT_DESC, 'last_visit' => SORT_DESC])->limit($limit)->all();
+        return static::find()->with('user')->orderBy([$field => SORT_DESC, 'last_visit' => SORT_DESC])->limit($limit)->all();
     }
 }

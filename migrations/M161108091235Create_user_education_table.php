@@ -24,7 +24,7 @@ class M161108091235Create_user_education_table extends Migration
             'department' => $this->string()->notNull(),
             'degree' => $this->string()->notNull(),
             'date' => $this->string(6)->notNull(),
-            'created_at' => $this->integer()->unsigned()->notNull(),
+            'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
             'updated_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
         $this->addForeignKey('{{%user_education_history_ibfk_1}}', '{{%user_education}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');

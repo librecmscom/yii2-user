@@ -12,14 +12,14 @@ use yii\base\Model;
 use yuncms\user\helpers\Password;
 use yuncms\user\models\User;
 use yuncms\user\models\Wechat;
-use yuncms\user\ModuleTrait;
+use yuncms\user\UserTrait;
 
 /**
  * 注册或绑定用户
  */
 class ConnectForm extends Model
 {
-    use ModuleTrait;
+    use UserTrait;
 
     /**
      * @var string User's email
@@ -40,14 +40,6 @@ class ConnectForm extends Model
      * @var Wechat 社交账户实例
      */
     public $wechat;
-
-    protected $rememberFor;
-
-    public function init()
-    {
-        parent::init();
-        $this->rememberFor = Yii::$app->settings->get('rememberFor', 'user');
-    }
 
     /**
      * @inheritdoc
@@ -110,7 +102,7 @@ class ConnectForm extends Model
                 }
             }
             $this->wechat->connect($this->user);
-            return Yii::$app->user->login($this->user, $this->rememberFor);
+            return Yii::$app->user->login($this->user, $this->getSetting('rememberFor'));
         } else {
             return false;
         }

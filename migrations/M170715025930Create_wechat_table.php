@@ -33,7 +33,7 @@ class M170715025930Create_wechat_table extends Migration
             //功能字段
             'data' => $this->text()->comment('原始数据'),
             'code' => $this->string(32)->unique(),
-            'created_at' => $this->integer()->unsigned()->notNull()->comment('创建时间'),
+            'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
             'updated_at' => $this->integer()->unsigned()->notNull()->comment('更新时间'),
         ], $tableOptions);
         $this->addForeignKey('{{%user_wechat_ibfk_1}}', '{{%user_wechat}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');

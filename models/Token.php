@@ -10,6 +10,7 @@ namespace yuncms\user\models;
 use Yii;
 use yii\helpers\Url;
 use yii\db\ActiveRecord;
+use yuncms\user\UserTrait;
 
 /**
  * Token Active Record model.
@@ -24,22 +25,14 @@ use yii\db\ActiveRecord;
  */
 class Token extends ActiveRecord
 {
+    use UserTrait;
+
     const TYPE_CONFIRMATION = 0;
     const TYPE_RECOVERY = 1;
     const TYPE_CONFIRM_NEW_EMAIL = 2;
     const TYPE_CONFIRM_OLD_EMAIL = 3;
     const TYPE_CONFIRM_NEW_MOBILE = 4;
     const TYPE_CONFIRM_OLD_MOBILE = 5;
-
-    protected $confirmWithin;
-    protected $recoverWithin;
-
-    public function init()
-    {
-        parent::init();
-        $this->confirmWithin = Yii::$app->settings->get('confirmWithin', 'user');
-        $this->recoverWithin =  Yii::$app->settings->get('recoverWithin', 'user');
-    }
 
     /**
      * @inheritdoc
@@ -102,14 +95,14 @@ class Token extends ActiveRecord
             case self::TYPE_CONFIRMATION:
             case self::TYPE_CONFIRM_NEW_EMAIL:
             case self::TYPE_CONFIRM_OLD_EMAIL:
-                $expirationTime = $this->confirmWithin;
+                $expirationTime = $this->getSetting('confirmWithin');
                 break;
             case self::TYPE_CONFIRM_NEW_MOBILE:
             case self::TYPE_CONFIRM_OLD_MOBILE:
-                $expirationTime = $this->confirmWithin;
+                $expirationTime = $this->getSetting('confirmWithin');
                 break;
             case self::TYPE_RECOVERY:
-                $expirationTime = $this->recoverWithin;
+                $expirationTime = $this->getSetting('recoverWithin');
                 break;
             default:
                 throw new \RuntimeException();
@@ -127,7 +120,7 @@ class Token extends ActiveRecord
             static::deleteAll(['user_id' => $this->user_id, 'type' => $this->type]);
             $this->setAttribute('created_at', time());
             if ($this->type == self::TYPE_CONFIRM_NEW_MOBILE || $this->type == self::TYPE_CONFIRM_OLD_MOBILE) {
-                $this->setAttribute('code', Yii::$app->security->generateSalt(6));
+                $this->setAttribute('code', Yii::$app->security->generateRandomString(6));
             } else {
                 $this->setAttribute('code', Yii::$app->security->generateRandomString());
             }

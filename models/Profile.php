@@ -19,7 +19,7 @@ use yii\db\ActiveRecord;
  * @property string $location
  * @property string $website
  * @property string $bio
- * @property string $avatar 头像Url
+ * @property string $timezone 时区
  * @property User $user
  */
 class Profile extends ActiveRecord

@@ -26,7 +26,7 @@ class M161108091324Create_user_career_table extends Migration
             'description' => $this->string()->notNull(),
             'start_at' => $this->string(7)->notNull(),
             'end_at' => $this->string(7),
-            'created_at' => $this->integer()->unsigned()->notNull(),
+            'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
             'updated_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
         $this->addForeignKey('{{%user_career_history_ibfk_1}}', '{{%user_career}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
