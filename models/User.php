@@ -97,10 +97,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     /** @var  Extend|null */
     private $_extend;
 
-    protected $enableConfirmation;
-    protected $enableGeneratingPassword;
-    protected $rememberFor;
-
     /**
      * @var string Default username regexp
      */
@@ -112,17 +108,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public static $nicknameRegexp = '/^[-a-zA-Z0-9_\x{4e00}-\x{9fa5}\.@]+$/u';
 
     public static $mobileRegexp = '/^13[\d]{9}$|^15[\d]{9}$|^17[\d]{9}$|^18[\d]{9}$/';
-
-    /**
-     * 初始化
-     */
-    public function init()
-    {
-        parent::init();
-        $this->rememberFor = $this->getSetting('rememberFor');
-        $this->enableConfirmation = $this->getSetting('enableConfirmation');
-        $this->enableGeneratingPassword = $this->getSetting('enableGeneratingPassword');
-    }
 
     /**
      * @return string
@@ -654,21 +639,21 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         if ($this->getIsNewRecord() == false) {
             throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
         }
-        $this->email_confirmed_at = $this->enableConfirmation ? null : time();
-        $this->password = $this->enableGeneratingPassword ? Password::generate(8) : $this->password;
+        $this->email_confirmed_at = $this->getSetting('enableConfirmation') ? null : time();
+        $this->password = $this->getSetting('enableGeneratingPassword') ? Password::generate(8) : $this->password;
         $this->username = $this->username == null ? Inflector::slug($this->nickname, '-') : $this->username;
 
         $this->trigger(self::BEFORE_REGISTER);
         if (!$this->save()) {
             return false;
         }
-        if ($this->enableConfirmation && !empty($this->email)) {
+        if ($this->getSetting('enableConfirmation') && !empty($this->email)) {
             /** @var Token $token */
             $token = new Token(['type' => Token::TYPE_CONFIRMATION]);
             $token->link('user', $this);
             $this->module->sendMessage($this->email, Yii::t('user', 'Welcome to {0}', Yii::$app->name), 'welcome', ['user' => $this, 'token' => isset($token) ? $token : null, 'module' => $this->module, 'showPassword' => false]);
         } else {
-            Yii::$app->user->login($this, $this->rememberFor);
+            Yii::$app->user->login($this, $this->getSetting('rememberFor'));
         }
 
         $this->trigger(self::AFTER_REGISTER);
@@ -688,7 +673,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         if ($token instanceof Token && !$token->isExpired) {
             $token->delete();
             if (($success = $this->setEmailConfirm())) {
-                Yii::$app->user->login($this, Yii::$app->settings->get('rememberFor', 'user'));
+                Yii::$app->user->login($this, $this->getSetting('rememberFor'));
                 $message = Yii::t('user', 'Thank you, registration is now complete.');
             } else {
                 $message = Yii::t('user', 'Something went wrong and your account has not been confirmed.');
