@@ -20,17 +20,25 @@ use yii\db\ActiveRecord;
  * @property string $website
  * @property string $bio
  * @property string $timezone 时区
- * @property User $user
+ *
+ *
+ * @property-read string $greenName 性别
+ * @property-read User $user
  */
 class Profile extends ActiveRecord
 {
     // 未选择
-    const GENDER_UNCONFIRMED = 0;
-    // 男
-    const GENDER_MALE = 1;
-    // 女
-    const GENDER_FEMALE = 2;
+    const GENDER_UNCONFIRMED = 0b0;
 
+    // 男
+    const GENDER_MALE = 0b1;
+
+    // 女
+    const GENDER_FEMALE = 0b10;
+
+    /**
+     * @var string 性别字符串
+     */
     public $genderName;
 
     /**
@@ -52,17 +60,26 @@ class Profile extends ActiveRecord
     public function rules()
     {
         return [
-            ['timezone', 'validateTimeZone'],
-            ['mobile', 'string', 'min' => 11, 'max' => 11],
             ['gender', 'default', 'value' => self::GENDER_UNCONFIRMED],
             ['gender', 'in', 'range' => [self::GENDER_MALE, self::GENDER_FEMALE, self::GENDER_UNCONFIRMED]],
-            ['email', 'email'],
-            ['website', 'url'],
-            ['address', 'string'],
-            ['introduction', 'string'],
+
+            ['mobile', 'match', 'pattern' => User::$mobileRegexp],
+            ['mobile', 'string', 'min' => 11, 'max' => 11],
+            ['email', 'email', 'checkDNS' => true],
+
+            ['email', 'trim'],
             ['bio', 'string'],
-            [['email', 'timezone', 'country', 'location', 'website'], 'string', 'max' => 255],
+            ['birthday', 'date', 'format' => 'php:Y-m-d', 'min' => '1900-01-01', 'max' => date('Y-m-d')],
+            ['birthday', 'string', 'max' => 15],
+            ['website', 'url'],
+            ['timezone', 'validateTimeZone'],
             ['qq', 'integer', 'min' => 10001, 'max' => 9999999999],
+            [['weibo', 'wechat', 'facebook', 'twitter',], 'string', 'max' => 50],
+
+            [['email', 'country', 'province', 'city', 'location', 'address', 'website', 'introduction', 'company', 'company_job',], 'string', 'max' => 255],
+
+            //['current', 'integer'],
+            //['current', 'integer'],
         ];
     }
 
@@ -82,6 +99,15 @@ class Profile extends ActiveRecord
             'timezone' => Yii::t('user', 'Time zone'),
             'introduction' => Yii::t('user', 'Introduction'),
             'bio' => Yii::t('user', 'Bio'),
+            'birthday' => Yii::t('user', 'Birthday'),
+            'current' => Yii::t('user', 'Current'),
+            'qq' => Yii::t('user', 'QQ'),
+            'weibo' => Yii::t('user', 'Weibo'),
+            'wechat' => Yii::t('user', 'WeChat'),
+            'facebook' => Yii::t('user', 'Facebook'),
+            'twitter' => Yii::t('user', 'Twitter'),
+            'company' => Yii::t('user', 'Company'),
+            'company_job' => Yii::t('user', 'Company Job'),
         ];
     }
 

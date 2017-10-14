@@ -225,7 +225,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             'mobilePattern' => ['mobile', 'match', 'pattern' => static::$mobileRegexp],
             'mobileLength' => ['mobile', 'string', 'max' => 11],
             'mobileUnique' => ['mobile', 'unique', 'message' => Yii::t('user', 'This mobile address has already been taken')],
-            'mobileDefault' => ['email', 'default', 'value' => null, 'on' => ['register', 'create']],
+            'mobileDefault' => ['mobile', 'default', 'value' => null, 'on' => ['register', 'create']],
 
             // password rules
             'passwordRequired' => ['password', 'required', 'on' => ['register', 'mobile_register']],
