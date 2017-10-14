@@ -18,7 +18,7 @@ class M161108090856Create_user_token_table extends Migration
          * 创建令牌表
          */
         $this->createTable('{{%user_token}}', [
-            'user_id' => $this->integer()->notNull()->comment('User ID'),
+            'user_id' => $this->integer()->unsigned()->notNull()->comment('User ID'),
             'code' => $this->string(32)->notNull()->comment('Code'),
             'type' => $this->smallInteger()->notNull()->comment('Type'),
             'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),

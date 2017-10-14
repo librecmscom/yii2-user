@@ -19,8 +19,8 @@ class M161108091055Create_user_visit_table extends Migration
          */
         $this->createTable('{{%user_visit}}', [
             'id' => $this->primaryKey(11)->unsigned()->comment('ID'),
-            'user_id' => $this->integer()->notNull(),
-            'source_id' => $this->integer()->notNull(),
+            'user_id' => $this->integer()->unsigned()->notNull()->comment('User ID'),
+            'source_id' => $this->integer()->unsigned()->notNull()->comment('Source User ID'),
             'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
         ], $tableOptions);
         $this->createIndex('visit_source_id_user_id_index', '{{%user_visit}}', ['user_id', 'source_id']);

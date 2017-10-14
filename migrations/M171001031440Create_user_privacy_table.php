@@ -16,7 +16,7 @@ class M171001031440Create_user_privacy_table extends Migration
         }
         $this->createTable('{{%user_privacy}}', [
             'id' => $this->primaryKey(),
-            'user_id' => $this->integer()->comment('用户ID'),
+            'user_id' => $this->integer()->unsigned()->comment('用户ID'),
             'privacy' => $this->string(50)->comment('隐私项目'),
             'status' => $this->smallInteger(1)->defaultValue(0)->comment('状态0仅自己可见1好友可见2所有人可见')
         ], $tableOptions);

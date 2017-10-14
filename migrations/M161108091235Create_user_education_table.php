@@ -19,13 +19,13 @@ class M161108091235Create_user_education_table extends Migration
          */
         $this->createTable('{{%user_education}}', [
             'id' => $this->primaryKey(11)->unsigned()->comment('ID'),
-            'user_id' => $this->integer()->comment('用户ID'),
-            'school' => $this->string()->notNull()->comment('学校'),
-            'department' => $this->string()->notNull(),
-            'degree' => $this->string()->notNull(),
-            'date' => $this->string(6)->notNull(),
+            'user_id' => $this->integer()->unsigned()->comment('User ID'),
+            'school' => $this->string()->notNull()->comment('School'),
+            'department' => $this->string()->notNull()->comment('Department'),
+            'degree' => $this->string()->notNull()->comment('Degree'),
+            'date' => $this->string(6)->notNull()->comment('Date'),
             'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
-            'updated_at' => $this->integer()->unsigned()->notNull(),
+            'updated_at' => $this->integer()->unsigned()->notNull()->comment('Updated At'),
         ], $tableOptions);
         $this->addForeignKey('{{%user_education_history_ibfk_1}}', '{{%user_education}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }

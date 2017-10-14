@@ -15,7 +15,7 @@ class M170715025930Create_wechat_table extends Migration
         }
         $this->createTable('{{%user_wechat}}', [
             'id' => $this->primaryKey(11)->unsigned()->comment('ID'),
-            'user_id' => $this->integer()->comment('User ID'),
+            'user_id' => $this->integer()->unsigned()->comment('User ID'),
             'openid' => $this->string(64)->notNull()->comment('Open Id'),
             'unionid' => $this->string(64)->comment('Union ID'),
             'access_token' => $this->string()->comment('Access Token'),

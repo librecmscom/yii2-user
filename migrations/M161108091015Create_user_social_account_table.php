@@ -18,7 +18,7 @@ class M161108091015Create_user_social_account_table extends Migration
          */
         $this->createTable('{{%user_social_account}}', [
             'id' => $this->primaryKey()->unsigned()->comment('ID'),
-            'user_id' => $this->integer()->comment('Uer ID'),
+            'user_id' => $this->integer()->unsigned()->comment('Uer ID'),
             'username' => $this->string()->comment('Username'),
             'email' => $this->string()->comment('EMail'),
             'provider' => $this->string(50)->notNull(),

@@ -19,7 +19,7 @@ class M161108091324Create_user_career_table extends Migration
          */
         $this->createTable('{{%user_career}}', [
             'id' => $this->primaryKey(11)->unsigned()->comment('ID'),
-            'user_id' => $this->integer(),
+            'user_id' => $this->integer()->unsigned()->comment('User ID'),
             'name' => $this->string()->notNull(),
             'position' => $this->string()->notNull(),
             'city' => $this->string()->notNull(),
@@ -27,7 +27,7 @@ class M161108091324Create_user_career_table extends Migration
             'start_at' => $this->string(7)->notNull(),
             'end_at' => $this->string(7),
             'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
-            'updated_at' => $this->integer()->unsigned()->notNull(),
+            'updated_at' => $this->integer()->unsigned()->notNull()->comment('Updated At'),
         ], $tableOptions);
         $this->addForeignKey('{{%user_career_history_ibfk_1}}', '{{%user_career}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }

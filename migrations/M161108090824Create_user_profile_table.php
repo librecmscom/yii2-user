@@ -17,7 +17,7 @@ class M161108090824Create_user_profile_table extends Migration
          * 创建用户资料表
          */
         $this->createTable('{{%user_profile}}', [
-            'user_id' => $this->integer()->notNull()->comment('User ID'),
+            'user_id' => $this->integer()->unsigned()->notNull()->comment('User ID'),
             'gender' => $this->smallInteger(1)->notNull()->defaultValue(0)->comment('Gender'),
             'mobile' => $this->string()->comment('Mobile'),
             'email' => $this->string()->comment('Email'),
