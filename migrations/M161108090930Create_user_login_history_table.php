@@ -18,7 +18,7 @@ class M161108090930Create_user_login_history_table extends Migration
          * 登陆历史表
          */
         $this->createTable('{{%user_login_history}}', [
-            'id' => $this->primaryKey(11),
+            'id' => $this->primaryKey(11)->unsigned()->comment('ID'),
             'user_id' => $this->integer()->notNull()->comment('User ID'),
             'ip' => $this->string()->notNull()->comment('Ip'),
             'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),

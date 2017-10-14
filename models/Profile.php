@@ -24,8 +24,8 @@ use yii\db\ActiveRecord;
  * @property string $address 地址街道
  * @property string $website 个人主页
  * @property string $timezone 时区
- * @property string $introduction
- * @property string $bio
+ * @property string $introduction 个人说明/简介
+ * @property string $bio 个性签名
  * @property string $birthday 生日
  * @property string $current 当前状态
  * @property string $qq QQ号码

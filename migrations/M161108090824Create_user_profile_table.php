@@ -17,19 +17,19 @@ class M161108090824Create_user_profile_table extends Migration
          * 创建用户资料表
          */
         $this->createTable('{{%user_profile}}', [
-            'user_id' => $this->integer()->notNull()->comment('用户ID'),
-            'gender' => $this->smallInteger(1)->notNull()->defaultValue(0)->comment('性别'),
-            'mobile' => $this->string()->comment('公开手机'),
-            'email' => $this->string()->comment('公开Email'),
-            'country' => $this->string()->comment('国家'),
-            'province' => $this->string()->comment('省'),
-            'city' => $this->string()->comment('城市'),
-            'location' => $this->string()->comment('位置'),
-            'address' => $this->string()->comment('地址'),
-            'website' => $this->string()->comment('个人网站'),
-            'timezone' => $this->string(100)->comment('时区'),//默认格林威治时间
-            'introduction' => $this->string()->comment('个人说明'),
-            'bio' => $this->text()->comment('个性签名'),
+            'user_id' => $this->integer()->notNull()->comment('User ID'),
+            'gender' => $this->smallInteger(1)->notNull()->defaultValue(0)->comment('Gender'),
+            'mobile' => $this->string()->comment('Mobile'),
+            'email' => $this->string()->comment('Email'),
+            'country' => $this->string()->comment('Country'),
+            'province' => $this->string()->comment('Province'),
+            'city' => $this->string()->comment('City'),
+            'location' => $this->string()->comment('Location'),
+            'address' => $this->string()->comment('Address'),
+            'website' => $this->string()->comment('Website'),
+            'timezone' => $this->string(100)->comment('Timezone'),//默认格林威治时间
+            'introduction' => $this->string()->comment('Introduction'),
+            'bio' => $this->text()->comment('Bio'),
         ], $tableOptions);
         $this->addPrimaryKey('{{%user_profile}}', '{{%user_profile}}', 'user_id');
         $this->addForeignKey('{{%user_profile_ibfk_1}}', '{{%user_profile}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');

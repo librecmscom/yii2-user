@@ -18,7 +18,7 @@ class M161108091235Create_user_education_table extends Migration
          * 教育经历表
          */
         $this->createTable('{{%user_education}}', [
-            'id' => $this->primaryKey(11),
+            'id' => $this->primaryKey(11)->unsigned()->comment('ID'),
             'user_id' => $this->integer()->comment('用户ID'),
             'school' => $this->string()->notNull()->comment('学校'),
             'department' => $this->string()->notNull(),

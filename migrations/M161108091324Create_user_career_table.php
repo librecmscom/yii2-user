@@ -18,7 +18,7 @@ class M161108091324Create_user_career_table extends Migration
          * 工作经历表
          */
         $this->createTable('{{%user_career}}', [
-            'id' => $this->primaryKey(11),
+            'id' => $this->primaryKey(11)->unsigned()->comment('ID'),
             'user_id' => $this->integer(),
             'name' => $this->string()->notNull(),
             'position' => $this->string()->notNull(),

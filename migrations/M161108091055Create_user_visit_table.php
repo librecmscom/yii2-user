@@ -18,7 +18,7 @@ class M161108091055Create_user_visit_table extends Migration
          * 用户访问历史表
          */
         $this->createTable('{{%user_visit}}', [
-            'id' => $this->primaryKey(11),
+            'id' => $this->primaryKey(11)->unsigned()->comment('ID'),
             'user_id' => $this->integer()->notNull(),
             'source_id' => $this->integer()->notNull(),
             'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
