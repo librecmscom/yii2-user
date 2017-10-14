@@ -15,31 +15,37 @@ use yii\db\ActiveRecord;
  *
  * @property int $user_id 用户ID
  * @property int $gender 性别
- * @property string $public_email 公开邮箱
- * @property string $location
- * @property string $website
- * @property string $bio
+ * @property string $mobile 手机号
+ * @property string $email 公开邮箱
+ * @property string $country 国家
+ * @property string $province 省份
+ * @property string $city 城市
+ * @property string $location 位置
+ * @property string $address 地址街道
+ * @property string $website 个人主页
  * @property string $timezone 时区
- *
+ * @property string $introduction
+ * @property string $bio
+ * @property string $birthday 生日
+ * @property string $current 当前状态
+ * @property string $qq QQ号码
+ * @property string $weibo 微博账户
+ * @property string $wechat 微信账户
+ * @property string $facebook facebook账户
+ * @property string $twitter twitter账户
+ * @property string $company 工作单位
+ * @property string $company_job 职位
+ * @property string $school 毕业院校
  *
  * @property-read string $greenName 性别
  * @property-read User $user
  */
 class Profile extends ActiveRecord
 {
-    // 未选择
+    // 性别
     const GENDER_UNCONFIRMED = 0b0;
-
-    // 男
     const GENDER_MALE = 0b1;
-
-    // 女
     const GENDER_FEMALE = 0b10;
-
-    /**
-     * @var string 性别字符串
-     */
-    public $genderName;
 
     /**
      * @inheritdoc
@@ -76,7 +82,7 @@ class Profile extends ActiveRecord
             ['qq', 'integer', 'min' => 10001, 'max' => 9999999999],
             [['weibo', 'wechat', 'facebook', 'twitter',], 'string', 'max' => 50],
 
-            [['email', 'country', 'province', 'city', 'location', 'address', 'website', 'introduction', 'company', 'company_job',], 'string', 'max' => 255],
+            [['email', 'country', 'province', 'city', 'location', 'address', 'website', 'introduction', 'company', 'company_job', 'school',], 'string', 'max' => 255],
 
             //['current', 'integer'],
             //['current', 'integer'],
@@ -90,6 +96,7 @@ class Profile extends ActiveRecord
     {
         return [
             'gender' => Yii::t('user', 'Gender'),
+            'genderName' => Yii::t('user', 'Gender'),
             'mobile' => Yii::t('user', 'Mobile'),
             'email' => Yii::t('user', 'Email (public)'),
             'country' => Yii::t('user', 'Country'),
@@ -108,6 +115,7 @@ class Profile extends ActiveRecord
             'twitter' => Yii::t('user', 'Twitter'),
             'company' => Yii::t('user', 'Company'),
             'company_job' => Yii::t('user', 'Company Job'),
+            'school' => Yii::t('user', 'Company Job'),
         ];
     }
 
@@ -133,7 +141,7 @@ class Profile extends ActiveRecord
     }
 
     /**
-     * Validates the timezone attribute.
+     * 验证时区
      * Adds an error when the specified time zone doesn't exist.
      * @param string $attribute the attribute being validated
      * @param array $params values for the placeholders in the error message
@@ -141,7 +149,7 @@ class Profile extends ActiveRecord
     public function validateTimeZone($attribute, $params)
     {
         if (!in_array($this->$attribute, timezone_identifiers_list())) {
-            $this->addError($attribute, \Yii::t('user', 'Time zone is not valid'));
+            $this->addError($attribute, Yii::t('user', 'Time zone is not valid'));
         }
     }
 
@@ -156,7 +164,7 @@ class Profile extends ActiveRecord
             return new \DateTimeZone($this->timezone);
         } catch (\Exception $e) {
             // Default to application time zone if the user hasn't set their time zone
-            return new \DateTimeZone(\Yii::$app->timeZone);
+            return new \DateTimeZone(Yii::$app->timeZone);
         }
     }
 
@@ -183,7 +191,6 @@ class Profile extends ActiveRecord
         return $dateTime->setTimezone($this->getTimeZone());
     }
 
-
     /**
      * @return \yii\db\ActiveQueryInterface
      */
@@ -199,14 +206,5 @@ class Profile extends ActiveRecord
     public function isMe()
     {
         return $this->user_id == Yii::$app->user->id;
-    }
-
-    /**
-     * This method is called when the AR object is created and populated with the query result.
-     */
-    public function afterFind()
-    {
-        parent::afterFind();
-        $this->genderName = $this->getGenderName();
     }
 }

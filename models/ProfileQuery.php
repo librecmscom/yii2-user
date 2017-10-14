@@ -6,8 +6,8 @@
  */
 namespace yuncms\user\models;
 
+use Yii;
 use yii\db\ActiveQuery;
-use yuncms\tag\behaviors\TagQueryBehavior;
 
 /**
  * Class ProfileQuery
@@ -16,19 +16,21 @@ use yuncms\tag\behaviors\TagQueryBehavior;
 class ProfileQuery extends ActiveQuery
 {
     /**
-     * Gets entities by any tags.
-     * @param string|string[] $value
-     * @return ActiveQuery the owner
+     * @inheritdoc
+     * @return Profile[]|array
      */
-    public function name($value)
+    public function all($db = null)
     {
-        $model = new Profile();
-        $this->innerJoinWith('user', false)
-            ->andWhere(User::tableName().".`username` like '%{$value}%'")
-            ->addGroupBy(array_map(function ($pk) use ($model) {
-                return Profile::tableName() . '.' . $pk;
-            }, $model->primaryKey()));
-        return $this;
+        return parent::all($db);
+    }
+
+    /**
+     * @inheritdoc
+     * @return Profile|array|null
+     */
+    public function one($db = null)
+    {
+        return parent::one($db);
     }
 
     /**
@@ -39,4 +41,5 @@ class ProfileQuery extends ActiveQuery
     {
         return $this->andWhere(['gender' => Profile::GENDER_FEMALE]);
     }
+
 }
