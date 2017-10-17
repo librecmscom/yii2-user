@@ -76,7 +76,7 @@ return [
     'Career Description' => '工作描述',
     'Careers' => '职业经历',
     'City' => '城市',
-    'Coins' => '金币',
+
     'Company' => '公司/组织名称',
     'Complete password reset on {0}' => '完成在 {0} 上的密码重置',
     'Confirm' => '确认',
@@ -100,7 +100,7 @@ return [
     'Create the stream' => '发起了直播',
     'Created At' => '创建时间',
     'Credentials will be sent to the user by email' => '会通过邮件向用户发送证书',
-    'Credits' => '经验值',
+
     'Current password' => '当前密码',
     'Current password is not valid' => '当前密码无效',
     'Default' => '默认',
@@ -128,32 +128,21 @@ return [
     'Error occurred while deleting user' => '删除用户时出错',
     'Expires In' => '过期时间',
     'Facebook' => '脸书',
-    'Fans' => '粉丝',
+
     'Female' => '女',
     'File has to be smaller than 2MB' => '文件最大是2M。',
     'Finish' => '完成',
-    'Follow will be updated to remind' => '关注后将获得更新提醒',
-    'Followed' => '已关注',
-    'Follower' => '关注',
+
+
+
     'Forgot password?' => '忘记密码？',
     'From' => '开始时间',
     'Gender' => '性别',
     'Google' => '谷歌',
     'Head Url' => '头像Url',
     'Hello' => '你好',
-    'His Answer' => '他的回答',
-    'His Articles' => '他的文章',
-    'His Codes' => '他的代码',
-    'His Coin' => '他的金币',
-    'His Collect' => '他的收藏',
-    'His Credit' => '他的经验',
-    'His Followed' => '他的关注',
-    'His Follower' => '他的粉丝',
-    'His Notes' => '他的笔记',
-    'His Page' => '他的主页',
-    'His Questions' => '他的提问',
-    'His Streams' => '他的直播',
-    'I\'m Following' => '我的关注',
+
+
     'If you already registered, sign in and connect this account on settings page' => '如果您已经注册，登录并在设置页连接此帐户',
     'If you cannot click the link, please try pasting the text into your browser' => '如果不能直接打开，请将以上网址粘贴到到浏览器打开',
     'If you did not make this request you can ignore this email' => '温馨提示：如果您错误地收到这封电子邮件，只需要删除它',
@@ -168,7 +157,7 @@ return [
     'Joined on {0, date}' => '于 {0, date} 注册',
     'Just look ladies' => '只看妹子',
     'Language' => '语言',
-    'Latest Activities' => '最近动态',
+
     'LinkedIn' => '领英',
     'Location' => '位置',
     'Login' => '登录',
@@ -176,27 +165,15 @@ return [
     'Male' => '男',
     'Manage User' => '管理用户',
     'Manage Users' => '管理用户',
-    'Message' => '发私信',
+
     'Mobile' => '手机',
     'Mobile Change Strategy' => '手机修改策略',
     'Move Downward' => '下移',
     'Move left' => '左移',
     'Move right' => '右移',
     'Move up' => '上移',
-    'My' => '我',
-    'My Answers' => '我的回答',
-    'My Articles' => '我的文章',
-    'My Avatar' => '我的头像',
-    'My Codes' => '我的代码',
-    'My Coin' => '我的金币',
-    'My Credit' => '我的积分',
-    'My Favorites' => '我的收藏',
-    'My Follower' => '我的粉丝',
-    'My Funds' => '我的钱包',
-    'My Notes' => '我的笔记',
-    'My Page' => '我的主页',
-    'My Questions' => '我的提问',
-    'My Streams' => '我的直播',
+
+
     'Name' => '名字',
     'New email' => '新邮箱',
     'New password' => '新密码',
@@ -250,7 +227,7 @@ return [
     'Secure' => '安全',
     'Security Setting' => '安全设置',
     'Select a File' => '选择文件',
-    'Send message to' => '发送短信给',
+
     'Service Agreement' => '服务条款',
     'Settings' => '设置',
     'Sex' => '性别',
@@ -331,5 +308,5 @@ return [
     'please fill in cell phone number.' => '请填写您的11位手机号码。',
     '{0, date, MMMM dd, YYYY HH:mm}' => '{0, date, dd MMMM, YYYY HH:mm}',
     '{n, plural, =0{No visitors} =1{One visitor} other{# visitors}}' => '{n, plural, =0{暂无访客} =1{1个访客} other{# 访客}}',
-    '{who} Page' => '{who}的主页',
+
 ];
