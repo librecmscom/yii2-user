@@ -132,18 +132,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         'class' => 'yii\grid\ActionColumn',
-                        'template' => '{assignment} {update} {delete}',
-                        'buttons' => [
-                            'assignment' => function ($url, $model, $key) {
-                                $title = Yii::t('user', 'Assignment');
-                                $icon = Html::tag('span', '', ['class' => "glyphicon glyphicon-eye-open"]);
-                                return Html::a($icon, ['/admin/assignment/view', 'id' => $model->id], [
-                                    'title' => $title,
-                                    'aria-label' => $title,
-                                    'data-pjax' => '0',
-                                ]);;
-                            },
-                        ],
+                       
                     ],
                 ]
             ]); ?>
