@@ -21,6 +21,12 @@ class M170816074430Add_backend_menu extends Migration
 
         $this->batchInsert('{{%admin_menu}}', ['name', 'parent', 'route', 'visible', 'sort'], [
             ['用户设置', $id, '/user/user/settings', 0, NULL],
+            ['新建用户', $id, '/user/user/create', 0, NULL],
+            ['用户查看', $id, '/user/user/view', 0, NULL],
+            ['用户修改', $id, '/user/user/update-profile', 0, NULL],
+            ['教育经历', $id, '/user/user/education', 0, NULL],
+            ['工作经历', $id, '/user/user/career', 0, NULL],
+            ['账户详情', $id, '/user/user/update', 0, NULL],
         ]);
     }
 
