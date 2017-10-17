@@ -32,22 +32,6 @@ class Bootstrap implements BootstrapInterface
             ];
         } else if ($app->hasModule('user') && ($module = $app->getModule('user')) instanceof Module) {
             if (class_exists('\xutl\wechat\Application') && $app instanceof \xutl\wechat\Application) {//微信过来的用户
-                Yii::$container->set('yii\web\User', [
-                    'enableAutoLogin' => true,
-                    'loginUrl' => ['/user/security/login'],
-                    'identityClass' => 'yuncms\user\models\User',
-                    'identityCookie' => ['name' => '_identity_wechat', 'httpOnly' => true],
-                    'idParam' => '_wechat',
-                ]);
-                $configUrlRule = [
-                    'prefix' => $module->urlPrefix,
-                    'rules' => $module->urlRules,
-                ];
-                if ($module->urlPrefix != 'user') {
-                    $configUrlRule['routePrefix'] = 'user';
-                }
-                $app->urlManager->addRules([new GroupUrlRule($configUrlRule)], false);
-
                 //监听用户登录事件
                 /** @var \yii\web\UserEvent $event */
                 $app->user->on(\yii\web\User::EVENT_AFTER_LOGIN, function ($event) {

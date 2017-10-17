@@ -18,15 +18,4 @@ class Module extends \yuncms\user\Module
      */
     public $defaultRoute = 'profile';
 
-    /**
-     * @var string The prefix for user module URL.
-     *
-     * @See [[GroupUrlRule::prefix]]
-     */
-    public $urlPrefix = 'user';
-
-    /** @var array The rules to be used in URL management. */
-    public $urlRules = [
-        'settings/<action:\w+>' => 'settings/<action>',
-    ];
 }

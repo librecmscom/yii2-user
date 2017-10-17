@@ -20,6 +20,7 @@ use yii\web\NotFoundHttpException;
 use yuncms\user\frontend\models\ResendForm;
 use yuncms\user\frontend\models\RegistrationForm;
 use yuncms\user\frontend\models\MobileRegistrationForm;
+use yuncms\user\UserTrait;
 
 /**
  * RegistrationController is responsible for all registration process, which includes registration of a new account,
@@ -30,9 +31,7 @@ use yuncms\user\frontend\models\MobileRegistrationForm;
  */
 class RegistrationController extends Controller
 {
-    public $enableRegistration;
-    public $enableConfirmation;
-    public $rememberFor;
+    use UserTrait;
 
     /**
      * @inheritdoc
@@ -72,17 +71,6 @@ class RegistrationController extends Controller
     }
 
     /**
-     * 初始化
-     */
-    public function init()
-    {
-        parent::init();
-        $this->enableRegistration = Yii::$app->settings->get('enableRegistration', 'user');
-        $this->enableConfirmation = Yii::$app->settings->get('enableConfirmation', 'user');
-        $this->rememberFor = Yii::$app->settings->get('rememberFor', 'user');
-    }
-
-    /**
      * Displays the registration page.
      * After successful registration if enableConfirmation is enabled shows info message otherwise redirects to home page.
      *
@@ -93,11 +81,11 @@ class RegistrationController extends Controller
     {
         if (!Yii::$app->user->isGuest) {
             Yii::$app->session->setFlash('danger', Yii::t('user', 'You have already registered.'));
-            return $this->goHome();
+            return $this->goBack();
         }
-        if (!$this->enableRegistration) {
+        if (!$this->getSetting('enableRegistration')) {
             Yii::$app->session->setFlash('danger', Yii::t('user', 'The system has closed the new user registration.'));
-            return $this->goHome();
+            return $this->goBack();
         }
         /** @var RegistrationForm $model */
         $model = new RegistrationForm();
@@ -109,7 +97,11 @@ class RegistrationController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->register()) {
             return $this->redirect(['/user/settings/profile']);
         }
-        return $this->render('register', ['model' => $model, 'module' => $this->module]);
+        return $this->render('register', [
+            'model' => $model,
+            'enableRegistrationCaptcha' => $this->getSetting('enableRegistrationCaptcha'),
+            'enableGeneratingPassword'=>$this->getSetting('enableGeneratingPassword'),
+        ]);
     }
 
     /**
@@ -142,7 +134,7 @@ class RegistrationController extends Controller
 
         if ($user->load(Yii::$app->request->post()) && $user->create()) {
             $account->connect($user);
-            Yii::$app->user->login($user, $this->rememberFor);
+            Yii::$app->user->login($user, $this->getSetting('rememberFor'));
             return $this->goBack();
         }
 
@@ -165,7 +157,7 @@ class RegistrationController extends Controller
     public function actionConfirm($id, $code)
     {
         $user = User::findOne($id);
-        if ($user === null || $this->enableConfirmation == false) {
+        if ($user === null || $this->getSetting('enableConfirmation') == false) {
             return $this->goBack();
         }
         $user->attemptConfirmation($code);
@@ -180,7 +172,7 @@ class RegistrationController extends Controller
      */
     public function actionResend()
     {
-        if ($this->enableConfirmation == false) {
+        if ($this->getSetting('enableConfirmation') == false) {
             return $this->goBack();
         }
         /** @var ResendForm $model */

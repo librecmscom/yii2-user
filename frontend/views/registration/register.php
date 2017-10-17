@@ -10,6 +10,8 @@ use yuncms\user\frontend\widgets\Connect;
  * @var yuncms\user\models\User $user
  * @var yuncms\user\frontend\models\RegistrationForm $model
  * @var yuncms\user\Module $module
+ * @var boolean $enableGeneratingPassword
+ * @var boolean $enableRegistrationCaptcha
  */
 
 $this->title = Yii::t('user', 'Sign up');
@@ -23,15 +25,15 @@ $this->title = Yii::t('user', 'Sign up');
         'enableClientValidation' => true,
     ]); ?>
 
-    <?= $form->field($model, 'nickname', ['inputOptions' => ['autocomplete' => 'off','required' => true]]) ?>
+    <?= $form->field($model, 'nickname', ['inputOptions' => ['autocomplete' => 'off', 'required' => true]]) ?>
 
-    <?= $form->field($model, 'email', ['inputOptions' => ['autocomplete' => 'off','required' => true, 'type' => 'email']]) ?>
+    <?= $form->field($model, 'email', ['inputOptions' => ['autocomplete' => 'off', 'required' => true, 'type' => 'email']]) ?>
 
-    <?php if (Yii::$app->settings->get('enableGeneratingPassword', 'user') == false): ?>
-        <?= $form->field($model, 'password', ['inputOptions' => ['autocomplete' => 'off','required' => true]])->passwordInput() ?>
+    <?php if ($enableGeneratingPassword == false): ?>
+        <?= $form->field($model, 'password', ['inputOptions' => ['autocomplete' => 'off', 'required' => true]])->passwordInput() ?>
     <?php endif ?>
 
-    <?php if (Yii::$app->settings->get('enableRegistrationCaptcha', 'user') == true): ?>
+    <?php if ($enableRegistrationCaptcha == true): ?>
         <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                 'captchaAction' => '/user/registration/captcha',
                 'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-3">{image}</div></div>']

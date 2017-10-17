@@ -11,11 +11,6 @@ use Yii;
 use yii\db\ActiveQuery;
 use yii\helpers\FileHelper;
 use yuncms\user\models\User;
-use yuncms\user\models\Data;
-use yuncms\user\models\Doing;
-use yuncms\user\models\Coin;
-use yuncms\user\models\Credit;
-use yuncms\user\models\Notification;
 use yuncms\system\helpers\DateHelper;
 
 /**

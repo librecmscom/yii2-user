@@ -15,7 +15,7 @@ class M170208041520Create_user_tag_table extends Migration
         }
         $this->createTable('{{%user_tag}}', [
             'user_id' => $this->integer()->unsigned()->notNull()->comment('User Id'),
-            'tag_id' => $this->integer()->notNull()->comment('Tag Id'),
+            'tag_id' => $this->integer()->unsigned()->notNull()->comment('Tag Id'),
         ], $tableOptions);
         $this->addPrimaryKey('', '{{%user_tag}}', ['user_id', 'tag_id']);
         $this->addForeignKey('user_tag_ibfk_1', '{{%user_tag}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');

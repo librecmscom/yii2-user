@@ -9,33 +9,30 @@ namespace yuncms\user\frontend\models;
 
 use Yii;
 use yii\base\Model;
+use yuncms\user\UserTrait;
 use yuncms\user\models\User;
-use yuncms\user\ModuleTrait;
 
 /**
  * Registration form collects user input on registration process, validates it and creates new User model.
  */
 class RegistrationForm extends Model
 {
-    use ModuleTrait;
+    use UserTrait;
 
     /**
      * @var string User email address
      */
     public $email;
+
     /**
      * @var string name
      */
     public $nickname;
+
     /**
      * @var string Password
      */
     public $password;
-
-    /**
-     * @var bool 是否同意注册协议
-     */
-    public $registrationPolicy;
 
     /**
      * @var string 验证码
@@ -43,23 +40,9 @@ class RegistrationForm extends Model
     public $verifyCode;
 
     /**
-     * @var integer
+     * @var bool 是否同意注册协议
      */
-    protected $rememberFor;
-
-    protected $enableGeneratingPassword;
-    protected $enableRegistrationCaptcha;
-
-    /**
-     * 初始化
-     */
-    public function init()
-    {
-        parent::init();
-        $this->rememberFor = Yii::$app->settings->get('rememberFor', 'user');
-        $this->enableGeneratingPassword = Yii::$app->settings->get('enableGeneratingPassword', 'user');
-        $this->enableRegistrationCaptcha = Yii::$app->settings->get('enableRegistrationCaptcha', 'user');
-    }
+    public $registrationPolicy;
 
     /**
      * @inheritdoc
@@ -67,25 +50,30 @@ class RegistrationForm extends Model
     public function rules()
     {
         return [
-            // username rules
+            // nickname rules
+            'nicknameRequired' => ['nickname', 'required'],
             'nicknameLength' => ['nickname', 'string', 'min' => 3, 'max' => 255],
             'nicknameTrim' => ['nickname', 'filter', 'filter' => 'trim'],
             'nicknamePattern' => ['nickname', 'match', 'pattern' => User::$nicknameRegexp],
-            'nicknameRequired' => ['nickname', 'required'],
 
             // email rules
-            'emailTrim' => ['email', 'filter', 'filter' => 'trim'],
             'emailRequired' => ['email', 'required'],
-            'emailPattern' => ['email', 'email'],
+            'emailTrim' => ['email', 'filter', 'filter' => 'trim'],
+            'emailPattern' => ['email', 'email', 'checkDNS' => true],
             'emailUnique' => ['email', 'unique', 'targetClass' => User::className(), 'message' => Yii::t('user', 'This email address has already been taken')],
 
             // password rules
-            'passwordRequired' => ['password', 'required', 'skipOnEmpty' => $this->enableGeneratingPassword],
+            'passwordRequired' => ['password', 'required', 'skipOnEmpty' => $this->getSetting('enableGeneratingPassword')],
             'passwordLength' => ['password', 'string', 'min' => 6],
 
             // verifyCode needs to be entered correctly
-            'verifyCodeRequired' => ['verifyCode', 'required', 'skipOnEmpty' => !$this->enableRegistrationCaptcha],
-            'verifyCode' => ['verifyCode', 'captcha', 'captchaAction' => '/user/registration/captcha', 'skipOnEmpty' => !$this->enableRegistrationCaptcha],
+            'verifyCodeRequired' => ['verifyCode', 'required',
+                'skipOnEmpty' => !$this->getSetting('enableRegistrationCaptcha')],
+
+            'verifyCode' => ['verifyCode', 'captcha',
+                'captchaAction' => '/user/registration/captcha',
+                'skipOnEmpty' => !$this->getSetting('enableRegistrationCaptcha')
+            ],
 
             'registrationPolicyRequired' => ['registrationPolicy', 'required', 'skipOnEmpty' => false, 'requiredValue' => true,
                 'message' => Yii::t('user', 'By registering you confirm that you accept the Service Agreement and Privacy Policy.'),],
@@ -111,7 +99,7 @@ class RegistrationForm extends Model
      */
     public function formName()
     {
-        return 'register-form';
+        return 'register';
     }
 
     /**
@@ -127,13 +115,13 @@ class RegistrationForm extends Model
 
         /** @var User $user */
         $user = new User();
-        $user->setScenario('register');
+        $user->setScenario(User::SCENARIO_CREATE_EMAIL);
         $this->loadAttributes($user);
-        if (!$user->register()) {
+        if (!$user->emailRegister()) {
             return false;
         }
         Yii::$app->session->setFlash('info', Yii::t('user', 'Your account has been created and a message with further instructions has been sent to your email'));
-        return Yii::$app->getUser()->login($user, $this->rememberFor);
+        return Yii::$app->getUser()->login($user, $this->getSetting('rememberFor'));
     }
 
     /**

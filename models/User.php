@@ -59,13 +59,20 @@ use yuncms\user\helpers\Password;
  * @property Profile $profile 个人资料
  * @property Extend $extend 延伸资料
  *
- * Dependencies:
- * @property-read Module $module
- *
  */
 class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInterface
 {
     use UserTrait;
+
+    //场景定义
+    const SCENARIO_CREATE = 'create';//后台或控制台创建用户
+    const SCENARIO_CREATE_EMAIL = 'create_email';//邮箱注册
+    const SCENARIO_CREATE_MOBILE = 'create_mobile';//手机注册
+    const SCENARIO_CREATE_WECHAT = 'create_wechat';//微信注册
+    const SCENARIO_CONNECT = 'connect';//账户链接
+    const SCENARIO_UPDATE = 'update';//更新
+    const SCENARIO_SETTINGS = 'settings';//更新
+    const SCENARIO_IMPORT = 'import';//导入
 
     const BEFORE_CREATE = 'beforeCreate';
     const AFTER_CREATE = 'afterCreate';
@@ -107,23 +114,10 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
      */
     public static $nicknameRegexp = '/^[-a-zA-Z0-9_\x{4e00}-\x{9fa5}\.@]+$/u';
 
+    /**
+     * @var string Default mobile regexp
+     */
     public static $mobileRegexp = '/^13[\d]{9}$|^15[\d]{9}$|^17[\d]{9}$|^18[\d]{9}$/';
-
-    /**
-     * @return string
-     * @deprecated
-     */
-    public function getSlug(){
-        return $this->username;
-    }
-
-    /**
-     * @param $slug
-     * @deprecated
-     */
-    public function setSlug($slug){
-        $this->username = $slug;
-    }
 
     /**
      * @inheritdoc
@@ -163,33 +157,42 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function attributeLabels()
     {
         return [
-            'nickname' => Yii::t('user', 'Nickname'),
+            'id' => Yii::t('user', 'ID'),
             'username' => Yii::t('user', 'Username'),
+            'nickname' => Yii::t('user', 'Nickname'),
             'email' => Yii::t('user', 'Email'),
             'mobile' => Yii::t('user', 'Mobile'),
-            'registration_ip' => Yii::t('user', 'Registration ip'),
-            'unconfirmed_email' => Yii::t('user', 'New email'),
             'password' => Yii::t('user', 'Password'),
+            'auth_key' => Yii::t('user', 'Auth Key'),
+            'password_hash' => Yii::t('user', 'Password Hash'),
+            'avatar' => Yii::t('user', 'avatar'),
+            'unconfirmed_email' => Yii::t('user', 'New Email'),
+            'unconfirmed_mobile' => Yii::t('user', 'New Mobile'),
+            'registration_ip' => Yii::t('user', 'Registration ip'),
+            'flags' => Yii::t('user', 'Flags'),
+            'email_confirmed_at' => Yii::t('user', 'Email confirmation time'),
+            'mobile_confirmed_at' => Yii::t('user', 'Mobile confirmation time'),
+            'blocked_at' => Yii::t('user', 'Blocked time'),
             'created_at' => Yii::t('user', 'Registration time'),
-            'confirmed_at' => Yii::t('user', 'Confirmation time'),
+            'updated_at' => Yii::t('user', 'Updated time'),
         ];
     }
 
     /**
-     * @inheritdoc
+     * 场景定义
      */
     public function scenarios()
     {
         $scenarios = parent::scenarios();
         return ArrayHelper::merge($scenarios, [
-            'register' => ['username', 'email', 'password'],
-            'connect' => ['username', 'email'],
-            'create' => ['username', 'email', 'password'],
-            'update' => ['username', 'email', 'password'],
-            'settings' => ['username', 'email', 'password'],
-            'import' => ['username', 'email', 'password'],
-            'mobile_register' => ['mobile', 'username', 'password'],
-            'wechat_connect' => ['username', 'email', 'password'],
+            self::SCENARIO_CREATE => ['username', 'email', 'password'],//新建
+            self::SCENARIO_CREATE_EMAIL => ['nickname', 'email', 'password'],//邮箱注册
+            self::SCENARIO_CREATE_MOBILE => ['mobile', 'username', 'password'],//手机注册
+            self::SCENARIO_CREATE_WECHAT => ['username', 'email', 'password'],//微信注册
+            self::SCENARIO_CONNECT => ['username', 'email'],//链接账户
+            self::SCENARIO_UPDATE => ['username', 'email', 'password'],//账户更新
+            self::SCENARIO_SETTINGS => ['username', 'email', 'password'],//账户设置
+            self::SCENARIO_IMPORT => ['username', 'email', 'password'],
         ]);
     }
 
@@ -206,31 +209,35 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             'usernameTrim' => ['username', 'trim'],
 
             // nickname rules
-            'nicknameRequired' => ['nickname', 'required', 'on' => ['register', 'create', 'connect', 'update', 'mobile_register', 'wechat_register']],
+            'nicknameRequired' => [
+                'nickname', 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_CREATE_MOBILE, self::SCENARIO_CREATE_EMAIL,
+                    self::SCENARIO_CONNECT, self::SCENARIO_UPDATE, self::SCENARIO_CREATE_WECHAT]
+            ],
             'nicknameMatch' => ['nickname', 'match', 'pattern' => static::$nicknameRegexp],
             'nicknameLength' => ['nickname', 'string', 'min' => 3, 'max' => 255],
             'nicknameUnique' => ['nickname', 'unique', 'message' => Yii::t('user', 'This nickname has already been taken')],
             'nicknameTrim' => ['nickname', 'trim'],
 
             // email rules
-            'emailRequired' => ['email', 'required', 'on' => ['register', 'connect', 'create', 'update']],
+            'emailRequired' => ['email', 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_CREATE_EMAIL, self::SCENARIO_CONNECT, self::SCENARIO_UPDATE]],
             'emailPattern' => ['email', 'email', 'checkDNS' => true],
             'emailLength' => ['email', 'string', 'max' => 255],
             'emailUnique' => ['email', 'unique', 'message' => Yii::t('user', 'This email address has already been taken')],
             'emailTrim' => ['email', 'trim'],
-            'emailDefault' => ['email', 'default', 'value' => null, 'on' => ['mobile_register']],
+            'emailDefault' => ['email', 'default', 'value' => null, 'on' => [self::SCENARIO_CREATE_MOBILE]],
 
             //mobile rules
-            'mobileRequired' => ['mobile', 'required', 'on' => ['mobile_register']],
+            'mobileRequired' => ['mobile', 'required', 'on' => [self::SCENARIO_CREATE_MOBILE]],
             'mobilePattern' => ['mobile', 'match', 'pattern' => static::$mobileRegexp],
             'mobileLength' => ['mobile', 'string', 'max' => 11],
-            'mobileUnique' => ['mobile', 'unique', 'message' => Yii::t('user', 'This mobile address has already been taken')],
-            'mobileDefault' => ['mobile', 'default', 'value' => null, 'on' => ['register', 'create']],
+            'mobileUnique' => ['mobile', 'unique', 'message' => Yii::t('user', 'This phone has already been taken')],
+            'mobileDefault' => ['mobile', 'default', 'value' => null, 'on' => [self::SCENARIO_CREATE, self::SCENARIO_CREATE_EMAIL]],
 
             // password rules
-            'passwordRequired' => ['password', 'required', 'on' => ['register', 'mobile_register']],
-            'passwordLength' => ['password', 'string', 'min' => 6, 'on' => ['register', 'create']],
+            'passwordRequired' => ['password', 'required', 'on' => ['register', self::SCENARIO_CREATE_MOBILE]],
+            'passwordLength' => ['password', 'string', 'min' => 6, 'on' => [self::SCENARIO_CREATE, self::SCENARIO_CREATE_EMAIL]],
 
+            // tags rules
             'tags' => ['tagValues', 'safe'],
         ];
     }
@@ -363,12 +370,51 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 定义微信端关系
-     * @return \yii\db\ActiveQuery
+     * 重置密码
+     *
+     * @param string $password
+     *
+     * @return boolean
      */
-    public function getWechat()
+    public function resetPassword($password)
     {
-        return $this->hasOne(Wechat::className(), ['user_id' => 'id']);
+        return (bool)$this->updateAttributes(['password_hash' => Password::hash($password)]);
+    }
+
+    /**
+     * 锁定用户
+     * @return boolean
+     */
+    public function block()
+    {
+        return (bool)$this->updateAttributes(['blocked_at' => time(), 'auth_key' => Yii::$app->security->generateRandomString()]);
+    }
+
+    /**
+     * 解除用户锁定
+     * @return boolean
+     */
+    public function unblock()
+    {
+        return (bool)$this->updateAttributes(['blocked_at' => null]);
+    }
+
+    /**
+     * 设置Email已经验证
+     * @return bool
+     */
+    public function setEmailConfirm()
+    {
+        return (bool)$this->updateAttributes(['email_confirmed_at' => time()]);
+    }
+
+    /**
+     * 设置手机号已经验证
+     * @return bool
+     */
+    public function setMobileConfirm()
+    {
+        return (bool)$this->updateAttributes(['mobile_confirmed_at' => time()]);
     }
 
     /**
@@ -405,6 +451,26 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     public function getLoginHistories()
     {
         return $this->hasMany(LoginHistory::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * 设置最后登录时间
+     * @return void
+     */
+    public function resetLoginData()
+    {
+        $this->extend->updateAttributes(['login_at' => time()]);
+        $this->extend->updateAttributes(['login_ip' => Yii::$app->request->userIP]);
+        $this->extend->updateCounters(['login_num' => 1]);
+    }
+
+    /**
+     * 定义微信端关系
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWeChat()
+    {
+        return $this->hasOne(Wechat::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -470,66 +536,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         return $this->hasMany(\yuncms\attention\models\Attention::className(), ['model_id' => 'id'])->andOnCondition(['model' => get_class($this)]);
     }
 
-
-    /**
-     * 设置最后登录时间
-     * @return void
-     */
-    public function resetLoginData()
-    {
-        $this->extend->updateAttributes(['login_at' => time()]);
-        $this->extend->updateAttributes(['login_ip' => Yii::$app->request->userIP]);
-        $this->extend->updateCounters(['login_num' => 1]);
-    }
-
-    /**
-     * 重置密码
-     *
-     * @param string $password
-     *
-     * @return boolean
-     */
-    public function resetPassword($password)
-    {
-        return (bool)$this->updateAttributes(['password_hash' => Password::hash($password)]);
-    }
-
-    /**
-     * 锁定用户
-     * @return boolean
-     */
-    public function block()
-    {
-        return (bool)$this->updateAttributes(['blocked_at' => time(), 'auth_key' => Yii::$app->security->generateRandomString()]);
-    }
-
-    /**
-     * 解除用户锁定
-     * @return boolean
-     */
-    public function unblock()
-    {
-        return (bool)$this->updateAttributes(['blocked_at' => null]);
-    }
-
-    /**
-     * 设置Email已经验证
-     * @return bool
-     */
-    public function setEmailConfirm()
-    {
-        return (bool)$this->updateAttributes(['email_confirmed_at' => time()]);
-    }
-
-    /**
-     * 设置手机号已经验证
-     * @return bool
-     */
-    public function setMobileConfirm()
-    {
-        return (bool)$this->updateAttributes(['mobile_confirmed_at' => time()]);
-    }
-
     /**
      * 是否已经收藏过Source和ID
      * @param string $model
@@ -587,26 +593,6 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     }
 
     /**
-     * 获取用户已经激活的钱包
-     * @return null|ActiveQuery
-     */
-    public function getWallets()
-    {
-        if (Yii::$app->hasModule('wallet')) {
-            return $this->hasMany(\yuncms\wallet\models\Wallet::className(), ['user_id' => 'id']);
-        }
-        return null;
-    }
-
-    /**
-     * @return Module
-     */
-    public function getModule()
-    {
-        return Yii::$app->getModule('user');
-    }
-
-    /**
      * 创建新用户帐户。 如果用户不提供密码，则会生成密码。
      *
      * @return boolean
@@ -618,30 +604,28 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         }
         $this->email_confirmed_at = time();
         $this->password = $this->password == null ? Password::generate(8) : $this->password;
-        $this->username = $this->username == null ? Inflector::slug($this->nickname, '-') : $this->username;
         $this->trigger(self::BEFORE_CREATE);
         if (!$this->save()) {
             return false;
         }
-        $this->module->sendMessage($this->email, Yii::t('user', 'Welcome to {0}', Yii::$app->name), 'welcome', ['user' => $this, 'token' => null, 'module' => $this->module, 'showPassword' => true]);
+        //$this->module->sendMessage($this->email, Yii::t('user', 'Welcome to {0}', Yii::$app->name), 'welcome', ['user' => $this, 'token' => null, 'module' => $this->module, 'showPassword' => true]);
         $this->trigger(self::AFTER_CREATE);
         return true;
     }
 
     /**
-     * 此方法用于注册新用户帐户。 如果Module :: enableConfirmation设置为true，则此方法
+     * 此方法用于注册新用户帐户。 如果 enableConfirmation 设置为true，则此方法
      * 将生成新的确认令牌，并使用邮件发送给用户。
      *
      * @return boolean
      */
-    public function register()
+    public function emailRegister()
     {
         if ($this->getIsNewRecord() == false) {
             throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
         }
-        $this->email_confirmed_at = $this->getSetting('enableConfirmation') ? null : time();
         $this->password = $this->getSetting('enableGeneratingPassword') ? Password::generate(8) : $this->password;
-        $this->username = $this->username == null ? Inflector::slug($this->nickname, '-') : $this->username;
+        $this->email_confirmed_at = $this->getSetting('enableConfirmation') ? null : time();
 
         $this->trigger(self::BEFORE_REGISTER);
         if (!$this->save()) {
@@ -651,7 +635,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             /** @var Token $token */
             $token = new Token(['type' => Token::TYPE_CONFIRMATION]);
             $token->link('user', $this);
-            $this->module->sendMessage($this->email, Yii::t('user', 'Welcome to {0}', Yii::$app->name), 'welcome', ['user' => $this, 'token' => isset($token) ? $token : null, 'module' => $this->module, 'showPassword' => false]);
+            //$this->module->sendMessage($this->email, Yii::t('user', 'Welcome to {0}', Yii::$app->name), 'welcome', ['user' => $this, 'token' => isset($token) ? $token : null, 'module' => $this->module, 'showPassword' => false]);
         } else {
             Yii::$app->user->login($this, $this->getSetting('rememberFor'));
         }
@@ -705,7 +689,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             if (empty($this->unconfirmed_email)) {
                 Yii::$app->session->setFlash('danger', Yii::t('user', 'An error occurred processing your request'));
             } elseif (static::find()->where(['email' => $this->unconfirmed_email])->exists() == false) {
-                if (Yii::$app->settings->get('emailChangeStrategy', 'user') == Settings::STRATEGY_SECURE) {
+                if ($this->getSetting('emailChangeStrategy') == Settings::STRATEGY_SECURE) {
                     switch ($token->type) {
                         case Token::TYPE_CONFIRM_NEW_EMAIL:
                             $this->flags |= self::NEW_EMAIL_CONFIRMED;
@@ -717,7 +701,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
                             break;
                     }
                 }
-                if (Yii::$app->settings->get('emailChangeStrategy', 'user') == Settings::STRATEGY_DEFAULT || ($this->flags & self::NEW_EMAIL_CONFIRMED && $this->flags & self::OLD_EMAIL_CONFIRMED)) {
+                if ($this->getSetting('emailChangeStrategy') == Settings::STRATEGY_DEFAULT || ($this->flags & self::NEW_EMAIL_CONFIRMED && $this->flags & self::OLD_EMAIL_CONFIRMED)) {
                     $this->email = $this->unconfirmed_email;
                     $this->unconfirmed_email = null;
                     Yii::$app->session->setFlash('success', Yii::t('user', 'Your email address has been changed'));
@@ -749,7 +733,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             if (empty($this->unconfirmed_mobile)) {
                 Yii::$app->session->setFlash('danger', Yii::t('user', 'An error occurred processing your request'));
             } elseif (static::find()->where(['mobile' => $this->unconfirmed_mobile])->exists() == false) {
-                if (Yii::$app->settings->get('mobileChangeStrategy', 'user') == Settings::STRATEGY_SECURE) {
+                if ($this->getSetting('mobileChangeStrategy') == Settings::STRATEGY_SECURE) {
                     switch ($token->type) {
                         case Token::TYPE_CONFIRM_NEW_MOBILE:
                             $this->flags |= self::NEW_MOBILE_CONFIRMED;
@@ -761,7 +745,8 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
                             break;
                     }
                 }
-                if (Yii::$app->settings->get('mobileChangeStrategy', 'user') == Settings::STRATEGY_DEFAULT || ($this->flags & self::NEW_MOBILE_CONFIRMED && $this->flags & self::OLD_MOBILE_CONFIRMED)) {
+                if ($this->getSetting('mobileChangeStrategy') == Settings::STRATEGY_DEFAULT
+                    || ($this->flags & self::NEW_MOBILE_CONFIRMED && $this->flags & self::OLD_MOBILE_CONFIRMED)) {
                     $this->mobile = $this->unconfirmed_mobile;
                     $this->unconfirmed_mobile = null;
                     Yii::$app->session->setFlash('success', Yii::t('user', 'Your mobile address has been changed'));
@@ -801,6 +786,9 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             $this->generateAuthKey();
             if (Yii::$app instanceof WebApplication) {
                 $this->registration_ip = Yii::$app->request->getUserIP();
+            }
+            if ($this->username == null) {
+                $this->username = Inflector::slug($this->nickname, '');
             }
         }
         if (!empty($this->password)) {

@@ -54,6 +54,5 @@ class Module extends \yuncms\user\Module
         'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
         'settings/<action:\w+>' => 'settings/<action>',
         //这个默认不启用
-        //'<username:[-a-zA-Z0-9_]+>' => 'profile/show',
     ];
 }

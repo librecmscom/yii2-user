@@ -82,7 +82,7 @@ class ConnectForm extends Model
             if ($this->user === null) {
                 $this->user = Yii::createObject([
                     'class' => User::className(),
-                    'scenario' => 'wechat_register',
+                    'scenario' => User::SCENARIO_CREATE_WECHAT,
                     'email' => $this->email,
                     'password' => $this->password
                 ]);
