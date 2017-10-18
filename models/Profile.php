@@ -39,6 +39,7 @@ use yii\db\ActiveRecord;
  *
  * @property-read string $greenName 性别
  * @property-read User $user
+ * @property-read Extend $extend
  */
 class Profile extends ActiveRecord
 {

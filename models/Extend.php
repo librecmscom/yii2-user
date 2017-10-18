@@ -24,7 +24,8 @@ use yii\db\ActiveRecord;
  * @property int $login_at 登录时间
  * @property int $login_num 登录次数
  *
- * @property User $user 用户模型实例
+ * @property-read User $user 用户模型实例
+ * @property-read Profile $profile 用户资料模型实例
  */
 class Extend extends ActiveRecord
 {
@@ -42,6 +43,14 @@ class Extend extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQueryInterface
+     */
+    public function getProfile()
+    {
+        return $this->hasOne(Profile::className(), ['user_id' => 'user_id']);
     }
 
     /**
