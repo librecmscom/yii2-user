@@ -200,6 +200,14 @@ class Profile extends ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQueryInterface
+     */
+    public function getExtend()
+    {
+        return $this->hasOne(Extend::className(), ['user_id' => 'user_id']);
+    }
+
+    /**
      * 是否是自己
      * @return bool
      */
