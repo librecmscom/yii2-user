@@ -61,6 +61,6 @@ class Extend extends ActiveRecord
      */
     public static function top($field, $limit)
     {
-        return static::find()->with('user')->orderBy([$field => SORT_DESC, 'last_visit' => SORT_DESC])->limit($limit)->all();
+        return static::find()->with('user')->with('profile')->orderBy([$field => SORT_DESC, 'last_visit' => SORT_DESC])->limit($limit)->all();
     }
 }
