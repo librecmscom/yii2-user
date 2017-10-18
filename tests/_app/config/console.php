@@ -14,13 +14,10 @@ return [
             'interactive' => 0,
             //命名空间
             'migrationNamespaces' => [
-                //'yuncms\oauth2\migrations',
-                //'yuncms\system\migrations',
-                //'yuncms\tag\migrations',
                 'yuncms\user\migrations',
             ],
             // 完全禁用非命名空间迁移
-            //'migrationPath' => null,
+            'migrationPath' => null,
         ],
     ],
     'components' => [

@@ -4,8 +4,8 @@ $time = time();
 
 return [
     'user' => [
-        'slug'      => 'user',
-        'name'      => 'user',
+        'username'      => 'user',
+        'nickname'      => 'user',
         'email'         => 'user@example.com',
         'password_hash' => '$2y$13$qY.ImaYBppt66qez6B31QO92jc5DYVRzo5NxM1ivItkW74WsSG6Ui',
         'auth_key'      => '39HU0m5lpjWtqstFVGFjj6lFb7UZDeRq',
@@ -14,8 +14,8 @@ return [
         'confirmed_at'  => $time,
     ],
     'unconfirmed' => [
-        'slug'      => 'joe',
-        'name'      => 'joe',
+        'username'      => 'joe',
+        'nickname'      => 'joe',
         'email'         => 'joe@example.com',
         'password_hash' => '$2y$13$CIH1LSMPzU9xDCywt3QO8uovAu2axp8hwuXVa72oI.1G/USsGyMBS',
         'auth_key'      => 'mhh1A6KfqQLmHP-MiWN0WB0M90Q2u5OE',
@@ -23,8 +23,8 @@ return [
         'updated_at'    => $time,
     ],
     'unconfirmed_with_expired_token' => [
-        'slug'      => 'john',
-        'name'      => 'john',
+        'username'      => 'john',
+        'nickname'      => 'john',
         'email'         => 'john@example.com',
         'password_hash' => '$2y$13$qY.ImaYBppt66qez6B31QO92jc5DYVRzo5NxM1ivItkW74WsSG6Ui',
         'auth_key'      => 'h6OS9csJbZEOW59ZILmJxU6bCiqVno9A',
@@ -32,8 +32,8 @@ return [
         'updated_at'    => $time - 86401,
     ],
     'blocked' => [
-        'slug'      => 'steven',
-        'name'      => 'steven',
+        'username'      => 'steven',
+        'nickname'      => 'steven',
         'email'         => 'steven@example.com',
         'password_hash' => '$2y$13$qY.ImaYBppt66qez6B31QO92jc5DYVRzo5NxM1ivItkW74WsSG6Ui',
         'auth_key'      => 'TnXTrtLdj-YJBlG2A6jFHJreKgbsLYCa',
@@ -43,8 +43,8 @@ return [
         'confirmed_at'  => $time,
     ],
     'user_with_expired_recovery_token' => [
-        'slug'      => 'andrew',
-        'name'      => 'andrew',
+        'username'      => 'andrew',
+        'nickname'      => 'andrew',
         'email'         => 'andrew@example.com',
         'password_hash' => '$2y$13$qY.ImaYBppt66qez6B31QO92jc5DYVRzo5NxM1ivItkW74WsSG6Ui',
         'auth_key'      => 'qxYa315rqRgCOjYGk82GFHMEAV3T82AX',
@@ -53,8 +53,8 @@ return [
         'confirmed_at'  => $time - 21601,
     ],
     'user_with_recovery_token' => [
-        'slug'      => 'alex',
-        'name'      => 'alex',
+        'username'      => 'alex',
+        'nickname'      => 'alex',
         'email'         => 'alex@example.com',
         'password_hash' => '$2y$13$qY.ImaYBppt66qez6B31QO92jc5DYVRzo5NxM1ivItkW74WsSG6Ui',
         'auth_key'      => 'zQh1A65We0AmHPOMiWN0WB0M90Q24ziU',
