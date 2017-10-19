@@ -602,7 +602,10 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         if ($this->getIsNewRecord() == false) {
             throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
         }
-        $this->email_confirmed_at = time();
+        if ($this->scenario == self::SCENARIO_CREATE_MOBILE) {
+            $this->mobile_confirmed_at = time();
+        }
+
         $this->password = $this->password == null ? Password::generate(8) : $this->password;
         $this->trigger(self::BEFORE_CREATE);
         if (!$this->save()) {
