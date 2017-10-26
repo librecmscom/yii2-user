@@ -69,6 +69,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     const SCENARIO_CREATE_EMAIL = 'create_email';//邮箱注册
     const SCENARIO_CREATE_MOBILE = 'create_mobile';//手机注册
     const SCENARIO_CREATE_WECHAT = 'create_wechat';//微信注册
+    const SCENARIO_CREATE_MOBILE_WECHAT = 'create_wechat_of_mobile';
     const SCENARIO_CONNECT = 'connect';//账户链接
     const SCENARIO_UPDATE = 'update';//更新
     const SCENARIO_SETTINGS = 'settings';//更新
@@ -189,10 +190,12 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             self::SCENARIO_CREATE_EMAIL => ['nickname', 'email', 'password'],//邮箱注册
             self::SCENARIO_CREATE_MOBILE => ['mobile', 'username', 'password'],//手机注册
             self::SCENARIO_CREATE_WECHAT => ['username', 'email', 'password'],//微信注册
+            self::SCENARIO_CREATE_MOBILE_WECHAT => ['nickname'],//手机微信
             self::SCENARIO_CONNECT => ['username', 'email'],//链接账户
             self::SCENARIO_UPDATE => ['username', 'email', 'password'],//账户更新
             self::SCENARIO_SETTINGS => ['username', 'email', 'password'],//账户设置
             self::SCENARIO_IMPORT => ['username', 'email', 'password'],
+
         ]);
     }
 
