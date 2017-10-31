@@ -7,8 +7,7 @@ return [
     'aliases' => [
         '@yuncms/user' => dirname(dirname(dirname(__DIR__))),
         '@tests' => dirname(dirname(__DIR__)),
-        '@vendor' => VENDOR_DIR,
-        '@bower' => VENDOR_DIR . '/bower-asset',
+        '@bower' => '@vendor/bower-asset',
     ],
     'bootstrap' => ['yuncms\user\Bootstrap'],
     'modules' => [
