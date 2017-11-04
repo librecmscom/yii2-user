@@ -15,9 +15,9 @@ $this->title = Yii::t('user', 'Profile settings');
 $this->params['breadcrumbs'][] = $this->title;
 
 
-    $items = \yuncms\core\helpers\ISO3166::$countries;
+    $items = \yuncms\core\helpers\ISO3166Helper::$countries;
     foreach ($items as $code => $value) {
-        $items[$code] = \yuncms\core\helpers\ISO3166::country($code);
+        $items[$code] = \yuncms\core\helpers\ISO3166Helper::country($code);
     }
 
 
