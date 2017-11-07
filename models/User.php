@@ -74,6 +74,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
     const SCENARIO_UPDATE = 'update';//更新
     const SCENARIO_SETTINGS = 'settings';//更新
     const SCENARIO_IMPORT = 'import';//导入
+    const SCENARIO_PASSWORD = 'password';//仅设置密码
 
     const BEFORE_CREATE = 'beforeCreate';
     const AFTER_CREATE = 'afterCreate';
@@ -195,7 +196,7 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
             self::SCENARIO_UPDATE => ['username', 'email', 'password'],//账户更新
             self::SCENARIO_SETTINGS => ['username', 'email', 'password'],//账户设置
             self::SCENARIO_IMPORT => ['username', 'email', 'password'],
-
+            self::SCENARIO_PASSWORD => ['password'],//只修改密码
         ]);
     }
 
