@@ -148,6 +148,10 @@ class User extends ActiveRecord implements IdentityInterface, OAuth2IdentityInte
         ];
     }
 
+    /**
+     * @inheritdoc
+     * @return UserQuery
+     */
     public static function find()
     {
         return new UserQuery(get_called_class());

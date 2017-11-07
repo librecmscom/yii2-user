@@ -13,6 +13,20 @@ use yuncms\system\helpers\CountryHelper;
 
 $this->title = Yii::t('user', 'Profile settings');
 $this->params['breadcrumbs'][] = $this->title;
+
+
+    $items = \yuncms\core\helpers\ISO3166Helper::$countries;
+    foreach ($items as $code => $value) {
+        $items[$code] = \yuncms\core\helpers\ISO3166Helper::country($code);
+    }
+
+
+// Sort countries list based on user language
+$col = new \Collator(Yii::$app->language);
+$col->asort($items);
+
+
+
 ?>
 
 <div class="row">
@@ -42,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'template' => "{label}\n<div class=\"col-sm-9\">{input}</div>\n<div class=\"col-sm-offset-3 col-sm-9\">{error}\n{hint}</div>",
                 ]); ?>
 
-                <?= $form->field($model, 'country')->dropDownList(ArrayHelper::map(CountryHelper::getCountryAll(), 'identifier', 'name'), [
+                <?= $form->field($model, 'country')->dropDownList($items, [
                     'prompt' => Yii::t('user', 'Please select')
                 ]); ?>
 

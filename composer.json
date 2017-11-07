@@ -24,8 +24,7 @@
     "yuncms/yii2-oauth2": "~2.0"
   },
   "require-dev": {
-    "yiisoft/yii2-codeception": "^2.0.0",
-    "codeception/specify": "^0.4.6",
+    "codeception/base": "^2.2.3",
     "codeception/verify": "^0.4.0"
   },
   "autoload": {
